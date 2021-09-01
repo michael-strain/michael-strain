@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "mevn-cli": "^1.8.3"
+  },
+  "name": "michaelstrain",
+  "version": "1.0.0",
+  "description": "Site by Michael Strain",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "michael-strain"
+  },
+  "author": "Michael Strain",
+  "license": "ISC"
+}
