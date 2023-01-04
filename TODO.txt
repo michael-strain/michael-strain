@@ -1,0 +1,58 @@
+Deploy Bitbucket Code to Firebase: https://support.atlassian.com/bitbucket-cloud/docs/deploy-to-firebase/
+Turn the webapp to a mobile app: https://dev.to/daiquiri_team/how-to-build-the-ssr-web-application-and-mobile-apps-from-the-same-code-base-4aob
+Unlighthouse (analyze the site): https://nuxt.com/modules/unlighthouse
+API Docs https://github.com/nuxt-themes/docus#readme
+Nitro + Firebase https://nitro.unjs.io/deploy/providers/firebase
+Vectorizer https://vectorization.eu/color-svg-converter/#
+
+
+Prioritized List of Requests:
+==============================
+0-Internationalization (Spanish and English!)
+1-Shop main page
+2-Item layout
+?-Maybe get the blog up and running and looking like the other one?
+?-Make the homepage actually look good.  New hero section, better design idk
+3-Integration with x for payment processing (paypal, stripe, etc.)
+4-Integration with y for order handling (dropshipper)
+5-Integration with z for fulfillment(?)
+
+Actual TODO Items
+=================
+-make the favicon the logo (/public/favicon.ico)
+-Figure out firebase integration
+-Replace Nuxt loading screens and titles with Michael-Strain loading screens and titles
+-Make a logo with midjourney or something
+-Determine color schemes, light/dark themes, etc.
+-Determine front page layout
+-Figure out global style changes, make those NuxtLinks look less stupid
+-Prominent MAIN PAGE BUTTON in App Bar, goes to a huge idiot proof screen that gives you the main options that lead to a conversion (Shop, Contact Services, Donate, Invest)
+
+Big Picture Shit
+================
+-CRM/phonebook
+-todo list (told you there would be very simple stuff)
+-job tracking software
+-GPS tracking/sharing software
+-an app!  with push notifications!
+-Call center server and reporting
+-messaging inbox
+-scheduling system/calendar
+-blog about moving to Panama
+-sustainable construction and farming guides and ideas
+-accept donations for charitable projects
+-accept investors for real estate development projects
+-basic english lessons?
+-advertise the programming classes
+-chiriqui guide (review local businesses and get them on the map)/advertising opportunity
+-Panama relocation guide
+-guide to Ngobe culture (I want to learn more!!!)
+-Cleaning services
+-Landscaping services
+-Home building services
+-Property Management and House Sitting
+-Handyman services and contractor directory (or bidding software?)
+-Fulfillment company or Domestic mailing service? with delivery pricing based on mileage, time spent en route, weight, volume, route navigability, or some other weird panama specific billing system?
+-List of locations/pins w/ good reviews that I've left local businesses?  (marketing possibilities-*-s)
+-seed exchange
+-Explore Panama: App and Website Guide to all the major attractions, cultures, and local businesses of each major city of each major region of Panama - highlight map according to activity (heatmap), consider offering classifieds section
