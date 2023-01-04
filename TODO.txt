@@ -12,6 +12,7 @@ The library and more updated stuff for internationalization https://vue-i18n.int
 
 Design Idea:  Consider doing a layout that almost looks like a magazine on desktop (2 pages, one with mostly images, one with mostly text)
 Design Idea: Make the navbar transparent?
+Design idea: make the mouse tracking do some kind of cool graphic?
 
 IMPORTANT: Set orders to pending and notify us before processing odd-looking transactions (high value, high quantity, anything fishy etc.)
 

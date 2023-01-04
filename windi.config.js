@@ -11,5 +11,9 @@ module.exports = {
   theme: {
     extend: {},
   },
+  shortcuts: {
+    '':'' //Can set things globally here, example below
+    // 'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md'
+  },
   plugins: [],
 }

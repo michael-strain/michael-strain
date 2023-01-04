@@ -3,53 +3,52 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
   <v-app :theme="theme">
-    <v-app-bar :elevation="0">
-      <NuxtLink v-slot="{navigate}" to="/">
-        <v-avatar :tile="true" class="m-2">
-          <v-img src="/img/MLogo.png" role="link" @click="navigate" />
-        </v-avatar>
-      </NuxtLink>
-      <NuxtLink to="/">
-        <v-toolbar-title><p class="text-sm sm:text-base md:text-lg font-bold">Michael-Strain</p> {{ heart }}</v-toolbar-title>
-      </NuxtLink>
-      <template #append>
-        <!-- <v-btn
-          :prepend-icon="theme === 'myCustomLightTheme' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-          @click="themeClick"
-        /> -->
-        <v-btn :icon="themeIcon" @click="themeClick"/>
-        <v-btn icon="mdi-heart" @click="heartClick"/>
-        <v-btn icon="mdi-magnify" @click="searchClick"/>
-        <v-menu transition="slide-x-transition">
-          <template #activator="{ props }">
-            <v-btn
-              icon="mdi-menu"
-              class="ma-2"
-              v-bind="props"
-            />
-          </template>
-          <v-list>
-            <NuxtLink to="/">
-              <v-list-item link>
-                Home
-              </v-list-item>
-            </NuxtLink>
-            <NuxtLink to="/services">
-              <v-list-item link>
-                Services
-              </v-list-item>
-            </NuxtLink>
-            <NuxtLink to="/blog">
-              <v-list-item link>
-                Blog
-              </v-list-item>
-            </NuxtLink>
-          </v-list>
-        </v-menu>
-      </template>
-    </v-app-bar>
-    <v-main class="bg-gradient-to-r from-transparent to-current">
-      <v-container class="pt-0 mt-0">
+    <v-main class="pt-0 bg-gradient-to-r from-transparent to-current">
+      <v-app-bar :elevation="0" class="opacity-80 py-0 my-0">
+        <NuxtLink v-slot="{navigate}" to="/">
+          <v-avatar :tile="true" class="mx-2">
+            <v-img src="/img/MLogo.png" role="link" @click="navigate" />
+          </v-avatar>
+        </NuxtLink>
+        <NuxtLink to="/">
+          <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
+        </NuxtLink>
+        <template #append>
+          <!-- <v-btn
+            :prepend-icon="theme === 'myCustomLightTheme' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+            @click="themeClick"
+          /> -->
+          <v-btn :icon="themeIcon" @click="themeClick"/>
+          <v-btn icon="mdi-heart" @click="heartClick"/>
+          <v-btn icon="mdi-magnify" @click="searchClick"/>
+          <v-menu transition="slide-x-transition">
+            <template #activator="{ props }">
+              <v-btn
+                icon="mdi-menu"
+                v-bind="props"
+              />
+            </template>
+            <v-list>
+              <NuxtLink to="/">
+                <v-list-item link>
+                  Home
+                </v-list-item>
+              </NuxtLink>
+              <NuxtLink to="/services">
+                <v-list-item link>
+                  Services
+                </v-list-item>
+              </NuxtLink>
+              <NuxtLink to="/blog">
+                <v-list-item link>
+                  Blog
+                </v-list-item>
+              </NuxtLink>
+            </v-list>
+          </v-menu>
+        </template>
+      </v-app-bar>
+      <v-container class="py-0">
         <!-- Popup -->
         <div class="text-center">
           <v-dialog v-model="dialog" width="500">
@@ -78,10 +77,10 @@
         </div>
         <!-- <v-parallax src="/img/MLogo.png"> -->
 
-        <!-- Content! -->
-        <slot />
         <!-- </v-parallax> -->
       </v-container>
+      <!-- Content! -->
+      <slot />
     </v-main>
     <TheFooter />
   </v-app>
