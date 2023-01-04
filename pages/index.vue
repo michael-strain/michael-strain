@@ -4,8 +4,8 @@
   <div class="h-screen min-h-60 w-full m-0 p-0 flex">
     <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg">
       <div class="flex h-full">
-        <div class="<sm:w-1/2 md:w-3/4" /> <!-- This just keeps our welcome bar on the right side -->
-        <div class="w-3/4 sm:w-2/3 md:w-1/2 d-flex flex-column fill-height justify-center text-center align-center text-white font-bold">
+        <div class="<sm:w-0 sm:w-3/4" /> <!-- This just keeps our welcome bar on the right side -->
+        <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center text-white font-bold">
           <v-card class="absolute h-full opacity-70 bg-black">
             <div class="pt-50">
               <div class="bg-rose-700 pt-6 pb-1">
