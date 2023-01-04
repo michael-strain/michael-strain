@@ -1,10 +1,13 @@
 Deploy Bitbucket Code to Firebase: https://support.atlassian.com/bitbucket-cloud/docs/deploy-to-firebase/
+    -Now i need to deploy github code to firebase
 Turn the webapp to a mobile app: https://dev.to/daiquiri_team/how-to-build-the-ssr-web-application-and-mobile-apps-from-the-same-code-base-4aob
 Unlighthouse (analyze the site): https://nuxt.com/modules/unlighthouse
 API Docs https://github.com/nuxt-themes/docus#readme
 Nitro + Firebase https://nitro.unjs.io/deploy/providers/firebase
 Vectorizer https://vectorization.eu/color-svg-converter/#
 
+Big but possibly a little deprecated internationalization guide: https://phrase.com/blog/posts/nuxt-js-tutorial-i18n/
+The library and more updated stuff for internationalization https://vue-i18n.intlify.dev/guide/integrations/nuxt3.html#setup-vue-i18n-on-nuxt-3-application
 
 Prioritized List of Requests:
 ==============================
