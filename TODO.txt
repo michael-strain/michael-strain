@@ -5,20 +5,34 @@ Unlighthouse (analyze the site): https://nuxt.com/modules/unlighthouse
 API Docs https://github.com/nuxt-themes/docus#readme
 Nitro + Firebase https://nitro.unjs.io/deploy/providers/firebase
 Vectorizer https://vectorization.eu/color-svg-converter/#
+Zero config PWA (progressive web app) solution for nuxt https://pwa.nuxtjs.org/
 
 Big but possibly a little deprecated internationalization guide: https://phrase.com/blog/posts/nuxt-js-tutorial-i18n/
 The library and more updated stuff for internationalization https://vue-i18n.intlify.dev/guide/integrations/nuxt3.html#setup-vue-i18n-on-nuxt-3-application
 
+Design Idea:  Consider doing a layout that almost looks like a magazine on desktop (2 pages, one with mostly images, one with mostly text)
+Design Idea: Make the navbar transparent?
+
+IMPORTANT: Set orders to pending and notify us before processing odd-looking transactions (high value, high quantity, anything fishy etc.)
+
 Prioritized List of Requests:
 ==============================
-0-Internationalization (Spanish and English!)
+0-Get setup w Firebase and get this site live
+    0.1-Get all the desired content from the old site
+    0.2-Setup firebase
+    0.3-figure out how to switch over to a new CI/CD setup with Github/Firebase integration
 1-Shop main page
 2-Item layout
 ?-Maybe get the blog up and running and looking like the other one?
 ?-Make the homepage actually look good.  New hero section, better design idk
+?-Figure out SSL stuff for HTTPS
+?-Integrate Google Analytics
+?-Consider using ads...maybe don't do that though depends on tolerance for self hate
+?-Consider adding social interactions (share, like, etc. type crap)
 3-Integration with x for payment processing (paypal, stripe, etc.)
 4-Integration with y for order handling (dropshipper)
 5-Integration with z for fulfillment(?)
+9999-Internationalization (Spanish and English!) (seems difficult, get ready to suicide)
 
 Actual TODO Items
 =================
@@ -59,3 +73,5 @@ Big Picture Shit
 -List of locations/pins w/ good reviews that I've left local businesses?  (marketing possibilities-*-s)
 -seed exchange
 -Explore Panama: App and Website Guide to all the major attractions, cultures, and local businesses of each major city of each major region of Panama - highlight map according to activity (heatmap), consider offering classifieds section
+-AI Generated Vlog
+-Coffee Dropshipping
