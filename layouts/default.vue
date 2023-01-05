@@ -3,24 +3,27 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
   <v-app :theme="theme">
-    <v-main class="pt-0 bg-gradient-to-r from-transparent to-current">
-      <v-app-bar :elevation="0" class="opacity-80 py-0 my-0">
-        <NuxtLink v-slot="{navigate}" to="/">
-          <v-avatar :tile="true" class="mx-2">
-            <v-img src="/img/MLogo.png" role="link" @click="navigate" />
-          </v-avatar>
-        </NuxtLink>
-        <NuxtLink to="/">
-          <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
-        </NuxtLink>
-        <template #append>
-          <!-- <v-btn
-            :prepend-icon="theme === 'myCustomLightTheme' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-            @click="themeClick"
-          /> -->
-          <v-btn :icon="themeIcon" @click="themeClick"/>
-          <v-btn icon="mdi-heart" @click="heartClick"/>
-          <v-btn icon="mdi-magnify" @click="searchClick"/>
+    <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
+    <v-main :class="pageTitle=='/' ? 'pt-0':''">
+      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
+        <v-card class="d-flex m-2 flex-shrink opacity-90">
+          <NuxtLink v-slot="{navigate}" to="/" class="my-1">
+            <v-avatar :tile="true" class="mx-2">
+              <v-img src="/img/MLogo.png" lazy-src="/img/MLogo.png" role="link" @click="navigate" />
+            </v-avatar>
+          </NuxtLink>
+          <NuxtLink to="/" class="my-3 mr-4">
+            <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
+          </NuxtLink>
+        </v-card>
+        <div class="flex-grow" />
+        <!-- <div class="float-right"> -->
+        <v-card class="d-flex float-right flex-shrink opacity-80">
+          <!-- <template #append> -->
+          <v-btn icon="mdi-account" @click="profileClick" />
+          <v-btn :icon="themeIcon" @click="themeClick" />
+          <v-btn icon="mdi-heart" @click="heartClick" />
+          <v-btn icon="mdi-magnify" @click="searchClick" />
           <v-menu transition="slide-x-transition">
             <template #activator="{ props }">
               <v-btn
@@ -46,19 +49,21 @@
               </NuxtLink>
             </v-list>
           </v-menu>
-        </template>
+          <!-- </template> -->
+        </v-card>
+        <!-- </div> -->
       </v-app-bar>
       <v-container class="py-0">
         <!-- Popup -->
         <div class="text-center">
           <v-dialog v-model="dialog" width="500">
             <v-card>
-              <v-card-title class="text-h5 bg-grey-lighten-2">
+              <v-card-title class="text-h5">
                 Missing Content!
               </v-card-title>
 
               <v-card-text>
-                Hello.  I don't know how to search yet.  Sorry
+                {{ dialogText }}
               </v-card-text>
 
               <v-divider />
@@ -93,6 +98,18 @@
   const themeIcon = ref('mdi-weather-sunny')
   const heart = ref('')
   const dialog = ref(false)
+  const dialogText = ref('')
+
+
+  // const route = useRoute()
+  const pageTitle = computed(() => useRoute().path)
+
+  function profileClick () {
+    console.log("Profile pressed but I don't know what to do yet")
+    dialog.value = true
+    dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
+    dialogClicked()
+  }
 
   function themeClick () {
     if (theme.value === 'myCustomLightTheme'){
@@ -131,6 +148,7 @@
   function searchClick(){
     console.log("I have no idea how to integrate search functionality into Nuxt yet.")
     dialog.value = true
+    dialogText.value = "Hello.  I don't know how to search yet.  Sorry"
     dialogClicked()
   }
 </script>

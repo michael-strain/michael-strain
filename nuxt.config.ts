@@ -9,10 +9,8 @@ export default defineNuxtConfig({
         '@nuxt/content',
     ],
     css:[
-        // '~/assets/css/tailwind.css',
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.min.css',
-        '~/assets/fonts/Nabla/Nabla.css',
         '~/assets/fonts/Raleway/Raleway.css',
         '~/assets/fonts/Roboto_Slab/Roboto_Slab.css'
     ],
@@ -31,10 +29,4 @@ export default defineNuxtConfig({
             }
         }
     },
-    // postcss: {
-    //     plugins: {
-    //         // tailwindcss: {},
-    //         autoprefixer: {},
-    //     },
-    // },
 })

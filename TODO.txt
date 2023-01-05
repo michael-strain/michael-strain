@@ -18,6 +18,7 @@ IMPORTANT: Set orders to pending and notify us before processing odd-looking tra
 
 Prioritized List of Requests:
 ==============================
+Immediate-Fix the layout settings so the homepage has no buffer between app-bar, but all other pages have a little buffer
 0-Get setup w Firebase and get this site live
     0.1-Get all the desired content from the old site
     0.2-Setup firebase
