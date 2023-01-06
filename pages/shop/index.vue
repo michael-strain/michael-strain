@@ -1,10 +1,10 @@
 <template>
   <div>
-  <v-container>
-    This will be the shop index.
-    Begin Ash edits
+    <v-container>
+      This will be the shop index.
+      Begin Ash edits
+    </v-container>
   </div>
-  </v-container>
 </template>
 
 <script>

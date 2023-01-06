@@ -3,96 +3,57 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
   <v-app :theme="theme">
-    <v-app-bar :elevation="0">
-      <NuxtLink v-slot="{navigate}" to="/">
-        <v-avatar :tile="true" class="m-2">
-          <v-img src="/img/MLogo.png" role="link" @click="navigate" />
-        </v-avatar>
-      </NuxtLink>
-      <NuxtLink to="/">
-        <v-toolbar-title><p class="text-sm sm:text-base md:text-lg font-bold">Michael-Strain</p> {{ heart }}</v-toolbar-title>
-      </NuxtLink>
-      <template #append>
-        <!-- <v-btn
-          :prepend-icon="theme === 'myCustomLightTheme' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-          @click="themeClick"
-        /> -->
-        <v-btn :icon="themeIcon" @click="themeClick"/>
-        <v-btn icon="mdi-magnify" @click="searchClick"/>
-        <v-btn icon="mdi-cart"/>
-        <v-menu transition="slide-x-transition">
-          <template #activator="{ props }">
-            <v-btn
-              icon="mdi-menu"
-              class="ma-2"
-              v-bind="props"
-            />
-          </template>
-          <NavLinks />
-        </v-menu>
-      </template>
-    </v-app-bar>
-    <v-main>
-      <!-- <v-main class="bg-gradient-to-r from-transparent to-current"> -->
-      <v-container class="pt-0 mt-0">
-        <!-- Popup -->
-        <div class="text-center">
-          <v-dialog v-model="dialog" width="500">
-            <v-card>
-              <v-card-title class="text-h5 bg-grey-lighten-2">
-                Missing Content!
-              </v-card-title>
-    <v-parallax :src="'/img/pixel-gradient.png'" lazy-src="/img/pixel-gradient.png">
-      <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
-      <v-main :class="pageTitle=='/' ? 'pt-0':''">
-        <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
-          <v-card class="d-flex m-2 flex-shrink opacity-90">
-            <NuxtLink v-slot="{navigate}" to="/" class="my-1">
-              <v-avatar :tile="true" class="mx-2">
-                <v-img src="/img/MLogo.png" lazy-src="/img/MLogo.png" role="link" @click="navigate" />
-              </v-avatar>
-            </NuxtLink>
-            <NuxtLink to="/" class="my-3 mr-4">
-              <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
-            </NuxtLink>
-          </v-card>
-          <div class="flex-grow" />
-          <!-- <div class="float-right"> -->
-          <v-card class="d-flex float-right flex-shrink opacity-80">
-            <!-- <template #append> -->
-            <v-btn icon="mdi-account" @click="profileClick" />
-            <v-btn :icon="themeIcon" @click="themeClick" />
-            <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
-            <v-btn icon="mdi-magnify" @click="searchClick" />
-            <v-menu transition="slide-x-transition">
-              <template #activator="{ props }">
-                <v-btn
-                  icon="mdi-menu"
-                  v-bind="props"
-                />
-              </template>
-              <v-list>
-                <NuxtLink to="/">
-                  <v-list-item link>
-                    Home
-                  </v-list-item>
-                </NuxtLink>
-                <NuxtLink to="/services">
-                  <v-list-item link>
-                    Services
-                  </v-list-item>
-                </NuxtLink>
-                <NuxtLink to="/blog">
-                  <v-list-item link>
-                    Blog
-                  </v-list-item>
-                </NuxtLink>
-              </v-list>
-            </v-menu>
-            <!-- </template> -->
-          </v-card>
-          <!-- </div> -->
-        </v-app-bar>
+    <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
+    <v-main :class="pageTitle=='/' ? 'pt-0':''">
+      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
+        <v-card class="d-flex m-2 flex-shrink opacity-90">
+          <NuxtLink v-slot="{navigate}" to="/" class="my-1">
+            <v-avatar :tile="true" class="mx-2">
+              <v-img src="/img/MLogo.png" lazy-src="/img/MLogo.png" role="link" @click="navigate" />
+            </v-avatar>
+          </NuxtLink>
+          <NuxtLink to="/" class="my-3 mr-4">
+            <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
+          </NuxtLink>
+        </v-card>
+        <div class="flex-grow" />
+        <!-- <div class="float-right"> -->
+        <v-card class="d-flex float-right flex-shrink opacity-80">
+          <!-- <template #append> -->
+          <v-btn icon="mdi-cart" @click="cartClick" />
+          <v-btn :icon="themeIcon" @click="themeClick" />
+          <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
+          <v-btn icon="mdi-magnify" @click="searchClick" />
+          <v-menu transition="slide-x-transition">
+            <template #activator="{ props }">
+              <v-btn
+                icon="mdi-menu"
+                v-bind="props"
+              />
+            </template>
+            <v-list>
+              <NuxtLink to="/">
+                <v-list-item link>
+                  Home
+                </v-list-item>
+              </NuxtLink>
+              <NuxtLink to="/services">
+                <v-list-item link>
+                  Services
+                </v-list-item>
+              </NuxtLink>
+              <NuxtLink to="/blog">
+                <v-list-item link>
+                  Blog
+                </v-list-item>
+              </NuxtLink>
+            </v-list>
+          </v-menu>
+          <!-- </template> -->
+        </v-card>
+        <!-- </div> -->
+      </v-app-bar>
+      <v-parallax src="" lazy-src="">
         <v-container class="py-0">
           <!-- Popup -->
           <div class="text-center">
@@ -126,8 +87,8 @@
         </v-container>
         <!-- Content! -->
         <slot />
-      </v-main>
-    </v-parallax>
+      </v-parallax>
+    </v-main>
     <TheFooter />
   </v-app>
 </template>
@@ -140,7 +101,6 @@
   const heart = ref('')
   const dialog = ref(false)
   const dialogText = ref('')
-  const dark = ref('')
 
 
   // const route = useRoute()
@@ -153,15 +113,20 @@
     dialogClicked()
   }
 
+  function cartClick() {
+    console.log("Profile pressed but I don't know what to do yet")
+    dialog.value = true
+    dialogText.value = "Sorry again, I haven't done this yet."
+    dialogClicked()
+  }
+
   function themeClick () {
     if (theme.value === 'myCustomLightTheme'){
       theme.value='myCustomDarkTheme'
       themeIcon.value = 'mdi-weather-night'
-      dark.value = 'dark-'
     } else {
       theme.value = 'myCustomLightTheme'
       themeIcon.value = 'mdi-weather-sunny'
-      dark.value = ''
     }
     // theme.value = theme.value === 'myCustomLightTheme' ? 'myCustomDarkTheme' : 'myCustomLightTheme'
     // themeIcon.value = 'mdi-weather-sunny' : 'mdi-weather-night'
