@@ -32,7 +32,8 @@
         </v-menu>
       </template>
     </v-app-bar>
-    <v-main class="bg-gradient-to-r from-transparent to-current">
+    <v-main>
+      <!-- <v-main class="bg-gradient-to-r from-transparent to-current"> -->
       <v-container class="pt-0 mt-0">
         <!-- Popup -->
         <div class="text-center">
