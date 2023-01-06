@@ -2,10 +2,10 @@
 
 <template>
   <div>
-    <v-container>
+    <v-container class="flex flex-wrap flex-direction: column">
       <div>
         <!--Beginfirstcard-->
-        <v-card>
+        <v-card class="m-5">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
             class=""
@@ -45,7 +45,7 @@
         <!-- End first card-->
 
         <!-- Begin Second card-->
-        <v-card>
+        <v-card class="m-5">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
             class=""
@@ -85,7 +85,7 @@
         <!--End second card-->
 
         <!-- Begin third card -->
-        <v-card>
+        <v-card class="m-5">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
             class=""
