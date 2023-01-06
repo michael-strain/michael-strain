@@ -13,7 +13,11 @@
             </v-avatar>
           </NuxtLink>
           <NuxtLink to="/" class="my-3 mr-4">
-            <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
+            <v-toolbar-title>
+              <p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">
+                Home
+              </p>
+            </v-toolbar-title>
           </NuxtLink>
         </v-card>
         <div class="flex-grow" />
@@ -108,7 +112,7 @@
     console.log("Profile pressed but I don't know what to do yet")
     dialog.value = true
     dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
-    dialogClicked()
+    // dialogClicked()
   }
 
   function themeClick () {
@@ -149,7 +153,7 @@
     console.log("I have no idea how to integrate search functionality into Nuxt yet.")
     dialog.value = true
     dialogText.value = "Hello.  I don't know how to search yet.  Sorry"
-    dialogClicked()
+    // dialogClicked()
   }
 </script>
 

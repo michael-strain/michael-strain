@@ -6,12 +6,12 @@
     <v-card>
       <div class="flex items-center self-stretch">
         <div class="w-1/5 p-2">
-          <svg version="1.1" ref="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
+          <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
               <!-- Used to have fill="white" here -->
               <path
-                :style="{ strokeDashoffset: `${strokeoff}`}"
                 id="myLine"
+                :style="{ strokeDashoffset: `${strokeoff}`}"
                 class="st0 path svgplant"
                 stroke="#22c55e"
                 fill="none"
@@ -22,16 +22,18 @@
           </svg>
         </div>
         <div class="w-3/5 float-left text-center items-center">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">Services</h1>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">
+            Services
+          </h1>
           <!-- <p class="font-thin text-xs leading-8">Welcome To My Domain</p> -->
         </div>
         <div class="w-1/5 p-2">
-          <svg version="1.1" ref="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
+          <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
               <!-- Used to have fill="white" here -->
               <path
-                :style="{ strokeDashoffset: `${strokeoff}`}"
                 id="myLine"
+                :style="{ strokeDashoffset: `${strokeoff}`}"
                 class="st0 path svgplant"
                 stroke="#22c55e"
                 fill="none"
@@ -186,7 +188,7 @@
 
     <!-- Real Estate Development -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/realEstate">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">
@@ -209,7 +211,7 @@
 
     <!-- Property & Association Management -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/realEstate/management">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">
@@ -232,7 +234,7 @@
 
     <!-- Landscaping -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/realEstate/landscaping">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">
@@ -255,7 +257,7 @@
 
     <!-- Housekeeping -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/realEstate/homeCare">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">
@@ -278,7 +280,7 @@
 
     <!-- Fulfillment Company -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/fulfillment">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">

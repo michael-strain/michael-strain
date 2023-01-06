@@ -4,8 +4,8 @@
 <template>
   <v-app :theme="theme">
     <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
-    <v-main :class="pageTitle=='/' ? 'pt-0':''">
-      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
+    <v-main>
+      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
           <NuxtLink v-slot="{navigate}" to="/" class="my-1">
             <v-avatar :tile="true" class="mx-2">
@@ -13,7 +13,11 @@
             </v-avatar>
           </NuxtLink>
           <NuxtLink to="/" class="my-3 mr-4">
-            <v-toolbar-title><p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">Home {{ heart }}</p></v-toolbar-title>
+            <v-toolbar-title>
+              <p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">
+                Home
+              </p>
+            </v-toolbar-title>
           </NuxtLink>
         </v-card>
         <div class="flex-grow" />
@@ -53,41 +57,41 @@
         </v-card>
         <!-- </div> -->
       </v-app-bar>
-      <v-parallax src="" lazy-src="">
-        <v-container class="py-0">
-          <!-- Popup -->
-          <div class="text-center">
-            <v-dialog v-model="dialog" width="500">
-              <v-card>
-                <v-card-title class="text-h5">
-                  Missing Content!
-                </v-card-title>
+      <!-- <v-parallax src="" lazy-src=""> -->
+      <v-container class="py-0">
+        <!-- Popup -->
+        <div class="text-center">
+          <v-dialog v-model="dialog" width="500">
+            <v-card>
+              <v-card-title class="text-h5">
+                Missing Content!
+              </v-card-title>
 
-                <v-card-text>
-                  {{ dialogText }}
-                </v-card-text>
+              <v-card-text>
+                {{ dialogText }}
+              </v-card-text>
 
-                <v-divider />
+              <v-divider />
 
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="primary"
-                    @click="dialog = false"
-                  >
-                    I accept
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
-          <!-- <v-parallax src="/img/MLogo.png"> -->
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="primary"
+                  @click="dialog = false"
+                >
+                  I accept
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+        <!-- <v-parallax src="/img/MLogo.png"> -->
 
-          <!-- </v-parallax> -->
-        </v-container>
-        <!-- Content! -->
-        <slot />
-      </v-parallax>
+        <!-- </v-parallax> -->
+      </v-container>
+      <!-- Content! -->
+      <slot />
+      <!-- </v-parallax> -->
     </v-main>
     <TheFooter />
   </v-app>
@@ -104,14 +108,14 @@
 
 
   // const route = useRoute()
-  const pageTitle = computed(() => useRoute().path)
+  // const pageTitle = computed(() => useRoute().path)
 
-  function profileClick () {
-    console.log("Profile pressed but I don't know what to do yet")
-    dialog.value = true
-    dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
-    dialogClicked()
-  }
+  // function profileClick () {
+  //   console.log("Profile pressed but I don't know what to do yet")
+  //   dialog.value = true
+  //   dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
+  //   dialogClicked()
+  // }
 
   function cartClick() {
     console.log("Profile pressed but I don't know what to do yet")
@@ -144,15 +148,15 @@
     }
   }
 
-  function heartClick() {
-    //animate some hearts and request a donation lol
-    if (heart.value == "❤️"){
-      heart.value=""
-    }
-    else{
-      heart.value="❤️"
-    }
-  }
+  // function heartClick() {
+  //   //animate some hearts and request a donation lol
+  //   if (heart.value == "❤️"){
+  //     heart.value=""
+  //   }
+  //   else{
+  //     heart.value="❤️"
+  //   }
+  // }
 
   function searchClick(){
     console.log("I have no idea how to integrate search functionality into Nuxt yet.")
@@ -161,10 +165,3 @@
     dialogClicked()
   }
 </script>
-
-<style>
-  .custom-class {
-    background: rgb(var(--v-theme-custcard));
-    color: rgba(var(--v-theme-on-custcard), 0.9);
-  }
-</style>
