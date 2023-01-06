@@ -2,20 +2,18 @@
 
 <template>
   <div>
-    <v-container class="flex flex-wrap flex-direction: column">
-      <div>
+    <v-container>
+      <div class="flex flex-wrap items-center align-center justify-center">
         <!--Beginfirstcard-->
-        <v-card class="m-5">
+        <v-card class="m-5 flex-grow max-w-sm sm:max-w-xs">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            class=""
+            class="w-full"
           >
-
           <v-card-title class="text-h5 justify-center text-center align-center">
-            Top western road trips
+            Fuck 
           </v-card-title>
-
-          <div class="d-flex items-center justify-center text-center align-center m-0 pt-5">
+          <div class="d-flex items-center justify-center text-center align-center m-0">
             <v-card-actions>
               <v-btn
                 icon
@@ -23,14 +21,12 @@
               >
                 <v-icon icon="mdi-chevron-left" />
               </v-btn>
-            
               <v-btn
                 icon
                 @click="show = !show; heartClick()"
               >
                 <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
               </v-btn>
-
               <v-btn
                 icon
                 @click="rightArrow"
@@ -39,23 +35,19 @@
               </v-btn>
             </v-card-actions>
           </div>
-
-          <v-expand-transition />
         </v-card>
         <!-- End first card-->
 
         <!-- Begin Second card-->
-        <v-card class="m-5">
+        <v-card class="m-5 flex-grow max-w-sm sm:max-w-xs">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            class=""
+            class="w-full"
           >
-
-          <v-card-title class="justify-center text-center align-center">
-            Top western road trips
+          <v-card-title class="text-h5 justify-center text-center align-center">
+            Fuck 
           </v-card-title>
-
-          <div class="d-flex items-center justify-center text-center align-center m-0 pt-5">
+          <div class="d-flex items-center justify-center text-center align-center m-0">
             <v-card-actions>
               <v-btn
                 icon
@@ -63,14 +55,12 @@
               >
                 <v-icon icon="mdi-chevron-left" />
               </v-btn>
-            
               <v-btn
                 icon
                 @click="show = !show; heartClick()"
               >
                 <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
               </v-btn>
-
               <v-btn
                 icon
                 @click="rightArrow"
@@ -79,22 +69,19 @@
               </v-btn>
             </v-card-actions>
           </div>
-
-          <v-expand-transition />
         </v-card>
         <!--End second card-->
 
         <!-- Begin third card -->
-        <v-card class="m-5">
+        <v-card class="m-5 flex-grow max-w-sm sm:max-w-xs">
           <img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            class=""
+            class="w-full"
           >
-
-          <v-card-title class="justify-center text-center align-center">
-            Top western road trips
+          <v-card-title class="text-h5 justify-center text-center align-center">
+            Fuck 
           </v-card-title>
-          <div class="d-flex items-center justify-center text-center align-center m-0 pt-5">
+          <div class="d-flex items-center justify-center text-center align-center m-0">
             <v-card-actions>
               <v-btn
                 icon
@@ -102,14 +89,12 @@
               >
                 <v-icon icon="mdi-chevron-left" />
               </v-btn>
-            
               <v-btn
                 icon
                 @click="show = !show; heartClick()"
               >
                 <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
               </v-btn>
-
               <v-btn
                 icon
                 @click="rightArrow"
@@ -118,8 +103,6 @@
               </v-btn>
             </v-card-actions>
           </div>
-
-          <v-expand-transition />
         </v-card>
         <!--End third card-->
       </div> <!-- End of First Row-->
