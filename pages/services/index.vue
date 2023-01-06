@@ -125,7 +125,7 @@
 
     <!-- Handyman Services, Carpentry, Furniture Making-->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/services/handyman">
+      <NuxtLink to="/services/realEstate/handyman">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-2">
             <v-card class="bg-custcard my-2">
@@ -163,7 +163,7 @@
   
     <!-- Call Center -->
     <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
-      <NuxtLink to="/404?attempt=callCenter">
+      <NuxtLink to="/services/callCenter">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
             <v-card class="bg-custcard m-2">

@@ -6,11 +6,11 @@
       <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg">
         <div class="flex h-full">
           <div class="<sm:w-0 sm:w-3/4" /> <!-- This just keeps our welcome bar on the right side -->
-          <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center text-white font-bold">
+          <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center font-bold">
             <v-card class="absolute h-full opacity-80 bg-black">
               <div class="h-1/4" />
               <div class="bg-rose-700 pt-6 pb-1">
-                <h1 class="text-h4 sm:text-h3 mb-4 tracking-widest font-serif">
+                <h1 class="text-h4 sm:text-h3 mb-4 tracking-widest font-serif" :style="{ fontFamily: 'Roboto Slab', textShadow: '3px 2px #558ABB'}">
                   WELCOME
                 </h1>
               </div>
@@ -33,7 +33,7 @@
                     <v-icon start icon="mdi-store" />Shop<v-icon end icon="mdi-store" />
                   </v-btn>
                 </NuxtLink>
-                <NuxtLink to="/invest">
+                <NuxtLink to="/investors">
                   <v-btn block class="m-2 btnc3">
                     <v-icon start icon="mdi-chart-areaspline" />Invest<v-icon end icon="mdi-chart-areaspline" />
                   </v-btn>
@@ -108,11 +108,23 @@
       </v-card>
     </v-container>
 
+    <!-- Social Bar -->
+    <v-card class="mb-4">
+      <v-card-title class="text-center">SOCIALS</v-card-title>
+      <div class="h-20 w-full m-0 p-0 flex bg-custcard mb-4">
+        <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
+        <div class="d-flex h-full w-full text-center justify-center align-center items-center primary">
+          <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="btnc2 m-1"><v-icon icon="mdi-youtube" class="m-2"/>@michael-strain</v-btn></a>
+          <a href="https://www.facebook.com/groups/therealestateinvestorsclub"><v-btn class="btnc1 m-1"><v-icon icon="mdi-facebook" class="m-2"/>Investors Club</v-btn></a>
+        </div>
+      </div>
+    </v-card>
+
     <div class="h-60 w-full m-0 p-0 flex">
       <v-parallax src="img/panama-city-ocean.jpg" lazy-src="img/panama-city-ocean.jpg">
         <div class="d-flex h-full">
           <div class="d-flex w-40 align-center">
-            <v-card class="m-4 opacity-70"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></v-card>
+            <div class="m-4 opacity-70 <sm:hidden"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></div>
           </div>
           <div class="d-flex w-full align-center">
             <v-card class="opacity-90 flex-grow align-center text-center p-5 m-5">
@@ -124,22 +136,10 @@
             </v-card>
           </div>
           <div class="d-flex w-40 align-center">
-            <v-card class="m-4 opacity-70"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></v-card>
+            <div class="m-4 opacity-70 <sm:hidden"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></div>
           </div>
         </div>
       </v-parallax>
-    </div>
-
-    <!-- Social Bar -->
-    <div class="h-20 w-full m-0 p-0 flex">
-      <div class="d-flex h-full w-full text-center justify-center align-center items-center">
-        <v-card>
-          <v-list class="mx-5">
-            <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="btnc2"><v-icon icon="mdi-youtube" class="m-2"/>@michael-strain</v-btn></a>
-            <a href="https://www.facebook.com/groups/therealestateinvestorsclub"><v-btn class="btnc1"><v-icon icon="mdi-facebook" class="m-2"/>Real Estate Investors Club</v-btn></a>
-          </v-list>
-        </v-card>
-      </div>
     </div>
   </div>
 </template>

@@ -22,7 +22,7 @@
           <!-- <template #append> -->
           <v-btn icon="mdi-account" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
-          <v-btn icon="mdi-heart" @click="heartClick" />
+          <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn icon="mdi-magnify" @click="searchClick" />
           <v-menu transition="slide-x-transition">
             <template #activator="{ props }">
