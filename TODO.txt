@@ -15,6 +15,8 @@ Design Idea: Make the navbar transparent?
 Design idea: make the mouse tracking do some kind of cool graphic?
 Design Idea: Add comments and some kind of public facing positive reception tracker to the blog - let them use markup for styling?
 IMPORTANT: Set orders to pending and notify us before processing odd-looking transactions (high value, high quantity, anything fishy etc.)
+Design idea: Products based on an image, scroll a slider to see the range of products sorted by price (kinda like an interactive carousel vibe)
+
 
 Prioritized List of Requests:
 ==============================

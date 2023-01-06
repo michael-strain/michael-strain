@@ -1,5 +1,7 @@
 <template>
+  <v-container>
     This will be the shop index.
+  </v-container>
 </template>
 
 <script>
