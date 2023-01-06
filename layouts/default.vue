@@ -3,7 +3,34 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
   <v-app :theme="theme">
-    <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
+    <!-- Popup -->
+    <div class="text-center">
+      <v-dialog v-model="dialog" width="500">
+        <v-card>
+          <v-card-title class="text-h5">
+            Missing Content!
+          </v-card-title>
+
+          <v-card-text>
+            {{ dialogText }}
+          </v-card-text>
+
+          <v-divider />
+
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              @click="dialog = false"
+            >
+              I accept
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- End Popup -->
+
     <v-main :class="pageTitle=='/' ? 'pt-0':''">
       <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
@@ -21,9 +48,7 @@
           </NuxtLink>
         </v-card>
         <div class="flex-grow" />
-        <!-- <div class="float-right"> -->
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <!-- <template #append> -->
           <v-btn :icon="pageTitle=='/shop' ? 'mdi-cart':'mdi-account'" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
@@ -53,41 +78,47 @@
               </NuxtLink>
             </v-list>
           </v-menu>
-          <!-- </template> -->
         </v-card>
-        <!-- </div> -->
       </v-app-bar>
-      <v-container class="py-0">
-        <!-- Popup -->
-        <div class="text-center">
-          <v-dialog v-model="dialog" width="500">
-            <v-card>
-              <v-card-title class="text-h5">
-                Missing Content!
-              </v-card-title>
 
-              <v-card-text>
-                {{ dialogText }}
-              </v-card-text>
+      <!-- Shopping Cart -->
+      <v-navigation-drawer
+        v-model="drawer"
+        temporary
+        location="right"
+      >
+        <v-list-item
+          title="Shopping Cart"
+          class="text-center"
+        />
 
-              <v-divider />
+        <v-divider />
 
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  @click="dialog = false"
-                >
-                  I accept
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </div>
-        <!-- <v-parallax src="/img/MLogo.png"> -->
+        <v-list
+          density="compact"
+          nav
+        >
+          Stuff will go here!
+          <!-- <v-list-item
+            prepend-icon="mdi-view-dashboard"
+            title="Home"
+            value="home"
+          />
+          <v-list-item
+            prepend-icon="mdi-forum"
+            title="About"
+            value="about"
+          /> -->
+        </v-list>
+      </v-navigation-drawer>
+      <!-- End Shopping Cart -->
 
-        <!-- </v-parallax> -->
-      </v-container>
+      <!-- <v-container class="py-0"> -->
+      <!-- <v-parallax src="/img/MLogo.png"> -->
+
+      <!-- </v-parallax> -->
+      <!-- </v-container> -->
+
       <!-- Content! -->
       <slot />
     </v-main>
@@ -103,6 +134,7 @@
   const heart = ref('')
   const dialog = ref(false)
   const dialogText = ref('')
+  const drawer = ref(null)
 
 
   // const route = useRoute()
@@ -111,8 +143,9 @@
   function profileClick () {
     if (pageTitle.value === "/shop"){
       console.log("I'm gonna be a shopping cart someday")
-      dialog.value = true
-      dialogText.value = "Hello.  I am going to display a shopping cart soon."
+      drawer.value=!drawer.value
+      // dialog.value = true
+      // dialogText.value = "Hello.  I am going to display a shopping cart soon."
       // dialogClicked()
     } else {
       console.log("Profile pressed but I don't know what to do yet")
