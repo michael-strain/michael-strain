@@ -24,7 +24,7 @@
         <!-- <div class="float-right"> -->
         <v-card class="d-flex float-right flex-shrink opacity-80">
           <!-- <template #append> -->
-          <v-btn icon="mdi-account" @click="profileClick" />
+          <v-btn :icon="pageTitle=='/shop' ? 'mdi-cart':'mdi-account'" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn icon="mdi-magnify" @click="searchClick" />
@@ -109,10 +109,17 @@
   const pageTitle = computed(() => useRoute().path)
 
   function profileClick () {
-    console.log("Profile pressed but I don't know what to do yet")
-    dialog.value = true
-    dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
-    // dialogClicked()
+    if (pageTitle.value === "/shop"){
+      console.log("I'm gonna be a shopping cart someday")
+      dialog.value = true
+      dialogText.value = "Hello.  I am going to display a shopping cart soon."
+      // dialogClicked()
+    } else {
+      console.log("Profile pressed but I don't know what to do yet")
+      dialog.value = true
+      dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
+      // dialogClicked()
+    }
   }
 
   function themeClick () {

@@ -4,8 +4,8 @@
 <template>
   <v-app :theme="theme">
     <!-- Used to have this on vmain: class="bg-gradient-to-r from-transparent to-current" -->
-    <v-main>
-      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full">
+    <v-main :class="pageTitle=='/' ? 'pt-0':''">
+      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
           <NuxtLink v-slot="{navigate}" to="/" class="my-1">
             <v-avatar :tile="true" class="mx-2">
@@ -24,7 +24,7 @@
         <!-- <div class="float-right"> -->
         <v-card class="d-flex float-right flex-shrink opacity-80">
           <!-- <template #append> -->
-          <v-btn icon="mdi-cart" @click="cartClick" />
+          <v-btn icon="mdi-account" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn icon="mdi-magnify" @click="searchClick" />
@@ -57,7 +57,6 @@
         </v-card>
         <!-- </div> -->
       </v-app-bar>
-      <!-- <v-parallax src="" lazy-src=""> -->
       <v-container class="py-0">
         <!-- Popup -->
         <div class="text-center">
@@ -91,7 +90,6 @@
       </v-container>
       <!-- Content! -->
       <slot />
-      <!-- </v-parallax> -->
     </v-main>
     <TheFooter />
   </v-app>
@@ -108,20 +106,13 @@
 
 
   // const route = useRoute()
-  // const pageTitle = computed(() => useRoute().path)
+  const pageTitle = computed(() => useRoute().path)
 
-  // function profileClick () {
-  //   console.log("Profile pressed but I don't know what to do yet")
-  //   dialog.value = true
-  //   dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
-  //   dialogClicked()
-  // }
-
-  function cartClick() {
+  function profileClick () {
     console.log("Profile pressed but I don't know what to do yet")
     dialog.value = true
-    dialogText.value = "Sorry again, I haven't done this yet."
-    dialogClicked()
+    dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
+    // dialogClicked()
   }
 
   function themeClick () {
@@ -148,20 +139,27 @@
     }
   }
 
-  // function heartClick() {
-  //   //animate some hearts and request a donation lol
-  //   if (heart.value == "❤️"){
-  //     heart.value=""
-  //   }
-  //   else{
-  //     heart.value="❤️"
-  //   }
-  // }
+  function heartClick() {
+    //animate some hearts and request a donation lol
+    if (heart.value == "❤️"){
+      heart.value=""
+    }
+    else{
+      heart.value="❤️"
+    }
+  }
 
   function searchClick(){
     console.log("I have no idea how to integrate search functionality into Nuxt yet.")
     dialog.value = true
     dialogText.value = "Hello.  I don't know how to search yet.  Sorry"
-    dialogClicked()
+    // dialogClicked()
   }
 </script>
+
+<style>
+  .custom-class {
+    background: rgb(var(--v-theme-custcard));
+    color: rgba(var(--v-theme-on-custcard), 0.9);
+  }
+</style>
