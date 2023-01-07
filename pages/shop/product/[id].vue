@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
+    {{ $route.params }}
     <!-- Requires a Product ID -->
     <!-- Requires a Shop ID  -->
     <!-- This is the product specific page based on the name passed in through the url.
