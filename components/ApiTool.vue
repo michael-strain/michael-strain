@@ -18,10 +18,12 @@
       return values;
   });
 
-  const { data:cafes, pending, refresh } = await useLazyAsyncData(
-      'cafes',
-      () => $fetch( `https://api.roastandbrew.coffee/cafes${queryString.value}`)
-  )
+  async function lazyData() {
+    const { data:cafes, pending, refresh } = await useLazyAsyncData(
+        'cafes',
+        () => $fetch( `https://api.roastandbrew.coffee/cafes${queryString.value}`)
+    )
+  }
 
   // When query string changes, refresh
   watch(() => queryString.value, () => refresh() );
