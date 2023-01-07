@@ -129,6 +129,17 @@ import {ref} from 'vue'
 //   layout: "shop",
 // });
 
+const products = ref([
+  {
+    uuid: 'test-test-test-test-00001',
+    name: 'Test Product 1',
+    description: 'This is an example of a product (1)',
+    price: 1.01,
+    photoUrl: '/img/gold-at-the-end-of-the-rainbow.jpg'
+
+  }
+])
+
 function heartClick(){
   console.log("Heart was clicked")
 }
