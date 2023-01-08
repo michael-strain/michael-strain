@@ -55,12 +55,12 @@
                   lazy
                 >
               </NuxtLink>
-              <v-card-title class="bg-gray-100 text-wrap max-width-full justify-center text-center align-center">
+              <v-card-title class="text-wrap max-width-full justify-center text-center align-center">
                 <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
                   {{ item.title }}
                 </p>
               </v-card-title>
-              <div class="bg-gray-100 d-flex items-center justify-center text-center align-center m-0">
+              <div class="d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
                     icon
