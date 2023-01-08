@@ -31,7 +31,7 @@
         </li>
       </ul>
 
-      <v-btn @click="refreshAll">
+      <v-btn @click="refreshAll()">
         Refetch All Data
       </v-btn>
 
@@ -43,8 +43,8 @@
 
         <div v-else class="flex flex-wrap items-center align-center justify-center w-full">
           <div
-            v-for="(item, index) in products.data"
-            :key="index"
+            v-for="(item, product) in products.data"
+            :key="product"
             class="flex items-center align-center justify-center"
           >
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
@@ -108,6 +108,31 @@
 // Need to loop through images with arrow buttons
 import {ref} from 'vue'
 
+const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
+
+const opts = {
+  method: 'GET',
+  mode: 'no-cors',
+  headers: {
+    Authorization: `Bearer ${apiKey}`,
+    'Access-Control-Allow-Origin': '*',
+  },
+};
+
+const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {lazy: true, server:true,watch:true})
+const refreshAll = () => refreshNuxtData('products')
+// const refreshing = ref(false)
+// const refreshAll = async() => {
+//   refreshing.value = true
+//   try{
+//     await refreshNuxtData()
+//   } finally {
+//     refreshing.value = false
+//   }
+// }
+
+
+// Need to make leftArrow and rightArrow functions that rotate each item's images
 var imageNum = ref(0)
 
 definePageMeta({
@@ -115,16 +140,16 @@ definePageMeta({
 })
 
 function heartClick(){
-  console.log("Heart was clicked")
+  // console.log("Heart was clicked")
 }
 
 function leftArrow(item){
-  console.log("Left arrow clicked")
+  // console.log("Left arrow clicked")
   imageNum.value = imageNum.value > 0 ? imageNum.value-=1 : imageNum.value=item.images.length;
 }
 
 function rightArrow(item){
-  console.log("Right arrow clicked")
+  // console.log("Right arrow clicked")
   imageNum.value = item.images.length > imageNum.value ? imageNum.value+=1 : imageNum.value=0;
 }
 
@@ -133,12 +158,9 @@ const show = ref(true)
 
 // This is where the fun begins
 const shopId = '6483145'
-const baseUrl = `https://api.printify.com/v1/shops/${shopId}`
-const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
-const scopes = ['shops.manage','shops.read','catalog.read','orders.read','orders.write','products.read','products.write','webhooks.read','webhooks.write','uploads.read','uploads.write','print_providers.read']
-const getProductsQuery = `/products.json` //limit and page params available
-const params = ref('')
-const query = baseUrl+params.value
+const baseUrl = `https://api.printify.com/v1/shops/${shopId}/products.json`
+// const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
+// const scopes = ['shops.manage','shops.read','catalog.read','orders.read','orders.write','products.read','products.write','webhooks.read','webhooks.write','uploads.read','uploads.write','print_providers.read']
 
 
 // const search = useState('search','');
@@ -152,12 +174,8 @@ const query = baseUrl+params.value
 //     return values;
 // });
 
-const options = {
-    headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Access-Control-Allow-Origin': '*',
-    },
-};
+// AI Suggested this one, will try next
+// const { pending, data: products, refresh } = useAsyncData('products',()=>$fetch(`${baseUrl}${getProductsQuery}`, options))
 
 //This works...  Sorta
 // const { pending, data: products, refresh } = useLazyAsyncData('products',()=>$fetch(`${baseUrl}${getProductsQuery}`, options))
@@ -168,21 +186,53 @@ const options = {
 // Apparently the printify api server is having a hard time with the way nuxy refreshes data
 // Something about the cross origin policy being set to strict
 // Need more research to solve?
-let { data : products, pending, refresh, error, execute } = await useLazyAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', options))
 
-const refreshAll = async() => {
-  try{
-    pending=true
-    await refreshNuxtData('products')
-    // await refreshNuxtData()
-  } finally {
-    //refresh()
-    pending=false
-    console.log("yay?")
-  }
-}
 
-watch(products, ()=>{console.log(products)})
+
+
+//THIS IS THE BEST WORKING VERSION OF THIS SO FAR BUT IT STILL DOESN'T WORK
+// set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+// const options = {
+//   method: 'GET',
+//   mode: 'no-cors',
+//   headers: {
+//     Authorization: `Bearer ${apiKey}`,
+//   },
+// };
+// const { data : p, pending, refresh, error, execute } = await useLazyAsyncData('p',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', options))
+
+// // create reactive variables to store the data
+// const products = ref(p)
+// const err = ref(error)
+// const exec = ref(execute)
+
+
+
+// const refreshAll = async() => {
+//   try{
+//     pending=true
+//     await refreshNuxtData('products')
+//     // await refreshNuxtData()
+//   } finally {
+//     //refresh()
+//     pending=false
+//     console.log("yay?")
+//   }
+// }
+
+// create an asynchronous function to fetch the data
+// const fetchProducts = async () => {
+//   // set the pending state to true
+//   pending = true
+//   // fetch the data
+//   const response = await $fetch(`${baseUrl}${getProductsQuery}`, options)
+//   // set the data
+//   products = response
+//   // set the pending state to false
+//   pending = false
+// }
+
+// watch(products, ()=>{console.log(products)})
 
 //This worked okay but still has major issues
 // let refreshing = ref(false)
