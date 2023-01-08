@@ -47,14 +47,23 @@
             :key="index"
             class="flex items-center align-center justify-center"
           >
-            <v-card class="bg-white w-80 text-wrap rounded-xl border shadow-md flex m-5 p-2">
+            <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
+              
               <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
                   :src="`${item.images[imageNum].src}`"
                   class="h-64 mx-auto"
                   lazy
                 >
+                
+                
+              
               </NuxtLink>
+              
+              <v-card class="bg-transparent">
+                <p :style="{fontFamily: 'Roboto Slab'}" class="text-green-400 pr-4 pb-4 text-3xl float-right">$$$</p>
+              </v-card>
+
               <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
                 <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
                   {{ item.title }}
