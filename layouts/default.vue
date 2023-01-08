@@ -198,8 +198,8 @@
 </script>
 
 <style>
-  .custom-class {
+  /* .custom-class {
     background: rgb(var(--v-theme-custcard));
     color: rgba(var(--v-theme-on-custcard), 0.9);
-  }
+  } */
 </style>

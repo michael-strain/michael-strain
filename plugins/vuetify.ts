@@ -23,8 +23,8 @@ const myCustomLightTheme = {
 const myCustomDarkTheme = {
   dark: true,
   colors:{
-    background: '#1e293b',
-    surface: '#0f172a',
+    background: '#505050',
+    surface: '#151515',
     primary: '#6200EE',
     'primary-darken-1': '#3700B3',
     secondary: '#03DAC6',
@@ -33,7 +33,7 @@ const myCustomDarkTheme = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
-    custcard: '#1e293b',
+    custcard: '#252525',
   }
 }
 
