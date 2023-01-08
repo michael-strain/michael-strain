@@ -5,7 +5,7 @@
     <div class="w-full p-0 m-0">
       <NuxtLink to="/shop">
         <h3
-          class="justify-center text-center align-center font-bold text-5xl mb-10"
+          class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
           :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
         >
           SHOP
@@ -47,7 +47,7 @@
             :key="index"
             class="flex items-center align-center justify-center"
           >
-            <v-card class="w-80 text-wrap rounded-xl border shadow-md flex m-5 p-2">
+            <v-card class="bg-white w-80 text-wrap rounded-xl border shadow-md flex m-5 p-2">
               <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
                   :src="`${item.images[imageNum].src}`"
@@ -55,12 +55,12 @@
                   lazy
                 >
               </NuxtLink>
-              <v-card-title class="text-wrap max-width-full justify-center text-center align-center">
+              <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
                 <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
                   {{ item.title }}
                 </p>
               </v-card-title>
-              <div class="d-flex items-center justify-center text-center align-center m-0">
+              <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
                     icon
