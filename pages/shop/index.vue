@@ -47,41 +47,45 @@
             :key="index"
             class="flex items-center align-center justify-center"
           >
-            <NuxtLink :to="`/shop/product/${item.id}`">
-              <v-card class="w-80 text-wrap rounded-xl border shadow-md flex m-5 p-2">
+            <v-card class="w-80 text-wrap rounded-xl border shadow-md flex m-5 p-2">
+              <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
-                  :src="`${item.images[0].src}`"
+                  :src="`${item.images[imageNum].src}`"
                   class="h-64 mx-auto"
+                  lazy
                 >
-                <v-card-title class="bg-gray-100 text-wrap max-width-full justify-center text-center align-center">
-                  <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
-                    {{ item.title }}
-                  </p>
-                </v-card-title>
-                <div class="bg-gray-100 d-flex items-center justify-center text-center align-center m-0">
-                  <v-card-actions>
-                    <v-btn
-                      icon
-                      @click="leftArrow"
-                    >
-                      <v-icon icon="mdi-chevron-left" />
-                    </v-btn>
-                    <v-btn
-                      icon
-                      @click="show = !show; heartClick()"
-                    >
-                      <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
-                    </v-btn>
-                    <v-btn
-                      icon
-                      @click="rightArrow"
-                    >
-                      <v-icon icon="mdi-chevron-right" />
-                    </v-btn>
-                  </v-card-actions>
-                </div>
-              </v-card>
-            </NuxtLink>
+              </NuxtLink>
+              <v-card-title class="bg-gray-100 text-wrap max-width-full justify-center text-center align-center">
+                <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
+                  {{ item.title }}
+                </p>
+              </v-card-title>
+              <div class="bg-gray-100 d-flex items-center justify-center text-center align-center m-0">
+                <v-card-actions>
+                  <v-btn
+                    icon
+                    @click="leftArrow(item)"
+                  >
+                    <v-icon icon="mdi-chevron-left" />
+                  </v-btn>
+
+                  <!-- TODO -->
+                  <!-- Need to add a function to immediately add this item to the cart -->
+                  <v-btn
+                    icon
+                    @click="show = !show; heartClick()"
+                  >
+                    <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
+                  </v-btn>
+                  <v-btn
+                    icon
+                    @click="rightArrow(item)"
+                  >
+                    <v-icon icon="mdi-chevron-right" />
+                  </v-btn>
+                </v-card-actions>
+              </div>
+            </v-card>
           </div> 
         </div> <!-- End of First Row-->
       </div>
@@ -91,7 +95,11 @@
 
 
 <script setup>
+// Need a price box on the bottom right of the product
+// Need to loop through images with arrow buttons
 import {ref} from 'vue'
+
+var imageNum = ref(0)
 
 definePageMeta({
   key:'products'
@@ -101,12 +109,14 @@ function heartClick(){
   console.log("Heart was clicked")
 }
 
-function leftArrow(){
+function leftArrow(item){
   console.log("Left arrow clicked")
+  imageNum.value = imageNum.value > 0 ? imageNum.value-=1 : imageNum.value=item.images.length;
 }
 
-function rightArrow(){
+function rightArrow(item){
   console.log("Right arrow clicked")
+  imageNum.value = item.images.length > imageNum.value ? imageNum.value+=1 : imageNum.value=0;
 }
 
 const show = ref(true)
