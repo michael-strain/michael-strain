@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
 
+<!--Investment Category-->
 <v-card class="m-15">
     <div class="m-5 text-2xl">Investing</div>
     <v-expansion-panels variant="accordion">
@@ -91,36 +92,52 @@
     </v-expansion-panels>
   </v-card>
 
+<!--Store Faqs Category-->
 <v-card class="m-15">
-  <div class="m-5 text-2xl">Store</div>
+  <div class="m-5 text-2xl">Strain Store</div>
     <v-expansion-panels variant="accordion">
+      
+      <v-expansion-panel
+        title="Refund and Replacement Policy"
+        text="If you have an issue with your order, contact our support team directly within seven days of product delivery. Please provide a detailed description of your issue, accompanied by relevant photo or video evidence that support your case. Products are unique and produced to order, therefore, they are non-refundable."
+      ></v-expansion-panel>
 
       <v-expansion-panel
-        title="Question"
+        title="Shipping Costs and Delivery"
+        text="Each item has a shipping fee of $2. If the item total exceeds $20, the shipping cost will be waived. Shipping times are estimated average times and are in no way guaranteed. If your order takes more than ten days to be delivered, please contact our support team."
+      ></v-expansion-panel>
+
+      <v-expansion-panel
+        title="Incorrect Delivery Address"
+        text="If an order is returned to Printify due to an incorrect address, the User will be contacted by Printify Merchant Support to arrange a reshipment. The User will be liable for the reshipment costs once an updated address is provided and confirmed. Otherwise, packages will be donated after one week if Printify Merchant Support is not provided with a valid address for the reshipment. Reshipment costs include the original shipping cost of the product and a service fee of $4. The service fee covers any Charge On Delivery (C.O.D) fees that we get charged by the fulfillment operator and handling fees."
+      ></v-expansion-panel>
+
+      <v-expansion-panel
+        title="Payment Processing"
         text="Answer"
       ></v-expansion-panel>
 
       <v-expansion-panel
-        title="Question"
-        text="Answer"
+        title="Contact Strain Store Support"
+        text="For any questions, comments, or concerns, please send an email to ashley.n.strain@gmail.com."
       ></v-expansion-panel>
-
+      
       <v-expansion-panel
         title="Question"
         text="Answer"
       ></v-expansion-panel>
-
+      
       <v-expansion-panel
         title="Question"
         text="Answer"
       ></v-expansion-panel>
-
+      
     </v-expansion-panels>
-  </v-card>
+</v-card>
 
-  <div class="mt-100"></div>
-<!-- 
-  <v-card class="m-2">
+
+  <!-- Michael's Text--> 
+  <!-- <v-card class="m-2">
     <div class="m-4">
       <h1>General Questions</h1>
       <h2>Are the tax benefits the same with the new non-accredited vehicle and the accredited vehicles?</h2>
@@ -197,5 +214,5 @@
       <h2>Is there risk involved?</h2>
       <p>All investments involve risk.  We do not guarantee that you will earn our targeted returns.  There are many factors that can impact the performance of your investment, many of which are not under our control.  Please keep in mind, investing involves risk and may result in partial or total loss of your investment.  Prospective investors should carefully consider investment objectives, risks, charges, and expenses, and should consult with a tax or legal adviser before making any investment decision.  We do believe that investing in private real estate poses less risk than many other types of investments.  Private real estate has historically been less volatile than the stock market, and properties generally appreciate over time as inflation tends to push rents up.  Additionally, we conduct extensive research and due diligence on every property investment and have a high degree of conviction that our risk is balanced with our targeted returns.  Michael personally believes in the potential return of each of our investments.  During Michael's real estate career, he has never lost money with a real estate investment.</p>
     </div>
-  </v-card> -->
+  </v-card> --> -->
 </template>
