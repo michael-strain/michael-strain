@@ -69,6 +69,7 @@
                   {{ item.title }}
                 </p>
               </v-card-title>
+              
               <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
