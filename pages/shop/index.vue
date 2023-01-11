@@ -140,6 +140,7 @@ const { data:products, pending, refresh } = useLazyFetch('https://api.printify.c
 
 const store = useProductDataStore()
 store.$patch({products: products})
+console.log(store.products)
 
 
 // const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {watch:true}) // lazy: true, server:true, refresh:true?

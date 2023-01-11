@@ -3,13 +3,14 @@
   <div>
     <!--{{ $route.params }} -->
     {{ $route.params.id }} 
-    {{ store.products }}
-    {{ }}
+    {{ productTitle }}
+    <!-- {{ store.products }} -->
     <!-- Requires a Product ID -->
     <!-- Requires a Shop ID  -->
     <!-- This is the product specific page based on the name passed in through the url.
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
+    <a href="/shop">Back to Shop</a>
     
     <v-container>
       <v-row dense>
@@ -27,7 +28,7 @@
                     :style="{fontFamily: 'Roboto Slab'}"
                     class="text-wrap text-4xl m-3"
                   >
-                    Item Title
+                    {{ productTitle }}
                   </p>
                 </v-card-title>
 
@@ -68,12 +69,35 @@
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useProductDataStore } from '~~/stores/productData';
 
-const store = useProductDataStore()
+// It's possibly (more likely) that we should be fetching our data from the api instead of a product data store... but i want to be efficient! idk what to do :'(
 
-const product = ref(store.products.filter(function (entry) {return entry.data.id===$route.params.id}))
+const store = useProductDataStore()
+const route = useRoute()
+
+//for items in store.products.data
+//if item.id == $route.params.id
+//then set product to item
+
+
+for(let i = 0; i < store.products.data.length; i++){
+  if (store.products.data[i].id == route.params.id){
+    const product = ref(store.products.data[i])
+    const productTitle = ref(product.value.title)
+    console.log(productTitle.value)
+  } else {continue}
+}
+
+// for(let i = 0; i < store.products.data.length; i++){
+//   if(store.products.data[i].id == route.params.id){
+//     const product = ref(store.products.data[i])
+//     console.log(product.value)
+//     const productTitle = ref(product.value.title)
+//     break
+//   }
+// }
 
 // Check this out for setting a nuxt api call to make unique id's using a counter
 // https://nuxt.com/docs/getting-started/data-fetching#example-2
