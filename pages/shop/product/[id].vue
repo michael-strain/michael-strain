@@ -10,8 +10,62 @@
     <!-- This is the product specific page based on the name passed in through the url.
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
+    
+    <v-container>
+      <v-row dense>
+        <v-col cols="12">
+          <div class="flex flex-wrap items-center align-center justify-center">
+            <v-card class="bg-white w-100 text-wrap rounded-xl border flex m-5 p-2">
+              <v-img
+                class="w-50 float-left"
+                src="/img/bright-red-unusual-flower.jpg"
+              />
+
+              <div class="w-50 float-right">
+                <v-card-title class="bg-surface text-wrap justify-center">
+                  <p
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-wrap text-4xl m-3"
+                  >
+                    Item Title
+                  </p>
+                </v-card-title>
+
+                <v-card-subtitle
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="m-3 text-wrap"
+                >
+                  <p class="text-2xl">
+                    Item description
+                  </p>
+                </v-card-subtitle>
+                
+                <v-card-actions>
+                  <v-btn
+                    class="text-wrap ml-5"
+                    variant="outlined"
+                    :style="{fontFamily: 'Roboto Slab'}"
+                  >
+                    <p class="text-base">
+                      Add to Cart
+                    </p>
+                  </v-btn>
+                </v-card-actions>
+              </div>
+            </v-card>
+          </div> 
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
+
+
+
+
+
+
+
 
 <script setup>
 import { ref } from 'vue'
