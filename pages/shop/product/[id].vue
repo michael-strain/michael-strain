@@ -1,7 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    {{ $route.params }}
+    <!--{{ $route.params }} -->
+    {{ $route.params.id }} 
+    {{ store.products }}
+    {{ }}
     <!-- Requires a Product ID -->
     <!-- Requires a Shop ID  -->
     <!-- This is the product specific page based on the name passed in through the url.
@@ -12,6 +15,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useProductDataStore } from '~~/stores/productData';
+
+const store = useProductDataStore()
+
+const product = ref(store.products.filter(function (entry) {return entry.data.id===$route.params.id}))
 
 // Check this out for setting a nuxt api call to make unique id's using a counter
 // https://nuxt.com/docs/getting-started/data-fetching#example-2

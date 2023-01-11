@@ -28,11 +28,11 @@
                     <v-icon start icon="mdi-room-service-outline" />Services<v-icon end icon="mdi-room-service-outline" />
                   </v-btn>
                 </NuxtLink>
-                <NuxtLink to="/shop">
+                <a href="/shop">
                   <v-btn block class="m-2 btnc2">
                     <v-icon start icon="mdi-store" />Shop<v-icon end icon="mdi-store" />
                   </v-btn>
-                </NuxtLink>
+                </a>
                 <NuxtLink to="/investors">
                   <v-btn block class="m-2 btnc3">
                     <v-icon start icon="mdi-chart-areaspline" />Invest<v-icon end icon="mdi-chart-areaspline" />
