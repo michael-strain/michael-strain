@@ -11,32 +11,34 @@
     <v-container>
       <v-row dense>
         <v-col cols="12">
-          <div class="flex flex-wrap items-center align-center justify-center">
+          <div class="flex flex-wrap">
             <v-card class="bg-white w-100 text-wrap rounded-xl border flex m-5 p-2">
               <v-img
-                class="w-50 float-left"
+                class="sm:w-100 flex w-50 sm:float-left"
                 src="/img/bright-red-unusual-flower.jpg"
               />
 
-              <div class="w-50 float-right">
-                <v-card-title class="bg-surface text-wrap justify-center">
+              <div class="sm:w-100 float-left sm:float-none">
+                <v-card-title class="bg-surface">
                   <p
                     :style="{fontFamily: 'Roboto Slab'}"
                     class="text-wrap text-4xl m-3"
                   >
-                    Item Title
+                    What Happens If There Is A Long Item Title
                   </p>
                 </v-card-title>
 
                 <v-card-subtitle
                   :style="{fontFamily: 'Roboto Slab'}"
-                  class="m-3 text-wrap"
+                  class="text-wrap"
                 >
-                  <p class="text-2xl">
-                    Item description
+                  <p class="text-2xl p-3">
+                    Detailed artwork is printed and laminated on sturdy chipboard backing for a glossy finish. Each box includes a reference print to easily put the puzzle together.
                   </p>
                 </v-card-subtitle>
                 
+                <!-- Make button green -->
+
                 <v-card-actions>
                   <v-btn
                     class="text-wrap ml-5"
