@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         'nuxt-windicss',
         '@pinia/nuxt',
         '@nuxt/content',
+        '@nuxtjs/web-vitals',
     ],
     css:[
         'vuetify/lib/styles/main.sass',
@@ -16,6 +17,16 @@ export default defineNuxtConfig({
     ],
     build:{
         transpile:['vuetify'],
+    },
+    // routes:{
+    //     '/':{ prerender: true },
+    //     '/*':{ cors: true },
+    // },
+    webVitals: {
+        // provider: '', // auto detectd
+        debug: true,
+        disabled: true,
+        // ga: { id: 'UA-XXXXXXXXX-X' }
     },
     vite:{
         define:{

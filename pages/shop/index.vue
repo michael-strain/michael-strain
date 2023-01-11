@@ -18,22 +18,30 @@
         :style="{fontFamily: 'Roboto Slab'}"
       >
         <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/puzzles">PUZZLES</NuxtLink>
+          <NuxtLink to="/shop/products/puzzles">
+            PUZZLES
+          </NuxtLink>
         </li>
         <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/towels">TOWELS</NuxtLink>
+          <NuxtLink to="/shop/products/towels">
+            TOWELS
+          </NuxtLink>
         </li>
         <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/cups">CUPS</NuxtLink>
+          <NuxtLink to="/shop/products/cups">
+            CUPS
+          </NuxtLink>
         </li>
         <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop">ALL</NuxtLink>
+          <NuxtLink to="/shop">
+            ALL
+          </NuxtLink>
         </li>
       </ul>
 
-      <v-btn @click="refreshAll()">
+      <!-- <v-btn @click="refreshAll()">
         Refetch All Data
-      </v-btn>
+      </v-btn> -->
 
       <div class="flex flex-wrap items-center align-center justify-center">
         <!-- New card demo -->
@@ -41,31 +49,38 @@
           Loading . . .
         </div> <!--Animate this of course-->
 
-        <div v-else class="flex flex-wrap items-center align-center justify-center w-full">
+        <div
+          v-else
+          class="flex flex-wrap items-center align-center justify-center w-full"
+        >
           <div
             v-for="(item, product) in products.data"
             :key="product"
             class="flex items-center align-center justify-center"
           >
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
-              
               <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
                   :src="`${item.images[imageNum].src}`"
                   class="h-64 mx-auto"
                   lazy
                 >
-                
-                
-              
               </NuxtLink>
               
               <v-card class="bg-transparent">
-                <p :style="{fontFamily: 'Roboto Slab'}" class="text-green-400 pr-4 pb-4 text-3xl float-right">$$$</p>
+                <p
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="text-green-400 pr-4 pb-4 text-3xl float-right"
+                >
+                  $$$
+                </p>
               </v-card>
 
               <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
-                <p :style="{fontFamily: 'Roboto Slab'}" class="text-wrap text-2xl">
+                <p
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="text-wrap text-2xl"
+                >
                   {{ item.title }}
                 </p>
               </v-card-title>
@@ -108,20 +123,28 @@
 // Need a price box on the bottom right of the product
 // Need to loop through images with arrow buttons
 import {ref} from 'vue'
+import { useProductDataStore } from '~~/stores/productData';
 
 const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
 
 const opts = {
   method: 'GET',
-  mode: 'no-cors',
+  // mode: 'no-cors',
   headers: {
-    Authorization: `Bearer ${apiKey}`,
+    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
     'Access-Control-Allow-Origin': '*',
   },
 };
 
-const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {lazy: true, server:true,watch:true})
-const refreshAll = () => refreshNuxtData('products')
+const { data:products, pending, refresh } = useLazyFetch('https://api.printify.com/v1/shops/6483145/products.json', opts, { lazy: true })
+
+const store = useProductDataStore()
+store.$patch({products: products})
+console.log(store.products)
+
+
+// const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {watch:true}) // lazy: true, server:true, refresh:true?
+// const refreshAll = () => refreshNuxtData('products')
 // const refreshing = ref(false)
 // const refreshAll = async() => {
 //   refreshing.value = true
