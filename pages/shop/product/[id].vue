@@ -3,7 +3,7 @@
   <div>
     <!--{{ $route.params }} -->
     {{ $route.params.id }} 
-    {{ productTitle }}
+    <!-- {{ productTitle }} -->
     <!-- {{ store.products }} -->
     <!-- Requires a Product ID -->
     <!-- Requires a Shop ID  -->
@@ -12,23 +12,60 @@
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
     <a href="/shop">Back to Shop</a>
     
-    <v-container>
+    <NuxtLink to="/shop">
+      <h3
+        class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
+        :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+      >
+        SHOP
+      </h3>
+    </NuxtLink>
+      
+    <!--Quick Links-->
+    <ul
+      class="text-green-400 m-5 text-lg flex flex-wrap justify-center text-center align-center text-lg"
+      :style="{fontFamily: 'Roboto Slab'}"
+    >
+      <li class="m-3 hover:text-green-600">
+        <NuxtLink to="/shop/products/puzzles">
+          PUZZLES
+        </NuxtLink>
+      </li>
+      <li class="m-3 hover:text-green-600">
+        <NuxtLink to="/shop/products/towels">
+          TOWELS
+        </NuxtLink>
+      </li>
+      <li class="m-3 hover:text-green-600">
+        <NuxtLink to="/shop/products/cups">
+          CUPS
+        </NuxtLink>
+      </li>
+      <li class="m-3 hover:text-green-600">
+        <NuxtLink to="/shop">
+          ALL
+        </NuxtLink>
+      </li>
+    </ul>
+
+    <v-container class="">
       <v-row dense>
         <v-col cols="12">
           <div class="flex flex-wrap">
-            <v-card class="bg-white w-100 text-wrap rounded-xl border flex m-5 p-2">
+            <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
               <v-img
-                class="sm:w-100 flex w-50 sm:float-left"
+                class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
                 src="/img/bright-red-unusual-flower.jpg"
               />
 
-              <div class="sm:w-100 float-left sm:float-none">
+              <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
                 <v-card-title class="bg-surface">
                   <p
                     :style="{fontFamily: 'Roboto Slab'}"
                     class="text-wrap text-4xl m-3"
                   >
-                    {{ productTitle }}
+                    Product Title
+                    <!-- {{ productTitle }} -->
                   </p>
                 </v-card-title>
 
@@ -36,16 +73,22 @@
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-wrap"
                 >
-                  <p class="text-2xl p-3">
+                  <p class="text-2xl p-3 pt-5">
                     Detailed artwork is printed and laminated on sturdy chipboard backing for a glossy finish. Each box includes a reference print to easily put the puzzle together.
                   </p>
                 </v-card-subtitle>
                 
                 <!-- Make button green -->
 
-                <v-card-actions>
+                <v-card-actions class="pb-5">
+                  <p
+                    class="m-5 text-3xl font-semibold text-green-600"
+                    size="">
+                    $15
+                </p>
+
                   <v-btn
-                    class="text-wrap ml-5"
+                    class="text-wrap !text-green-400 !text-2xl hover:(!text-green-600)"
                     variant="outlined"
                     :style="{fontFamily: 'Roboto Slab'}"
                   >
@@ -84,13 +127,13 @@ const route = useRoute()
 //then set product to item
 
 
-for(let i = 0; i < store.products.data.length; i++){
-  if (store.products.data[i].id == route.params.id){
-    const product = ref(store.products.data[i])
-    const productTitle = ref(product.value.title)
-    console.log(productTitle.value)
-  } else {continue}
-}
+// for(let i = 0; i < store.products.data.length; i++){
+//   if (store.products.data[i].id == route.params.id){
+//     const product = ref(store.products.data[i])
+//     const productTitle = ref(product.value.title)
+//     console.log(productTitle.value)
+//   } else {continue}
+// }
 
 // for(let i = 0; i < store.products.data.length; i++){
 //   if(store.products.data[i].id == route.params.id){
