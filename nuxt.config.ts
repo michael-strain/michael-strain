@@ -8,6 +8,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxt/content',
         '@nuxtjs/web-vitals',
+        '@vueuse/nuxt',
     ],
     css:[
         'vuetify/lib/styles/main.sass',

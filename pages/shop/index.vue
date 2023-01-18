@@ -39,9 +39,9 @@
         </li>
       </ul>
 
-      <v-btn @click="refreshAll()">
+      <!-- <v-btn @click="refreshAll()">
         Refetch All Data
-      </v-btn>
+      </v-btn> -->
 
       <div class="flex flex-wrap items-center align-center justify-center">
         <!-- New card demo -->
@@ -54,7 +54,7 @@
           class="flex flex-wrap items-center align-center justify-center w-full"
         >
           <div
-            v-for="(item, product) in products.data"
+            v-for="(item, product) in store.productData.data"
             :key="product"
             class="flex items-center align-center justify-center"
           >
@@ -122,50 +122,38 @@
 <script setup>
 // Need a price box on the bottom right of the product
 // Need to loop through images with arrow buttons
-import {ref} from 'vue'
-import { useProductDataStore } from '~~/stores/productData';
+import { ref } from 'vue'
+import { useProductDataStore } from '~/stores/productData';
+import { storeToRefs } from 'pinia'
+// import { useCartStore } from '~/stores/cart';
 
-const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
-
-const opts = {
-  method: 'GET',
-  // mode: 'no-cors',
-  headers: {
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-    'Access-Control-Allow-Origin': 'https://localhost:3000',
-    'User-Agent': 'Michael-Strain Nuxt App'
-  },
-};
-
-// const currentId = ref(1);
-const shopId = ref(6483145);
-const url = computed(() =>
-  `https://api.printify.com/v1/shops/${shopId.value}/products.json`
-);
-
-// const url = computed(() =>
-//   `https://api.printify.com/v1/shops/6483145/products/${currentId.value}.json`
-// );
-
-const { data:products, pending } = useFetch(url, opts, { pick: ["data"], lazy: true })
+const url = 'https://api.printify.com/v1/shops/6483145/products.json'
+const products = ref([])
+const pending = ref(true)
 
 const store = useProductDataStore()
-store.$patch({products: products})
-console.log(store.products)
-
-
-// const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {watch:true}) // lazy: true, server:true, refresh:true?
-// const refreshAll = () => refreshNuxtData('products')
-// const refreshing = ref(false)
-// const refreshAll = async() => {
-//   refreshing.value = true
-//   try{
-//     await refreshNuxtData()
-//   } finally {
-//     refreshing.value = false
-//   }
-// }
-
+if (store.productData != null && store.productData.data.length > 0) {
+  console.log("Products are in store")
+  products.value = storeToRefs(store.productData.data)
+  pending.value = false
+} else {
+  console.log("Products are not in store")
+  const opts = {
+    method: 'GET',
+    // mode: 'no-cors',
+    headers: {
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
+      // 'Access-Control-Allow-Origin': 'https://localhost:3000',
+      'User-Agent': 'Michael-Strain Nuxt App'
+    },
+  };
+  const { data:productive, pending:penis } = useFetch(url, opts)
+  pending.value = penis
+  // { pick: ["data"] }
+  store.$patch({productData: productive})
+  products.value = storeToRefs(store.productData.data)
+  // products.value = storeToRefs(store.productData.products.data)
+}
 
 // Need to make leftArrow and rightArrow functions that rotate each item's images
 var imageNum = ref(0)
@@ -198,32 +186,6 @@ const show = ref(true)
 // const scopes = ['shops.manage','shops.read','catalog.read','orders.read','orders.write','products.read','products.write','webhooks.read','webhooks.write','uploads.read','uploads.write','print_providers.read']
 
 
-// const search = useState('search','');
-// const page = useState('page',1);
-// const search = ref('')
-// const page = ref(1)
-
-// const queryString = computed(() => {
-//     let values = '?page='+page.value+'&limit=9';
-//     values += search.value != '' ? '&search='+search.value:'';
-//     return values;
-// });
-
-// AI Suggested this one, will try next
-// const { pending, data: products, refresh } = useAsyncData('products',()=>$fetch(`${baseUrl}${getProductsQuery}`, options))
-
-//This works...  Sorta
-// const { pending, data: products, refresh } = useLazyAsyncData('products',()=>$fetch(`${baseUrl}${getProductsQuery}`, options))
-// watch(products, (newProduct) => {})
-
-//This is new and also works sorta... looks like the current issue
-// Is related to CORS
-// Apparently the printify api server is having a hard time with the way nuxy refreshes data
-// Something about the cross origin policy being set to strict
-// Need more research to solve?
-
-
-
 
 //THIS IS THE BEST WORKING VERSION OF THIS SO FAR BUT IT STILL DOESN'T WORK
 // set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
@@ -236,80 +198,8 @@ const show = ref(true)
 // };
 // const { data : p, pending, refresh, error, execute } = await useLazyAsyncData('p',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', options))
 
-// // create reactive variables to store the data
-// const products = ref(p)
-// const err = ref(error)
-// const exec = ref(execute)
-
-function refreshAll() {refreshNuxtData('products')}
-
-// const refreshAll = async() => {
-//   try{
-//     pending=true
-//     await refreshNuxtData('products')
-//     // await refreshNuxtData()
-//   } finally {
-//     //refresh()
-//     pending=false
-//     console.log("yay?")
-//   }
-// }
-
-// create an asynchronous function to fetch the data
-// const fetchProducts = async () => {
-//   // set the pending state to true
-//   pending = true
-//   // fetch the data
-//   const response = await $fetch(`${baseUrl}${getProductsQuery}`, options)
-//   // set the data
-//   products = response
-//   // set the pending state to false
-//   pending = false
-// }
-
-// watch(products, ()=>{console.log(products)})
-
-//This worked okay but still has major issues
-// let refreshing = ref(false)
-// let refreshAll = async () => {
-//   refreshing.value = true
-//   try {
-//     await refreshNuxtData('products')
-//   } finally {
-//     pending = false
-//     refreshing.value = false
-//   }
-// }
-// let {data: products, pending } = await useLazyFetch(`${baseUrl}${getProductsQuery}`, options)
-// watch(products, () => {
-  // const ps = products.data
-  // products = products
-// })
-
-
-// const { data, pending, error, refresh } = await useLazyAsyncData(
-//     'products',
-//     ()=> useFetch(`${baseUrl}${queryString.value}`)
-// )
-
-// watch(()=>queryString.value,()=>refresh())
-
-
-// const { data, pending, error, refresh } = ref(
-//   async function getProducts( q ){
-//     await useFetch(query), {
-//       method: 'GET',
-//       // body: params.value,
-//       headers:{
-//         'Authorization': `Bearer ${apiKey}`,
-
-//       }
-//     }
-//   }
-// )
-
-
-
+// function refreshAll() {refreshNuxtData('products')}
+// function refreshProducts() {refreshNuxtData('products')}
 //
 //  Now we are going to specify required inputs for the queries
 //

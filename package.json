@@ -22,6 +22,8 @@
     "@nuxtjs/google-fonts": "^2.0.0",
     "@nuxtjs/web-vitals": "^0.2.2",
     "@pinia/nuxt": "^0.4.6",
+    "@vueuse/core": "^9.11.0",
+    "@vueuse/nuxt": "^9.11.0",
     "nuxi": "^3.0.0",
     "pinia": "^2.0.28",
     "sass": "^1.57.1",
