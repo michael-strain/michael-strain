@@ -82,23 +82,105 @@
       </v-app-bar>
 
       <!-- Shopping Cart -->
+      <!--MAKE FONT ROBOTO-->
       <v-navigation-drawer
         v-model="drawer"
         temporary
         location="right"
+        class="pl-2 pr-2"
       >
-        <v-list-item
-          title="Shopping Cart"
-          class="text-center"
-        />
+        <p class="text-center text-2xl pt-3 pb-3">
+          Shopping Cart
+        </p>
 
         <v-divider />
 
         <v-list
-          density="compact"
           nav
         >
-          Stuff will go here!
+          <div>
+            <img
+              src="img/bright-red-unusual-flower.jpg"
+            >
+            <div>
+              <h4 class="text-2xl pt-3">
+                Item Name
+              </h4>
+              <div class="grid grid-cols-2">
+                <div class="grid grid-cols-3">
+                  <button class="text-center">
+                    -
+                  </button>
+                  <p class="text-center">
+                    11
+                  </p>
+                  <button class="text-center">
+                    +
+                  </button>
+                </div>
+                <div class="grid grid-col-3">
+                  <p class="text-right">
+                    $10.00
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="pt-4 pb-4 text-center">
+            ---Add Dividing Line Here---
+          </p>
+
+          <div>
+            <div>
+              <h4 class="text-2xl">
+                Subtotal
+              </h4>
+              <div>
+                <div class="grid grid-cols-2">
+                  <p>Item Cost</p>
+                  <div class="grid grid-col-2">
+                    <p class="text-right">
+                      $20.00
+                    </p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2">
+                  <p>Shipping</p>
+                  <div class="grid grid-col-2">
+                    <p class="text-right">
+                      $30.00
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="pt-4 pb-4 text-center">
+                  ---Add Dividing Line Here---
+                </p>
+                <p>---Make Buttons Side-By-Side---</p>
+                <v-btn
+                  class="text-wraptext hover:(!text-green-600)"
+                  variant="outlined"
+                  :style="{fontFamily: 'Roboto Slab'}"
+                >
+                  <p class="text-base">
+                    Check Out
+                  </p>
+                </v-btn>
+              </div>
+              <v-btn
+                class="text-wraptext hover:(!text-green-600)"
+                variant="outlined"
+                :style="{fontFamily: 'Roboto Slab'}"
+              >
+                <p class="text-base">
+                  X
+                </p>
+              </v-btn>
+            </div>
+          </div>
+
           <!-- <v-list-item
             prepend-icon="mdi-view-dashboard"
             title="Home"
