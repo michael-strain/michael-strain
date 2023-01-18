@@ -1,21 +1,117 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
 
-const opts = {
-  method: 'GET',
-  // mode: 'no-cors',
-  headers: {
-    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-    'Access-Control-Allow-Origin': '*',
-  },
-};
-
-
-export const useProductDataStore = defineStore('productData', {
-  state: () => {
-    return {
-      products: [],
-    }
-  },
+export const useProductDataStore = defineStore('productData', () => {
+  const productData = ref(
+    useLocalStorage("productData", {
+        data: [
+        //   {
+        //     id: "0",
+        //     title: "Loading",
+        //     description: "Loading",
+        //     tags: [
+        //         "Non-Existent",
+        //     ],
+        //     options: [
+        //         {
+        //             name: "There Aren't Any",
+        //             type: "null",
+        //             values: [
+        //                 {
+        //                     id: 0,
+        //                     title: "There Are No Options"
+        //                 }
+        //             ]
+        //         }
+        //     ],
+        //     variants: [
+        //         {
+        //             id: 0,
+        //             sku: "0",
+        //             cost: 999,
+        //             price: 1009,
+        //             title: "This Product is Not Loaded",
+        //             grams: 45300,
+        //             is_enabled: false,
+        //             is_default: true,
+        //             is_available: false,
+        //             options: [
+        //                 0
+        //             ]
+        //         }
+        //     ],
+        //     images: [
+        //         {
+        //             src: "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/145/mug-11oz.jpg",
+        //             variant_ids: [
+        //                 33719
+        //             ],
+        //             position: "front",
+        //             is_default: false
+        //         },
+        //         {
+        //             src: "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/146/mug-11oz.jpg",
+        //             variant_ids: [
+        //                 33719
+        //             ],
+        //             position: "other",
+        //             is_default: false
+        //         },
+        //         {
+        //             src: "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/147/mug-11oz.jpg",
+        //             variant_ids: [
+        //                 33719
+        //             ],
+        //             position: "other",
+        //             is_default: true
+        //         }
+        //     ],
+        //     created_at: "2023-01-17 23:14:00+00:00",
+        //     updated_at: "2023-01-17 13:14:00+00:00",
+        //     visible: true,
+        //     is_locked: false,
+        //     blueprint_id: 0,
+        //     user_id: 0,
+        //     shop_id: 6483145,
+        //     print_provider_id: 0,
+        //     print_areas: [
+        //         {
+        //             variant_ids: [
+        //                 0
+        //             ],
+        //             placeholders: [
+        //                 {
+        //                     position: "front",
+        //                     images: [
+        //                         {
+        //                             id: "5c7665205342af161e1cb26e",
+        //                             name: "Test.png",
+        //                             type: "image/png",
+        //                             height: 5850,
+        //                             width: 4350,
+        //                             x: 0.5,
+        //                             y: 0.5,
+        //                             scale: 1.01,
+        //                             angle: 0
+        //                         }
+        //                     ]
+        //                 }
+        //             ],
+        //             background: "#ffffff"
+        //         }
+        //     ],
+        //     sales_channel_properties: []    
+        // }
+        ],
+      },
+    )
+  )
+  return {
+    productData,
+  }
+});
+  // const products = computed(() => productData.value.products.data)},
+  // const products = ref([])
 
   // actions: {
   //   async fetchProducts() {
@@ -27,7 +123,9 @@ export const useProductDataStore = defineStore('productData', {
   //     refresh()
   //   }
   // },
-})
+  // getters: {
+  //     getProducts: (state) => state.products,
+  //   },
 
 // const { data: products, pending, refresh } = useLazyFetch('https://api.printify.com/v1/shops/6483145/products.json', opts, { lazy: true, server: true, refresh: true })
 // // const { data : products, pending } = await useAsyncData('products',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', opts), {watch:true}) // lazy: true, server:true, refresh:true?
