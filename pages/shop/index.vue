@@ -61,7 +61,7 @@
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
               <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
-                  :src="`${item.images[imageNum].src}`"
+                  :src="`${item.images[0].src}`"
                   class="h-64 mx-auto"
                   lazy
                 >
@@ -147,8 +147,8 @@ if (store.productData != null && store.productData.data.length > 0) {
       'User-Agent': 'Michael-Strain Nuxt App'
     },
   };
-  const { data:productive, pending:penis } = useFetch(url, opts)
-  pending.value = penis
+  const { data:productive, pending:penval } = useFetch(url, opts)
+  pending.value = penval
   // { pick: ["data"] }
   store.$patch({productData: productive})
   products.value = storeToRefs(store.productData.data)
@@ -156,11 +156,11 @@ if (store.productData != null && store.productData.data.length > 0) {
 }
 
 // Need to make leftArrow and rightArrow functions that rotate each item's images
-var imageNum = ref(0)
+// var imageNum = ref(0)
 
-definePageMeta({
-  key:'products'
-})
+// definePageMeta({
+//   key:'products'
+// })
 
 function heartClick(){
   // console.log("Heart was clicked")
@@ -178,155 +178,134 @@ function rightArrow(item){
 
 const show = ref(true)
 
-
-// This is where the fun begins
-// const shopId = '6483145'
-// const baseUrl = `https://api.printify.com/v1/shops/${shopId}/products.json`
-// const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
-// const scopes = ['shops.manage','shops.read','catalog.read','orders.read','orders.write','products.read','products.write','webhooks.read','webhooks.write','uploads.read','uploads.write','print_providers.read']
-
-
-
-//THIS IS THE BEST WORKING VERSION OF THIS SO FAR BUT IT STILL DOESN'T WORK
-// set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-// const options = {
-//   method: 'GET',
-//   mode: 'no-cors',
-//   headers: {
-//     Authorization: `Bearer ${apiKey}`,
-//   },
-// };
-// const { data : p, pending, refresh, error, execute } = await useLazyAsyncData('p',()=>$fetch('https://api.printify.com/v1/shops/6483145/products.json', options))
-
 // function refreshAll() {refreshNuxtData('products')}
-// function refreshProducts() {refreshNuxtData('products')}
+function refreshProducts() {refreshNuxtData('productive')}
 //
-//  Now we are going to specify required inputs for the queries
 //
-const exampleResponse = {
-    "current_page": 1,
-    "data": [
-        {
-            "id": "5d39b159e7c48c000728c89f",
-            "title": "Mug 11oz",
-            "description": `"Perfect for coffee, tea and hot chocolate, this classic shape white, durable 
-            ceramic mug in the most popular size. High quality sublimation printing makes it an 
-            appreciated gift to every true hot beverage lover.Perfect for coffee, tea and hot 
-            chocolate, this classic shape white, durable ceramic mug in the most popular size. 
-            High quality sublimation printing makes it an appreciated gift to every true hot beverage lover. 
-            .: White ceramic
-            .: 11 oz (0.33 l)
-            .: Rounded corners
-            .: C-Handle"`,
-            "tags": [
-                "Home & Living",
-                "Mugs",
-                "11 oz",
-                "White base",
-                "Sublimation"
-            ],
-            "options": [
-                {
-                    "name": "Sizes",
-                    "type": "size",
-                    "values": [
-                        {
-                            "id": 1189,
-                            "title": "11oz"
-                        }
-                    ]
-                }
-            ],
-            "variants": [
-                {
-                    "id": 33719,
-                    "sku": "866366009",
-                    "cost": 516,
-                    "price": 860,
-                    "title": "11oz",
-                    "grams": 460,
-                    "is_enabled": true,
-                    "is_default": true,
-                    "is_available": true,
-                    "options": [
-                        1189
-                    ]
-                }
-            ],
-            "images": [
-                {
-                    "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/145/mug-11oz.jpg",
-                    "variant_ids": [
-                        33719
-                    ],
-                    "position": "front",
-                    "is_default": false
-                },
-                {
-                    "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/146/mug-11oz.jpg",
-                    "variant_ids": [
-                        33719
-                    ],
-                    "position": "other",
-                    "is_default": false
-                },
-                {
-                    "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/147/mug-11oz.jpg",
-                    "variant_ids": [
-                        33719
-                    ],
-                    "position": "other",
-                    "is_default": true
-                }
-            ],
-            "created_at": "2019-07-25 13:40:41+00:00",
-            "updated_at": "2019-07-25 13:40:59+00:00",
-            "visible": true,
-            "is_locked": false,
-            "blueprint_id": 68,
-            "user_id": 1337,
-            "shop_id": 1337,
-            "print_provider_id": 9,
-            "print_areas": [
-                {
-                    "variant_ids": [
-                        33719
-                    ],
-                    "placeholders": [
-                        {
-                            "position": "front",
-                            "images": [
-                                {
-                                    "id": "5c7665205342af161e1cb26e",
-                                    "name": "Test.png",
-                                    "type": "image/png",
-                                    "height": 5850,
-                                    "width": 4350,
-                                    "x": 0.5,
-                                    "y": 0.5,
-                                    "scale": 1.01,
-                                    "angle": 0
-                                }
-                            ]
-                        }
-                    ],
-                    "background": "#ffffff"
-                }
-            ],
-            "sales_channel_properties": []    
-        }
-    ],
-    "first_page_url": "/?page=1",
-    "from": 1,
-    "last_page": 22,
-    "last_page_url": "/?page=22",
-    "next_page_url": "/?page=2",
-    "path": "/",
-    "per_page": 1,
-    "prev_page_url": null,
-    "to": 1,
-    "total": 22
-}
+// const exampleResponse = {
+//     "current_page": 1,
+//     "data": [
+//         {
+//             "id": "5d39b159e7c48c000728c89f",
+//             "title": "Mug 11oz",
+//             "description": `"Perfect for coffee, tea and hot chocolate, this classic shape white, durable 
+//             ceramic mug in the most popular size. High quality sublimation printing makes it an 
+//             appreciated gift to every true hot beverage lover.Perfect for coffee, tea and hot 
+//             chocolate, this classic shape white, durable ceramic mug in the most popular size. 
+//             High quality sublimation printing makes it an appreciated gift to every true hot beverage lover. 
+//             .: White ceramic
+//             .: 11 oz (0.33 l)
+//             .: Rounded corners
+//             .: C-Handle"`,
+//             "tags": [
+//                 "Home & Living",
+//                 "Mugs",
+//                 "11 oz",
+//                 "White base",
+//                 "Sublimation"
+//             ],
+//             "options": [
+//                 {
+//                     "name": "Sizes",
+//                     "type": "size",
+//                     "values": [
+//                         {
+//                             "id": 1189,
+//                             "title": "11oz"
+//                         }
+//                     ]
+//                 }
+//             ],
+//             "variants": [
+//                 {
+//                     "id": 33719,
+//                     "sku": "866366009",
+//                     "cost": 516,
+//                     "price": 860,
+//                     "title": "11oz",
+//                     "grams": 460,
+//                     "is_enabled": true,
+//                     "is_default": true,
+//                     "is_available": true,
+//                     "options": [
+//                         1189
+//                     ]
+//                 }
+//             ],
+//             "images": [
+//                 {
+//                     "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/145/mug-11oz.jpg",
+//                     "variant_ids": [
+//                         33719
+//                     ],
+//                     "position": "front",
+//                     "is_default": false
+//                 },
+//                 {
+//                     "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/146/mug-11oz.jpg",
+//                     "variant_ids": [
+//                         33719
+//                     ],
+//                     "position": "other",
+//                     "is_default": false
+//                 },
+//                 {
+//                     "src": "https://images.printify.com/mockup/5d39b159e7c48c000728c89f/33719/147/mug-11oz.jpg",
+//                     "variant_ids": [
+//                         33719
+//                     ],
+//                     "position": "other",
+//                     "is_default": true
+//                 }
+//             ],
+//             "created_at": "2019-07-25 13:40:41+00:00",
+//             "updated_at": "2019-07-25 13:40:59+00:00",
+//             "visible": true,
+//             "is_locked": false,
+//             "blueprint_id": 68,
+//             "user_id": 1337,
+//             "shop_id": 1337,
+//             "print_provider_id": 9,
+//             "print_areas": [
+//                 {
+//                     "variant_ids": [
+//                         33719
+//                     ],
+//                     "placeholders": [
+//                         {
+//                             "position": "front",
+//                             "images": [
+//                                 {
+//                                     "id": "5c7665205342af161e1cb26e",
+//                                     "name": "Test.png",
+//                                     "type": "image/png",
+//                                     "height": 5850,
+//                                     "width": 4350,
+//                                     "x": 0.5,
+//                                     "y": 0.5,
+//                                     "scale": 1.01,
+//                                     "angle": 0
+//                                 }
+//                             ]
+//                         }
+//                     ],
+//                     "background": "#ffffff"
+//                 }
+//             ],
+//             "sales_channel_properties": []    
+//         }
+//     ],
+//     "first_page_url": "/?page=1",
+//     "from": 1,
+//     "last_page": 22,
+//     "last_page_url": "/?page=22",
+//     "next_page_url": "/?page=2",
+//     "path": "/",
+//     "per_page": 1,
+//     "prev_page_url": null,
+//     "to": 1,
+//     "total": 22
+// }
 
 
 
