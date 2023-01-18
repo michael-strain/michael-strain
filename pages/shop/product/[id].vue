@@ -55,7 +55,7 @@
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
               <v-img
                 class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
-                src="/img/bright-red-unusual-flower.jpg"
+                src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
               />
 
               <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
@@ -64,7 +64,7 @@
                     :style="{fontFamily: 'Roboto Slab'}"
                     class="text-wrap text-4xl m-3"
                   >
-                    Product Title
+                    Glowing Mushroom Mug
                     <!-- {{ productTitle }} -->
                   </p>
                 </v-card-title>
@@ -74,7 +74,7 @@
                   class="text-wrap"
                 >
                   <p class="text-2xl p-3 pt-5">
-                    Detailed artwork is printed and laminated on sturdy chipboard backing for a glossy finish. Each box includes a reference print to easily put the puzzle together.
+                    This mug gets its magic from a heat-reactive surface. The ceramic cup reveals the design once the mug gets warm. It will go back to its original colors, black outside and white inside, when it cools down. The C-shaped handle helps keep a sturdy grip. This mug holds 11 ounces – plenty for that big morning cup of coffee. Hand washing recommened. 
                   </p>
                 </v-card-subtitle>
                 
@@ -89,7 +89,7 @@
                   </p>
 
                   <v-btn
-                    class="text-wrap !text-green-400 !text-2xl hover:(!text-green-600)"
+                    class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                     variant="outlined"
                     :style="{fontFamily: 'Roboto Slab'}"
                   >
@@ -150,7 +150,7 @@
         >
           <div>
             <img
-              src="img/bright-red-unusual-flower.jpg"
+              src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
             >
             <div>
               <h4 class="text-2xl">

@@ -72,7 +72,7 @@
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
                 >
-                  $$$
+                  $15
                 </p>
               </v-card>
 
