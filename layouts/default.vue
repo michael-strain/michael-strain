@@ -87,7 +87,7 @@
         v-model="drawer"
         temporary
         location="right"
-        class="pl-2 pr-2"
+        class="pl-2 pr-2 !bg-white"
       >
         <p class="text-center text-2xl pt-3 pb-3">
           Shopping Cart
@@ -103,11 +103,20 @@
               src="img/bright-red-unusual-flower.jpg"
             >
             <div>
-              <h4 class="text-2xl pt-3">
-                Item Name
+              <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
+                Item Name That Is Really Stupid Long
               </h4>
               <div class="grid grid-cols-2">
-                <div class="grid grid-cols-3">
+                <div class="grid grid-cols-4">
+                  <!--FUTURE Button <v-btn
+                    class="text-wraptext !bg-white"
+                    variant="outlined"
+                    :style="{fontFamily: 'Roboto Slab'}"
+                  >
+                    <p class="">
+                      X
+                    </p>
+                  </v-btn> -->
                   <button class="text-center">
                     -
                   </button>
@@ -123,13 +132,20 @@
                     $10.00
                   </p>
                 </div>
+                <!--FUTURE Button <v-btn
+                  class="text-wraptext !bg-white mt-3"
+                  variant="outlined"
+                  :style="{fontFamily: 'Roboto Slab'}"
+                >
+                  <p class="">
+                    Remove
+                  </p>
+                </v-btn> -->
               </div>
             </div>
           </div>
 
-          <p class="pt-4 pb-4 text-center">
-            ---Add Dividing Line Here---
-          </p>
+          <v-divider class="mt-4 mb-4" />
 
           <div>
             <div>
@@ -155,12 +171,10 @@
                 </div>
               </div>
               <div>
-                <p class="pt-4 pb-4 text-center">
-                  ---Add Dividing Line Here---
-                </p>
-                <p>---Make Buttons Side-By-Side---</p>
+                <v-divider class="mt-4 mb-4" />
+                <!-- <p>---Make Buttons Side-By-Side---</p> -->
                 <v-btn
-                  class="text-wraptext hover:(!text-green-600)"
+                  class="text-wraptext !bg-white"
                   variant="outlined"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
@@ -169,17 +183,19 @@
                   </p>
                 </v-btn>
               </div>
-              <v-btn
-                class="text-wraptext hover:(!text-green-600)"
+              <!--FUTURE Button <v-btn
+                class="text-wraptext !bg-white"
                 variant="outlined"
                 :style="{fontFamily: 'Roboto Slab'}"
               >
                 <p class="text-base">
                   X
                 </p>
-              </v-btn>
+              </v-btn> -->
             </div>
           </div>
+
+          
 
           <!-- <v-list-item
             prepend-icon="mdi-view-dashboard"
