@@ -47,7 +47,7 @@
         </NuxtLink>
       </li>
     </ul>
-
+    <!--Product Container-->
     <v-container class="">
       <v-row dense>
         <v-col cols="12">
@@ -83,9 +83,10 @@
                 <v-card-actions class="pb-5">
                   <p
                     class="m-5 text-3xl font-semibold text-green-600"
-                    size="">
+                    size=""
+                  >
                     $15
-                </p>
+                  </p>
 
                   <v-btn
                     class="text-wrap !text-green-400 !text-2xl hover:(!text-green-600)"
@@ -103,6 +104,85 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <!--Shopping Cart-->
+
+    <!-- <div class="cart-item">
+        <img
+          class="cart-item__image"
+          :src="item.media.source"
+        >
+        <div class="cart-item__details">
+          <h4 class="cart-item__details-name">
+            {{ item.name }}
+          </h4>
+          <div class="cart-item__details-qty">
+            <button @click="() => updateQuantity(item.quantity - 1)">
+              -
+            </button>
+            <p>{{ item.quantity }}</p>
+            <button @click="() => updateQuantity(item.quantity + 1)">
+              +
+            </button>
+          </div>
+          <p class="cart-item__details-price">
+            {{ item.line_total.formatted_with_symbol }}
+          </p>
+        </div>
+      </div>
+  </div> -->
+<!--Shopping Cart-->
+  <v-navigation-drawer
+        v-model="drawer"
+        temporary
+        location="right"
+      >
+        <v-list-item
+          title="Shopping Cart"
+          class="text-center"
+        />
+
+        <v-divider />
+
+        <v-list
+          density="compact"
+          nav
+        >
+          <div>
+            <img
+              src="img/bright-red-unusual-flower.jpg"
+            >
+            <div>
+              <h4 class="text-2xl">
+                Item Name
+              </h4>
+              <div>
+                <button>
+                  -
+                </button>
+                <p>Quantity</p>
+                <button>
+                  +
+                </button>
+              </div>
+              <p>
+                Line Total
+              </p>
+            </div>
+          </div>
+          <!-- <v-list-item
+            prepend-icon="mdi-view-dashboard"
+            title="Home"
+            value="home"
+          />
+          <v-list-item
+            prepend-icon="mdi-forum"
+            title="About"
+            value="about"
+          /> -->
+        </v-list>
+      </v-navigation-drawer>
+      <!-- End Shopping Cart -->
   </div>
 </template>
 
