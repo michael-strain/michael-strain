@@ -16,14 +16,14 @@
           <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center font-bold">
             <v-card class="absolute h-full bg-black">
               <div class="h-1/4" />
-              <div class="bg-rose-700 pt-6 pb-1">
-                <h1 class="text-h4 !font-bold sm:text-h3 mb-4 tracking-widest font-serif" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px #000000'}">
+              <div class="bg-emerald-400 pt-6 pb-1">
+                <h1 class="px-10 text-h4 !font-bold sm:text-h3 mb-4 tracking-widest font-serif" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px #000000'}">
                   WELCOME
                 </h1>
               </div>
               <div class="px-5 py-6">
                 <h4 class="subheading">
-                  Grab a warm drink and read on to <br>see what we can do for you.
+                  Grab a warm drink,<br>and read on to see<br>what we can do for you.
                 </h4>
               </div>
               <div class="py-4 pr-8 pl-4 bg-slate-400">
@@ -53,18 +53,20 @@
         </div>
       </v-parallax>
     </div>
-    <v-container>
-      <v-card class="p-5 m-5 h-auto">
+    <v-container class="h-full align-middle items-center justify-center">
+      <v-card class="p-5 m-5 h-auto align-middle items-center justify-center">
         <!-- Ash wants this to be bg-light-700 in light theme-->
-        <div class="flex justify-center items-center text-center">
+        <div class="flex justify-center items-center text-center align-middle">
           <div class="w-1/2 p-5 flex justify-center items-center text-center">
             <div>
-              <h1 class="text-2xl mb-5">
+              <h1
+                class="text-2xl mb-5" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px rgba(52, 211, 153)' }"
+              >
                 What You See
               </h1>
               <p class="text-justify">
                 This site functions as both a development playground for a suite of services I intend to offer, as well as a technical showcase and portfolio.
-                I am somewhat chaotic in my organization, but I intend to deploy each service separately as they become fully functional, and utilize this site as a hub.
+                It may look a bit chaotic now, but I intend to deploy each service separately as they become fully functional, and utilize this site as a central hub.
                 This will allow me to quickly deploy modular and highly functional and customizable components that I can use when developing for future clients in need of similar features.
                 Basically, you are looking at my toolbelt.
               </p>
@@ -106,7 +108,7 @@
         Probably do another big parallax image here, or a bifold looking thing
       </p> -->
 
-    <div class="h-screen min-h-60 w-full m-0 p-0 flex items-center align-middle">
+    <div class="h-full min-h-60 w-full m-0 p-0 flex items-center align-middle">
       <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg" class="items-center align-middle">
         <v-container class="items-center align-middle">
           <v-card class="p-5 m-5 h-auto">
@@ -158,8 +160,16 @@
     <div class="h-20 w-full m-0 p-0 flex bg- bg-light-900">
       <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
       <div class="d-flex h-full w-full text-center justify-center align-center">
-        <NuxtLink to="/subscribe"><v-btn class="m-1 bg-white"><v-icon icon="mdi-email" class="m-2" />Subscribe to Emails</v-btn></NuxtLink>
-        <NuxtLink to="/legal/faqs"><v-btn class="m-1 bg-white"><v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions</v-btn></NuxtLink>
+        <NuxtLink to="/subscribe">
+          <v-btn class="m-1 bg-white">
+            <v-icon icon="mdi-email" class="m-2" />Subscribe to Emails
+          </v-btn>
+        </NuxtLink>
+        <NuxtLink to="/legal/faqs">
+          <v-btn class="m-1 bg-white">
+            <v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions
+          </v-btn>
+        </NuxtLink>
         <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="m-1 bg-white"><v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey</v-btn></a>
       </div>
     </div>

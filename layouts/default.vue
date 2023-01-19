@@ -49,7 +49,7 @@
         </v-card>
         <div class="flex-grow" />
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <v-btn :icon="pageTitle=='/shop' ? 'mdi-cart':'mdi-account'" @click="profileClick" />
+          <v-btn :icon="pageTitle.includes('/shop') ? 'mdi-cart':'mdi-account'" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn icon="mdi-magnify" @click="searchClick" />
@@ -100,11 +100,11 @@
         >
           <div>
             <img
-              src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
+              src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
             >
             <div>
               <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
-                Midnight Cottage Mug
+                Glowing Mushroom Mug
               </h4>
               <div class="grid grid-cols-2">
                 <div class="grid grid-cols-4">
@@ -236,7 +236,7 @@
   const pageTitle = computed(() => useRoute().path)
 
   function profileClick () {
-    if (pageTitle.value === "/shop"){
+    if (pageTitle.value.includes("/shop")){
       console.log("I'm gonna be a shopping cart someday")
       drawer.value=!drawer.value
       // dialog.value = true

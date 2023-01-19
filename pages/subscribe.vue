@@ -2,8 +2,14 @@
 <template>
   <v-container class="flex-grow h-full w-full">
     <v-card class="h-full">
-      <h1 class="font-extrabold text-xl m-4">I realize iFrames are icky.</h1>
-      <p class="break-words m-4 font-thin">I apologize.  It's not pretty, and I'm not proud, but it's what my e-mail service provider gave me to work with.<br>So, until I tear it apart and make my own version of their form, we are stuck with icky.  :'(</p>
+      <h3
+          class="text-black justify-center text-center align-center font-bold text-5xl my-10"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+        >
+          NEWSLETTER SUBSCRIPTION
+        </h3>
+      <!-- <h1 class="font-extrabold text-xl m-4">I realize iFrames are icky.</h1>
+      <p class="break-words m-4 font-thin">I apologize.  It's not pretty, and I'm not proud, but it's what my e-mail service provider gave me to work with.<br>So, until I tear it apart and make my own version of their form, we are stuck with icky.  :'(</p> -->
       <iframe
         class="p-5 m-5"
         width="540"

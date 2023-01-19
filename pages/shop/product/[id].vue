@@ -2,7 +2,7 @@
 <template>
   <div>
     <!--{{ $route.params }} -->
-    {{ $route.params.id }} 
+    <!-- {{ $route.params.id }}  -->
     <!-- {{ productTitle }} -->
     <!-- {{ store.products }} -->
     <!-- Requires a Product ID -->
@@ -10,7 +10,6 @@
     <!-- This is the product specific page based on the name passed in through the url.
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
-    <a href="/shop">Back to Shop</a>
     
     <NuxtLink to="/shop">
       <h3
@@ -55,7 +54,7 @@
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
               <v-img
                 class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
-                src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
+                src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
               />
 
               <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
@@ -131,46 +130,46 @@
         </div>
       </div>
   </div> -->
-<!--Shopping Cart-->
-  <v-navigation-drawer
-        v-model="drawer"
-        temporary
-        location="right"
+    <!--Shopping Cart-->
+    <v-navigation-drawer
+      v-model="drawer"
+      temporary
+      location="right"
+    >
+      <v-list-item
+        title="Shopping Cart"
+        class="text-center"
+      />
+
+      <v-divider />
+
+      <v-list
+        density="compact"
+        nav
       >
-        <v-list-item
-          title="Shopping Cart"
-          class="text-center"
-        />
-
-        <v-divider />
-
-        <v-list
-          density="compact"
-          nav
-        >
+        <div>
+          <img
+            src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
+          >
           <div>
-            <img
-              src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
-            >
+            <h4 class="text-2xl">
+              Item Name
+            </h4>
             <div>
-              <h4 class="text-2xl">
-                Item Name
-              </h4>
-              <div>
-                <button>
-                  -
-                </button>
-                <p>Quantity</p>
-                <button>
-                  +
-                </button>
-              </div>
-              <p>
-                Line Total
-              </p>
+              <button>
+                -
+              </button>
+              <p>Quantity</p>
+              <button>
+                +
+              </button>
             </div>
+            <p>
+              Line Total
+            </p>
           </div>
-          <!-- <v-list-item
+        </div>
+        <!-- <v-list-item
             prepend-icon="mdi-view-dashboard"
             title="Home"
             value="home"
@@ -180,9 +179,9 @@
             title="About"
             value="about"
           /> -->
-        </v-list>
-      </v-navigation-drawer>
-      <!-- End Shopping Cart -->
+      </v-list>
+    </v-navigation-drawer>
+    <!-- End Shopping Cart -->
   </div>
 </template>
 

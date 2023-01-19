@@ -1,13 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="bg-rose-700 p-10">
-    <h1
-      class="text-h4 text-white text-center !font-bold sm:text-h3 mb-4 tracking-widest font-serif"
-      :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px #000000'}"
-    >
-      Frequently Asked Questions
-    </h1>
-  </div>
+  <h3
+    class="text-black justify-center text-center align-center font-bold text-5xl my-10"
+    :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+  >
+    FAQs
+  </h3>
   <!--Investment Category-->
   <v-card class="m-15">
     <div class="m-5 text-2xl">
