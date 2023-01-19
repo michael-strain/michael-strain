@@ -5,10 +5,9 @@
     <!--SVG Plants, Services Banner-->
     <v-card>
       <div class="flex items-center self-stretch">
-        <div class="w-1/5 p-2">
+        <!-- <div class="w-1/5 p-2">
           <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
-              <!-- Used to have fill="white" here -->
               <path
                 id="myLine"
                 :style="{ strokeDashoffset: `${strokeoff}`}"
@@ -20,17 +19,17 @@
               />
             </g>
           </svg>
-        </div>
-        <div class="w-3/5 float-left text-center items-center">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">
+        </div> -->
+        
+        <div class="w-full float-left text-center items-center m-5 p-5">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold w-full" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">
             Services
           </h1>
           <!-- <p class="font-thin text-xs leading-8">Welcome To My Domain</p> -->
         </div>
-        <div class="w-1/5 p-2">
+        <!-- <div class="w-1/5 p-2">
           <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
-              <!-- Used to have fill="white" here -->
               <path
                 id="myLine"
                 :style="{ strokeDashoffset: `${strokeoff}`}"
@@ -43,7 +42,7 @@
               />
             </g>
           </svg>
-        </div>
+        </div> -->
       </div>
     </v-card>
   
@@ -55,15 +54,13 @@
             <v-card class="bg-custcard my-2">
               <v-card-title>
                 <p class="font-semibold text-xs sm:text-xl" :style="{ textShadow: '2px 2px #558ABB'}">
-                  Web<br>Development
+                  Back-End Web Development
                 </p>
               </v-card-title>
             </v-card>
             <v-card class="bg-custcard">
               <p class="text-sm m-2">
-                I am a fullstack developer, with over 8 years of
-                experience both on a personal and professional
-                level.  I'm especially fond of NodeJS based frameworks (this site is made with Nuxt+Tailwind+Vuetify), Google Tech (this site is hosted with Firebase), and anything that makes life easy and quality high.
+                Back-end website development is important because it is responsible for the server-side functionality of a website. This includes things like database management, server-side scripting, and API development. These are the behind-the-scenes processes that allow a website to function properly and perform tasks like user authentication, data storage, and content management. A well-designed back-end system can improve the performance, scalability, and security of a website.
               </p>
             </v-card>
           </div>
@@ -82,14 +79,13 @@
             <v-card class="bg-custcard my-2">
               <v-card-title>
                 <p class="font-semibold text-xs sm:text-xl" :style="{ textShadow: '2px 2px #558ABB'}">
-                  Graphic Design/<br>Artwork
+                  Front-End Web Development
                 </p>
               </v-card-title>
             </v-card>
             <v-card class="bg-custcard">
               <p class="text-sm m-1">
-                This is my wife Ashley's specialty.
-                She has over 10 years of experience, plus all the latest and greatest in tools, software, and hardware.  Her artwork is phenomenal, both in the physical and digital realm.  If you've got a need for art, Ashley is your best option.
+                Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user.
               </p>
             </v-card>
           </div>
@@ -101,7 +97,7 @@
     </v-card>
 
     <!-- Real Estate Development & Construction-->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-2">
@@ -123,10 +119,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Handyman Services, Carpentry, Furniture Making-->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate/handyman">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-2">
@@ -148,12 +144,13 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
-    <v-divider />
-    <br>
+    <!-- <v-divider />
+    <br> -->
 
-    <v-card>
+    <!--Stuff for Later -->
+    <!-- <v-card>
       <div class="flex items-center self-stretch">
         <div class="w-full p-5 m-5 float-left text-center items-center">
           <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB' }">
@@ -161,10 +158,10 @@
           </h1>
         </div>
       </div>
-    </v-card>
+    </v-card> -->
   
     <!-- Call Center -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/callCenter">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -184,10 +181,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Real Estate Development -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -207,10 +204,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Property & Association Management -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate/management">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -230,10 +227,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Landscaping -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate/landscaping">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -253,10 +250,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Housekeeping -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate/homeCare">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -276,10 +273,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Fulfillment Company -->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/fulfillment">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 my-2">
@@ -299,40 +296,6 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
   </v-container>
 </template>
-  
-  
-  <script>
-    export default {
-      data(){
-        return{
-          offsetTop:0,
-          path:null,
-          length:null,
-          strokeoff:1245.2255859375,
-        }
-      },
-      mounted() {
-        document.addEventListener('scroll', this.test),
-        this.$path = document.querySelector('.svgplant'),
-        this.$length = this.$path.getTotalLength()
-      },
-      methods : {
-        test : function(){
-          this.offsetTop = window.scrollY,
-          this.strokeoff = (this.$length-((this.offsetTop/90)*this.$length)) //from 0-1245.2255859375 depending on how far down the page (this.$offsetTop) froms 0-80ish
-        }
-      }
-    }
-  </script>
-  
-  
-  <style scoped>
-  #myLine {
-    stroke-dasharray: 1245.2255859375;
-    /* stroke-dashoffset: 0; */
-    /* animation: dash 5s linear alternate infinite; */
-  }
-  </style>
