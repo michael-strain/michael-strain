@@ -100,11 +100,11 @@
         >
           <div>
             <img
-              src="img/bright-red-unusual-flower.jpg"
+              src="https://images-api.printify.com/mockup/63b909ec48e04e3c5d02d643/88141/58694/midnight-cottage-mug.jpg"
             >
             <div>
               <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
-                Item Name That Is Really Stupid Long
+                Midnight Cottage Mug
               </h4>
               <div class="grid grid-cols-2">
                 <div class="grid grid-cols-4">
@@ -121,7 +121,7 @@
                     -
                   </button>
                   <p class="text-center">
-                    11
+                    1
                   </p>
                   <button class="text-center">
                     +
@@ -129,18 +129,9 @@
                 </div>
                 <div class="grid grid-col-3">
                   <p class="text-right">
-                    $10.00
+                    $15.00
                   </p>
                 </div>
-                <!--FUTURE Button <v-btn
-                  class="text-wraptext !bg-white mt-3"
-                  variant="outlined"
-                  :style="{fontFamily: 'Roboto Slab'}"
-                >
-                  <p class="">
-                    Remove
-                  </p>
-                </v-btn> -->
               </div>
             </div>
           </div>
@@ -149,15 +140,21 @@
 
           <div>
             <div>
-              <h4 class="text-2xl">
-                Subtotal
-              </h4>
+              <div class="grid grid-cols-2 mb-3">
+                <h4 class="text-2xl font-bold">
+                  Total
+                </h4>
+              <p class="text-right text-2xl">
+                $17.00
+              </p>
+              </div>
+              
               <div>
                 <div class="grid grid-cols-2">
                   <p>Item Cost</p>
                   <div class="grid grid-col-2">
                     <p class="text-right">
-                      $20.00
+                      $15.00
                     </p>
                   </div>
                 </div>
@@ -165,7 +162,7 @@
                   <p>Shipping</p>
                   <div class="grid grid-col-2">
                     <p class="text-right">
-                      $30.00
+                      $2.00
                     </p>
                   </div>
                 </div>
@@ -188,7 +185,7 @@
                 variant="outlined"
                 :style="{fontFamily: 'Roboto Slab'}"
               >
-                <p class="text-base">
+                <p class="text-baseyar">
                   X
                 </p>
               </v-btn> -->
