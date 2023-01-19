@@ -1,16 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
-
-
   <v-container>
     <!--SVG Plants, Services Banner-->
     <v-card>
       <div class="flex items-center self-stretch">
-        <div class="w-1/5 p-2">
+        <!-- <div class="w-1/5 p-2">
           <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
-              <!-- Used to have fill="white" here -->
               <path
                 id="myLine"
                 :style="{ strokeDashoffset: `${strokeoff}`}"
@@ -22,18 +19,17 @@
               />
             </g>
           </svg>
-        </div>
+        </div> -->
         
-        <div class="w-3/5 float-left text-center items-center">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">
+        <div class="w-full float-left text-center items-center m-5 p-5">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl filter hue-rotate-60 font-bold w-full" :style="{ fontFamily: 'Roboto Slab', textShadow: '5px 5px #558ABB'}">
             Services
           </h1>
           <!-- <p class="font-thin text-xs leading-8">Welcome To My Domain</p> -->
         </div>
-        <div class="w-1/5 p-2">
+        <!-- <div class="w-1/5 p-2">
           <svg ref="mySVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 106.7" style="enable-background:new 0 0 122.88 106.7" xml:space="preserve">
             <g>
-              <!-- Used to have fill="white" here -->
               <path
                 id="myLine"
                 :style="{ strokeDashoffset: `${strokeoff}`}"
@@ -46,7 +42,7 @@
               />
             </g>
           </svg>
-        </div>
+        </div> -->
       </div>
     </v-card>
   
@@ -101,7 +97,7 @@
     </v-card>
 
     <!-- Real Estate Development & Construction-->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-2">
@@ -123,10 +119,10 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
     <!-- Handyman Services, Carpentry, Furniture Making-->
-    <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
+    <!-- <v-card class="p-5 m-5 h-auto hover:shadow-2xl">
       <NuxtLink to="/services/realEstate/handyman">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-2">
@@ -148,12 +144,12 @@
           </div>
         </div>
       </NuxtLink>
-    </v-card>
+    </v-card> -->
 
-    <v-divider />
-    <br>
+    <!-- <v-divider />
+    <br> -->
 
-    <!--Stuff for Later-->
+    <!--Stuff for Later -->
     <!-- <v-card>
       <div class="flex items-center self-stretch">
         <div class="w-full p-5 m-5 float-left text-center items-center">
@@ -303,37 +299,3 @@
     </v-card> -->
   </v-container>
 </template>
-  
-  
-  <script>
-    export default {
-      data(){
-        return{
-          offsetTop:0,
-          path:null,
-          length:null,
-          strokeoff:1245.2255859375,
-        }
-      },
-      mounted() {
-        document.addEventListener('scroll', this.test),
-        this.$path = document.querySelector('.svgplant'),
-        this.$length = this.$path.getTotalLength()
-      },
-      methods : {
-        test : function(){
-          this.offsetTop = window.scrollY,
-          this.strokeoff = (this.$length-((this.offsetTop/90)*this.$length)) //from 0-1245.2255859375 depending on how far down the page (this.$offsetTop) froms 0-80ish
-        }
-      }
-    }
-  </script>
-  
-  
-  <style scoped>
-  #myLine {
-    stroke-dasharray: 1245.2255859375;
-    /* stroke-dashoffset: 0; */
-    /* animation: dash 5s linear alternate infinite; */
-  }
-  </style>
