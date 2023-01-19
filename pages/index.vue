@@ -1,13 +1,21 @@
+<!--Ashley: 
+  Home Page: Consolidate Footer Buttons. Change Footer Image. (Youtube, Contact Us, Email Subsctiption, Faqs Page. Content for First Card. Content for Coffee Image. Content for Second Card. Image for Second Card.)
+  Services: 
+-->
+
+
+
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
   <div>
     <div class="h-screen min-h-60 w-full m-0 p-0 flex">
-      <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg">
+      <v-parallax src="img/coffee-mountain.jpg" lazy-src="img/coffee-mountain.jpg">
+      <!-- <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg"> -->
         <div class="flex h-full">
           <div class="<sm:w-0 sm:w-3/4" /> <!-- This just keeps our welcome bar on the right side -->
           <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center font-bold">
-            <v-card class="absolute h-full opacity-80 bg-black">
+            <v-card class="absolute h-full bg-black">
               <div class="h-1/4" />
               <div class="bg-rose-700 pt-6 pb-1">
                 <h1 class="text-h4 sm:text-h3 mb-4 tracking-widest font-serif" :style="{ fontFamily: 'Roboto Slab', textShadow: '3px 2px #558ABB'}">
@@ -16,10 +24,7 @@
               </div>
               <div class="px-5 py-4">
                 <h4 class="subheading">
-                  Now is your chance to make a difference.
-                  <br> Support our community in Panama.
-                  <br> Purchase our products or services.
-                  <br> Make an impact.
+                  Blah
                 </h4>
               </div>
               <div class="m-3 py-4 pr-8 pl-4 bg-slate-400">
@@ -53,17 +58,49 @@
     <v-container>
       <v-card class="p-5 m-5 h-auto">
         <div class="flex justify-center items-center text-center">
-          <div class="w-1/2 p-5 flex justify-center items-center text-center">
-            This site is meant to serve as a resource for the benefit of<br>
-            the community of Panamanians I live and work with.
+          <!-- <div class="w-1/2 p-5 flex justify-center items-center text-center"></div> -->
+          <div class="m-10">
+            <h1 class="text-2xl mb-5">
+              Back-End Web Development
+            </h1>
+            <p>
+              Back-end website development is important because it is responsible for the server-side functionality of a website. This includes things like database management, server-side scripting, and API development. These are the behind-the-scenes processes that allow a website to function properly and perform tasks like user authentication, data storage, and content management. A well-designed back-end system can improve the performance, scalability, and security of a website.
+            </p>
+            <!-- Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user. -->
           </div>
-          <div class="w-1/2 p-5">
+          <!-- <div class="w-1/2 p-5">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
+          </div> -->
+        </div>
+      </v-card>
+
+      <v-card class="p-5 m-5 h-auto">
+        <div class="flex justify-center items-center text-center">
+          <div class="m-10">
+            <h1 class="text-2xl mb-5">
+              Front-End Web Development
+            </h1>
+            <p>
+              Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user.
+            </p>
           </div>
         </div>
       </v-card>
 
-      <p>
+      <!-- <v-card class="p-5 m-5 h-auto">
+        <div class="flex justify-center items-center text-center">
+          <div class="m-10">
+            <h1 class="text-2xl mb-5">
+              Website Consistency
+            </h1>
+            <p>
+              Consistency is essential for a website to be effective in creating a strong and recognizable brand image. It helps to create a sense of familiarity and trust with users, making it more likely that they will return to the site in the future. Website consistency involves using the same visual elements, such as colors, typography, and imagery, across all aspects of the website. This includes the website's layout, content, and marketing materials. Maintaining consistency in the messaging and tone used throughout the website also plays a vital role in building a strong impression. In addition, it also helps in creating a clear and cohesive message that is easy for users to understand and remember. Overall, consistency can greatly impact the effectiveness of a website.
+            </p>
+          </div>
+        </div>
+      </v-card> -->
+
+      <!-- <p>
         Proceeds from the store and donations will serve to feed, shelter, and provide basic necessities for poverty stricken people.
         The store will be stocked with goods made in Panama.  The sale of a single bag, while it may not seem like much to you, can be used to feed an entire family for a month.
         Local services will be in direct support of Panamians without work, creating jobs and income for those without.
@@ -77,21 +114,21 @@
         E-mail subcsription bar
 
         Probably do another big parallax image here, or a bifold looking thing
-      </p>
+      </p> -->
     </v-container>
 
     <div class="h-screen min-h-60 w-full m-0 p-0 flex">
       <v-parallax src="img/coffee-mountain.jpg" lazy-src="img/coffee-mountain.jpg">
-        <div class="d-flex h-full">
+        <!-- <div class="d-flex h-full">
           <div class="flex-grow w-1/4" />
-          <div class="d-flex w-1/2 align-center">
-            <v-card class="opacity-80 flex-grow align-center text-center p-5 m-5">
-              Content:
-              <br> I have no purpose.
+          <div class="d-flex w-3/4 align-center">
+            <v-card class="opacity-85 !bg-white flex-grow align-center text-center p-5 m-5">
+              <div class="p-10">Creating sustainable communities in Panama would have a number of benefits for the country and its inhabitants. One of the main benefits would be the conservation and protection of Panama's natural resources and biodiversity. Panama is home to a wide variety of ecosystems, including tropical forests, wetlands, and coral reefs, which are essential for maintaining the balance of the country's ecosystem. By promoting sustainable practices in communities, such as efficient use of resources and conservation of natural areas, it would help to preserve these ecosystems and the wildlife that depends on them for survival.
+              </div>
             </v-card>
           </div>
           <div class="flex-grow w-1/4" />
-        </div>
+        </div> -->
       </v-parallax>
     </div>
 
@@ -109,35 +146,49 @@
     </v-container>
 
     <!-- Social Bar -->
-    <v-card class="mb-4">
-      <v-card-title class="text-center">SOCIALS</v-card-title>
+    <!-- <v-card class="mb-4">
+      <v-card-title class="text-center">
+        SOCIALS
+      </v-card-title>
       <div class="h-20 w-full m-0 p-0 flex bg-custcard mb-4">
-        <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
         <div class="d-flex h-full w-full text-center justify-center align-center items-center primary">
-          <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="btnc2 m-1"><v-icon icon="mdi-youtube" class="m-2"/>@michael-strain</v-btn></a>
-          <a href="https://www.facebook.com/groups/therealestateinvestorsclub"><v-btn class="btnc1 m-1"><v-icon icon="mdi-facebook" class="m-2"/>Investors Club</v-btn></a>
+          <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="btnc2 m-1"><v-icon icon="mdi-youtube" class="m-2" />@michael-strain</v-btn></a>
+          <a href="https://www.facebook.com/groups/therealestateinvestorsclub"><v-btn class="btnc1 m-1"><v-icon icon="mdi-facebook" class="m-2" />Investors Club</v-btn></a>
         </div>
       </div>
-    </v-card>
+    </v-card> -->
 
     <div class="h-60 w-full m-0 p-0 flex">
-      <v-parallax src="img/panama-city-ocean.jpg" lazy-src="img/panama-city-ocean.jpg">
+      <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg">
         <div class="d-flex h-full">
-          <div class="d-flex w-40 align-center">
-            <div class="m-4 opacity-70 <sm:hidden"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></div>
-          </div>
+          <!-- <div class="d-flex w-40 align-center">
+            <div class="m-4 opacity-70 <sm:hidden">
+              <v-icon icon="mdi-email-outline" size="80" class="flex-grow" />
+            </div>
+          </div> -->
           <div class="d-flex w-full align-center">
+            <div class="h-20 w-full m-0 p-0 flex bg-rose-700/70 mb-4">
+              <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
+              <div class="d-flex h-full w-full text-center justify-center align-center">
+                <a href=""><v-btn class="m-1 bg-white"><v-icon icon="mdi-email" class="m-2" />Send Us an Email</v-btn></a>
+                <a href=""><v-btn class="m-1 bg-white"><v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions</v-btn></a>
+                <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="m-1 bg-white"><v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey</v-btn></a>
+              </div>
+            </div>
+            <!-- Subscribe iFrame
             <v-card class="opacity-90 flex-grow align-center text-center p-5 m-5">
               <NuxtLink to="/subscribe">
                 <v-btn block class="btnc3">
                   <v-icon start icon="mdi-email" />Subscribe to our Newsletter<v-icon end icon="mdi-email" />
                 </v-btn>
               </NuxtLink>
-            </v-card>
+            </v-card> -->
           </div>
-          <div class="d-flex w-40 align-center">
-            <div class="m-4 opacity-70 <sm:hidden"><v-icon icon="mdi-email-outline" size="80" class="flex-grow"/></div>
-          </div>
+          <!-- <div class="d-flex w-40 align-center">
+            <div class="m-4 opacity-70 <sm:hidden">
+              <v-icon icon="mdi-email-outline" size="80" class="flex-grow" />
+            </div>
+          </div> -->
         </div>
       </v-parallax>
     </div>
