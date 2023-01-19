@@ -38,6 +38,7 @@ Basically, you are looking at my toolbelt.
 -Need to deploy another flavor of shop page to lsdope.com domain
 -When ready to scale up, need to deploy each service to F/Sbase on the fly/as-needed when called from by a core server before shutting down (if not handling other clients)
 -Consider replacing the logo/home button in the top left corner (app-bar layouts/default.vue)
+-Add location upload functionality to allow direct delivery to Panamanians :O
 
 
 
@@ -105,7 +106,7 @@ Long Term Features
 -job tracking software
 -GPS tracking/sharing software
 -an app!  with push notifications!
--Call center server and reporting
+-Call center server and reporting - VoIP Integration baby!
 -messaging inbox
 -scheduling system/calendar
 -blog about moving to Panama
