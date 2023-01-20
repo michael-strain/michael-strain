@@ -2,7 +2,7 @@
 <!-- eslint-disable vue/max-attributes-per-line -->
 
 <!--Ashley: 
-  Home Page: Consolidate Footer Buttons. Change Footer Image. (Youtube, Contact Us, Email Subsctiption, Faqs Page. Content for First Card. Content for Coffee Image. Content for Second Card. Image for Second Card.)
+  Home Page: Consolidate Footer Buttons.
   Services: 
 -->
 
@@ -14,7 +14,7 @@
         <div class="flex h-full">
           <div class="<sm:w-0 sm:w-3/4" /> <!-- This just keeps our welcome bar on the right side -->
           <div class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center font-bold">
-            <v-card class="absolute h-full bg-black">
+            <v-card class="absolute h-full bg-black pb-15">
               <div class="h-1/4" />
               <div class="bg-emerald-400 pt-6 pb-1">
                 <h1 class="px-10 text-h4 !font-bold sm:text-h3 mb-4 tracking-widest font-serif" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px #000000'}">
@@ -53,18 +53,20 @@
         </div>
       </v-parallax>
     </div>
-    <v-container class="h-full align-middle items-center justify-center">
-      <v-card class="p-5 m-5 h-auto align-middle items-center justify-center">
+    <v-container class="align-middle items-center justify-center">
+      <v-card class="p-5 m-5 align-middle items-center justify-center">
         <!-- Ash wants this to be bg-light-700 in light theme-->
         <div class="flex justify-center items-center text-center align-middle">
-          <div class="w-1/2 p-5 flex justify-center items-center text-center">
-            <div>
+          <div class="w-full p-5 flex justify-center items-center text-center md:w-1/2">
+            <div class="">
               <h1
                 class="text-2xl mb-5" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px rgba(52, 211, 153)' }"
               >
                 What You See
               </h1>
-              <p class="text-justify">
+              <p
+                class="text-justify"
+              >
                 This site functions as both a development playground for a suite of services I intend to offer, as well as a technical showcase and portfolio.
                 It may look a bit chaotic now, but I intend to deploy each service separately as they become fully functional, and utilize this site as a central hub.
                 This will allow me to quickly deploy modular and highly functional and customizable components that I can use when developing for future clients in need of similar features.
@@ -72,14 +74,14 @@
               </p>
             </div>
           </div>
-          <div class="w-1/2 p-5">
+          <div class="w-full p-5 hidden md:(flex w-1/2)">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
           </div>
         </div>
       </v-card>
     </v-container>
-    
-    <!-- <v-card class="p-5 m-5 h-auto">
+  </div>
+  <!-- <v-card class="p-5 m-5 h-auto">
         <div class="flex justify-center items-center text-center">
           <div class="m-10">
             <h1 class="text-2xl mb-5">
@@ -91,8 +93,7 @@
           </div>
         </div>
       </v-card> -->
-
-    <!-- <p>
+  <!-- <p>
         Proceeds from the store and donations will serve to feed, shelter, and provide basic necessities for poverty stricken people.
         The store will be stocked with goods made in Panama.  The sale of a single bag, while it may not seem like much to you, can be used to feed an entire family for a month.
         Local services will be in direct support of Panamians without work, creating jobs and income for those without.
@@ -107,45 +108,44 @@
 
         Probably do another big parallax image here, or a bifold looking thing
       </p> -->
-
-    <div class="h-full min-h-60 w-full m-0 p-0 flex items-center align-middle">
-      <v-parallax src="img/bright-red-unusual-flower.jpg" lazy-src="img/bright-red-unusual-flower.jpg" class="items-center align-middle">
-        <v-container class="items-center align-middle">
-          <v-card class="p-5 m-5 h-auto">
-            <!-- Ash wants this to be bg-white -->
-            <div class="flex justify-center items-center text-center">
-              <!-- <div class="w-1/2 p-5 flex justify-center items-center text-center"></div> -->
-              <div class="m-10">
-                <h1 class="text-2xl mb-5">
-                  Back-End Web Development
-                </h1>
-                <p class="text-justify">
-                  Back-end website development is important because it is responsible for the server-side functionality of a website. This includes things like database management, server-side scripting, and API development. These are the behind-the-scenes processes that allow a website to function properly and perform tasks like user authentication, data storage, and content management. A well-designed back-end system can improve the performance, scalability, and security of a website.
-                </p>
-                <!-- Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user. -->
-              </div>
-              <!-- <div class="w-1/2 p-5">
+  <div class="w-full m-0 p-0 flex items-center align-middle">
+    <v-parallax src="img/purple-red-tree.jpg" lazy-src="img/purple-red-tree.jpg" class="items-center align-middle">
+      <v-container class="items-center align-middle">
+        <v-card class="p-5 m-5 h-auto">
+          <!-- Ash wants this to be bg-white -->
+          <div class="flex justify-center items-center text-center">
+            <!-- <div class="w-1/2 p-5 flex justify-center items-center text-center"></div> -->
+            <div class="m-10">
+              <h1 class="text-2xl mb-5">
+                Back-End Web Development
+              </h1>
+              <p class="text-justify">
+                Back-end website development is important because it is responsible for the server-side functionality of a website. This includes things like database management, server-side scripting, and API development. These are the behind-the-scenes processes that allow a website to function properly and perform tasks like user authentication, data storage, and content management. A well-designed back-end system can improve the performance, scalability, and security of a website.
+              </p>
+              <!-- Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user. -->
+            </div>
+            <!-- <div class="w-1/2 p-5">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
           </div> -->
-            </div>
-          </v-card>
+          </div>
+        </v-card>
 
-          <v-card class="p-5 m-5 h-auto">
-            <!-- Ash wants this to be bg-white-->
-            <div class="flex justify-center items-center text-center">
-              <div class="m-10">
-                <h1 class="text-2xl mb-5">
-                  Front-End Web Development
-                </h1>
-                <p class="text-justify">
-                  Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user.
-                </p>
-              </div>
+        <v-card class="p-5 m-5 h-auto">
+          <!-- Ash wants this to be bg-white-->
+          <div class="flex justify-center items-center text-center">
+            <div class="m-10">
+              <h1 class="text-2xl mb-5">
+                Front-End Web Development
+              </h1>
+              <p class="text-justify">
+                Front-end website development is important because it deals with the visual design and user experience of a website. This includes things like HTML, CSS, and JavaScript, which are used to create the layout, style, and interactivity of a website. A well-designed front-end can provide a positive user experience and improve the usability and accessibility of a website. This can lead to increased user engagement, higher conversion rates, and better search engine rankings. Overall it is responsible for how website looks and feels to the end user.
+              </p>
             </div>
-          </v-card>
-        </v-container>
+          </div>
+        </v-card>
+      </v-container>
         
-        <!-- <div class="d-flex h-full">
+      <!-- <div class="d-flex h-full">
           <div class="flex-grow w-1/4" />
           <div class="d-flex w-3/4 align-center">
             <v-card class="opacity-85 !bg-white flex-grow align-center text-center p-5 m-5">
@@ -155,25 +155,29 @@
           </div>
           <div class="flex-grow w-1/4" />
         </div> -->
-      </v-parallax>
+    </v-parallax>
+  </div>
+  <div class="w-full p-4 bg-emerald-400 flex">
+    <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
+    <div class="flex h-full w-full text-center justify-center align-center">
+      <NuxtLink to="/subscribe" class="">
+        <v-btn class="m-1 bg-white flex">
+          <v-icon icon="mdi-email" class="m-2" />Subscribe to Emails
+        </v-btn>
+      </NuxtLink>
+      <NuxtLink to="/legal/faqs" class="">
+        <v-btn class="m-1 bg-white flex">
+          <v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions
+        </v-btn>
+      </NuxtLink>
+      <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ">
+        <v-btn class="m-1 bg-white flex">
+          <v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey
+        </v-btn>
+      </a>
     </div>
-    <div class="h-20 w-full m-0 p-0 flex bg- bg-light-900">
-      <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
-      <div class="d-flex h-full w-full text-center justify-center align-center">
-        <NuxtLink to="/subscribe">
-          <v-btn class="m-1 bg-white">
-            <v-icon icon="mdi-email" class="m-2" />Subscribe to Emails
-          </v-btn>
-        </NuxtLink>
-        <NuxtLink to="/legal/faqs">
-          <v-btn class="m-1 bg-white">
-            <v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions
-          </v-btn>
-        </NuxtLink>
-        <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ"><v-btn class="m-1 bg-white"><v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey</v-btn></a>
-      </div>
-    </div>
-    <!-- <v-container>
+  </div>
+  <!-- <v-container>
       <v-card class="p-5 m-5 h-auto">
         <div class="flex justify-center items-center text-center">
           <div class="w-1/2 p-5 flex justify-center items-center text-center">
@@ -189,8 +193,8 @@ Basically, you are looking at my toolbelt.</p>
       </v-card>
     </v-container> -->
 
-    <!-- Social Bar -->
-    <!-- <v-card class="mb-4">
+  <!-- Social Bar -->
+  <!-- <v-card class="mb-4">
       <v-card-title class="text-center">
         SOCIALS
       </v-card-title>
@@ -201,7 +205,6 @@ Basically, you are looking at my toolbelt.</p>
         </div>
       </div>
     </v-card> -->
-  </div>
 </template>
 
 <style scoped>
