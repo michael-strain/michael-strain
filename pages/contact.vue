@@ -1,8 +1,70 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  Contact Us
-  We are always happy to chat!
-  <div>
+  <v-form>
+    <v-card class="m-5">
+      <v-container>
+        <v-row>
+          <v-col class="flex">
+            <v-text-field
+              label="First Name"
+              placeholder="First Name"
+              variant="solo"
+            />
+          </v-col>
+          <v-col class="flex">
+            <v-text-field
+              label="Last Name"
+              placeholder="Last Name"
+              variant="solo"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="flex">
+            <v-text-field
+              label="Email Address"
+              placeholder="Email Address"
+              variant="solo"
+            />
+          </v-col>
+          <v-col class="flex">
+            <v-text-field
+              label="Phone Number"
+              placeholder="Phone Number"
+              variant="solo"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-responsive>
+              <v-textarea
+                label="We love to hear what you have to say."
+                placeholder="We love to hear what you have to say."
+                variant="solo"
+                auto-grow
+                hide-details="auto"
+                clearable
+              />
+            </v-responsive>
+          </v-col>
+        </v-row>
+        <row class="flex">
+          <v-btn class="">
+            <v-icon
+              icon="mdi-email"
+              class=""
+            />Send Message
+          </v-btn>
+          <v-checkbox label="Subscribe to Emails" />
+        </row>
+      </v-container>
+    </v-card>
+
+
+
+
+    <!-- <div>
     <v-card>
       <v-card-title>Contact Us</v-card-title>
       <v-card-subtitle>
@@ -78,7 +140,8 @@
         </v-container>
       </v-form>
     </v-card>
-  </div>
+  </div> -->
+  </v-form>
 </template>
 
 <script setup>
