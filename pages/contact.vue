@@ -1,4 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<!-- Ashley: Make form clearable by pressing icon. Header. Vertically align Send Message and checkbox area. Message sent indicator (Pop-up?). Padding and Margins. Colors. Add a pic somewhere to make it not boring? Maybe parallax in the header.-->
 <template>
   <v-form>
     <v-card class="m-5">
