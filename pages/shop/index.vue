@@ -61,7 +61,7 @@
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
               <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
-                  :src="`${item.images[0].src}`"
+                  :src="`${item.images[item.imageNum].src}`"                  
                   class="h-64 mx-auto"
                   lazy
                 >
@@ -98,7 +98,7 @@
                   <!-- Need to add a function to immediately add this item to the cart -->
                   <v-btn
                     icon
-                    @click="show = !show; heartClick()"
+                    @click="heartClick(item)"
                   >
                     <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
                   </v-btn>
@@ -124,16 +124,24 @@
 // Need to loop through images with arrow buttons
 import { ref } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
+import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia'
 // import { useCartStore } from '~/stores/cart';
 
 const url = 'https://api.printify.com/v1/shops/6483145/products.json'
 const products = ref([])
+const productId = ref({})
 const pending = ref(true)
 
 const store = useProductDataStore()
+const cart = useCartDataStore()
+
 if (store.productData != null && store.productData.data.length > 0) {
   console.log("Products are in store")
+  for (let i = 0; i < store.productData.data.length; i++) {
+    store.$patch( store.productData.data[i].imageNum = 0 )
+    store.$patch( store.productData.data[i].qty = 0)
+  }
   products.value = storeToRefs(store.productData.data)
   pending.value = false
 } else {
@@ -150,36 +158,90 @@ if (store.productData != null && store.productData.data.length > 0) {
   const { data:productive, pending:penval } = useFetch(url, opts)
   pending.value = penval
   // { pick: ["data"] }
+  // for (let i = 0; i < store.productData.data.length; i++) {
+  //   store.productData.data[i].$patch({imageNum: 0})
+  // }
   store.$patch({productData: productive})
+  for (let i = 0; i < store.productData.data.length; i++) {
+    store.$patch( store.productData.data[i].imageNum = 0 )
+  }
+  
   products.value = storeToRefs(store.productData.data)
   // products.value = storeToRefs(store.productData.products.data)
 }
 
 // Need to make leftArrow and rightArrow functions that rotate each item's images
-// var imageNum = ref(0)
 
 // definePageMeta({
 //   key:'products'
 // })
 
-function heartClick(){
-  // console.log("Heart was clicked")
+function heartClick(item){ 
+  //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
+
+  // add item to cart based on item id
+  const cart = useCartDataStore()
+  if (cart.cartData.data != null && cart.cartData.data.length > 0) {
+    console.log("Products are in cart")
+    // if (item in cart.cartData.data) {
+      
+    for (let i = 0; i < cart.cartData.data.length; i++) {
+      if (item.id == cart.cartData.data[i].id) {
+        console.log("Item is in cart")
+        item.qty +=1
+        cart.$patch(cart.cartData.data[i] = item)
+        return
+      } else {
+        console.log("Item is not in cart")
+        item.qty = 1
+        cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+        return
+      }
+    }
+    // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+  } else {
+    item.qty = 1
+    cart.$patch(cart.cartData.data[0] = item)
+    return
+  }
 }
 
 function leftArrow(item){
-  // console.log("Left arrow clicked")
-  imageNum.value = imageNum.value > 0 ? imageNum.value-=1 : imageNum.value=item.images.length;
+  // get current image number
+  let imageId = item.imageNum
+  if (imageId>0) {
+    imageId-=1
+  } else {
+    imageId = item.images.length
+  }
+  //patch the store with the new image number
+  const store = useProductDataStore()
+  for (let i = 0; i < store.productData.data.length; i++) {
+    if (store.productData.data[i].id == item.id) {
+      store.$patch( store.productData.data[i].imageNum = imageId )
+    }
+  }
 }
 
 function rightArrow(item){
-  // console.log("Right arrow clicked")
-  imageNum.value = item.images.length > imageNum.value ? imageNum.value+=1 : imageNum.value=0;
+  let imageId = item.imageNum
+  if (imageId<item.images.length) {
+    imageId+=1
+  } else {
+    imageId = 0
+  }
+  const store = useProductDataStore()
+  for (let i = 0; i < store.productData.data.length; i++) {
+    if (store.productData.data[i].id == item.id) {
+      store.$patch( store.productData.data[i].imageNum = imageId )
+    }
+  }
 }
 
 const show = ref(true)
 
-// function refreshAll() {refreshNuxtData('products')}
-function refreshProducts() {refreshNuxtData('productive')}
+function refreshAll() {refreshNuxtData()}
+// function refreshProducts() {refreshNuxtData('productive')}
 //
 //
 // const exampleResponse = {

@@ -262,8 +262,8 @@
     // themeIcon.value = 'mdi-weather-sunny' : 'mdi-weather-night'
 
     //probably a better way to do this, but it works well enough for now
-    var h1 = document.getElementsByTagName("h1");
-    for (var i = 0; i < h1.length; i++) {
+    let h1 = document.getElementsByTagName("h1");
+    for (let i = 0; i < h1.length; i++) {
         if (h1[i].className.includes('grayscale')){
           h1[i].className = h1[i].className.replace(' grayscale', '')
         }
