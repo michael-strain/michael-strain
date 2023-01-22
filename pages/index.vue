@@ -157,20 +157,20 @@
         </div> -->
     </v-parallax>
   </div>
-  <div class="w-full p-4 bg-emerald-400 flex">
+  <div class="w-full p-4 flex">
     <!--eslint-disable-next-line vuetify/no-deprecated-colors-->
-    <div class="flex h-full w-full text-center justify-center align-center">
-      <NuxtLink to="/subscribe" class="">
+    <div class="flex flex-wrap h-full w-full text-center justify-center align-center">
+      <NuxtLink to="/subscribe" class="flex-auto">
         <v-btn class="m-1 bg-white flex">
           <v-icon icon="mdi-email" class="m-2" />Subscribe to Emails
         </v-btn>
       </NuxtLink>
-      <NuxtLink to="/legal/faqs" class="">
+      <NuxtLink to="/legal/faqs" class="flex-auto">
         <v-btn class="m-1 bg-white flex">
           <v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions
         </v-btn>
       </NuxtLink>
-      <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ">
+      <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ" class="flex-auto">
         <v-btn class="m-1 bg-white flex">
           <v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey
         </v-btn>
