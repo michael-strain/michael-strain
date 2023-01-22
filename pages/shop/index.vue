@@ -72,7 +72,7 @@
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
                 >
-                  $15
+                  {{  formatter.format((item.variants[0].price)/100) }}
                 </p>
               </v-card>
 
@@ -135,6 +135,17 @@ const pending = ref(true)
 
 const store = useProductDataStore()
 const cart = useCartDataStore()
+const cartData = ref()
+
+// Create our number formatter.
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 
 if (store.productData != null && store.productData.data.length > 0) {
   console.log("Products are in store")
@@ -157,10 +168,6 @@ if (store.productData != null && store.productData.data.length > 0) {
   };
   const { data:productive, pending:penval } = useFetch(url, opts)
   pending.value = penval
-  // { pick: ["data"] }
-  // for (let i = 0; i < store.productData.data.length; i++) {
-  //   store.productData.data[i].$patch({imageNum: 0})
-  // }
   store.$patch({productData: productive})
   for (let i = 0; i < store.productData.data.length; i++) {
     store.$patch( store.productData.data[i].imageNum = 0 )
@@ -179,29 +186,39 @@ if (store.productData != null && store.productData.data.length > 0) {
 function heartClick(item){ 
   //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
 
+  console.log("Item id: " + item.id)
+
   // add item to cart based on item id
   const cart = useCartDataStore()
+  let notfound = true
+  cartData.value = storeToRefs(cart.cartData.data)
   if (cart.cartData.data != null && cart.cartData.data.length > 0) {
     console.log("Products are in cart")
     // if (item in cart.cartData.data) {
       
     for (let i = 0; i < cart.cartData.data.length; i++) {
-      if (item.id == cart.cartData.data[i].id) {
-        console.log("Item is in cart")
+      if (item.id === cart.cartData.data[i].id) {
+        notfound = false
+        console.log("Item is in cart:  " + i)
         item.qty +=1
         cart.$patch(cart.cartData.data[i] = item)
         return
       } else {
-        console.log("Item is not in cart")
-        item.qty = 1
-        cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
-        return
+        console.log("Not this item: " + i)
+        let notfound = true
+        // item.qty = 1
+        // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
       }
+    }
+    if (notfound) {
+      item.qty = 1
+      cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
     }
     // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
   } else {
+    console.log("Products are not in cart")
     item.qty = 1
-    cart.$patch(cart.cartData.data[0] = item)
+    cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
     return
   }
 }

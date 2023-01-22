@@ -1,3 +1,6 @@
+NEED TO FIX DATASTORE PERSISTENCE
+Fetch shipping pricing rather than assuming shipping price
+
 Current Thoughts 1/18/23
 ------------------------
 This site functions as both a development playground for a suite of services I intend to offer, as well as a technical showcase and portfolio.

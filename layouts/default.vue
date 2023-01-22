@@ -66,6 +66,11 @@
                   Home
                 </v-list-item>
               </NuxtLink>
+              <NuxtLink to="/shop">
+                <v-list-item link>
+                  Shop
+                </v-list-item>
+              </NuxtLink>
               <NuxtLink to="/services">
                 <v-list-item link>
                   Services
@@ -83,6 +88,7 @@
 
       <!-- Shopping Cart -->
       <!--MAKE FONT ROBOTO-->
+      <!--Make functional-->
       <v-navigation-drawer
         v-model="drawer"
         temporary
@@ -95,116 +101,106 @@
 
         <v-divider />
 
-        <v-list
-          nav
-        >
-          <div>
-            <img
-              src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
-            >
+        <div v-if="!cartProducts || cart.cartData.data.length==0">
+          <p class="text-center pt-3 pb-3">
+            Your cart is empty
+          </p>
+        </div>
+        <div v-else-if="cart.cartData.data.length>0">
+          <v-list
+            nav
+          >
+            <v-list-item v-for="(item, product) in cart.cartData.data" :key="product">
+              <!-- <v-list-item-avatar>
+                <v-img :src="item.images[item.imageNum]" />
+              </v-list-item-avatar>
+
+              <v-list-item-title>
+                {{ item.title }}
+              </v-list-item-title> -->
+
+              <div>
+                <img
+                  :src="item.images[item.imageNum].src"
+                >
+                <div>
+                  <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
+                    {{ item.title }}
+                  </h4>
+                  <div class="grid grid-cols-2">
+                    <div class="grid grid-cols-4">
+                      <button class="text-center" @click="item.qty--; cart.$patch(cart.cartData.data[i] = item)">
+                        -
+                      </button>
+                      <p class="text-center">
+                        {{ item.qty }}
+                      </p>
+                      <button class="text-center" @click="item.qty++; cart.$patch(cart.cartData.data[i] = item)">
+                        +
+                      </button>
+                    </div>
+                    <div class="grid grid-col-3">
+                      <p class="text-right">
+                        {{ formatter.format((item.variants[0].price * item.qty)/100) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </v-list-item>
+
+
+
+            
+
+            <v-divider class="mt-4 mb-4" />
+
             <div>
-              <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
-                Glowing Mushroom Mug
-              </h4>
-              <div class="grid grid-cols-2">
-                <div class="grid grid-cols-4">
-                  <!--FUTURE Button <v-btn
-                    class="text-wraptext !bg-white"
+              <div>
+                <div class="grid grid-cols-2 mb-3">
+                  <h4 class="text-2xl font-bold">
+                    Total
+                  </h4>
+                  <p class="text-right text-2xl">
+                    {{ formatter.format((cart.cartData.data.reduce((a, b) => a + (b.variants[0].price * b.qty), 0) + 500)/100) }}
+                  </p>
+                </div>
+                
+                <div>
+                  <div class="grid grid-cols-2">
+                    <p>Item Cost</p>
+                    <div class="grid grid-col-2">
+                      <p class="text-right">
+                        {{ formatter.format((cart.cartData.data.reduce((a, b) => a + (b.variants[0].price * b.qty), 0))/100) }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2">
+                    <p>Shipping</p>
+                    <div class="grid grid-col-2">
+                      <p class="text-right">
+                        $5.00
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <v-divider class="mt-4 mb-4" />
+                  <v-btn
+                    class="text-wrap !bg-white"
                     variant="outlined"
                     :style="{fontFamily: 'Roboto Slab'}"
+                    @click="moveToCheckout"
                   >
-                    <p class="">
-                      X
+                    <p class="text-base">
+                      Check Out
                     </p>
-                  </v-btn> -->
-                  <button class="text-center">
-                    -
-                  </button>
-                  <p class="text-center">
-                    1
-                  </p>
-                  <button class="text-center">
-                    +
-                  </button>
-                </div>
-                <div class="grid grid-col-3">
-                  <p class="text-right">
-                    $15.00
-                  </p>
+                  </v-btn>
                 </div>
               </div>
             </div>
-          </div>
-
-          <v-divider class="mt-4 mb-4" />
-
-          <div>
-            <div>
-              <div class="grid grid-cols-2 mb-3">
-                <h4 class="text-2xl font-bold">
-                  Total
-                </h4>
-              <p class="text-right text-2xl">
-                $17.00
-              </p>
-              </div>
-              
-              <div>
-                <div class="grid grid-cols-2">
-                  <p>Item Cost</p>
-                  <div class="grid grid-col-2">
-                    <p class="text-right">
-                      $15.00
-                    </p>
-                  </div>
-                </div>
-                <div class="grid grid-cols-2">
-                  <p>Shipping</p>
-                  <div class="grid grid-col-2">
-                    <p class="text-right">
-                      $2.00
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <v-divider class="mt-4 mb-4" />
-                <!-- <p>---Make Buttons Side-By-Side---</p> -->
-                <v-btn
-                  class="text-wraptext !bg-white"
-                  variant="outlined"
-                  :style="{fontFamily: 'Roboto Slab'}"
-                >
-                  <p class="text-base">
-                    Check Out
-                  </p>
-                </v-btn>
-              </div>
-              <!--FUTURE Button <v-btn
-                class="text-wraptext !bg-white"
-                variant="outlined"
-                :style="{fontFamily: 'Roboto Slab'}"
-              >
-                <p class="text-baseyar">
-                  X
-                </p>
-              </v-btn> -->
-            </div>
-          </div>
-
-          
-
-          <!-- <v-list-item
-            prepend-icon="mdi-view-dashboard"
-            title="Home"
-            value="home"
-          />
-          <v-list-item
-            prepend-icon="mdi-forum"
-            title="About"
-            value="about"
-          /> -->
-        </v-list>
+          </v-list>
+        </div>
       </v-navigation-drawer>
       <!-- End Shopping Cart -->
 
@@ -223,6 +219,11 @@
 
 <script setup>
   import { ref } from 'vue'
+  import { storeToRefs } from 'pinia'
+  import { useCartDataStore } from '~/stores/cartData';
+
+  const router = useRouter()
+  const moveToCheckout = ref(() => router.push('/shop/checkout'))
 
   const theme = ref('myCustomLightTheme')
   const themeIcon = ref('mdi-weather-sunny')
@@ -230,15 +231,52 @@
   const dialog = ref(false)
   const dialogText = ref('')
   const drawer = ref(null)
+  const cartProducts = ref()
 
+  const cart = useCartDataStore()
+  cartProducts.value = storeToRefs(cart.cartData.cartData)
+
+  // Create our number formatter.
+  const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+
+      // These options are needed to round to whole numbers if that's what you want.
+      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
 
   // const route = useRoute()
   const pageTitle = computed(() => useRoute().path)
 
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
-      console.log("I'm gonna be a shopping cart someday")
       drawer.value=!drawer.value
+      const cart = useCartDataStore()
+      cartProducts.value = storeToRefs(cart.cartData.cartData)
+
+      
+
+      //fill cart with cartProducts from the datastore
+      //if empty, display empty cart message
+      //if not empty, display cart items
+      // console.log(cart.cartItems)
+      // console.log(cart.cartItems.length)
+      // console.log(cart.cartItems[0])
+      // console.log(cart.cartItems[0].name)
+      // console.log(cart.cartItems[0].price)
+      // console.log(cart.cartItems[0].image)
+      // console.log(cart.cartItems[0].quantity)
+      // console.log(cart.cartItems[0].id)
+      // console.log(cart.cartItems[0].description)
+      // console.log(cart.cartItems[0].category)
+      // console.log(cart.cartItems[0].rating)
+      // console.log(cart.cartItems[0].numReviews)
+      // console.log(cart.cartItems[0].countInStock)
+      // console.log(cart.cartItems[0].brand)
+
+      
+
       // dialog.value = true
       // dialogText.value = "Hello.  I am going to display a shopping cart soon."
       // dialogClicked()
@@ -274,16 +312,6 @@
     }
   }
 
-  function heartClick() {
-    //animate some hearts and request a donation lol
-    if (heart.value == "❤️"){
-      heart.value=""
-    }
-    else{
-      heart.value="❤️"
-    }
-  }
-
   function searchClick(){
     console.log("I have no idea how to integrate search functionality into Nuxt yet.")
     dialog.value = true
@@ -291,10 +319,3 @@
     // dialogClicked()
   }
 </script>
-
-<style>
-  /* .custom-class {
-    background: rgb(var(--v-theme-custcard));
-    color: rgba(var(--v-theme-on-custcard), 0.9);
-  } */
-</style>
