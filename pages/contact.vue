@@ -78,68 +78,99 @@
       
       <div class="flex h-full">
         <!--Form-->
-        <v-form class="flex sm:w-3/4">
-          <v-card class="m-10">
-            <v-container class="<sm:w-full d-flex flex-column fill-height justify-center text-center align-center font-bold">
-              <h1 class="text-2xl mb-5 text-center">
+        <v-form class="flex text-center align-middle items-center justify-center flex-shrink">
+          <v-card class="w-2/3 m-10">
+            <v-container class="">
+              <h1 class="text-2xl mb-10 mt-5 text-center">
                 What Do You Think?
               </h1>
-              <v-row class="flex">
-                <v-col class="flex">
+              <p class="mb-10 bg-custcard">
+                Make text field wrap. <br>Make text field clearable.<br>Change input field color.<br>
+              </p>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
                   <v-text-field
                     label="First Name"
                     placeholder="First Name"
-                    variant="solo"
+                    variant="outlined"
                   />
                 </v-col>
-                <v-col class="flex">
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
                   <v-text-field
                     label="Last Name"
                     placeholder="Last Name"
-                    variant="solo"
+                    variant="outlined"
+                    class="bg-custcard"
                   />
                 </v-col>
               </v-row>
               <v-row>
-                <v-col class="flex">
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
                   <v-text-field
                     label="Email Address"
                     placeholder="Email Address"
-                    variant="solo"
+                    variant="outlined"
                   />
                 </v-col>
-                <v-col class="flex">
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
                   <v-text-field
                     label="Phone Number"
                     placeholder="Phone Number"
-                    variant="solo"
+                    variant="outlined"
                   />
                 </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col
+                  cols="12"
+                >
                   <v-textarea
                     label="We love to hear what you have to say."
                     placeholder="We love to hear what you have to say."
-                    variant="solo"
+                    variant="outlined"
                     auto-grow
                   />
                 </v-col>
+            
+                <v-col>
+                  <row class="flex text-center align-middle items-center justify-center">
+                    <div class="sm:flex align-middle items-center h-min">
+                      <v-col
+                        cols="12"
+                        sm="6"
+                      >
+                        <v-btn class="align-middle items-center h-full">
+                          <v-icon
+                            icon="mdi-email"
+                            class="mr-3"
+                          />Send Message
+                        </v-btn>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                      >
+                        <v-checkbox
+                          class="h-14 text-black"
+                          label="Subscribe to Emails"
+                        />
+                      </v-col>
+                    </div>
+                  </row>
+                </v-col>
               </v-row>
-              <row class="flex text-center align-middle items-center justify-center">
-                <div class="flex align-middle items-center h-min">
-                  <v-btn class="align-middle items-center h-full">
-                    <v-icon
-                      icon="mdi-email"
-                      class=""
-                    />Send Message
-                  </v-btn>
-                  <v-checkbox
-                    class="pl-10 h-14 min-w-20"
-                    label="Subscribe to Emails"
-                  />
-                </div>
-              </row>
             </v-container>
           </v-card>
         </v-form>
@@ -241,6 +272,9 @@
           <h1 class="text-2xl mb-10 mt-5 text-center">
             What Do You Think?
           </h1>
+          <p class="mb-10 bg-custcard">
+            Make text field wrap. <br>Make text field clearable.<br>Change input field color.<br>
+          </p>
           <v-row>
             <v-col
               cols="12"
@@ -249,7 +283,7 @@
               <v-text-field
                 label="First Name"
                 placeholder="First Name"
-                variant="solo"
+                variant="outlined"
               />
             </v-col>
             <v-col
@@ -259,7 +293,8 @@
               <v-text-field
                 label="Last Name"
                 placeholder="Last Name"
-                variant="solo"
+                variant="outlined"
+                class="bg-custcard"
               />
             </v-col>
           </v-row>
@@ -271,7 +306,7 @@
               <v-text-field
                 label="Email Address"
                 placeholder="Email Address"
-                variant="solo"
+                variant="outlined"
               />
             </v-col>
             <v-col
@@ -281,7 +316,7 @@
               <v-text-field
                 label="Phone Number"
                 placeholder="Phone Number"
-                variant="solo"
+                variant="outlined"
               />
             </v-col>
           </v-row>
@@ -292,19 +327,19 @@
               <v-textarea
                 label="We love to hear what you have to say."
                 placeholder="We love to hear what you have to say."
-                variant="solo"
+                variant="outlined"
                 auto-grow
               />
             </v-col>
             
             <v-col>
               <row class="flex text-center align-middle items-center justify-center">
-                <div class="md:flex align-middle items-center h-min">
+                <div class="sm:flex align-middle items-center h-min">
                   <v-col
                     cols="12"
                     sm="6"
                   >
-                    <v-btn class="align-middle items-center h-full ">
+                    <v-btn class="align-middle items-center h-full">
                       <v-icon
                         icon="mdi-email"
                         class="mr-3"
