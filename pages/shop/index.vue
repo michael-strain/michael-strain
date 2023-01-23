@@ -72,7 +72,7 @@
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
                 >
-                  {{  formatter.format((item.variants[0].price)/100) }}
+                  {{ formatter.format((item.variants[0].price)/100) }}
                 </p>
               </v-card>
 

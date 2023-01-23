@@ -221,6 +221,7 @@
   import { ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useCartDataStore } from '~/stores/cartData';
+  // import { firebase } from '~/plugins/firebase'
 
   const router = useRouter()
   const moveToCheckout = ref(() => router.push('/shop/checkout'))

@@ -1,9 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  Hello
   <div>
     <div
-      v-if="infoSubmitted"
+      v-if="cart.cartData.data === null || cart.cartData.data.length === 0"
+    >
+      <NuxtLink to="/shop">
+        Cart Empty, Go Shop
+      </NuxtLink>
+    </div>
+    <div
+      v-else-if="infoSubmitted"
     >
       <!-- Show the items and pricing info -->
       <div
@@ -141,7 +147,7 @@ const cart = useCartDataStore()
 const cartData = ref()
 cartData.value = storeToRefs(cart.cartData.data)
 
-function submitShippingInfo() {
+async function submitShippingInfo() {
   // for each item in cart get the shipping cost and create line items
   const cart = useCartDataStore()
   const shipTotal = ref()
@@ -174,22 +180,23 @@ function submitShippingInfo() {
       }
     }
     // get shipping cost
+    // not working yet
     const opts = {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-      'User-Agent': 'Michael-Strain Nuxt App'
-    },
-    body: JSON.stringify({
-      line_items: lineItems.value,
-      address_to: addressTo.value
-    })
-  };
-  const url = 'https://api.printful.com/v1/shops/6483145/orders/shipping.json'
-  const { data:productive, pending:penval } = useFetch(url, opts)
-  pending.value = penval
-  console.log(productive)
-    
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
+        'Access-Control-Allow-Origin': 'https://localhost:3000/shop/*',
+        'User-Agent': 'Michael-Strain Nuxt App'
+      },
+      body: {
+        'line_items': lineItems.value,
+        'address_to': addressTo.value
+      }
+    };
+    const url = 'https://api.printful.com/v1/shops/6483145/orders/shipping.json'
+    // const { data:shipCost } = await useFetch(url, opts)
+    console.log(await useFetch(url, opts))
   }
   infoSubmitted.value = true
 }
