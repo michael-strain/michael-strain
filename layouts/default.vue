@@ -32,7 +32,7 @@
     <!-- End Popup -->
 
     <v-main :class="pageTitle=='/' ? 'pt-0':''">
-      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="pageTitle=='/' ? 'py-0 my-0' :''">
+      <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="noHeaderPadding.includes(useRoute().path) ? 'py-0 my-0' : ''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
           <NuxtLink v-slot="{navigate}" to="/" class="my-1">
             <v-avatar :tile="true" class="mx-2">
@@ -222,6 +222,8 @@
   import { storeToRefs } from 'pinia'
   import { useCartDataStore } from '~/stores/cartData';
 
+  const noHeaderPadding = ref(['/','/contact'])
+
   const router = useRouter()
   const moveToCheckout = ref(() => router.push('/shop/checkout'))
 
@@ -248,6 +250,7 @@
 
   // const route = useRoute()
   const pageTitle = computed(() => useRoute().path)
+  // let pageTitle = ref(async () => {console.log(useRoute().path); return useRoute().path.tostring()})
 
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
