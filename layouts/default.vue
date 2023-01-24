@@ -221,6 +221,7 @@
   import { ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useCartDataStore } from '~/stores/cartData';
+  // import { firebase } from '~/plugins/firebase'
 
   const noHeaderPadding = ref(['/','/contact'])
 

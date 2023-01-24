@@ -116,7 +116,9 @@
           <div class="flex justify-center items-center text-center">
             <!-- <div class="w-1/2 p-5 flex justify-center items-center text-center"></div> -->
             <div class="m-10">
-              <h1 class="text-2xl mb-5">
+              <h1
+                class="text-2xl mb-5" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px rgba(52, 211, 153)' }"
+              >
                 Back-End Web Development
               </h1>
               <p class="text-justify">
@@ -134,7 +136,9 @@
           <!-- Ash wants this to be bg-white-->
           <div class="flex justify-center items-center text-center">
             <div class="m-10">
-              <h1 class="text-2xl mb-5">
+              <h1
+                class="text-2xl mb-5" :style="{ fontFamily: 'Roboto Slab', textShadow: '2px 2px rgba(52, 211, 153)' }"
+              >
                 Front-End Web Development
               </h1>
               <p class="text-justify">

@@ -1,8 +1,10 @@
-// nuxt.config.ts
+// // nuxt.config.ts
 // import { defineNuxtConfig } from 'nuxt'
 
-//https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    runtimeConfig: {
+        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    },
     modules:[
         'nuxt-windicss',
         '@pinia/nuxt',
