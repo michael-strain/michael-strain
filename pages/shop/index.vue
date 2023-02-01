@@ -126,6 +126,8 @@ import { ref } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
 import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
+
 // import { useCartStore } from '~/stores/cart';
 
 const url = 'https://api.printify.com/v1/shops/6483145/products.json'
@@ -147,7 +149,29 @@ const formatter = new Intl.NumberFormat('en-US', {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
-if (store.productData != null && store.productData.data.length > 0) {
+
+
+// TODO
+
+const localstore = useLocalStorage('productData')
+
+// If localstore data is present but store.productData is not
+// set patch store with locally-stored data
+
+//  IDK if this does anything worth doing
+// onMounted(async () => {
+//   if (store.productData != null && store.productData.data.length > 0 ){
+//     products.value = storeToRefs(store.productData.data)
+//   }
+// })
+
+// If store.productData is set but localstore isn't
+// store it locally i guess - but i think this should be happening already
+
+//Figure out if i need to use mounted and store locally on client, or if i can store on server (or should store in firestore)
+
+//modify this
+if ((store.productData != null && store.productData.data.length > 0 )|| (localstore.value !=null && JSON.parse(localstore.value).data.length>0)) {
   console.log("Products are in store")
   for (let i = 0; i < store.productData.data.length; i++) {
     store.$patch( store.productData.data[i].imageNum = 0 )

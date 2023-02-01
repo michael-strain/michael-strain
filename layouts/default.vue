@@ -34,11 +34,21 @@
     <v-main :class="pageTitle=='/' ? 'pt-0':''">
       <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="noHeaderPadding.includes(useRoute().path) ? 'py-0 my-0' : ''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
-          <NuxtLink v-slot="{navigate}" to="/" class="my-1">
-            <v-avatar :tile="true" class="mx-2">
-              <v-img src="/img/MLogo.png" lazy-src="/img/MLogo.png" role="link" @click="navigate" />
-            </v-avatar>
-          </NuxtLink>
+          <div v-if="firebaseUser" class="my-1">
+            <NuxtLink v-slot="{navigate}" to="/account" class="my-1">
+              <v-avatar :tile="true" class="mx-2">
+                <!-- Use a user profile img as the src here, if profile img empty, use the mdi-icon -->
+                <v-img src="/img/MLogo.png" role="link" @click="navigate" />
+              </v-avatar>
+            </NuxtLink>
+          </div>
+          <div v-else class="my-1">
+            <NuxtLink v-slot="{navigate}" to="/login" class="my-1">
+              <v-avatar :tile="true" class="mx-2">
+                <v-img src="/img/MLogo.png" role="link" @click="navigate" />
+              </v-avatar>
+            </NuxtLink>
+          </div>
           <NuxtLink to="/" class="my-3 mr-4">
             <v-toolbar-title>
               <p class="text-md sm:text-lg md:text-xl font-bold tracking-widest">
@@ -80,6 +90,14 @@
                 <v-list-item link>
                   Blog
                 </v-list-item>
+              </NuxtLink>
+              <NuxtLink v-if="firebaseUser" to="/account">
+                <v-list-item link>
+                  Account
+                </v-list-item>
+              </NuxtLink>
+              <NuxtLink v-if="firebaseUser" to="/">
+                <v-list-item link @click="signOut" />
               </NuxtLink>
             </v-list>
           </v-menu>
@@ -223,6 +241,13 @@
   import { useCartDataStore } from '~/stores/cartData';
   // import { firebase } from '~/plugins/firebase'
 
+  const firebaseUser = useFirebaseUser()
+  console.log(firebaseUser)
+
+  const signOut = async () => {
+    await signOutUser()
+  }
+
   const noHeaderPadding = ref(['/','/contact'])
 
   const router = useRouter()
@@ -248,6 +273,14 @@
       //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
       //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
+
+  // These won't work until I sign up with algolia and create an index
+
+  // const { result, search } = useAlgoliaSearch('index')
+
+  // onMounted(async () => {
+  //   await search({query: 'Search Query'})
+  // })
 
   // const route = useRoute()
   const pageTitle = computed(() => useRoute().path)
