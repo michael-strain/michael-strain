@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
     <!--First Section-->
@@ -9,18 +10,29 @@
           class="bg-gray-100"
         >
           <p>Header</p>
-          <p class="my-5">Sub Text</p>
+          <p class="my-5">
+            Sub Text
+          </p>
           <div>
             <div class="bg-yellow-100 flex my-5">
-              <v-icon class="mr-5" icon="mdi-candy-outline" />
+              <v-icon
+                class="mr-5"
+                icon="mdi-candy-outline"
+              />
               <p>Paragraph</p>
             </div>
             <div class="bg-yellow-100 flex my-5">
-              <v-icon class="mr-5" icon="mdi-candy-outline" />
+              <v-icon
+                class="mr-5"
+                icon="mdi-candy-outline"
+              />
               <p>Paragraph</p>
             </div>
             <div class="bg-yellow-100 flex my-5">
-              <v-icon class="mr-5" icon="mdi-candy-outline" />
+              <v-icon
+                class="mr-5"
+                icon="mdi-candy-outline"
+              />
               <p>Paragraph</p>
             </div>
           </div>
