@@ -4,7 +4,7 @@ import { getFirestore } from "@firebase/firestore"
 import { getAnalytics } from "@firebase/analytics"
 
 export default defineNuxtPlugin(nuxtApp => {
-  const config = useRuntimeConfig()
+  // const config = useRuntimeConfig()
 
   const firebaseConfig = {
     apiKey: "AIzaSyDv2dJDwn9QNmkNiqB-INMD9EklS-B-Lfk",

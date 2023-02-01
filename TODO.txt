@@ -1,3 +1,10 @@
+Current Priorities as of 02/01/23
+---------------------------------
+Got auth functional but unpleasant, now to work on firestore...
+
+
+Undated Thoughts
+------------------
 NEED TO FIX DATASTORE PERSISTENCE
 Fetch shipping pricing rather than assuming shipping price
 Proper async data fetching without page reloads and cors issues
