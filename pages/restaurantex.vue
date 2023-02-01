@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="bg-gradient-to-b from-sky-800 mx-auto">
     <!--First Section-->

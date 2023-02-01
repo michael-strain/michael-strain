@@ -8,10 +8,22 @@ export default defineNuxtConfig({
     modules:[
         'nuxt-windicss',
         '@pinia/nuxt',
+        '@pinia-plugin-persistedstate/nuxt',
         '@nuxt/content',
         '@nuxtjs/web-vitals',
         '@vueuse/nuxt',
+        // TODO - Activate and integrate with Algolia
+        // ['@nuxtjs/algolia',{
+        //     apiKey: process.env.ALGOLIA_API_KEY,
+        //     applicationId: process.env.ALGOLIA_APP_ID
+        // }]
     ],
+    piniaPersistedstate:{
+        cookieOptions: {
+            sameSite: 'strict',
+        },
+        storage: 'localStorage'
+    },
     css:[
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.min.css',
