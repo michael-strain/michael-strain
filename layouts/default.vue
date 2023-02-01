@@ -242,7 +242,7 @@
   // import { firebase } from '~/plugins/firebase'
 
   const firebaseUser = useFirebaseUser()
-  console.log(firebaseUser)
+  // console.log(firebaseUser)
 
   const signOut = async () => {
     await signOutUser()
