@@ -7,7 +7,7 @@
       <v-parallax
         src="img/purple-red-tree.jpg"
         lazy-src="img/purple-red-tree.jpg"
-        class="items-center align-middle"
+        class="items-center align-middle p-0 m-0 h-100"
       >
         <v-form class="flex text-center align-middle items-center justify-center flex-shrink mt-20">
           <v-card class="w-2/3 my-5">
