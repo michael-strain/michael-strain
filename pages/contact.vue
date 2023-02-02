@@ -14,7 +14,7 @@
             <v-container class="">
               <!-- <h1 class="text-3xl my-10 text-center"> -->
               <h3
-                class="text-black justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
+                class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
                 :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
               >
                 Contact Us
