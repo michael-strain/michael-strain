@@ -318,10 +318,7 @@
       // dialogText.value = "Hello.  I am going to display a shopping cart soon."
       // dialogClicked()
     } else {
-      console.log("Profile pressed but I don't know what to do yet")
-      dialog.value = true
-      dialogText.value = "Hello.  I don't know how to do accounts yet.  Sorry"
-      // dialogClicked()
+      router.push('/account')
     }
   }
 
