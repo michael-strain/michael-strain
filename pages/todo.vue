@@ -1,29 +1,19 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <p>{{ todos }}</p>
+  <div>
+    <pre>{{ todos }}</pre>
+  </div>
 </template>
 
 <script setup>
-import { initializeApp } from 'firebase/app'
-import { getFirestore, collection } from 'firebase/firestore'
-import { useCollection } from 'vuefire'
-import { createApp } from 'vue'
+import { ref } from 'vue'
+const todos = ref()
 
-// const firebase = initializeApp({projectId: 'michael-strain'})
-// const db = getFirestore(firebase)
+//THIS IS A PRIME EXAMPLE OF DATA FETCHING FROM OUR OWN API
 
-const nuxtApp = useNuxtApp()
-const db = nuxtApp.$firestore
-console.log(db)
-
-createApp({
-  setup(){
-    const todosRef = collection(db, 'todos')
-    const todos = useCollection(todosRef)
-
-    console.log(todos)
-
-    return { todos }
-  }
+onMounted(async() => {
+  const { result } = await $fetch("/api/query?col=todos")
+  todos.value = result
 })
+
 </script>

@@ -24,11 +24,11 @@ export default defineNuxtPlugin(nuxtApp => {
 
   const analytics = getAnalytics(app)
   const auth = getAuth(app)
-  const firestore = getFirestore(app)
+  // const firestore = getFirestore(app)
 
   nuxtApp.vueApp.provide('auth', auth)
   nuxtApp.provide('auth', auth)
 
-  nuxtApp.vueApp.provide('firestore',firestore)
-  nuxtApp.provide('firestore',firestore)
+  // nuxtApp.vueApp.provide('firestore',firestore)
+  // nuxtApp.provide('firestore',firestore)
 })
