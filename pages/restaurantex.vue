@@ -1,10 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <!--To Do: 
-  Section One: Parallax spacing.
-  Section Two: Make rows hold three items.
-  Section Three: Map to the left.
-  Section Three: Contact, phone number, hours, and email. 
+  Section One: 
+    Parallax spacing.
+
+  Section Two:
+    Make rows hold three items.
+    Why are interior divs overflowing?
+
+  Section Three:
+    Map to the left.
+    Contact, phone number, hours, and email. 
+    Overlapping left and right divs.
+
 -->
 <template>
   <!--First Section-->
@@ -102,7 +110,6 @@
         class="bg-gray-100"
       >
         <div class="bg-yellow-100 flex my-5">
-          
           <h1 class="text-h6 !font-bold sm:text-h3">
             Dish name
           </h1>
@@ -110,11 +117,11 @@
         <v-col class="">
           <p class="">
             <v-icon
-            class="pr-3"
-            icon="mdi-candy-outline"
-          />The following are ingredients: Relate your restaurant's story to its core values.
-        </p>
-      </v-col>
+              class="pr-3"
+              icon="mdi-candy-outline"
+            />The following are ingredients: Relate your restaurant's story to its core values.
+          </p>
+        </v-col>
       </v-col>
       <v-col
         cols=""
@@ -174,43 +181,45 @@
   </div>
 
   <!--Third Section-->
-  <div class="bg-gradient-to-b from-sky-200 text-center">
-    <v-row class="">
+  <div class="bg-gradient-to-b from-sky-200">
+    <v-row class="p-10">
+      <!--Map Image Column-->
       <v-col
         cols=""
         sm=""
-        class="flex"
+        class="opacity-50 bg-green-400"
       >
         <img
           src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" 
-          class="bg-red-100 m-15 object-scale-down"
+          class="bg-red-100 object-scale-down"
         >
       </v-col>
-
+      <divider class="p-5" />
+      <!--Contact/Info Column-->
       <v-col
         cols=""
         sm=""
-        class=""
+        class="opacity-50 bg-sky-400 py-5"
       >
-        <h1 class="text-h3 !font-bold sm:text-h3">
+        <h1 class="text-h5 !font-bold">
           Restaurant Example Header
         </h1>
-        <div class="flex flex-wrap">
-          <div class="flex mx-5">
+        <div class="">
+          <div class="flex py-2">
             <v-icon
               class="mr-3"
               icon="mdi-candy-outline"
             />
             <p>Open Monday thru Saturday, 8AM - 10PM</p>
           </div>
-          <div class="flex mx-5">
+          <div class="flex py-2">
             <v-icon
               class="mr-3"
               icon="mdi-candy-outline"
             />
             <p>852 Maybell Street, Shitty City, State</p>
           </div>
-          <div class="flex mx-5">
+          <div class="flex py-2">
             <v-icon
               class="mr-3"
               icon="mdi-candy-outline"
@@ -219,10 +228,6 @@
           </div>
         </div>
       </v-col>
-      <v-divider
-        vertical
-        class="p-5"
-      />
     </v-row>
   </div>
 </template>
