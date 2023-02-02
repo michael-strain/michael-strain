@@ -22,7 +22,7 @@ export default defineNuxtPlugin(nuxtApp => {
 
   initUser()
 
-  const analytics = getAnalytics(app)
+  // const analytics = getAnalytics(app)
   const auth = getAuth(app)
   // const firestore = getFirestore(app)
 
