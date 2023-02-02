@@ -1,3 +1,14 @@
+Thoughts 2/2/23
+---------------
+-Take everything learned and integrated from firestore and storage implementation
+    -Turn it into a working version of auth
+    -Rebuild our store to rely more on firestore and storage
+    -Make an admin panel (Add Product Page [Option to add to each integration: { Printify | Local | Etc }])
+    -Integrate more printify api stuff!
+    -Integrate payment processing )_)
+-Skeletons for fetched (especially lazy loaded or async fetched) data
+-Flesh out the todos - allow for image and file upload, date and time selectors, calendar integration and push notifications, auth/users, teams/members and invitations
+
 Current Priorities as of 02/01/23
 ---------------------------------
 Got auth functional but unpleasant, now to work on firestore...
