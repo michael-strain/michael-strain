@@ -1,9 +1,26 @@
 <template>
   <div>
-    <p>Yo</p>
-    <p>Upload somethin' will ya?</p>
+    <v-container>
+      <p>Yo</p>
+      <p>Upload somethin' will ya?</p>
 
-    <form class="w-full max-w-lg">
+      <!-- https://next.vuetifyjs.com/en/components/file-inputs/ -->
+
+      <div class="w-full">
+        <v-file-input
+          chips
+          multiple
+          label="File input w/ chips"
+          @change="onFileChange"
+        />
+        <v-progress-circular
+          v-if="fileUploading"
+          indeterminate
+        />
+      </div>
+    </v-container>
+
+    <!-- <form class="w-full max-w-lg">
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -25,7 +42,7 @@
           </label>
         </div>
       </div>
-    </form>
+    </form> -->
   </div>
 </template>
 
@@ -34,12 +51,13 @@
 const emits = defineEmits(["fileChange","fileUploading"])
 
 const onFileChange = async (e) => {
-  // emits("fileUploading", true)
+  emits("fileUploading", true)
   var files = e.target.files || e.dataTransfer.files
   if (!files.length) return
 
+  // uploadFile comes from ./combosables/firebase.ts
   const { snapshot, downloadUrl, metadata } = await uploadFile(files[0])
-  // emits("fileUploading",false)
+  emits("fileUploading",false)
   emits("fileChange", snapshot, downloadUrl, metadata)
 }
 </script>
