@@ -2,6 +2,7 @@
 <template>
   <div>
     <pre>{{ todos }}</pre>
+    <FirebaseUpload />
   </div>
 </template>
 

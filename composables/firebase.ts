@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import { getStorage, ref, uploadString } from "firebase/storage"
+import { getStorage, ref, uploadString, getDownloadURL, getMetadata } from "firebase/storage"
 // import { getAnalytics } from "firebase/analytics";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -22,11 +22,54 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app)
 
-export const saveFile = (fullPath, file) => {
+export const saveFile = async (fullPath, file) => {
   // const storageRef = ref(storage)
-  const imageRef = ref(storage, fullPath)
+  const storageRef = ref(storage, fullPath)
 
-  
+  // const uploadTask = uploadString(storageRef,file,"data_url")
+
+  // // // Pause the upload
+  // // uploadTask.pause();
+
+  // // // Resume the upload
+  // // uploadTask.resume();
+
+  // // // Cancel the upload
+  // // uploadTask.cancel();
+
+  // uploadTask.on('state_changed',
+  // (snapshot) => {
+  //   const progress = ( snapshot.bytesTransferred / snapshot.totalBytes ) * 100
+  //   console.log("Upload is " + progress + "% done")
+  //   switch (snapshot.state) {
+  //     case 'paused':
+  //       console.log("Upload is paused")
+  //       break
+  //     case 'running':
+  //       console.log("Upload is running")
+  //       break
+  //   }
+  // },
+  // (error) => {
+  //   //handle unsuccessful uploads
+  // },
+  // () => {
+  //   //Handle successful uploads on complete
+  //   const downloadUrl = getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+  //     return downloadUrl
+  //   })
+  //   const metadata = getMetadata(storageRef)
+  //   return { uploadTask.snapshot.ref, downloadUrl, metadata }
+  // })
+
+  // //This works perfectly
+  const snapshot = await uploadString(storageRef, file, "data_url")
+  if(snapshot) {
+    const downloadUrl = await getDownloadURL(snapshot.ref)
+    const metadata = await getMetadata(storageRef)
+    return { snapshot, downloadUrl, metadata }
+  }
+
 
   // // Example of storing a file to google storage
   // const storageRef = ref(storage, "test.txt")
@@ -34,6 +77,22 @@ export const saveFile = (fullPath, file) => {
   // uploadString(storageRef, message, 'data_url').then((snapshot) => {
   //   console.log('Uploaded a data_url string!');
   // })
+}
+
+export const uploadFile = async (file) => {
+  return await new Promise(function (resolve, reject) {
+    var reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = async (e) => {
+      const result = reader.result
+      const { snapshot, downloadUrl, metadata } = await saveFile("images/" + file.name, result)
+      if(snapshot){
+        resolve({ snapshot, downloadUrl, metadata })
+      } else {
+        reject()
+      }
+    }
+  })
 }
 
 //uploadString() returns an UploadTask, which you can use as a promise or use to manage and monitor the status of the upload.
