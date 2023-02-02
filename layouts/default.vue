@@ -43,7 +43,7 @@
             </NuxtLink>
           </div>
           <div v-else class="my-1">
-            <NuxtLink v-slot="{navigate}" to="/login" class="my-1">
+            <NuxtLink v-slot="{navigate}" to="/" class="my-1">
               <v-avatar :tile="true" class="mx-2">
                 <v-img src="/img/MLogo.png" role="link" @click="navigate" />
               </v-avatar>

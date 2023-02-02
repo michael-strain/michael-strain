@@ -3,6 +3,12 @@
 // import { getFirestore } from "firebase/firestore"
 // import { getAnalytics } from "firebase/analytics"
 
+export default defineNuxtPlugin(nuxtApp => {
+  const tellme = () => {
+    console.log("This is a shitty plugin, Michael sucks at web dev")
+  }
+})
+
 // export default defineNuxtPlugin(nuxtApp => {
 //   // const config = useRuntimeConfig()
 
