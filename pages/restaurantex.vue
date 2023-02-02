@@ -6,12 +6,13 @@
 
   Section Two:
     Make rows hold three items.
-    Why are interior divs overflowing?
+    Center Dish Name.
+    Move icons to description.
+    Make icon key gap left to right only. 
 
   Section Three:
-    Map to the left.
-    Contact, phone number, hours, and email. 
-    Overlapping left and right divs.
+    Change text size based on screen width.
+    Format image size and position to something more adaptable.
 
 -->
 <template>
@@ -85,7 +86,7 @@
   </div>
 
   <!--Second Section-->
-  <div class="px-35 grid bg-gradient-to-t from-red-200 mx-auto flex text-center align-middle items-center justify-center flex-shrink">
+  <div class="py-10 px-30 grid bg-gradient-to-t from-red-200 mx-auto flex text-center align-middle items-center justify-center flex-shrink">
     <!--Menu Category-->
     <row>
       <v-col
@@ -96,14 +97,37 @@
         <h1 class="text-h4 !font-bold sm:text-h3">
           BREAKFAST
         </h1>
-        <p class="mb-15">
+        <p class="py-3">
           Breakfast is served with your choice of bacon, sausage, or hashbrowns.
         </p>
+        <div class="gap-7 flex flex-wrap items-center align-center justify-center">
+          <div class="flex">
+            <v-icon
+              class="mr-1"
+              icon="mdi-candy-outline"
+            />
+            <p>Spicy</p>
+          </div>
+          <div class="flex">
+            <v-icon
+              class="mr-1"
+              icon="mdi-candy-outline"
+            />
+            <p>Vegetarian</p>
+          </div>
+          <div class="flex">
+            <v-icon
+              class="mr-1"
+              icon="mdi-candy-outline"
+            />
+            <p>Vegan</p>
+          </div>
+        </div>
       </v-col>
     </row>
     
     <!--Menu Options-->
-    <v-row class="gap-15">
+    <v-row class="gap-15 pt-5">
       <v-col
         cols=""
         sm=""
@@ -187,7 +211,7 @@
       <v-col
         cols=""
         sm=""
-        class="opacity-50 bg-green-400"
+        class=""
       >
         <img
           src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" 
@@ -199,12 +223,12 @@
       <v-col
         cols=""
         sm=""
-        class="opacity-50 bg-sky-400 py-5"
+        class="py-5"
       >
-        <h1 class="text-h5 !font-bold">
+        <h1 class="text-h3 !font-bold sm:text-h5">
           Restaurant Example Header
         </h1>
-        <div class="">
+        <div class="text-h6">
           <div class="flex py-2">
             <v-icon
               class="mr-3"
