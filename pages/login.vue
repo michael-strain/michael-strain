@@ -3,7 +3,7 @@
   Login Page
   <div>
     <button @click="registerUser">Create User</button>
-    <button @click="signin">Sign In</button>
+    <!-- <button @click="signin">Sign In</button> -->
   </div>
 </template>
 
@@ -54,8 +54,8 @@ async function registerUser() {
 // const email = "test@test.com"
 // const password = "123456"
 
-// const credentials = async function(){await createUser(email, password)}
-const signin = async function(){await signInWithEmailAndPassword(email, password)}
+// // Not currently working
+// const signin = async function(){await signInWithEmailAndPassword(email, password)}
 
 // console.log(credentials)
 </script>

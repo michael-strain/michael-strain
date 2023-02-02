@@ -34,7 +34,7 @@
     <v-main :class="pageTitle=='/' ? 'pt-0':''">
       <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="noHeaderPadding.includes(useRoute().path) ? 'py-0 my-0' : ''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
-          <div v-if="firebaseUser" class="my-1">
+          <div v-if="false" class="my-1">
             <NuxtLink v-slot="{navigate}" to="/account" class="my-1">
               <v-avatar :tile="true" class="mx-2">
                 <!-- Use a user profile img as the src here, if profile img empty, use the mdi-icon -->
@@ -91,12 +91,12 @@
                   Blog
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="firebaseUser" to="/account">
+              <NuxtLink v-if="false" to="/account">
                 <v-list-item link>
                   Account
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="firebaseUser" to="/">
+              <NuxtLink v-if="false" to="/">
                 <v-list-item link @click="signOut" />
               </NuxtLink>
             </v-list>
@@ -241,7 +241,7 @@
   import { useCartDataStore } from '~/stores/cartData';
   // import { firebase } from '~/plugins/firebase'
 
-  const firebaseUser = useFirebaseUser()
+  // const firebaseUser = useFirebaseUser()
   // console.log(firebaseUser)
 
   const signOut = async () => {
