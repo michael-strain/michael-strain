@@ -108,6 +108,11 @@
           @click:append="show = !show"
         />
       </v-container>
+
+      <v-btn block color="primary" @click="loginWithGoogle">
+        Login with Google
+      </v-btn>
+
       <v-divider />
       <v-card-actions>
         <v-spacer />
@@ -136,7 +141,38 @@
 // import { firebase } from '@firebase/app';
 import { ref } from 'vue'
 import 'firebase/auth';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+async function loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  // Need to determine more scopes to add.
+  // Calendar, sheets, drive, docs, etc.
+
+  const auth = getAuth();
+  await signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      // Need to add the user to firebase/auth
+      const firebaseUser = useFirebaseUser()
+      firebaseUser.value = user
+      auth.currentUser = user
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage)
+      // The email of the user's account used.
+      // const email = error.customData.email;
+      // The AuthCredential type that was used.
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  }
 
 const showUserRegistration = ref(false)
 const email = ref('')
