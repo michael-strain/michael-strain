@@ -15,7 +15,8 @@
     Format image size and position to something more adaptable.
 
 -->
-<template>sm="6"
+<template>
+  sm="6"
   <!--First Section-->
   <div class="bg-gradient-to-b from-green-200 to-blue-200 text-center">
     <!-- <v-parallax
@@ -86,49 +87,169 @@
   </div>
 
   <!--Second Section-->
-  <div class=" py-10 px-10 grid bg-gradient-to-t from-red-200 to-blue-200 mx-auto text-center align-middle items-center justify-center">
+  <div class="bg-gradient-to-t from-red-200 to-blue-200 flex text-center align-middle items-center justify-center flex-shrink">
     <!--Menu Category Breakfast-->
-    <row class="bg-gray-100">
-      <v-col
-        cols=""
-        sm=""
-        class="text-center"
-      >
-        <h1 class="text-h4 !font-bold sm:text-h3">
-          BREAKFAST
-        </h1>
-        <p class="py-3">
-          Breakfast is served with your choice of bacon, sausage, or hashbrowns.
-        </p>
-        <div class="gap-7 flex flex-wrap items-center align-center justify-center">
-          <div class="flex">
-            <v-icon
-              class="mr-1"
-              icon="mdi-candy-outline"
-            />
-            <p>Spicy</p>
-          </div>
-          <div class="flex">
-            <v-icon
-              class="mr-1"
-              icon="mdi-candy-outline"
-            />
-            <p>Vegetarian</p>
-          </div>
-          <div class="flex">
-            <v-icon
-              class="mr-1"
-              icon="mdi-candy-outline"
-            />
-            <p>Vegan</p>
+    <div class="w-4/5 justify-center">
+      <div class="bg-gray-100 mx-1 p-7">
+        <div class="">
+          <h1 class="text-h4 !font-bold sm:text-h3">
+            BREAKFAST
+          </h1>
+          <p class="p-2">
+            Breakfast is served with your choice of bacon, sausage, or hashbrowns.
+          </p>
+          <div class="gap-7 flex flex-wrap items-center align-center justify-center">
+            <div class="flex">
+              <v-icon
+                class="mr-1"
+                icon="mdi-candy-outline"
+              />
+              <p>Spicy</p>
+            </div>
+            <div class="flex">
+              <v-icon
+                class="mr-1"
+                icon="mdi-candy-outline"
+              />
+              <p>Vegetarian</p>
+            </div>
+            <div class="flex">
+              <v-icon
+                class="mr-1"
+                icon="mdi-candy-outline"
+              />
+              <p>Vegan</p>
+            </div>
           </div>
         </div>
-      </v-col>
-    </row>
+      </div>
     
-    
-    <!--Menu Options-->
-    <v-container class="">
+      <!--Dishes-->
+      <div class="w-full">
+        <!-- Ashley's div -->
+        <!-- <div class="pt-5 justify-space-between flex w-1/3 <sm:(block w-full)"> -->
+          
+        <!-- Michael's div stolen from shop-->
+        <div class="flex pt-1 m-0 flex-wrap items-center align-center justify-center w-full">
+          <!--Test v-for-->
+          <div
+            v-for="n in 12"
+            :key="n"
+            class="flex sm:w-full md:w-1/2 lg:w-1/3 items-center align-center"
+          >
+            <div
+              class="p-5 m-1 bg-gray-100"
+            >
+              <div class="bg-yellow-100">
+                <h1 class="text-h6 !font-bold <sm:text-h3">
+                  Dish name
+                </h1>
+              </div>
+              <div class="">
+                <p class="">
+                  <v-icon
+                    class="pr-3"
+                    icon="mdi-candy-outline"
+                  />The following are ingredients: Relate your restaurant's story to its core values.
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- <div
+            class="bg-gray-100"
+          >
+            <div class="bg-yellow-100">
+              <h1 class="text-h6 !font-bold <sm:text-h3">
+                Dish name
+              </h1>
+            </div>
+            <div class="">
+              <p class="">
+                <v-icon
+                  class="pr-3"
+                  icon="mdi-candy-outline"
+                />The following are ingredients: Relate your restaurant's story to its core values.
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-gray-100"
+          >
+            <div class="bg-yellow-100">
+              <h1 class="text-h6 !font-bold <sm:text-h3">
+                Dish name
+              </h1>
+            </div>
+            <div class="">
+              <p class="">
+                <v-icon
+                  class="pr-3"
+                  icon="mdi-candy-outline"
+                />The following are ingredients: Relate your restaurant's story to its core values.
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-gray-100"
+          >
+            <div class="bg-yellow-100">
+              <h1 class="text-h6 !font-bold <sm:text-h3">
+                Dish name
+              </h1>
+            </div>
+            <div class="">
+              <p class="">
+                <v-icon
+                  class="pr-3"
+                  icon="mdi-candy-outline"
+                />The following are ingredients: Relate your restaurant's story to its core values.
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-gray-100"
+          >
+            <div class="bg-yellow-100">
+              <h1 class="text-h6 !font-bold <sm:text-h3">
+                Dish name
+              </h1>
+            </div>
+            <div class="">
+              <p class="">
+                <v-icon
+                  class="pr-3"
+                  icon="mdi-candy-outline"
+                />The following are ingredients: Relate your restaurant's story to its core values.
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-gray-100"
+          >
+            <div class="bg-yellow-100">
+              <h1 class="text-h6 !font-bold <sm:text-h3">
+                Dish name
+              </h1>
+            </div>
+            <div class="">
+              <p class="">
+                <v-icon
+                  class="pr-3"
+                  icon="mdi-candy-outline"
+                />The following are ingredients: Relate your restaurant's story to its core values.
+              </p>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Menu Options Back-Up-->
+  <!-- <v-container class="">
       <v-row class="pt-5 justify-space-between">
         <v-col
           cols="0"
@@ -226,8 +347,8 @@
           </v-col>
         </v-col>
       </v-row>
-    </v-container>
-  </div>
+    </v-container> -->
+  <!-- </div> -->
 
   <!--Third Section-->
   <div class="bg-gradient-to-b to-orange-200 from-red-200">
