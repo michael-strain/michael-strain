@@ -5,10 +5,12 @@
     <p>Admin page</p>
     <p>Only logged in ADMIN users can see this page</p>
     {{ auth.currentUser.uid }}
+    <NuxtLink to="/admin/products">Products</NuxtLink>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { getAuth } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 
@@ -20,7 +22,6 @@ const loadAdminPanel = ref(false)
 
 onMounted(async () => {
   if (auth.currentUser.uid!==null){
-    console.log("auth.currentUser.uid: " + auth.currentUser.uid)
     if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1") {
       loadAdminPanel.value = 'true'
     } else {
