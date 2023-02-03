@@ -17,12 +17,12 @@
 -->
 <template>
   <!--First Section-->
-  <div class="bg-gradient-to-b from-sky-200 text-center">
-    <v-parallax
+  <div class="bg-gradient-to-b from-yellow-200 to-blue-200 text-center">
+    <!-- <v-parallax
       src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
       class="filter backdrop-opacity-40 items-center align-middle h-100"
-    >
-      <v-row class="p-10 mx-10 backdrop-opacity-10 backdrop-invert bg-white/75">
+    > -->
+      <v-row class="p-10 mx-10">
         <v-col
           cols=""
           sm=""
@@ -31,10 +31,10 @@
           <h1 class="text-h3 !font-bold sm:text-h3">
             Restaurant Example Header
           </h1>
-          <p class="mt-5 mb-15">
+          <p class="my-5 italic text-3xl">
             Relate your restaurant's story to its core values. Tell them what struggles you had to overcome, what you learned from it, and how it impacted your values.
           </p>
-          <div class="flex flex-wrap items-center align-center justify-center">
+          <div class="flex flex-wrap items-center align-center justify-center text-2xl">
             <div class="flex mx-5">
               <v-icon
                 class="mr-3"
@@ -62,31 +62,31 @@
           vertical
           class="p-5"
         />
-        <!--       
+              
       <v-col
         cols=""
         sm=""
-        class="justify-center items-center flex"
+        class="justify-center items-center flex outline"
       >
         <img
           src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" 
-          class="bg-red-100 object-scale-down w-2/3"
-        > -->
+          class="bg-red-100 object-scale-down"
+        >
     
         <!--Icon-->
         <!-- <v-icon
-          size=""
+          size="300"
           color="white"
           icon="mdi-image-plus-outline"
           class="bg-rose-700"
         /> -->
-      <!-- </v-col> -->
+      </v-col>
       </v-row>
-    </v-parallax>
+    <!-- </v-parallax> -->
   </div>
 
   <!--Second Section-->
-  <div class="py-10 px-30 grid bg-gradient-to-t from-red-200 mx-auto flex text-center align-middle items-center justify-center flex-shrink">
+  <div class="py-10 px-30 grid bg-gradient-to-t from-red-200 to-blue-200 mx-auto flex text-center align-middle items-center justify-center flex-shrink">
     <!--Menu Category-->
     <row>
       <v-col
@@ -205,7 +205,7 @@
   </div>
 
   <!--Third Section-->
-  <div class="bg-gradient-to-b from-sky-200">
+  <div class="bg-gradient-to-b to-orange-200 from-red-200">
     <v-row class="p-10">
       <!--Map Image Column-->
       <v-col
@@ -215,7 +215,7 @@
       >
         <img
           src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" 
-          class="bg-red-100 object-scale-down"
+          class="object-scale-down outline"
         >
       </v-col>
       <divider class="p-5" />
