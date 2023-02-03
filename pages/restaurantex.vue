@@ -15,7 +15,7 @@
     Format image size and position to something more adaptable.
 
 -->
-<template>
+<template>sm="6"
   <!--First Section-->
   <div class="bg-gradient-to-b from-green-200 to-blue-200 text-center">
     <!-- <v-parallax
@@ -86,9 +86,9 @@
   </div>
 
   <!--Second Section-->
-  <div class="outline py-10 px-10 grid bg-gradient-to-t from-red-200 to-blue-200 mx-auto text-center align-middle items-center justify-center">
+  <div class=" py-10 px-10 grid bg-gradient-to-t from-red-200 to-blue-200 mx-auto text-center align-middle items-center justify-center">
     <!--Menu Category Breakfast-->
-    <row class="outline">
+    <row class="bg-gray-100">
       <v-col
         cols=""
         sm=""
@@ -126,11 +126,10 @@
       </v-col>
     </row>
     
-    <!--Test-->
     
     <!--Menu Options-->
-    <v-container class="outline">
-      <v-row class="pt-5 gap-3 justify-center">
+    <v-container class="">
+      <v-row class="pt-5 gap-10 justify-center">
         <v-col
           cols="0"
           sm="3"
