@@ -1,11 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  Login Page
   <div>
-    <button @click="showUserRegistration=!showUserRegistration">
-      Create User
-    </button>
-
     <!-- Register New User with Email and Password -->
     <v-card
       v-if="showUserRegistration"
@@ -59,6 +54,8 @@
         <v-btn
           v-if="terms"
           color="success"
+          variant="outlined"
+          ripple
           @click="registerUser(email, password)"
         >
           Complete Registration
@@ -76,6 +73,9 @@
             icon="mdi-chevron-right"
             end
           />
+        </v-btn>
+        <v-btn @click="showUserRegistration=!showUserRegistration">
+          Login
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -113,6 +113,7 @@
         <v-spacer />
         <v-btn
           color="success"
+          variant="outlined"
           @click="signInUser(loginEmail, loginPassword)"
           @keyup.enter="signInUser(loginEmail, loginPassword)"
         >
@@ -121,6 +122,9 @@
             icon="mdi-chevron-right"
             end
           />
+        </v-btn>
+        <v-btn @click="showUserRegistration=!showUserRegistration">
+          Create User
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -132,7 +136,7 @@
 // import { firebase } from '@firebase/app';
 import { ref } from 'vue'
 import 'firebase/auth';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
 const showUserRegistration = ref(false)
 const email = ref('')
@@ -158,6 +162,10 @@ const loginPassword = ref('')
 
 async function registerUser(email,password) {
   const user = await createUser(email, password)
+
+  const auth = getAuth()
+  sendEmailVerification(auth.currentUser)
+
   console.log("User Created:")
   console.log(user)
   const router = useRouter();
