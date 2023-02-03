@@ -130,10 +130,29 @@
     
     <!--Menu Options-->
     <v-container class="outline">
-      <v-row class="pt-5">
+      <v-row class="pt-5 gap-3 justify-center">
         <v-col
-          cols="12"
-          sm="4"
+          cols="0"
+          sm="3"
+          class="bg-gray-100"
+        >
+          <div class="bg-yellow-100">
+            <h1 class="text-h6 !font-bold <sm:text-h3">
+              Dish name
+            </h1>
+          </div>
+          <v-col class="">
+            <p class="">
+              <v-icon
+                class="pr-3"
+                icon="mdi-candy-outline"
+              />The following are ingredients: Relate your restaurant's story to its core values.
+            </p>
+          </v-col>
+        </v-col>
+        <v-col
+          cols="0"
+          sm="3"
           class="bg-gray-100"
         >
           <div class="bg-yellow-100">
@@ -151,8 +170,8 @@
           </v-col>
         </v-col>
         <v-col
-          cols="12"
-          sm="4"
+          cols="0"
+          sm="3"
           class="bg-gray-100"
         >
           <div class="bg-yellow-100">
@@ -170,8 +189,8 @@
           </v-col>
         </v-col>
         <v-col
-          cols="12"
-          sm="4"
+          cols="0"
+          sm="3"
           class="bg-gray-100"
         >
           <div class="bg-yellow-100">
@@ -189,27 +208,8 @@
           </v-col>
         </v-col>
         <v-col
-          cols="12"
-          sm="4"
-          class="bg-gray-100"
-        >
-          <div class="bg-yellow-100">
-            <h1 class="text-h6 !font-bold sm:text-h3">
-              Dish name
-            </h1>
-          </div>
-          <v-col class="">
-            <p class="">
-              <v-icon
-                class="pr-3"
-                icon="mdi-candy-outline"
-              />The following are ingredients: Relate your restaurant's story to its core values.
-            </p>
-          </v-col>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="4"
+          cols="0"
+          sm="3"
           class="bg-gray-100"
         >
           <div class="bg-yellow-100">
