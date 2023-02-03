@@ -10,6 +10,14 @@
           ACCOUNT
         </h3>
       </NuxtLink>
+      <NuxtLink v-if="loadAdminLink" to="/admin">
+        <h6
+          class="text-black justify-center text-center align-center font-bold text-xl mb-10"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
+        >
+          ADMIN
+        </h6>
+      </NuxtLink>
       <div v-if="auth.currentUser || firebaseUser">
         <v-card>
           <v-card-title>You are logged in</v-card-title>
@@ -20,7 +28,8 @@
               :key="auth.currentUser.uid"
               :title="auth.currentUser.displayName"
               :subtitle="auth.currentUser.email"
-              :prepend-avatar="auth.currentUser.photoURL"
+              :prepend-avatar="userPhotoUrl"
+              lazy-prepend-avatar="/img/MLogo.png"
             />
           </v-list>
 
@@ -48,18 +57,34 @@
 </template>
 
 <script setup>
-  import { getAuth } from 'firebase/auth'
-  const auth = getAuth();
-  const firebaseUser = useFirebaseUser()
-  firebaseUser.value = auth.currentUser;
+import { async } from '@firebase/util';
+import { getAuth } from 'firebase/auth'
+const auth = getAuth();
+const firebaseUser = useFirebaseUser()
+firebaseUser.value = auth.currentUser;
 
-  if(auth.currentUser!==null){
-    const displayName = auth.currentUser.displayName
-    const email = auth.currentUser.email
-    const emailVerified = auth.currentUser.emailVerified
-    const photoURL = auth.currentUser.photoURL
-    const isAnonymous = auth.currentUser.isAnonymous
-    const uid = auth.currentUser.uid
-    const providerData = auth.currentUser.providerData
+const loadAdminLink = ref(false)
+
+const userPhotoUrl = ref()
+
+onMounted(async () => {
+  if (auth.currentUser) {
+    userPhotoUrl.value = auth.currentUser.photoURL
   }
+})
+
+
+if(auth.currentUser!==null){
+  const displayName = auth.currentUser.displayName
+  const email = auth.currentUser.email
+  const emailVerified = auth.currentUser.emailVerified
+  const photoURL = auth.currentUser.photoURL
+  const isAnonymous = auth.currentUser.isAnonymous
+  const uid = auth.currentUser.uid
+  const providerData = auth.currentUser.providerData
+
+  if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1") {
+    loadAdminLink.value = 'true'
+  }
+}
 </script>
