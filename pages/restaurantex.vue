@@ -129,7 +129,7 @@
     
     <!--Menu Options-->
     <v-container class="">
-      <v-row class="pt-5 gap-10 justify-center">
+      <v-row class="pt-5 justify-space-between">
         <v-col
           cols="0"
           sm="3"
