@@ -1,15 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
-<!--To Do: 
-    All asthetics.
+<!--THIS IS THE PRETTY PAGE-->
+
+<!--To Do:
   
-  Section One: 
-    Text spacing.
-    Transparent div.
+  Section One:
+    Carosal background. Can this be done with a paralax as well?
+    Name of dish somewhere on the carosal image.
 
-  Section Two:
-
-  Section Three:
+  Section Two: 
+    If adding images for each dish, use hover > transations for layout.
+    Add icon to bottom right corner of card for special information.
+    Try using tabs for the different categories with grow prop.
+    Try replacing divs with cards.  
 
 -->
 <template>
