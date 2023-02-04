@@ -1,18 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <!--To Do: 
+    All asthetics.
+  
   Section One: 
-    Parallax spacing.
+    Center text div.
+    Text spacing.
+    Transparent div.
 
   Section Two:
-    Make rows hold three items.
-    Center Dish Name.
-    Move icons to description.
-    Make icon key gap left to right only. 
 
   Section Three:
-    Change text size based on screen width.
-    Format image size and position to something more adaptable.
+  
+  
 
 -->
 <template>
@@ -22,7 +22,7 @@
       src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
       class="flex text-center align-middle items-center justify-center h-screen w-screen"
     >
-      <div class="w-4/5 justify-center">
+      <div class="w-4/5 justify-center ">
         <div class="bg-white">
           <h1 class="text-h3 !font-bold sm:text-h3">
             Restaurant Example Header
@@ -150,7 +150,7 @@
     </div>
   </div>
 
-  <!--Section 1.5-->
+  <!--Second Section 1.5-->
   <div class="bg-gradient-to-t from-orange-300 to-red-300 flex text-center align-middle items-center justify-center flex-shrink">
     <!--Menu Category Breakfast-->
     <div class="w-4/5 justify-center my-15">
@@ -160,7 +160,7 @@
             LUNCH
           </h1>
           <p class="p-2">
-            Breakfast is served with your choice of bacon, sausage, or hashbrowns.
+            Breakfast is served with your choice of bacon, sausage, or hashbrowns. Breakfast is served with your choice of bacon, sausage, or hashbrowns. 
           </p>
           <div class="gap-7 flex flex-wrap items-center align-center justify-center">
             <div class="flex">
@@ -209,7 +209,7 @@
                   <v-icon
                     class="pr-3"
                     icon="mdi-candy-outline"
-                  />The following are ingredients: Relate your restaurant's story to its core values.
+                  />The following are ingredients: Relate your restaurant's story to its core values. Breakfast is served with your choice of bacon, sausage, or hashbrowns.
                 </p>
               </div>
             </div>
@@ -220,7 +220,7 @@
   </div>
   <!--Third Section-->
   <div class="bg-gradient-to-b to-gray-300 from-orange-300 flex items-center align-center justify-center">
-    <div class="p-10 w-4/5 flex flex-wrap ">
+    <div class="p-10 w-4/5 flex text-center align-middle items-center justify-center flex-shrink flex-wrap ">
       <!--Map Image Column-->
       <div class="flex flex-wrap">
         <v-img
@@ -231,8 +231,8 @@
       </div>
       <divider class="p-5" />
       <!--Contact/Info Column-->
-      <div>
-        <h1 class="text-h3 !font-bold sm:text-h5">
+      <div class="py-10">
+        <h1 class="text-h3 !font-bold">
           Restaurant Example Header
         </h1>
         <div class="text-h6">
