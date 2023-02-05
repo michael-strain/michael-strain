@@ -15,7 +15,7 @@
 
 -->
   <!--CAROUSEL-->
-
+  <!-- 
   <v-carousel
     cycle
     height="400"
@@ -37,22 +37,21 @@
         </div>
       </v-sheet>
     </v-carousel-item>
-  </v-carousel>
+  </v-carousel> -->
 
   <!--TABS-->
-  <v-card color="basil">
-    <!--TABS TITLE-->
-    <v-card-title class="text-center justify-center py-6">
-      <h1 class="font-weight-bold text-h2 text-basil">
+  <v-card>
+    <!-- <v-card-title class="text-center justify-center py-6">
+      <h1 class="font-weight-bold text-h2">
         MENU
       </h1>
-    </v-card-title>
+    </v-card-title> -->
 
     <!--TABS NAV BAR-->
-    <v-tabs
+    <!-- <v-tabs
       v-model="tab"
       bg-color="transparent"
-      color="basil"
+      color=""
       grow
     >
       <v-tab
@@ -62,64 +61,67 @@
       >
         {{ item }}
       </v-tab>
-    </v-tabs>
+    </v-tabs> -->
     <!--HOVER-->
-    <v-window v-model="tab">
+    <!-- <v-window v-model="tab">
       <v-window-item
-        v-for="item in items"
-        :key="item"
-        :value="item"
-      >
-        <div>
-          <v-hover v-slot="{ isHovering, props }">
-            <v-card
-              class="mx-auto"
-              color="grey-lighten-4"
-              max-width="600"
-              v-bind="props"
-            >
-              <v-img
-                :aspect-ratio="16/9"
-                cover
-                src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+        v-for="card in cards"
+          :key="card.title"
+          :cols="card.flex"
+      > -->
+    
+    <div>
+      <v-hover v-slot="{ isHovering, props }">
+        <v-card
+          class="mx-auto"
+          color="grey-lighten-4"
+          max-width="600"
+          v-bind="props"
+        >
+          <v-img
+            :aspect-ratio="16/9"
+            cover
+            src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+          >
+            <v-expand-x-transition>
+              <div 
+                v-if="isHovering"
+                class="d-flex transition-fast-in-fast-out backdrop-opacity-10 backdrop-invert bg-white/50 v-card--reveal text-h2 items-center align-center justify-center"
+                style="height: 100%;"
               >
-                <v-expand-transition>
-                  <div
-                    v-if="isHovering"
-                    class="d-flex transition-fast-in-fast-out bg-orange-darken-2 v-card--reveal text-h2"
-                    style="height: 100%;"
-                  >
-                    $14.99
-                  </div>
-                </v-expand-transition>
-              </v-img>
+                <v-btn
+                  class="outlined raised"
+                  color="primary"
+                  size="x-large"
+                >
+                  VIEW
+                </v-btn>
+              </div>
+            </v-expand-x-transition>
+            <v-card-title class="text-h5">Item Type</v-card-title>
+          </v-img>
 
-              <v-card-text class="pt-6">
-                <div class="font-weight-light text-grey text-h6 mb-2">
-                  For the perfect meal
-                </div>
+          <v-card-text class="pt-6 text-center">
+            <h3 class="text-h4 text-primary mb-2">
+              Product Name
+            </h3>
 
-                <h3 class="text-h4 font-weight-light text-orange mb-2">
-                  QW cooking utensils
-                </h3>
-
-                <div class="font-weight-light text-h6 mb-2">
-                  Our Vintage kitchen utensils delight any chef.<br>
-                  Made of bamboo by hand
-                </div>
-              </v-card-text>
-            </v-card>
+            <div class="text-h5 mb-2">
+              $10.00
+            </div>
+          </v-card-text>
+        </v-card>
         
-            <!-- <v-card
+        <!-- <v-card
               color="basil"
               flat
             >
               <v-card-text>{{ text }}</v-card-text>
             </v-card> -->
-          </v-hover>
-        </div>
-      </v-window-item>
-    </v-window>
+      </v-hover>
+    </div>
+    <!-- </v-window-item>
+    </v-window> -->
   </v-card>
 
   <!--CONTAINER CARDS-->
