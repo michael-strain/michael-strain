@@ -30,7 +30,7 @@ export default defineEventHandler(async () => {
   // console.log(docs)
   if ( docs.length < products.length ) {
     // If Printify has more products than DB, then update DB
-    // This will be a PUT request to /api/products
+    // This will be a PUT request to /api/printify/products
     for (let i=0; i<products.length; i++) {
       // If product is in results, skip it, otherwise add it
       if ( docs.find( (product) => product.id === products[i].id ) ) {

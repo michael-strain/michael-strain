@@ -5,7 +5,7 @@
     <p>Admin page</p>
     <p>Only logged in ADMIN users can see this page</p>
     {{ auth.currentUser.uid }}
-    <NuxtLink to="/admin/products">Products</NuxtLink>
+    <NuxtLink to="/admin/printify/products">Products</NuxtLink>
   </div>
 </template>
 
