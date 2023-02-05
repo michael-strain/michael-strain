@@ -1,5 +1,5 @@
 <template>
-  <!--To Do:
+  <!--To Do: Tabs, Hover, Cards, Carousels
   
   Section One:
     Carosal background. Can this be done with a paralax as well?
@@ -10,7 +10,7 @@
     Add icon to bottom right corner of card for special information.
     Try using tabs for the different categories with grow prop.
     Try replacing divs with cards.  
-    Fix that the grid system is not sliding like first card.
+    Fix that the grid system is not sliding like first card. Uses v-window-item.
 
 -->
   <!--CAROUSEL-->
