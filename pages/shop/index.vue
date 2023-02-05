@@ -56,7 +56,7 @@
           class="flex flex-wrap items-center align-center justify-center w-full"
         >
           <div
-            v-for="(item, product) in store.productData.data"
+            v-for="(item, product) in store.productData"
             :key="product"
             class="flex items-center align-center justify-center"
           >
@@ -141,6 +141,19 @@ const store = useProductDataStore()
 const cart = useCartDataStore()
 const cartData = ref()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -173,33 +186,51 @@ const localstore = useLocalStorage('productData')
 //Figure out if i need to use mounted and store locally on client, or if i can store on server (or should store in firestore)
 
 //modify this
-if ((store.productData != null && store.productData.data.length > 0 )|| (localstore.value !=null && JSON.parse(localstore.value).data.length>0)) {
+if ((store.productData != null && store.productData.length > 0 )|| (localstore.value !=null && JSON.parse(localstore.value).length>0)) {
   console.log("Products are in store")
-  for (let i = 0; i < store.productData.data.length; i++) {
-    store.$patch( store.productData.data[i].imageNum = 0 )
-    store.$patch( store.productData.data[i].qty = 0)
+  for (let i = 0; i < store.productData.length; i++) {
+    store.$patch( store.productData[i].imageNum = 0 )
+    store.$patch( store.productData[i].qty = 0)
   }
-  products.value = storeToRefs(store.productData.data)
+  products.value = storeToRefs(store.productData)
   pending.value = false
 } else {
   console.log("Products are not in store")
-  const opts = {
-    method: 'GET',
-    // mode: 'no-cors',
-    headers: {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-      // 'Access-Control-Allow-Origin': 'https://localhost:3000',
-      'User-Agent': 'Michael-Strain Nuxt App'
-    },
-  };
-  const { data:productive, pending:penval } = $fetch(url, opts)
-  pending.value = penval
-  store.$patch({productData: productive})
-  for (let i = 0; i < store.productData.data.length; i++) {
-    store.$patch( store.productData.data[i].imageNum = 0 )
-  }
+  pending.value = true
+  // onMounted(async() => {
+  //   const { result } = await $fetch("/api/query?col=products")
+  //   todos.value = result
+  // })
+
+  // get from firestore with query
+  onMounted(async () => {
+    pending.value = true
+    const { result } = await $fetch('/api/query?col=products')
+    console.log(result)
+    // products.value = result
+    store.$patch({productData: result})
+    localstore.value = JSON.stringify(store.productData)
+    console.log(store.productData)
+    for (let i = 0; i < store.productData.length; i++) {
+      store.$patch( store.productData[i].imageNum = 0 )
+    }
+    products.value = storeToRefs(store.productData)
+    pending.value = false
+  })
+  // Old, direct call to printify method
+  // const opts = {
+  //   method: 'GET',
+  //   // mode: 'no-cors',
+  //   headers: {
+  //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
+  //     // 'Access-Control-Allow-Origin': 'https://localhost:3000',
+  //     'User-Agent': 'Michael-Strain Nuxt App'
+  //   },
+  // };
+  // const { data:result, pending:penval } = $fetch(url, opts)
+
+  // store.$patch({productData: result})
   
-  products.value = storeToRefs(store.productData.data)
   // products.value = storeToRefs(store.productData.products.data)
 }
 
@@ -217,17 +248,17 @@ function heartClick(item){
   // add item to cart based on item id
   const cart = useCartDataStore()
   let notfound = true
-  cartData.value = storeToRefs(cart.cartData.data)
-  if (cart.cartData.data != null && cart.cartData.data.length > 0) {
+  cartData.value = storeToRefs(cart.cartData)
+  if (cart.cartData != null && cart.cartData.length > 0) {
     console.log("Products are in cart")
     // if (item in cart.cartData.data) {
       
-    for (let i = 0; i < cart.cartData.data.length; i++) {
-      if (item.id === cart.cartData.data[i].id) {
+    for (let i = 0; i < cart.cartData.length; i++) {
+      if (item.id === cart.cartData[i].id) {
         notfound = false
         console.log("Item is in cart:  " + i)
         item.qty +=1
-        cart.$patch(cart.cartData.data[i] = item)
+        cart.$patch(cart.cartData[i] = item)
         return
       } else {
         console.log("Not this item: " + i)
@@ -238,13 +269,13 @@ function heartClick(item){
     }
     if (notfound) {
       item.qty = 1
-      cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+      cart.$patch(cart.cartData[cart.cartData.length] = item)
     }
     // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
   } else {
     console.log("Products are not in cart")
     item.qty = 1
-    cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+    cart.$patch(cart.cartData[cart.cartData.length] = item)
     return
   }
 }
@@ -259,9 +290,9 @@ function leftArrow(item){
   }
   //patch the store with the new image number
   const store = useProductDataStore()
-  for (let i = 0; i < store.productData.data.length; i++) {
-    if (store.productData.data[i].id == item.id) {
-      store.$patch( store.productData.data[i].imageNum = imageId )
+  for (let i = 0; i < store.productData.length; i++) {
+    if (store.productData[i].id == item.id) {
+      store.$patch( store.productData[i].imageNum = imageId )
     }
   }
 }
@@ -274,9 +305,9 @@ function rightArrow(item){
     imageId = 0
   }
   const store = useProductDataStore()
-  for (let i = 0; i < store.productData.data.length; i++) {
-    if (store.productData.data[i].id == item.id) {
-      store.$patch( store.productData.data[i].imageNum = imageId )
+  for (let i = 0; i < store.productData.length; i++) {
+    if (store.productData[i].id == item.id) {
+      store.$patch( store.productData[i].imageNum = imageId )
     }
   }
 }
@@ -284,7 +315,7 @@ function rightArrow(item){
 const show = ref(true)
 
 function refreshAll() {refreshNuxtData()}
-// function refreshProducts() {refreshNuxtData('productive')}
+// function refreshProducts() {refreshNuxtData('result')}
 //
 //
 // const exampleResponse = {
