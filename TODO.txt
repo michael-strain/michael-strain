@@ -1,3 +1,13 @@
+Thoughts 2/5/23
+---------------
+-Need to fix the auth redirect issue - it's not redirecting to the originally intended page after login (Suggested by CoPilot)
+-Fetch and display blueprints and print providers on their respective admin panel pages
+-Blueprints & Print Providers are Read-ONLY
+-We will want to avoid storing them in the FireStore, it's okay to pull them from printify when someone enters the admin/printify/(blueprints or print-providers) and then store them locally (for a day?)
+-store relevant variables in the appropriate product collection of FireStore (shipping cost, print-provider id, and blueprint id, etc.)
+-Need to create validation objects for Products and Orders
+
+
 -Redirect after login... ideally to the originally intended page
 
 
