@@ -83,7 +83,7 @@ if(auth.currentUser!==null){
   const uid = auth.currentUser.uid
   const providerData = auth.currentUser.providerData
 
-  if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1") {
+  if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
     loadAdminLink.value = 'true'
   }
 }
