@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <section
+    <!-- <section
       class="hero is-grey is-fullheight is-justify-content-flex-start"
     >
       <div class="has-text-centered mt-6">
@@ -53,36 +53,36 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
 <script setup>
-import { signOutUser } from "../composables/useFirebase";
+// import { signOutUser } from "../composables/useFirebase";
 
-const registerForm = ref({ email: "", password: "" });
-const signinForm = ref({ email: "", password: "" });
-const firebaseUser = useFirebaseUser();
-const registerMessage = ref();
+// const registerForm = ref({ email: "", password: "" });
+// const signinForm = ref({ email: "", password: "" });
+// const firebaseUser = useFirebaseUser();
+// const registerMessage = ref();
 
-const signin = () => {
-  console.log(signinForm.value);
-  signInUser(signinForm.value.email, signinForm.value.password);
-  signinForm.value = { email: "", password: "" };
-};
+// const signin = () => {
+//   console.log(signinForm.value);
+//   signInUser(signinForm.value.email, signinForm.value.password);
+//   signinForm.value = { email: "", password: "" };
+// };
 
-const register = async () => {
-  console.log(registerForm.value);
-  const credentials = await createUser(registerForm.value.email, registerForm.value.password);
-  registerForm.value = { email: "", password: "" };
+// const register = async () => {
+//   console.log(registerForm.value);
+//   const credentials = await createUser(registerForm.value.email, registerForm.value.password);
+//   registerForm.value = { email: "", password: "" };
 
-  if(credentials) {
-    registerMessage.value = `Successfully registered: ${credentials.user.email}`
-    setTimeout(() => {
-      registerMessage.value = ""
-    }, 3000);
-  }
-};
+//   if(credentials) {
+//     registerMessage.value = `Successfully registered: ${credentials.user.email}`
+//     setTimeout(() => {
+//       registerMessage.value = ""
+//     }, 3000);
+//   }
+// };
 </script>
 
 <style></style>

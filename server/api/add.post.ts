@@ -8,6 +8,7 @@ export default defineEventHandler(async (event)=>{
     const docRef = await add(query.col as string, body);
     return { result: docRef };
   } catch (error) {
+    console.log(error)
     return { error: error.message }
   }
 });

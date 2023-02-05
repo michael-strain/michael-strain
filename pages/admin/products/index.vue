@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div v-if="loadAdminProducts">
-    <v-btn @click="refreshPrintifyProducts.$fetchPrintify">ReFetch Printify Products</v-btn>
+    <v-btn @click="refreshPrintifyProducts">ReFetch Printify Products</v-btn>
     <v-btn @click="displayAddProductCard=!displayAddProductCard">Add Product</v-btn>
     <v-card v-if="displayAddProductCard">
       <v-card-title>Add a Product to Printify</v-card-title>
@@ -51,6 +51,8 @@ onMounted(async () => {
 })
 
 const refreshPrintifyProducts = async () => {
+  console.log("Refreshing Printify Products")
+  const { result } = await useFetch("/api/printifyProducts")
   // fetch all products from the printify api for our store
   // https://developers.printify.com/#list-products
 
