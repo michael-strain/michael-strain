@@ -13,42 +13,9 @@
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
     
-    <NuxtLink to="/shop">
-      <h3
-        class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
-        :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
-      >
-        SHOP
-      </h3>
-    </NuxtLink>
-      
-    <!--Quick Links-->
-    <ul
-      class="text-green-400 m-5 text-lg flex flex-wrap justify-center text-center align-center text-lg"
-      :style="{fontFamily: 'Roboto Slab'}"
-    >
-      <li class="m-3 hover:text-green-600">
-        <NuxtLink to="/shop/products/puzzles">
-          PUZZLES
-        </NuxtLink>
-      </li>
-      <li class="m-3 hover:text-green-600">
-        <NuxtLink to="/shop/products/towels">
-          TOWELS
-        </NuxtLink>
-      </li>
-      <li class="m-3 hover:text-green-600">
-        <NuxtLink to="/shop/products/cups">
-          CUPS
-        </NuxtLink>
-      </li>
-      <li class="m-3 hover:text-green-600">
-        <NuxtLink to="/shop">
-          ALL
-        </NuxtLink>
-      </li>
-    </ul>
+    <ShopHeader />
 
+    <!-- TODO Need to refactor this page to use '/api/query?col=products' if the product ID isn't available in storage for some reason -->
 
     <v-container class="">
       <v-row dense>
@@ -56,7 +23,7 @@
           <div class="flex flex-wrap">
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
               <div
-                v-for="(item, productive) in store.productData.data"
+                v-for="(item, productive) in store.productData"
                 :key="productive"
                 class="flex items-center align-center justify-center"
               >
@@ -103,6 +70,7 @@
                       </p>
                     </v-btn>
                   </v-card-actions>
+                  <v-card-text v-if="item.qty>0" class="float-right">{{ item.qty }} Items In Cart</v-card-text>
                 </div>
               </div>
             </v-card>
@@ -286,10 +254,10 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 function getCurrentProduct() {
   const store = useProductDataStore()
-  const products = storeToRefs(store.productData.data)
-  for (let i = 0; i < store.productData.data.length; i++) {
-    if (store.productData.data[i].id == productId.value) {
-      return store.productData.data[i]
+  const products = storeToRefs(store.productData)
+  for (let i = 0; i < store.productData.length; i++) {
+    if (store.productData[i].id == productId.value) {
+      return store.productData[i]
     }
   }
   console.log("Product id: " + productId.value)

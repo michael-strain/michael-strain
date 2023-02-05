@@ -1,5 +1,6 @@
 Thoughts 2/5/23
 ---------------
+-Need to incorporate shipping costs into the product/cart DataStores
 -Need to fix the auth redirect issue - it's not redirecting to the originally intended page after login (Suggested by CoPilot)
 -Fetch and display blueprints and print providers on their respective admin panel pages
 -Blueprints & Print Providers are Read-ONLY

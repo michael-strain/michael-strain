@@ -137,6 +137,8 @@
                 {{ item.title }}
               </v-list-item-title> -->
 
+              <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
+
               <div>
                 <img
                   :src="item.images[item.imageNum].src"

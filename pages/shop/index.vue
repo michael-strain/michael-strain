@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
+<!-- TODO: Make a loading display when people push left/right arrow on product images -->
+
 <template>
   <div>
     <div class="w-full p-0 m-0">
@@ -100,9 +102,10 @@
                   <!-- Need to add a function to immediately add this item to the cart -->
                   <v-btn
                     icon
+                    transition="fade-transition"
                     @click="heartClick(item)"
                   >
-                    <v-icon>{{ show ? 'mdi-cards-heart-outline' : 'mdi-cards-heart' }}</v-icon>
+                    <v-icon :icon="item.inCart ? 'mdi-cards-heart' : 'mdi-cards-heart-outline'" />
                   </v-btn>
                   <v-btn
                     icon
@@ -186,53 +189,56 @@ const localstore = useLocalStorage('productData')
 //Figure out if i need to use mounted and store locally on client, or if i can store on server (or should store in firestore)
 
 //modify this
-if ((store.productData != null && store.productData.length > 0 )|| (localstore.value !=null && JSON.parse(localstore.value).length>0)) {
-  console.log("Products are in store")
-  for (let i = 0; i < store.productData.length; i++) {
-    store.$patch( store.productData[i].imageNum = 0 )
-    store.$patch( store.productData[i].qty = 0)
-  }
-  products.value = storeToRefs(store.productData)
-  pending.value = false
-} else {
-  console.log("Products are not in store")
-  pending.value = true
-  // onMounted(async() => {
-  //   const { result } = await $fetch("/api/query?col=products")
-  //   todos.value = result
-  // })
-
-  // get from firestore with query
-  onMounted(async () => {
+onMounted(async() => {
+  if ((store.productData != null && store.productData.length > 0 )|| (localstore.value !=null && JSON.parse(localstore.value).length>0)) {
+    console.log("Products are in store")
+    for (let i = 0; i < store.productData.length; i++) {
+      store.$patch( store.productData[i].imageNum = 0 )
+      store.$patch( store.productData[i].qty = 0)
+      store.$patch( store.productData[i].inCart = false)
+    }
+    products.value = storeToRefs(store.productData)
+    console.log(products)
+    pending.value = false
+  } else {
+    console.log("Products are not in store")
     pending.value = true
+    // onMounted(async() => {
+    //   const { result } = await $fetch("/api/query?col=products")
+    //   todos.value = result
+    // })
+
+    // get from firestore with query
     const { result } = await $fetch('/api/query?col=products')
     console.log(result)
     // products.value = result
     store.$patch({productData: result})
-    localstore.value = JSON.stringify(store.productData)
-    console.log(store.productData)
+    localstore.value = JSON.stringify(store.productData.productData)
+    console.log(store.productData.productData)
     for (let i = 0; i < store.productData.length; i++) {
-      store.$patch( store.productData[i].imageNum = 0 )
+      store.$patch(store.productData[i].imageNum = 0 )
+      store.$patch(store.productData[i].qty = 0)
+      store.$patch(store.productData[i].inCart = false)
     }
     products.value = storeToRefs(store.productData)
     pending.value = false
-  })
-  // Old, direct call to printify method
-  // const opts = {
-  //   method: 'GET',
-  //   // mode: 'no-cors',
-  //   headers: {
-  //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-  //     // 'Access-Control-Allow-Origin': 'https://localhost:3000',
-  //     'User-Agent': 'Michael-Strain Nuxt App'
-  //   },
-  // };
-  // const { data:result, pending:penval } = $fetch(url, opts)
+    // Old, direct call to printify method
+    // const opts = {
+    //   method: 'GET',
+    //   // mode: 'no-cors',
+    //   headers: {
+    //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
+    //     // 'Access-Control-Allow-Origin': 'https://localhost:3000',
+    //     'User-Agent': 'Michael-Strain Nuxt App'
+    //   },
+    // };
+    // const { data:result, pending:penval } = $fetch(url, opts)
 
-  // store.$patch({productData: result})
-  
-  // products.value = storeToRefs(store.productData.products.data)
-}
+    // store.$patch({productData: result})
+    
+    // products.value = storeToRefs(store.productData.products.data)
+  }
+})
 
 // Need to make leftArrow and rightArrow functions that rotate each item's images
 
@@ -242,23 +248,23 @@ if ((store.productData != null && store.productData.length > 0 )|| (localstore.v
 
 function heartClick(item){ 
   //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
-
   console.log("Item id: " + item.id)
 
   // add item to cart based on item id
   const cart = useCartDataStore()
   let notfound = true
-  cartData.value = storeToRefs(cart.cartData)
-  if (cart.cartData != null && cart.cartData.length > 0) {
+  // cartData.value = storeToRefs(cart.cartData.data)
+  if (cart.cartData.data != null && cart.cartData.data.length > 0) {
     console.log("Products are in cart")
     // if (item in cart.cartData.data) {
       
-    for (let i = 0; i < cart.cartData.length; i++) {
-      if (item.id === cart.cartData[i].id) {
+    for (let i = 0; i < cart.cartData.data.length; i++) {
+      if (item.id === cart.cartData.data[i].id) {
         notfound = false
         console.log("Item is in cart:  " + i)
         item.qty +=1
-        cart.$patch(cart.cartData[i] = item)
+        item.inCart = true
+        cart.$patch(cart.cartData.data[i] = item)
         return
       } else {
         console.log("Not this item: " + i)
@@ -269,15 +275,31 @@ function heartClick(item){
     }
     if (notfound) {
       item.qty = 1
-      cart.$patch(cart.cartData[cart.cartData.length] = item)
+      item.inCart = true
+      cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+      for (let x = 0; x < store.productData.length; x++) {
+        if (item.id === store.productData[x].id) {
+          store.$patch(store.productData[x].inCart = true)
+          products.value = storeToRefs(store.productData)
+        }
+      }
     }
     // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
   } else {
     console.log("Products are not in cart")
     item.qty = 1
-    cart.$patch(cart.cartData[cart.cartData.length] = item)
+    item.inCart=true
+    cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+    for (let x = 0; x < store.productData.length; x++) {
+      if (item.id === store.productData[x].id) {
+        store.$patch(store.productData[x].inCart = true)
+        products.value = storeToRefs(store.productData)
+      }
+    }
+    
     return
   }
+
 }
 
 function leftArrow(item){
@@ -311,8 +333,6 @@ function rightArrow(item){
     }
   }
 }
-
-const show = ref(true)
 
 function refreshAll() {refreshNuxtData()}
 // function refreshProducts() {refreshNuxtData('result')}

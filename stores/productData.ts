@@ -4,7 +4,6 @@ import { useLocalStorage } from '@vueuse/core'
 export const useProductDataStore = defineStore('productData', () => {
   const productData = ref(
     useLocalStorage("productData", {
-        data: [],
       },
     )
   )

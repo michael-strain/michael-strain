@@ -8,10 +8,9 @@
         Cart Empty, Go Shop
       </NuxtLink>
     </div>
-    <div
-      v-else-if="infoSubmitted"
-    >
-      <!-- Show the items and pricing info -->
+    <div v-else>
+      <!-- v-else-if="infoSubmitted" -->
+      <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
       <div
         v-for="(item, product) in cart.cartData.data"
         :key="product"
@@ -21,106 +20,106 @@
 
         Cost of Shipping to {{ country }}: {{ item.shipping_cost }}
       </div>
-    </div>
-    <div v-else>
-      <!-- Show the form -->
-      <form
-        @submit.prevent="submitShippingInfo"
-      >
-        <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-        <div class="flex flex-col">
-          <label for="firstName">First Name</label>
-          <input
-            id="firstName"
-            v-model="firstName"
-            type="text"
-            placeholder="First Name"
-          >
-          <label for="lastName">Last Name</label>
-          <input
-            id="lastName"
-            v-model="lastName"
-            type="text"
-            placeholder="Last Name"
-          >
-          <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            placeholder="Email"
-          >
-          <label for="phone">Phone</label>
-          <input
-            id="phone"
-            v-model="phone"
-            type="tel"
-            placeholder="Phone"
-          >
+      <div>
+        <!-- Show the form -->
+        <form
+          @submit.prevent="submitShippingInfo"
+        >
+          <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
+          <div class="flex flex-col">
+            <label for="firstName">First Name</label>
+            <input
+              id="firstName"
+              v-model="firstName"
+              type="text"
+              placeholder="First Name"
+            >
+            <label for="lastName">Last Name</label>
+            <input
+              id="lastName"
+              v-model="lastName"
+              type="text"
+              placeholder="Last Name"
+            >
+            <label for="email">Email</label>
+            <input
+              id="email"
+              v-model="email"
+              type="email"
+              placeholder="Email"
+            >
+            <label for="phone">Phone</label>
+            <input
+              id="phone"
+              v-model="phone"
+              type="tel"
+              placeholder="Phone"
+            >
 
-          <label for="country">Country</label>
-          <select
-            id="country"
-            v-model="country"
-          >
-            <option value="US">
-              United States
-            </option>
-            <option value="CA">
-              Canada
-            </option>
-            <option value="PA">
-              Panama
-            </option>
-          </select>
+            <label for="country">Country</label>
+            <select
+              id="country"
+              v-model="country"
+            >
+              <option value="US">
+                United States
+              </option>
+              <option value="CA">
+                Canada
+              </option>
+              <option value="PA">
+                Panama
+              </option>
+            </select>
 
-          <label for="region">Region</label>
-          <input
-            id="region"
-            v-model="region"
-            type="text"
-            placeholder="Region"
-          >
+            <label for="region">Region</label>
+            <input
+              id="region"
+              v-model="region"
+              type="text"
+              placeholder="Region"
+            >
 
-          <label for="address1">Address 1</label>
-          <input
-            id="address1"
-            v-model="address1"
-            type="text"
-            placeholder="Address 1"
-          >
+            <label for="address1">Address 1</label>
+            <input
+              id="address1"
+              v-model="address1"
+              type="text"
+              placeholder="Address 1"
+            >
 
-          <label for="address2">Address 2</label>
-          <input
-            id="address2"
-            v-model="address2"
-            type="text"
-            placeholder="Address 2"
-          >
+            <label for="address2">Address 2</label>
+            <input
+              id="address2"
+              v-model="address2"
+              type="text"
+              placeholder="Address 2"
+            >
 
-          <label for="city">City</label>
-          <input
-            id="city"
-            v-model="city"
-            type="text"
-            placeholder="City"
-          >
+            <label for="city">City</label>
+            <input
+              id="city"
+              v-model="city"
+              type="text"
+              placeholder="City"
+            >
 
-          <label for="zip">Zip</label>
-          <input
-            id="zip"
-            v-model="zip"
-            type="text"
-            placeholder="Zip"
-          >
+            <label for="zip">Zip</label>
+            <input
+              id="zip"
+              v-model="zip"
+              type="text"
+              placeholder="Zip"
+            >
 
-          <button
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+            <button
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
