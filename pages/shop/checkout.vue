@@ -196,7 +196,7 @@ async function submitShippingInfo() {
     };
     const url = 'https://api.printful.com/v1/shops/6483145/orders/shipping.json'
     // const { data:shipCost } = await useFetch(url, opts)
-    console.log(await useFetch(url, opts))
+    //console.log(await useFetch(url, opts))
   }
   infoSubmitted.value = true
 }

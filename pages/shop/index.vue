@@ -190,7 +190,7 @@ if ((store.productData != null && store.productData.data.length > 0 )|| (localst
       'User-Agent': 'Michael-Strain Nuxt App'
     },
   };
-  const { data:productive, pending:penval } = useFetch(url, opts)
+  const { data:productive, pending:penval } = $fetch(url, opts)
   pending.value = penval
   store.$patch({productData: productive})
   for (let i = 0; i < store.productData.data.length; i++) {
