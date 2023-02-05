@@ -2,31 +2,30 @@
 
 // First, admin users should pick a product from the blueprint catalog
 // https://developers.printify.com/#retrieve-a-list-of-available-blueprints
-// List of all blueprints: /api/blueprints.get.ts
+// List of all blueprints: /api/printify/blueprints.get.ts
 // Printify Endpoint: https://api.printify.com/v1/blueprints.json
 
 // Then, the specific blueprint should be retrieved
 // https://developers.printify.com/#retrieve-a-specific-blueprint
-// Specific blueprint: /api/blueprints/{id}.get.ts
+// Specific blueprint: /api/printify/blueprints/{id}.get.ts
 // Printify Endpoint: https://api.printify.com/v1/blueprints/{id}.json
 
 // Then we need to retrieve the list of all print providers that fulfill orders for your chosen blueprint
 // https://developers.printify.com/#retrieve-a-list-of-print-providers
-// Get specific print providers: /api/blueprints/{id}/printProvider.get.ts
+// Get specific print providers: /api/printify/blueprints/{id}/printProvider.get.ts
 // Printify Endpoint: https://api.printify.com/v1/blueprints/{id}/print_providers.json
 
 // Then we need retrieve a list of variants from the print provider
 // https://developers.printify.com/#retrieve-a-list-of-variants
-// Get specific print provider variants: /api/blueprints/{id}/printProvider/{printProviderId}/variants.get.ts
+// Get specific print provider variants: /api/printify/blueprints/{id}/printProvider/{printProviderId}/variants.get.ts
 // Printify Endpoint: https://api.printify.com/v1/blueprints/{id}/print_providers/{printProviderId}/variants.json
 
 // Last we need to retrieve the shipping information
 // https://developers.printify.com/#retrieve-shipping-information
-// Get shipping info: /api/blueprints/{id}/printProvider/{printProviderId}/shipping.get.ts
+// Get shipping info: /api/printify/blueprints/{id}/printProvider/{printProviderId}/shipping.get.ts
 // Printify Endpoint: https://api.printify.com/v1/blueprints/{id}/print_providers/{printProviderId}/shipping.json
 
-
-import { queryByCollection, add } from "../lib/firestore"
+import { queryByCollection, add } from "../../lib/firestore"
 import { readBody, getQuery } from "h3"
 
 // export default defineEventHandler(async (event)=>{
@@ -91,28 +90,29 @@ export default defineEventHandler(async (event) => {
   //   headers: opts.headers
   // })
 
-  const docs = await queryByCollection("products")
-  // console.log(docs)
-  if ( docs.length < products.length ) {
-    // If Printify has more products than DB, then update DB
-    // This will be a PUT request to /api/products
-    for (let i=0; i<products.length; i++) {
-      // If product is in results, skip it, otherwise add it
-      if ( docs.find( (product) => product.id === products[i].id ) ) {
-        continue
-      } else {
-        console.log("Found new product! " + products[i].id)
-        const body = await readBody(products[i]);
-        const docRef = await add("products", body);
-        console.log(docRef)
-        // Add product to DB
-        // const { postResult } = await $fetch("/api/add?col=products", {
-        //   method: 'POST',
-        //   body: products[i]
-        // })
-      }
-    }
-  }
+  // const docs = await queryByCollection("products")
+  // // console.log(docs)
+  // if ( docs.length < products.length ) {
+  //   // If Printify has more products than DB, then update DB
+  //   // This will be a PUT request to /api/printify/products
+  //   for (let i=0; i<products.length; i++) {
+  //     // If product is in results, skip it, otherwise add it
+  //     if ( docs.find( (product) => product.id === products[i].id ) ) {
+  //       continue
+  //     } else {
+  //       console.log("Found new product! " + products[i].id)
+  //       const body = await readBody(products[i]);
+  //       const docRef = await add("products", body);
+  //       console.log(docRef)
+  //       // Add product to DB
+  //       // const { postResult } = await $fetch("/api/add?col=products", {
+  //       //   method: 'POST',
+  //       //   body: products[i]
+  //       // })
+  //     }
+  //   }
+  // }
+
   // TODO This route needs to be auth protected
   // TODO This route needs to be called by a cron job or webhook from printify
 

@@ -52,7 +52,7 @@ onMounted(async () => {
 
 const refreshPrintifyProducts = async () => {
   console.log("Refreshing Printify Products")
-  const { result } = await useFetch("/api/printifyProducts")
+  const { result } = await useFetch("/api/printify/products")
   // fetch all products from the printify api for our store
   // https://developers.printify.com/#list-products
 

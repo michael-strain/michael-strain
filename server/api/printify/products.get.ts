@@ -1,4 +1,4 @@
-import { queryByCollection, add } from "../lib/firestore"
+import { queryByCollection, add } from "../../lib/firestore"
 import { readBody } from "h3"
 
 
