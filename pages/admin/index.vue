@@ -22,7 +22,7 @@ const loadAdminPanel = ref(false)
 
 onMounted(async () => {
   if (auth.currentUser.uid!==null){
-    if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1") {
+    if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
       loadAdminPanel.value = 'true'
     } else {
       const router = useRouter()
