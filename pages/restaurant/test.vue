@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/valid-template-root -->
 <!-- eslint-disable vue/multi-word-component-names -->
-// eslint-disable-next-line vue/valid-template-root
+<!-- eslint-disable vue/valid-template-root -->
 <template>
   <!--To Do: 
     Add something for variables. Size, color, ect.
@@ -8,6 +7,10 @@
     Add drop down for extra information.
     Alert pop-ups what pushing bottom buttons.
     Upload and select images.
+    Blueprint ID field with a link to admin/printfy/blueprints.
+    Print provider ID
+
+    Use v-data-tables for your products list.
 -->
   <v-form class="flex text-center align-middle items-center justify-center flex-shrink bg-white">
     <v-card class="w-full">
@@ -19,6 +22,7 @@
         >
           Create New Product
         </h3>
+        <!--FIRST ROW-->
         <v-row class="pt-5">
           <v-col
             cols="12"
@@ -49,14 +53,17 @@
             class=""
           >
             <v-text-field
-              label="Product ID"
-              placeholder="Product ID"
+              label="Blueprint ID"
+              placeholder="Blueprint ID"
               variant="outlined"
               class=""
-            />
+            >
+              {{ blueprintId }}
+            </v-text-field>
           </v-col>
         </v-row>
 
+        <!--SECOND ROW - NEEDS LOVIN'-->
         <v-row class=" ">
           <v-col
             cols="12"
@@ -72,6 +79,7 @@
               persistent-hint
               variant="outlined"
               chips
+              transition="scale-transition"
             />
           </v-col>
           <v-col
@@ -82,12 +90,13 @@
             <v-combobox
               v-model="select"
               :items="items"
-              label="Variables"
+              label="Print Provider"
               clearable
-              multiple
+              
               persistent-hint
               variant="outlined"
               chips
+              transition="scale-transition"
             />
           </v-col>
           <v-col
@@ -129,47 +138,7 @@
           </v-col>
         </v-row>
         
-        <!--EDIT THIS-->
-        <!-- <v-row class="  pt-5">
-          <v-col
-            cols="12"
-            sm=""
-            class=""
-          >
-            <v-btn-toggle
-              v-model="formatting"
-              multiple
-              variant="outlined"
-              divided
-            >
-              <v-btn>
-                <v-icon icon="mdi-format-italic" />
-              </v-btn>
-
-              <v-btn>
-                <v-icon icon="mdi-format-bold" />
-              </v-btn>
-
-              <v-btn>
-                <v-icon icon="mdi-format-underline" />
-              </v-btn>
-            
-              
-              <v-btn>
-                <v-icon icon="mdi-format-align-center" />
-              </v-btn>
-
-              <v-btn>
-                <v-icon icon="mdi-format-align-left" />
-              </v-btn>
-
-              <v-btn>
-                <v-icon icon="mdi-format-align-right" />
-              </v-btn>
-            </v-btn-toggle>
-          </v-col>
-        </v-row> -->
-        
+        <!--DESCRIPTION-->
         <v-row class=" ">
           <v-col
             cols="12"
@@ -184,7 +153,8 @@
             />
           </v-col>
         </v-row>
-
+        
+        <!--PRICING-->
         <v-row class=" ">
           <v-col
             cols="12"
@@ -229,7 +199,34 @@
           </v-col>
         </v-row>
         
+        <!--  UPLOAD FILES-->
+        <v-row>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <!-- https://next.vuetifyjs.com/en/components/file-inputs/ -->
+
+            <!-- <div class="w-full">
+              <v-file-input
+                chips
+                multiple
+                label="File input w/ chips"
+                variant="outlined"
+                @change="onFileChange"
+              />
+              <v-progress-circular
+                v-if="fileUploading"
+                indeterminate
+              />
+            </div> -->
+            <FirebaseUpload />
+          </v-col>
+        </v-row>
+
         
+        
+        <!--BUTTONS-->
         <v-row class=" ">
           <v-col>
             <v-row class="flex text-center align-middle items-center justify-center">
@@ -248,6 +245,7 @@
                     />Save Draft
                   </v-btn>
                 </v-col>
+                
                 <v-col
                   cols="12"
                   sm=""
@@ -279,6 +277,64 @@
                 </v-col>
               </div>
             </v-row>
+          </v-col>
+        </v-row>
+
+        <v-row class="pt-5">
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          />
+        </v-row>
+        <v-row class="pt-5">
+          <v-col
+            v-if="doWeNeedDetails"
+            cols="12"
+            sm=""
+            class="w-screen d-flex flex-wrap text-center align-middle items-center justify-center flex-shrink"
+          >
+            <v-text class="text-3xl">
+              Product Details
+            </v-text>
+            <v-divider />
+            <v-item-group
+              multiple
+              selected-class="bg-purple"
+            >
+              <div class="text-caption mb-2">
+                Tags
+              </div>
+              <v-item
+                v-for="n in 8"
+                :key="n"
+                v-slot="{ selectedClass, toggle }"
+              >
+                <v-chip
+                  :class="selectedClass"
+                  @click="toggle"
+                >
+                  Tag {{ n }}
+                </v-chip>
+              </v-item>
+            </v-item-group>
+            <!-- <v-card
+              class="w-screen d-flex flex-wrap text-center items-center justify-center flex-shrink"
+              color=""
+              flat
+              rounded="0"
+              min-height=""
+            >
+              <v-text-field
+                v-for="n in 10"
+                :key="n"
+                class="pa-2"
+                variant="outlined"
+                rounded="0"
+              >
+                Flex item
+              </v-text-field>
+            </v-card> -->
           </v-col>
         </v-row>
       </v-container>
@@ -415,26 +471,31 @@
 </template>
 
 <!--SCRIPT-->
+<script setup>
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const blueprintId = ref()
+const select = ref([])
+const items = ref([
+  'Programming',
+  'Design',
+  'Vue',
+  'Vuetify',
+])
+
+// We could update this to true to print blueprint and print provider info after they are successfully fetched.
+const doWeNeedDetails = ref(false)
 
 
+if (route.params.id) {
+  blueprintId.value = route.params.id
+}
 
-<script>
-  export default {
-    data () {
-      return {
-        select: [],
-        items: [
-          'Programming',
-          'Design',
-          'Vue',
-          'Vuetify',
-        ],
-      }
-    },
-  }
+// TODO
+// on blueprintId.value change, fetch the appropriate print-provider and product info
+
 </script>
-
-
 
 <!-- <script>
   export default {

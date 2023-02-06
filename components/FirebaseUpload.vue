@@ -1,9 +1,6 @@
 <template>
   <div>
     <v-container>
-      <p>Yo</p>
-      <p>Upload somethin' will ya?</p>
-
       <!-- https://next.vuetifyjs.com/en/components/file-inputs/ -->
 
       <div class="w-full">
