@@ -5,41 +5,7 @@
 <template>
   <div>
     <div class="w-full p-0 m-0">
-      <NuxtLink to="/shop">
-        <h3
-          class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
-          :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
-        >
-          SHOP
-        </h3>
-      </NuxtLink>
-      
-      <!--Quick Links-->
-      <ul
-        class="text-green-400 m-5 text-lg flex flex-wrap justify-center text-center align-center text-lg"
-        :style="{fontFamily: 'Roboto Slab'}"
-      >
-        <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/puzzles">
-            PUZZLES
-          </NuxtLink>
-        </li>
-        <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/towels">
-            TOWELS
-          </NuxtLink>
-        </li>
-        <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop/products/cups">
-            CUPS
-          </NuxtLink>
-        </li>
-        <li class="m-3 hover:text-green-600">
-          <NuxtLink to="/shop">
-            ALL
-          </NuxtLink>
-        </li>
-      </ul>
+      <ShopHeader />
 
       <!-- <v-btn @click="refreshAll()">
         Refetch All Data
@@ -151,12 +117,6 @@ const cartData = ref()
 
 
 
-
-
-
-
-
-
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -247,7 +207,6 @@ onMounted(async() => {
 // })
 
 function heartClick(item){ 
-  //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
   console.log("Item id: " + item.id)
 
   // add item to cart based on item id

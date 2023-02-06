@@ -1,5 +1,7 @@
 Thoughts 2/5/23
 ---------------
+-Need to consider doing product creation with csv imports
+-Really need to start thinking about the order creation and payment processing workflow
 -Need to incorporate shipping costs into the product/cart DataStores
 -Need to fix the auth redirect issue - it's not redirecting to the originally intended page after login (Suggested by CoPilot)
 -Fetch and display blueprints and print providers on their respective admin panel pages
@@ -7,9 +9,15 @@ Thoughts 2/5/23
 -We will want to avoid storing them in the FireStore, it's okay to pull them from printify when someone enters the admin/printify/(blueprints or print-providers) and then store them locally (for a day?)
 -store relevant variables in the appropriate product collection of FireStore (shipping cost, print-provider id, and blueprint id, etc.)
 -Need to create validation objects for Products and Orders
-
-
 -Redirect after login... ideally to the originally intended page
+
+Blueprint Selectors
+Print Provider Selector
+Product Creation Form & Image Uploader
+Ash: Product Creation Time :D - Michael: Payment Processing
+Checkout Page -> Validate Order -> Verify Printify Status -> Send to Payment Processor & Recieve Payment Confirmation -> Send Order to Printify API -> Send customer e-mail confirmation (and maybe send me a happy text! :D)
+Order Confirmation Page / Order Status Page
+
 
 
 Thoughts 2/2/23

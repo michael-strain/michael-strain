@@ -2,7 +2,12 @@
 <template>
   <div v-if="loadAdminProducts">
     <v-btn @click="refreshPrintifyProducts">ReFetch Printify Products</v-btn>
-    <v-btn @click="displayAddProductCard=!displayAddProductCard">Add Product</v-btn>
+    <NuxtLink to="/admin/product/create">
+      <v-btn>Add Product</v-btn>
+    </NuxtLink>
+    <NuxtLink to="/admin/printify/blueprints">
+      <v-btn>Printify Blueprints</v-btn>
+    </NuxtLink>
     <v-card v-if="displayAddProductCard">
       <v-card-title>Add a Product to Printify</v-card-title>
     </v-card>
