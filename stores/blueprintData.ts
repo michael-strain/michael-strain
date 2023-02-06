@@ -3,9 +3,7 @@ import { useLocalStorage } from '@vueuse/core'
 
 export const useBlueprintDataStore = defineStore('blueprintData', () => {
   const blueprintData = ref(
-    useLocalStorage("blueprintData", {
-      },
-    )
+    useLocalStorage("blueprintData", [],)
   )
   return {
     blueprintData,

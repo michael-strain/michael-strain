@@ -151,18 +151,15 @@
 </template>
 
 <script setup>
-  import { getQuery } from "h3"
-  import { ref, computed, onMounted } from "vue"
+  import { ref, onMounted } from "vue"
 
   // List all our form variables as const name = ref(datatype)
   const blueprintId = ref()
+  const route = useRoute()
   
   onMounted(async() => {
-    if (getQuery().blueprintId) {
-      blueprintId.value = getQuery().blueprintId
-    } else {
-      blueprintId.value = ""
-    }
+    if (route.params.blueprintId)
+      blueprintId.value = route.params.blueprintId
   })
 
 

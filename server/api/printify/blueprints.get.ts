@@ -81,7 +81,6 @@ export default defineEventHandler(async () => {
   //     }
   //   }
   // }
-  console.log(blueprints)
 
   //Should we put this in firestore?  Or just try to store it locally somehow?
 
