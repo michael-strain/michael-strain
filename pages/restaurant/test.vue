@@ -3,10 +3,15 @@
 // eslint-disable-next-line vue/valid-template-root
 <template>
   <!--To Do: 
+    Add something for variables. Size, color, ect.
+    Make text edit buttons float in description box.
+    Add drop down for extra information.
+    Alert pop-ups what pushing bottom buttons.
+    Upload and select images.
 -->
-  <v-form class="flex text-center align-middle items-center justify-center flex-shrink">
-    <v-card class="w-full m-15">
-      <v-container class="">
+  <v-form class="flex text-center align-middle items-center justify-center flex-shrink bg-white">
+    <v-card class="w-full">
+      <v-container class="bg-white">
         <!-- <h1 class="text-3xl my-10 text-center"> -->
         <h3
           class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
@@ -14,7 +19,7 @@
         >
           Create New Product
         </h3>
-        <v-row class="bg-custcard pt-5">
+        <v-row class="pt-5">
           <v-col
             cols="12"
             sm=""
@@ -23,36 +28,164 @@
             <v-text-field
               label="Product Title"
               placeholder="Product  Title"
-              variant="solo"
+              variant="outlined"
             />
           </v-col>
           <v-col
             cols="12"
             sm=""
+            class="outlined"
           >
             <v-text-field
               label="Category"
               placeholder="Category"
-              variant="solo"
+              variant="outlined"
+              class=""
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-text-field
+              label="Product ID"
+              placeholder="Product ID"
+              variant="outlined"
               class=""
             />
           </v-col>
         </v-row>
 
-        <v-row class="bg-custcard">
+        <v-row class=" ">
           <v-col
             cols="12"
+            sm=""
+            class=""
+          >
+            <v-combobox
+              v-model="select"
+              :items="items"
+              label="Tags"
+              clearable
+              multiple
+              persistent-hint
+              variant="outlined"
+              chips
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-combobox
+              v-model="select"
+              :items="items"
+              label="Variables"
+              clearable
+              multiple
+              persistent-hint
+              variant="outlined"
+              chips
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-btn-toggle
+              v-model="formatting"
+              multiple
+              variant="outlined"
+              divided
+            >
+              <v-btn>
+                <v-icon icon="mdi-format-italic" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-bold" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-underline" />
+              </v-btn>
+            
+              
+              <v-btn>
+                <v-icon icon="mdi-format-align-center" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-left" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-right" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+        
+        <!--EDIT THIS-->
+        <!-- <v-row class="  pt-5">
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-btn-toggle
+              v-model="formatting"
+              multiple
+              variant="outlined"
+              divided
+            >
+              <v-btn>
+                <v-icon icon="mdi-format-italic" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-bold" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-underline" />
+              </v-btn>
+            
+              
+              <v-btn>
+                <v-icon icon="mdi-format-align-center" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-left" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-right" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row> -->
+        
+        <v-row class=" ">
+          <v-col
+            cols="12"
+            class=""
           >
             <v-textarea
               label="Description"
               placeholder="Description"
-              variant="solo"
+              variant="outlined"
               auto-grow
+              class=""
             />
           </v-col>
         </v-row>
 
-        <v-row class="bg-custcard">
+        <v-row class=" ">
           <v-col
             cols="12"
             sm=""
@@ -61,7 +194,7 @@
             <v-text-field
               label="Product Cost"
               placeholder="Product Cost"
-              variant="solo"
+              variant="outlined"
             />
           </v-col>
           <v-col
@@ -71,7 +204,7 @@
             <v-text-field
               label="Shipping Cost"
               placeholder="Shipping Cost"
-              variant="solo"
+              variant="outlined"
             />
           </v-col>
           <v-col
@@ -81,32 +214,29 @@
             <v-text-field
               label="Retail Price"
               placeholder="Retail Price"
-              variant="solo"
+              variant="outlined"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <v-text-field
+              label="Profit"
+              placeholder="Profit"
+              variant="outlined"
             />
           </v-col>
         </v-row>
         
-        <v-row class="bg-custcard">
-          <v-col cols="12">
-            <v-combobox
-              v-model="select"
-              :items="items"
-              label="Tags"
-              placeholder="Select Tags"
-              multiple
-              clearable
-              variant="solo"
-            />
-          </v-col>
-        </v-row>
         
-        <v-row class="bg-custcard">
+        <v-row class=" ">
           <v-col>
             <v-row class="flex text-center align-middle items-center justify-center">
               <div class="sm:flex align-middle items-center h-min">
                 <v-col
                   cols="12"
-                  sm="6"
+                  sm=""
                 >
                   <v-btn
                     class="align-middle items-center"
@@ -120,7 +250,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  sm="6"
+                  sm=""
                   class=""
                 >
                   <v-btn
@@ -133,90 +263,28 @@
                     />Publish
                   </v-btn>
                 </v-col>
+                <v-col
+                  cols="12"
+                  sm=""
+                >
+                  <v-btn
+                    class="align-middle items-center"
+                    size="large"
+                  >
+                    <v-icon
+                      icon="mdi-email"
+                      class="mr-3"
+                    />DELETE
+                  </v-btn>
+                </v-col>
               </div>
             </v-row>
-            
           </v-col>
         </v-row>
-        
       </v-container>
     </v-card>
   </v-form>
-  <v-card>
-    <v-toolbar class="text-center">
-      <v-toolbar-title>Create a New Product</v-toolbar-title>
-    </v-toolbar>
-
-    <v-card-text>
-      <v-text-field
-        variant="outlined"
-        label="Product Name"
-        model-value="Product Name"
-      />
-
-      <v-textarea
-        variant="outlined"
-        label="Text"
-        model-value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse"
-      />
-
-      <v-divider class="my-2" />
-
-      <!-- <v-item-group multiple selected-class="bg-purple">
-        <div class="text-caption mb-2">Tags</div>
-        <v-item
-          v-for="n in 8"
-          :key="n"
-          v-slot="{ selectedClass, toggle }"
-        >
-          <v-chip
-            :class="selectedClass"
-            @click="toggle"
-          >
-            Tag {{ n }}
-          </v-chip>
-        </v-item>
-      </v-item-group> -->
-    </v-card-text>
-
-    <v-divider />
-
-    
-    <v-combobox
-      v-model="model"
-      v-model:search-input="search"
-      :items="items"
-      hide-selected
-      label="Add some tags"
-      multiple
-      persistent-hint
-    >
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>
-            No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-combobox>
-    <v-card-actions>
-      <v-spacer />
-      <v-btn
-        class="outlined"
-        color="primary"
-        size=""
-      >
-        Save as Draft
-      </v-btn>
-      <v-btn
-        class="outlined"
-        color="primary"
-        size=""
-      >
-        Publish
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+  
 
 
 
@@ -348,23 +416,25 @@
 
 <!--SCRIPT-->
 
+
+
 <script>
   export default {
-    data: () => ({
-      items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
-      model: ['Vuetify'],
-      search: null,
-    }),
-
-    watch: {
-      model (val) {
-        if (val.length > 5) {
-          this.$nextTick(() => this.model.pop())
-        }
-      },
+    data () {
+      return {
+        select: [],
+        items: [
+          'Programming',
+          'Design',
+          'Vue',
+          'Vuetify',
+        ],
+      }
     },
   }
 </script>
+
+
 
 <!-- <script>
   export default {
