@@ -1,19 +1,293 @@
+<!-- eslint-disable vue/valid-template-root -->
 <!-- eslint-disable vue/multi-word-component-names -->
+// eslint-disable-next-line vue/valid-template-root
 <template>
-  <!--To Do: Tabs, Hover, Cards, Carousels
-  
-  Section One:
-    Carosal background. Can this be done with a paralax as well?
-    Name of dish somewhere on the carosal image.
-
-  Section Two: 
-    If adding images for each dish, use hover > transations for layout.
-    Add icon to bottom right corner of card for special information.
-    Try using tabs for the different categories with grow prop.
-    Try replacing divs with cards.  
-    Fix that the grid system is not sliding like first card. Uses v-window-item.
-
+  <!--To Do: 
+    Add something for variables. Size, color, ect.
+    Make text edit buttons float in description box.
+    Add drop down for extra information.
+    Alert pop-ups what pushing bottom buttons.
+    Upload and select images.
 -->
+  <v-form class="flex text-center align-middle items-center justify-center flex-shrink bg-white">
+    <v-card class="w-full">
+      <v-container class="bg-white">
+        <!-- <h1 class="text-3xl my-10 text-center"> -->
+        <h3
+          class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+        >
+          Create New Product
+        </h3>
+        <v-row class="pt-5">
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-text-field
+              label="Product Title"
+              placeholder="Product  Title"
+              variant="outlined"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class="outlined"
+          >
+            <v-text-field
+              label="Category"
+              placeholder="Category"
+              variant="outlined"
+              class=""
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-text-field
+              label="Product ID"
+              placeholder="Product ID"
+              variant="outlined"
+              class=""
+            />
+          </v-col>
+        </v-row>
+
+        <v-row class=" ">
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-combobox
+              v-model="select"
+              :items="items"
+              label="Tags"
+              clearable
+              multiple
+              persistent-hint
+              variant="outlined"
+              chips
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-combobox
+              v-model="select"
+              :items="items"
+              label="Variables"
+              clearable
+              multiple
+              persistent-hint
+              variant="outlined"
+              chips
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-btn-toggle
+              v-model="formatting"
+              multiple
+              variant="outlined"
+              divided
+            >
+              <v-btn>
+                <v-icon icon="mdi-format-italic" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-bold" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-underline" />
+              </v-btn>
+            
+              
+              <v-btn>
+                <v-icon icon="mdi-format-align-center" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-left" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-right" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+        
+        <!--EDIT THIS-->
+        <!-- <v-row class="  pt-5">
+          <v-col
+            cols="12"
+            sm=""
+            class=""
+          >
+            <v-btn-toggle
+              v-model="formatting"
+              multiple
+              variant="outlined"
+              divided
+            >
+              <v-btn>
+                <v-icon icon="mdi-format-italic" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-bold" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-underline" />
+              </v-btn>
+            
+              
+              <v-btn>
+                <v-icon icon="mdi-format-align-center" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-left" />
+              </v-btn>
+
+              <v-btn>
+                <v-icon icon="mdi-format-align-right" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row> -->
+        
+        <v-row class=" ">
+          <v-col
+            cols="12"
+            class=""
+          >
+            <v-textarea
+              label="Description"
+              placeholder="Description"
+              variant="outlined"
+              auto-grow
+              class=""
+            />
+          </v-col>
+        </v-row>
+
+        <v-row class=" ">
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <!-- class="flex text-center align-middle items-center justify-center flex-shrink" -->
+            <v-text-field
+              label="Product Cost"
+              placeholder="Product Cost"
+              variant="outlined"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <v-text-field
+              label="Shipping Cost"
+              placeholder="Shipping Cost"
+              variant="outlined"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <v-text-field
+              label="Retail Price"
+              placeholder="Retail Price"
+              variant="outlined"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <v-text-field
+              label="Profit"
+              placeholder="Profit"
+              variant="outlined"
+            />
+          </v-col>
+        </v-row>
+        
+        
+        <v-row class=" ">
+          <v-col>
+            <v-row class="flex text-center align-middle items-center justify-center">
+              <div class="sm:flex align-middle items-center h-min">
+                <v-col
+                  cols="12"
+                  sm=""
+                >
+                  <v-btn
+                    class="align-middle items-center"
+                    size="large"
+                  >
+                    <v-icon
+                      icon="mdi-email"
+                      class="mr-3"
+                    />Save Draft
+                  </v-btn>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm=""
+                  class=""
+                >
+                  <v-btn
+                    class="align-middle items-center"
+                    size="large"
+                  >
+                    <v-icon
+                      icon="mdi-email"
+                      class="mr-3"
+                    />Publish
+                  </v-btn>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm=""
+                >
+                  <v-btn
+                    class="align-middle items-center"
+                    size="large"
+                  >
+                    <v-icon
+                      icon="mdi-email"
+                      class="mr-3"
+                    />DELETE
+                  </v-btn>
+                </v-col>
+              </div>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+  </v-form>
+  
+
+
+
   <!--CAROUSEL-->
   <!-- 
   <v-carousel
@@ -40,15 +314,15 @@
   </v-carousel> -->
 
   <!--TABS-->
-  <v-card>
-    <!-- <v-card-title class="text-center justify-center py-6">
+  <!-- <v-card> -->
+  <!-- <v-card-title class="text-center justify-center py-6">
       <h1 class="font-weight-bold text-h2">
         MENU
       </h1>
     </v-card-title> -->
 
-    <!--TABS NAV BAR-->
-    <!-- <v-tabs
+  <!--TABS NAV BAR-->
+  <!-- <v-tabs
       v-model="tab"
       bg-color="transparent"
       color=""
@@ -62,71 +336,61 @@
         {{ item }}
       </v-tab>
     </v-tabs> -->
-    <!--HOVER-->
-    <!-- <v-window v-model="tab">
+  <!--HOVER-->
+  <!-- <v-window v-model="tab">
       <v-window-item
         v-for="card in cards"
-          :key="card.title"
-          :cols="card.flex"
-      > -->
-    
-    <div>
-      <v-hover v-slot="{ isHovering, props }">
-        <v-card
-          class="mx-auto"
-          color="grey-lighten-4"
-          max-width="600"
-          v-bind="props"
-        >
-          <v-img
-            :aspect-ratio="16/9"
-            cover
-            src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
-          >
-            <v-expand-x-transition>
-              <div 
-                v-if="isHovering"
-                class="d-flex transition-fast-in-fast-out backdrop-opacity-10 backdrop-invert bg-white/50 v-card--reveal text-h2 items-center align-center justify-center"
-                style="height: 100%;"
-              >
-                <v-btn
-                  class="outlined raised"
-                  color="primary"
-                  size="x-large"
-                >
-                  VIEW
-                </v-btn>
-              </div>
-            </v-expand-x-transition>
-            <v-card-title class="text-h5">Item Type</v-card-title>
-          </v-img>
-
-          <v-card-text class="pt-6 text-center">
-            <h3 class="text-h4 text-primary mb-2">
-              Product Name
-            </h3>
-
-            <div class="text-h5 mb-2">
-              $10.00
-            </div>
-          </v-card-text>
-        </v-card>
-        
-        <!-- <v-card
-              color="basil"
-              flat
+        :key="card.title"
+        :cols="card.flex"
+      >
+        <div>
+          <v-hover v-slot="{ isHovering, props }">
+            <v-card
+              class="mx-auto"
+              color="grey-lighten-4"
+              max-width="600"
+              v-bind="props"
             >
-              <v-card-text>{{ text }}</v-card-text>
-            </v-card> -->
-      </v-hover>
-    </div>
-    <!-- </v-window-item>
+              <v-img
+                :aspect-ratio="16/9"
+                cover
+                src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+              >
+                <v-expand-x-transition>
+                  <div 
+                    v-if="isHovering"
+                    class="d-flex transition-fast-in-fast-out backdrop-opacity-10 backdrop-invert bg-white/50 v-card--reveal text-h2 items-center align-center justify-center"
+                    style="height: 100%;"
+                  >
+                    <v-btn
+                      class="outlined raised"
+                      color="primary"
+                      size="x-large"
+                    >
+                      VIEW
+                    </v-btn>
+                  </div>
+                </v-expand-x-transition>
+              </v-img>
+
+              <v-card-text class="pt-6 text-center">
+                <h3 class="text-h4 text-primary mb-2">
+                  Product Name
+                </h3>
+
+                <div class="text-h5 mb-2">
+                  $10.00
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-hover>
+        </div>
+      </v-window-item>
     </v-window> -->
-  </v-card>
+  <!-- </v-card> -->
 
   <!--CONTAINER CARDS-->
-
-  <v-card>
+  <!-- <v-card>
     <v-container fluid>
       <v-row dense>
         <v-col
@@ -147,11 +411,32 @@
         </v-col>
       </v-row>
     </v-container>
-  </v-card>
+  </v-card> -->
 </template>
 
 <!--SCRIPT-->
+
+
+
 <script>
+  export default {
+    data () {
+      return {
+        select: [],
+        items: [
+          'Programming',
+          'Design',
+          'Vue',
+          'Vuetify',
+        ],
+      }
+    },
+  }
+</script>
+
+
+
+<!-- <script>
   export default {
     data () {
       return {
@@ -185,4 +470,4 @@
       ],}
       }
   }
-</script>
+</script> -->
