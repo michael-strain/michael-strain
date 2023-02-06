@@ -511,6 +511,15 @@ onMounted(async() => {
 // TODO
 // on blueprintId.value change, fetch the appropriate print-provider and product info
 
+watch(blueprintId, async (newVal, oldVal) => {
+  if (newVal) {
+    // fetch blueprint info
+    // fetch print-provider info
+    // fetch product info
+    console.log(newVal)
+  }
+})
+
 </script>
 
 <!-- <script>
