@@ -1,3 +1,8 @@
+Shopping cart doesn't work for ashley
+cart not displaying sometimes
+checkout page not functional at all
+confirm product details page add to cart uses new style
+
 Thoughts 2/6/23
 ---------------
 -Fix broken shop & revise local data storage to be more like blueprints

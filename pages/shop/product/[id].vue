@@ -270,43 +270,77 @@ function getCurrentProduct() {
 const product = ref(getCurrentProduct())
 
 function addToCart(item){ 
-  //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
-
-  console.log("Item id: " + item.id)
-
-  // add item to cart based on item id
   const cart = useCartDataStore()
-  let notfound = true
-  cartData.value = storeToRefs(cart.cartData.data)
-  if (cart.cartData.data != null && cart.cartData.data.length > 0) {
-    console.log("Products are in cart")
-    // if (item in cart.cartData.data) {
+
+    //if there are items in the cart
+    if(cart.cartData.length>0) {
+      console.log("Cart length: " + cart.cartData.length)
       
-    for (let i = 0; i < cart.cartData.data.length; i++) {
-      if (item.id === cart.cartData.data[i].id) {
-        notfound = false
-        console.log("Item is in cart:  " + i)
-        item.qty +=1
-        cart.$patch(cart.cartData.data[i] = item)
-        return
-      } else {
-        console.log("Not this item: " + i)
-        let notfound = true
-        // item.qty = 1
-        // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+      //loop through the cart.  If the item is already in the cart, increment the qty
+      for (let i = 0; i < cart.cartData.length; i++) {
+        if (item.id === cart.cartData[i].id) {
+          item.qty ++
+          item.inCart = true //not sure if this is needed
+          cart.$patch(cart.cartData[i] = item)
+          return
+        }
       }
-    }
-    if (notfound) {
+
+      //if an item was not in the cart, add it to the cart
+      if (!item.inCart) {
+        item.qty = 1
+        item.inCart = true //not sure if this is needed
+        cart.$patch(cart.cartData[cart.cartData.length] = item)
+      }
+    //If there are no items in the cart
+    } else {
+      console.log("Adding first item to cart")
       item.qty = 1
-      cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+      item.inCart=true
+      cart.$patch(cart.cartData[0] = item)
+      console.log(item)
+      console.log(cart.cartData[0])
     }
-    // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
-  } else {
-    console.log("Products are not in cart")
-    item.qty = 1
-    cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
-    return
-  }
+  
+  
+  //OLD WAY
+
+//   //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
+//   console.log("Item id: " + item.id)
+
+//   // add item to cart based on item id
+//   const cart = useCartDataStore()
+//   let notfound = true
+//   cartData.value = storeToRefs(cart.cartData.data)
+//   if (cart.cartData.data != null && cart.cartData.data.length > 0) {
+//     console.log("Products are in cart")
+//     // if (item in cart.cartData.data) {
+      
+//     for (let i = 0; i < cart.cartData.data.length; i++) {
+//       if (item.id === cart.cartData.data[i].id) {
+//         notfound = false
+//         console.log("Item is in cart:  " + i)
+//         item.qty +=1
+//         cart.$patch(cart.cartData.data[i] = item)
+//         return
+//       } else {
+//         console.log("Not this item: " + i)
+//         let notfound = true
+//         // item.qty = 1
+//         // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//       }
+//     }
+//     if (notfound) {
+//       item.qty = 1
+//       cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//     }
+//     // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//   } else {
+//     console.log("Products are not in cart")
+//     item.qty = 1
+//     cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//     return
+//   }
 }
 
 // It's possibly (more likely) that we should be fetching our data from the api instead of a product data store... but i want to be efficient! idk what to do :'(
