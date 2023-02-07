@@ -1,3 +1,14 @@
+Thoughts 2/6/23
+---------------
+-Fix broken shop & revise local data storage to be more like blueprints
+-Revise blueprints - which should probably be a collection in firestore with super infrequent updates (like the printify product fetch)
+-Using locally stored blueprints, fetch print providers and variant info
+-Fix crappy auth redirect stuff - it's not redirecting to the originally intended page after login (Suggested by CoPilot)
+-Auth is currently not showing the logged in user until the page is cycled a couple times through the router... not sure why
+-Need to use auth to ensure only appropriate users are making costly API calls
+-Populate the create product page with the dynamically fetched blueprints, variants, and print providers
+
+
 Thoughts 2/5/23
 ---------------
 -Need to consider doing product creation with csv imports

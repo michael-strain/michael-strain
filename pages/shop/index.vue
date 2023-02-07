@@ -1,24 +1,222 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<!-- MAJOR REVISION TIME -->
 
-<!-- TODO: Make a loading display when people push left/right arrow on product images -->
 
+<!-- NEW VERSION -->
 <template>
   <div>
     <div class="w-full p-0 m-0">
       <ShopHeader />
-
-      <!-- <v-btn @click="refreshAll()">
-        Refetch All Data
-      </v-btn> -->
-
       <div class="flex flex-wrap items-center align-center justify-center">
-        <!-- New card demo -->
+        <div 
+          v-if="loaded"
+          class="flex flex-wrap items-center align-center justify-center w-full"
+        >
+          <div
+            v-for="(item, product) in products"
+            :key="product"
+            class="flex items-center align-center justify-center"
+          >
+            <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
+              <NuxtLink :to="`/shop/product/${item.id}`">
+                <img
+                  :src="item.images[item.imageNum].src"                  
+                  class="h-64 mx-auto"
+                >
+              </NuxtLink>
+              
+              <v-card class="bg-transparent">
+                <p
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="text-green-400 pr-4 pb-4 text-3xl float-right"
+                >
+                  {{ formatter.format((item.variants[0].price)/100) }}
+                </p>
+              </v-card>
+
+              <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
+                <p
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="text-wrap text-2xl"
+                >
+                  {{ item.title }}
+                </p>
+              </v-card-title>
+              
+              <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
+                <v-card-actions>
+                  <v-btn
+                    icon
+                    @click="leftArrow(item)"
+                  >
+                    <v-icon icon="mdi-chevron-left" />
+                  </v-btn>
+
+                  <v-btn
+                    icon
+                    transition="fade-transition"
+                    @click="heartClick(item)"
+                  >
+                    <v-icon :icon="item.inCart ? 'mdi-cards-heart' : 'mdi-cards-heart-outline'" />
+                  </v-btn>
+                  <v-btn
+                    icon
+                    @click="rightArrow(item)"
+                  >
+                    <v-icon icon="mdi-chevron-right" />
+                  </v-btn>
+                </v-card-actions>
+              </div>
+            </v-card>
+          </div> 
+        </div> 
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<script setup>
+  import { ref, onMounted } from 'vue'
+  import { useProductDataStore } from '~/stores/productData';
+  import { useCartDataStore } from '~/stores/cartData';
+  import { storeToRefs } from 'pinia'
+
+  const products = ref([])
+  const loaded = ref(false)
+
+  onMounted(async() => {
+    const store = useProductDataStore()
+    if(store.productData.length > 0){
+      // console.log("Products already loaded")
+      products.value = store.productData
+      loaded.value = true
+      // products.value = storeToRefs(store.productData)
+    }
+    else {
+      // console.log("Fetching products from Firestore")
+      const pData = await $fetch('/api/query?col=products', { method: 'GET' })
+
+      // console.log(pData)
+      
+      for (let i = 0; i < pData.length; i++) {
+        // console.log("Adding imageNum to productData: " + pData[i].id)
+        pData[i].imageNum = 0
+        pData[i].qty = 0
+      }
+      store.$patch({ productData: pData })
+      products.value = store.productData
+      loaded.value = true
+    }
+  })
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
+  function heartClick(item){ 
+    const cart = useCartDataStore()
+
+    //if there are items in the cart
+    if(cart.cartData) {
+      
+      //loop through the cart.  If the item is already in the cart, increment the qty
+      for (let i = 0; i < cart.cartData.length; i++) {
+        if (item.id === cart.cartData[i].id) {
+          item.qty ++
+          item.inCart = true //not sure if this is needed
+          cart.$patch(cart.cartData[i] = item)
+          return
+        }
+      }
+
+      //if an item was not in the cart, add it to the cart
+      if (!item.inCart) {
+        item.qty = 1
+        item.inCart = true //not sure if this is needed
+        cart.$patch(cart.cartData[cart.cartData.length] = item)
+      }
+    //If there are no items in the cart
+    } else {
+      item.qty = 1
+      item.inCart=true
+      cart.$patch(cart.cartData[0] = item)
+      return
+    }
+  }
+
+  function leftArrow(item){
+    // get current image number
+    let imageId = item.imageNum
+    if (imageId>0) {
+      imageId--
+    } else {
+      imageId = item.images.length-1
+    }
+
+    //patch the store with the new image number
+    const store = useProductDataStore()
+    for (let i = 0; i < store.productData.length; i++) {
+      if (store.productData[i].id === item.id) {
+        store.$patch( store.productData[i].imageNum=imageId )
+        products.value = store.productData
+        return
+      }
+    }
+  }
+
+  function rightArrow(item){
+    let imageId = item.imageNum
+    if (imageId==item.images.length-1) {
+      imageId = 0
+    } else {
+      imageId++
+    }
+
+    //patch the store with the new image number
+    const store = useProductDataStore()
+    for (let i = 0; i < store.productData.length; i++) {
+      if (store.productData[i].id == item.id) {
+        store.$patch( store.productData[i].imageNum = imageId )
+        products.value = store.productData
+        return
+      }
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--OLD VERSION BELOW-->
+
+
+
+
+
+<!-- TODO: Make a loading display when people push left/right arrow on product images -->
+
+<!-- <template>
+  <div>
+    <div class="w-full p-0 m-0">
+      <ShopHeader />
+      <div class="flex flex-wrap items-center align-center justify-center">
         <div v-if="pending">
           Loading . . .
-        </div> <!--Animate this of course-->
-
-
-        <!-- May need to remove justify center here D: -->
+        </div>
         <div
           v-else
           class="flex flex-wrap items-center align-center justify-center w-full"
@@ -64,8 +262,6 @@
                     <v-icon icon="mdi-chevron-left" />
                   </v-btn>
 
-                  <!-- TODO -->
-                  <!-- Need to add a function to immediately add this item to the cart -->
                   <v-btn
                     icon
                     transition="fade-transition"
@@ -83,14 +279,14 @@
               </div>
             </v-card>
           </div> 
-        </div> <!-- End of First Row-->
+        </div>
       </div>
     </div>
   </div>
-</template>
+</template> -->
 
 
-<script setup>
+<!-- <script setup>
 // Need a price box on the bottom right of the product
 // Need to loop through images with arrow buttons
 import { ref } from 'vue'
@@ -424,4 +620,4 @@ function refreshAll() {refreshNuxtData()}
 
 
 
-</script>
+</script> -->

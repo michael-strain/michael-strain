@@ -1,6 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <!-- eslint-disable vue/no-unused-vars -->
+
+<!-- TODO This layout needs a complete overhaul for code efficiency, readability, and best practices -->
 <template>
   <v-app :theme="theme">
     <!-- Popup -->
@@ -119,16 +121,16 @@
 
         <v-divider />
 
-        <div v-if="!cartProducts || cart.cartData.data.length==0">
+        <div v-if="!cartProducts||cartProducts.length<1">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
         </div>
-        <div v-else-if="cart.cartData.data.length>0">
+        <div v-else-if="cartProducts.length>0">
           <v-list
             nav
           >
-            <v-list-item v-for="(item, product) in cart.cartData.data" :key="product">
+            <v-list-item v-for="(item, product) in cartProducts" :key="product">
               <!-- <v-list-item-avatar>
                 <v-img :src="item.images[item.imageNum]" />
               </v-list-item-avatar>
@@ -149,19 +151,20 @@
                   </h4>
                   <div class="grid grid-cols-2">
                     <div class="grid grid-cols-4">
-                      <button class="text-center" @click="item.qty--; cart.$patch(cart.cartData.data[i] = item)">
+                      <button class="text-center" @click="item.qty--; item.qty==0 ? cart.$patch(cart.cartData[i]=null) : cart.$patch(cart.cartData[i] = item)">
                         -
                       </button>
                       <p class="text-center">
                         {{ item.qty }}
                       </p>
-                      <button class="text-center" @click="item.qty++; cart.$patch(cart.cartData.data[i] = item)">
+                      <button class="text-center" @click="item.qty++; cart.$patch(cart.cartData[i] = item)">
                         +
                       </button>
                     </div>
                     <div class="grid grid-col-3">
                       <p class="text-right">
                         {{ formatter.format((item.variants[0].price * item.qty)/100) }}
+                        <!-- TODO This should at some point not be just some random variant, but a chosen variant defaulting to zero -->
                       </p>
                     </div>
                   </div>
@@ -182,7 +185,7 @@
                     Total
                   </h4>
                   <p class="text-right text-2xl">
-                    {{ formatter.format((cart.cartData.data.reduce((a, b) => a + (b.variants[0].price * b.qty), 0) + 500)/100) }}
+                    {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[0].price * b.qty), 0) + 500)/100) }}
                   </p>
                 </div>
                 
@@ -191,7 +194,7 @@
                     <p>Item Cost</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cart.cartData.data.reduce((a, b) => a + (b.variants[0].price * b.qty), 0))/100) }}
+                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[0].price * b.qty), 0))/100) }}
                       </p>
                     </div>
                   </div>
@@ -200,6 +203,7 @@
                     <div class="grid grid-col-2">
                       <p class="text-right">
                         $5.00
+                        <!-- TODO Need to put actual shipping sum here -->
                       </p>
                     </div>
                   </div>
@@ -239,7 +243,6 @@
 
 <script setup>
   import { ref } from 'vue'
-  import { storeToRefs } from 'pinia'
   import { useCartDataStore } from '~/stores/cartData';
   // import { firebase } from '~/plugins/firebase'
 
@@ -261,10 +264,21 @@
   const dialog = ref(false)
   const dialogText = ref('')
   const drawer = ref(null)
-  const cartProducts = ref()
 
-  const cart = useCartDataStore()
-  cartProducts.value = storeToRefs(cart.cartData.cartData)
+  const cartProducts = ref([])
+  const loaded = ref(false)
+
+  //Call Datastore to get all Cart Products
+  onMounted(async() => {
+    const cart = useCartDataStore()
+    if(cart.cartData.length > 0){
+      cartProducts.value = cart.cartData
+      loaded.value = true
+    }
+    else {
+      loaded.value = false
+    }
+  })
 
   // Create our number formatter.
   const formatter = new Intl.NumberFormat('en-US', {
@@ -290,35 +304,8 @@
 
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
+      // If the page is shop, open the shopping cart drawer
       drawer.value=!drawer.value
-      const cart = useCartDataStore()
-      cartProducts.value = storeToRefs(cart.cartData.cartData)
-
-      
-
-      //fill cart with cartProducts from the datastore
-      //if empty, display empty cart message
-      //if not empty, display cart items
-      // console.log(cart.cartItems)
-      // console.log(cart.cartItems.length)
-      // console.log(cart.cartItems[0])
-      // console.log(cart.cartItems[0].name)
-      // console.log(cart.cartItems[0].price)
-      // console.log(cart.cartItems[0].image)
-      // console.log(cart.cartItems[0].quantity)
-      // console.log(cart.cartItems[0].id)
-      // console.log(cart.cartItems[0].description)
-      // console.log(cart.cartItems[0].category)
-      // console.log(cart.cartItems[0].rating)
-      // console.log(cart.cartItems[0].numReviews)
-      // console.log(cart.cartItems[0].countInStock)
-      // console.log(cart.cartItems[0].brand)
-
-      
-
-      // dialog.value = true
-      // dialogText.value = "Hello.  I am going to display a shopping cart soon."
-      // dialogClicked()
     } else {
       router.push('/account')
     }

@@ -3,8 +3,9 @@ import { useLocalStorage } from '@vueuse/core'
 
 export const useCartDataStore = defineStore('cartData', () => {
   const cartData = ref(
-    useLocalStorage("cartData", {
-        data: [
+    useLocalStorage("cartData", [
+
+    ]
         //   {
         //     id: "0",
         //     title: "Loading",
@@ -102,8 +103,6 @@ export const useCartDataStore = defineStore('cartData', () => {
         //     ],
         //     sales_channel_properties: []    
         // }
-        ],
-      },
     )
   )
   return {
