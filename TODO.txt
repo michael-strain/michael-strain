@@ -1,3 +1,4 @@
+Shop - variant selector (Show variant Title & Update Pricing & details) & correct shipping info
 Shopping cart doesn't work for ashley
 cart not displaying sometimes
 checkout page not functional at all
