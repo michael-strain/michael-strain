@@ -57,7 +57,15 @@
                     transition="fade-transition"
                     @click="heartClick(item)"
                   >
-                    <v-icon :icon="item.inCart ? 'mdi-cards-heart' : 'mdi-cards-heart-outline'" />
+                    <v-icon :icon="item.qty>0 ? 'mdi-cards-heart' : 'mdi-cards-heart-outline'" />
+                    <!-- <v-icon
+                      v-if="item.qty>0"
+                      icon="mdi-cards-heart"
+                    />
+                    <v-icon
+                      v-else
+                      icon="mdi-cards-heart-outline"
+                    /> -->
                   </v-btn>
                   <v-btn
                     icon
@@ -131,6 +139,8 @@
           item.qty ++
           item.inCart = true //not sure if this is needed
           cart.$patch(cart.cartData[i] = item)
+          store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+          products.value = store.productData
           return
         }
       }
@@ -140,6 +150,8 @@
         item.qty = 1
         item.inCart = true //not sure if this is needed
         cart.$patch(cart.cartData[cart.cartData.length] = item)
+        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+        products.value = store.productData
       }
     //If there are no items in the cart
     } else {
@@ -147,8 +159,8 @@
       item.qty = 1
       item.inCart=true
       cart.$patch(cart.cartData[0] = item)
-      console.log(item)
-      console.log(cart.cartData[0])
+      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      products.value = store.productData
     }
   }
 
