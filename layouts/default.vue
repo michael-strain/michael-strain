@@ -121,7 +121,7 @@
 
         <v-divider />
 
-        <div v-if="!cartProducts||cartProducts.length<1">
+        <div v-if="!loaded||cartProducts.length<0">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
@@ -151,13 +151,13 @@
                   </h4>
                   <div class="grid grid-cols-2">
                     <div class="grid grid-cols-4">
-                      <button class="text-center" @click="item.qty--; item.qty==0 ? cart.$patch(cart.cartData[i]=null) : cart.$patch(cart.cartData[i] = item)">
+                      <button class="text-center" @click="decreaseCartItemQty(item)">
                         -
                       </button>
                       <p class="text-center">
                         {{ item.qty }}
                       </p>
-                      <button class="text-center" @click="item.qty++; cart.$patch(cart.cartData[i] = item)">
+                      <button class="text-center" @click="increaseCartItemQty(item)">
                         +
                       </button>
                     </div>
@@ -225,6 +225,7 @@
             </div>
           </v-list>
         </div>
+        <!-- <v-btn @click="cart.reset()">Reset Cart</v-btn> -->
       </v-navigation-drawer>
       <!-- End Shopping Cart -->
 
@@ -243,7 +244,8 @@
 
 <script setup>
   import { ref } from 'vue'
-  import { useCartDataStore } from '~/stores/cartData';
+  import { useCartDataStore } from '~/stores/cartData'
+  import { useProductDataStore } from '~/stores/productData'
   // import { firebase } from '~/plugins/firebase'
 
   // const firebaseUser = useFirebaseUser()
@@ -267,6 +269,7 @@
 
   const cartProducts = ref([])
   const loaded = ref(false)
+  const store = useProductDataStore()
 
   //Call Datastore to get all Cart Products
   onMounted(async() => {
@@ -302,8 +305,46 @@
   const pageTitle = computed(() => useRoute().path)
   // let pageTitle = ref(async () => {console.log(useRoute().path); return useRoute().path.tostring()})
 
+  function decreaseCartItemQty(item) {
+    const cart = useCartDataStore()
+    item.qty--
+    if (item.qty===0){
+      // Remove this shit from the cart
+      item.inCart = false
+      cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
+      // cartProducts.value.splice(cartProducts.value.map((x)=>{return x.id}).indexOf(item.id),1)
+      // cart.$patch(cartProducts.value)
+      cartProducts.value = cart.cartData
+      if (!cart.cartData[0]){
+        loaded.value = false
+      }
+    } else {
+      // cartProducts.value[cartProducts.value.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty
+      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
+      cartProducts.value = cart.cartData
+    }
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+  }
+
+  function increaseCartItemQty(item) {
+    const cart = useCartDataStore()
+    item.qty++
+    cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
+    cartProducts.value = cart.cartData
+    // cart.$patch(cart.cartData[array.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+  }
+
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
+      const cart = useCartDataStore()
+      if(cart.cartData.length > 0){
+        cartProducts.value = cart.cartData
+        loaded.value = true
+      }
+      else {
+        loaded.value = false
+      }
       // If the page is shop, open the shopping cart drawer
       drawer.value=!drawer.value
     } else {

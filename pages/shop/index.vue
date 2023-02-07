@@ -96,7 +96,6 @@
     else {
       // console.log("Fetching products from Firestore")
       const pData = await $fetch('/api/query?col=products', { method: 'GET' })
-
       // console.log(pData)
       
       for (let i = 0; i < pData.length; i++) {
@@ -123,7 +122,8 @@
     const cart = useCartDataStore()
 
     //if there are items in the cart
-    if(cart.cartData) {
+    if(cart.cartData.length>0) {
+      console.log("Cart length: " + cart.cartData.length)
       
       //loop through the cart.  If the item is already in the cart, increment the qty
       for (let i = 0; i < cart.cartData.length; i++) {
@@ -143,10 +143,12 @@
       }
     //If there are no items in the cart
     } else {
+      console.log("Adding first item to cart")
       item.qty = 1
       item.inCart=true
       cart.$patch(cart.cartData[0] = item)
-      return
+      console.log(item)
+      console.log(cart.cartData[0])
     }
   }
 
