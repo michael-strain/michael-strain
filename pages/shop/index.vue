@@ -150,7 +150,7 @@
         item.qty = 1
         item.inCart = true //not sure if this is needed
         cart.$patch(cart.cartData[cart.cartData.length] = item)
-        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
         products.value = store.productData
       }
     //If there are no items in the cart
@@ -159,7 +159,7 @@
       item.qty = 1
       item.inCart=true
       cart.$patch(cart.cartData[0] = item)
-      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
       products.value = store.productData
     }
   }
