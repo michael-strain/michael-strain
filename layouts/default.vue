@@ -333,6 +333,7 @@
     cartProducts.value = cart.cartData
     // cart.$patch(cart.cartData[array.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
     store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+    
   }
 
   function profileClick () {

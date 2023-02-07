@@ -57,7 +57,7 @@
                     transition="fade-transition"
                     @click="heartClick(item)"
                   >
-                    <v-icon :icon="item.qty>0 ? 'mdi-cards-heart' : 'mdi-cards-heart-outline'" />
+                    <v-icon :icon="heartIcon(item)" />
                     <!-- <v-icon
                       v-if="item.qty>0"
                       icon="mdi-cards-heart"
@@ -126,8 +126,19 @@
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
+  function heartIcon(item){
+    const store = useProductDataStore()
+    if(products.value[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty>0){
+      return "mdi-cards-heart"
+    }
+    else{
+      return "mdi-cards-heart-outline"
+    }
+  }
+
   function heartClick(item){ 
     const cart = useCartDataStore()
+    const store = useProductDataStore()
 
     //if there are items in the cart
     if(cart.cartData.length>0) {
@@ -139,7 +150,7 @@
           item.qty ++
           item.inCart = true //not sure if this is needed
           cart.$patch(cart.cartData[i] = item)
-          store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+          store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
           products.value = store.productData
           return
         }
@@ -150,7 +161,7 @@
         item.qty = 1
         item.inCart = true //not sure if this is needed
         cart.$patch(cart.cartData[cart.cartData.length] = item)
-        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
         products.value = store.productData
       }
     //If there are no items in the cart
@@ -159,7 +170,7 @@
       item.qty = 1
       item.inCart=true
       cart.$patch(cart.cartData[0] = item)
-      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
       products.value = store.productData
     }
   }
