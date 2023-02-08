@@ -121,12 +121,12 @@
 
         <v-divider />
 
-        <div v-if="!loaded||cartProducts.value.length<0">
+        <div v-if="cartProducts.value.length==0">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
         </div>
-        <div v-else-if="cartProducts.value.length>0||loaded">
+        <div v-else>
           <v-list
             nav
           >
@@ -192,6 +192,7 @@
                   </h4>
                   <p class="text-right text-2xl">
                     <!-- Probably Need a cart totaling function here -->
+                    <!-- Need to incorporate the shipping cost variance for firstItemCost vs additionalItemCost -->
                     {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }}
                   </p>
                 </div>

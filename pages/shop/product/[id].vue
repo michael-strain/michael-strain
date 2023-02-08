@@ -227,6 +227,9 @@
 
 
 <script setup>
+
+// Time to introduce Variants
+
 import { ref, computed, reactive } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
 import { useCartDataStore } from '~/stores/cartData';
