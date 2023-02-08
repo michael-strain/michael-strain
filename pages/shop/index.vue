@@ -167,25 +167,30 @@
     const cart = useCartDataStore()
     const store = useProductDataStore()
     let itemInCart = false
-    let cartSize = 0
 
     variant.cartQty++
     variant.inCart = true
-    item.variants[item.variantNum] = variant
+    // item.variants[item.variantNum] = variant
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
 
     //if an item is already in the cart, patch the item with variant data
     for (let i = 0; i < cart.cartData.length ; i++){
-      cartSize++
       if (item.id == cart.cartData[i].id){
         console.log("This item is already in the cart.  Updating it.")
-        cart.$patch(cart.cartData[i] = item)
+        cart.$patch( cart.cartData[i] = item )
+        store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
         itemInCart = true
-        break
       }
     }
 
     if (!itemInCart){
-      cart.$patch(cart.cartData[cartSize] = item)
+      if (cart.cartData.length){
+        cart.$patch(cart.cartData[cart.cartData.length] = item)
+        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+      } else {
+        cart.$patch(cart.cartData[0]=item)
+        store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+      }
     }
   
 
@@ -247,6 +252,7 @@
   function leftVariantArrow(item){
     // Cycle through item variants
     const store = useProductDataStore()
+    const cart = useCartDataStore()
     let variantId = item.variantNum
     if (variantId>0) {
       variantId--
@@ -256,6 +262,15 @@
     for (let i = 0; i < store.productData.length; i++) {
       if (store.productData[i].id === item.id) {
         store.$patch( store.productData[i].variantNum=variantId )
+        
+        // for items in cart
+          //if product is in cart, patch the cart with the variantNum
+        for (let j=0;j<cart.cartData.length;j++) {
+          if (cart.cartData[j].id==store.productData[i].id){
+            cart.$patch(cart.cartData[j].variantNum=variantId)
+          }
+        }
+
         products.value = store.productData
         return
       }
@@ -265,6 +280,7 @@
   function rightVariantArrow(item){
     // Cycle through item variants
     const store = useProductDataStore()
+    const cart = useCartDataStore()
     let variantId = item.variantNum
     if (variantId<item.variants.length-1) {
       variantId++
@@ -274,6 +290,15 @@
     for (let i = 0; i < store.productData.length; i++) {
       if (store.productData[i].id === item.id) {
         store.$patch( store.productData[i].variantNum=variantId )
+
+         // for items in cart
+          //if product is in cart, patch the cart with the variantNum
+        for (let j=0;j<cart.cartData.length;j++) {
+          if (cart.cartData[j].id==store.productData[i].id){
+            cart.$patch(cart.cartData[j].variantNum=variantId)
+          }
+        }
+
         products.value = store.productData
         return
       }

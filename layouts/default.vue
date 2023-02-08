@@ -110,7 +110,6 @@
       <!--MAKE FONT ROBOTO-->
       <!--Make functional-->
       <v-navigation-drawer
-        v-if="cartProducts"
         v-model="drawer"
         temporary
         location="right"
@@ -133,12 +132,11 @@
           <v-list
             nav
           >
-            <v-list-item v-for="(item, product) in cartProducts.value" :key="product">
+            <v-list-item v-for="(item, product) in cartProducts" :key="product">
               <!-- TODO Need to display a list item for each variant WITH inCart-->
-              <v-list-item v-for="variant in limitVariants(item.variants,item.variants.length)" :key="variant">
+              <v-list-item v-for="variant in variantsInCart(item.variants)" :key="variant">
                 <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
-
-                <div>
+                <div v-if="variant.inCart">
                   <!--TODO Consider putting a carousel in here as well lol-->
                   <img
                     :src="item.images[0].src"
@@ -176,18 +174,11 @@
             <!-- <v-list-item-avatar>
                 <v-img :src="item.images[item.imageNum]" />
               </v-list-item-avatar>
-
               <v-list-item-title>
                 {{ item.title }}
               </v-list-item-title> -->
             </v-list-item>
-
-
-
-            
-
             <v-divider class="mt-4 mb-4" />
-
             <div>
               <div>
                 <div class="grid grid-cols-2 mb-3">
@@ -279,7 +270,7 @@
   const dialogText = ref('')
   const drawer = ref(null)
 
-  const cartProducts = reactive([])
+  const cartProducts = ref([])
   // const cartProducts = ref()
   const loaded = ref(false)
   const store = useProductDataStore()
@@ -287,15 +278,18 @@
 
   //Call Datastore to get all Cart Products
   onMounted(async() => {
-    const cart = useCartDataStore()
-    console.log(cart.cartData.length)
-    if(cart.cartData.length>0 ){
-      cartProducts.value = cart.cartData
-      loaded.value = true
-    }
-    else {
-      // cartProducts.value = cart.cartData
-      loaded.value = false
+    //if we are on the shop page:
+    if (pageTitle.value.includes("/shop")){
+      // const cart = useCartDataStore()
+      // console.log(cart.cartData.length)
+      if(cart.cartData.length>0 ){
+        cartProducts.value = cart.cartData
+        loaded.value = true
+      }
+      else {
+        // cartProducts.value = cart.cartData
+        loaded.value = false
+      }
     }
   })
 
@@ -355,31 +349,44 @@
         }
       }
 
-      //if there are other variants of this item in the cart, just remove this variant from the cart, otherwise remove the whole item
+      //if there are not other variants of this item in the cart, just remove the whole item
       if (!otherVariants) {
         //Remove whole item from cart
         cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
         cartProducts.value = cart.cartData
 
-        //If there are no other products in cart data,
-        cart.cartData.length==0 ? loaded.value = false : '';
+        //If there are no other products in cart data, set loaded to false
+        if(cart.cartData.length==0){
+          cart.$patch(cart.cartData=[])
+          loaded.value = false
+        }
 
       }
-      else if (otherVariants) {
+      // else if (otherVariants) {
         //Remove just this variant from the cart
-        item = item.variants.splice(item.variants.map((x)=>{return x.id}).indexOf(variant.id),1)
-        cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-        cartProducts.value = cart.cartData
-      }
+        // item = item.variants.splice(item.variants.map((x)=>{return x.id}).indexOf(variant.id),1)
+
+        // We don't actually want to remove it from the item, just set cartQty and inCart values
+        // cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+        // cartProducts.value = cart.cartData
+
+        // This is all actually already happening above
+      // }
 
       // cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
       // cartProducts.value = cart.cartData
 
     } else {
-      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant // I don't think this line is necessary
+      // item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant // I don't think this line is necessary
+      // Just patch the cart with the already formatted item
       cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
       cartProducts.value = cart.cartData
     }
+
+    //Just for fun, we patch the whole damn product store with everything the cart is doing
+    const store = useProductDataStore()
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    
   }
 
   function increaseCartItemQty(item, variant) {
@@ -388,14 +395,17 @@
     variant.cartQty++
     item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
     cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-    cartProducts = cart.cartData
+    cartProducts.value = cart.cartData
 
     // Do we need to do anything to the product store here?
-    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[item.variantNum].cartQty = item.variants[item.variantNum].cartQty)
+    // May as well try :D
+    const store = useProductDataStore()
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
     
   }
 
   function profileClick () {
+    const cart = useCartDataStore()
     if (pageTitle.value.includes("/shop")){
       console.log(cart.cartData.length)
       // const cart = useCartDataStore()
@@ -447,13 +457,24 @@
     // dialogClicked()
   }
 
-  function limitVariants(variants, length) {
-    let cartVariants = []
-    for (let i = 0; i < length; i++){
-      if (variants[i].cartQty>0){
-        cartVariants.push(variants[i])
+  // function limitVariants(variants) {
+  //   let cartVariants = []
+  //   for (let i = 0; i < length; i++){
+  //     if (variants[i].inCart){
+  //       cartVariants.push(variants[i])
+  //     }
+  //   }
+  //   return cartVariants
+  // }
+
+  function variantsInCart(item){
+    let cartVariants=[]
+    for (let variant in variants){
+      if (variant.inCart){
+        cartVariants.push(variant)
       }
     }
+    console.log("Returning variants: " + cartVariants)
     return cartVariants
   }
 </script>
