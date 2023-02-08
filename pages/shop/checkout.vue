@@ -2,7 +2,7 @@
 <template>
   <div>
     <div
-      v-if="cart.cartData.data === null || cart.cartData.data.length === 0"
+      v-if="cart.cartData === null || cart.cartData.length === 0"
     >
       <NuxtLink to="/shop">
         Cart Empty, Go Shop
@@ -12,7 +12,7 @@
       <!-- v-else-if="infoSubmitted" -->
       <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
       <div
-        v-for="(item, product) in cart.cartData.data"
+        v-for="(item, product) in cart.cartData"
         :key="product"
         class="flex items-center align-center justify-center"
       >
@@ -144,7 +144,7 @@ const zip = ref('')
 
 const cart = useCartDataStore()
 const cartData = ref()
-cartData.value = storeToRefs(cart.cartData.data)
+cartData.value = storeToRefs(cart.cartData)
 
 async function submitShippingInfo() {
   // for each item in cart get the shipping cost and create line items
@@ -164,18 +164,18 @@ async function submitShippingInfo() {
     "zip": zip.value
   })
 
-  cartData.value = storeToRefs(cart.cartData.data)
-  if (cart.cartData.data != null && cart.cartData.data.length > 0) {
+  cartData.value = storeToRefs(cart.cartData)
+  if (cart.cartData != null && cart.cartData.length > 0) {
     console.log("Products are in cart")
-    // if (item in cart.cartData.data) {
+    // if (item in cart.cartData) {
       
-    for (let i = 0; i < cart.cartData.data.length; i++) {
-      console.log(cart.cartData.data[i].id)
+    for (let i = 0; i < cart.cartData.length; i++) {
+      console.log(cart.cartData[i].id)
       // create line items
       lineItems.value[i] = {
-        "product_id": cart.cartData.data[i].id,
-        "variant_id": cart.cartData.data[i].variants[0].id,
-        "quantity": cart.cartData.data[i].qty
+        "product_id": cart.cartData[i].id,
+        "variant_id": cart.cartData[i].variants[0].id,
+        "quantity": cart.cartData[i].qty
       }
     }
     // get shipping cost
