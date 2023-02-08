@@ -122,13 +122,13 @@
 
         <v-divider />
 
-        <div v-if="!loaded||cartProducts.value.cartData.length==0">
+        <div v-if="!loaded">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
         </div>
         <div
-          v-else-if="loaded||cartProducts.value>0"
+          v-else
         >
           <v-list
             nav
@@ -165,7 +165,8 @@
                       <div class="grid grid-col-3">
                         <p class="text-right">
                           {{ formatter.format((item.variants[item.variantNum].price * item.variants[item.variantNum].cartQty)/100) }}
-                        <!-- TODO This should at some point not be just some random variant, but a chosen variant defaulting to zero -->
+                        <!-- TODO This should maybe be it's own function -->
+                        <!-- We might also need a cart totaling thing for orders that uses the function as well-->
                         </p>
                       </div>
                     </div>
@@ -196,7 +197,7 @@
                   <p class="text-right text-2xl">
                     <!-- Probably Need a cart totaling function here -->
                     <!-- Need to incorporate the shipping cost variance for firstItemCost vs additionalItemCost -->
-                    {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }}
+                    {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }}
                   </p>
                 </div>
                 
@@ -205,7 +206,7 @@
                     <p>Item Cost</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0))/100) }}
+                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0))/100) }}
                       </p>
                     </div>
                   </div>
@@ -213,7 +214,7 @@
                     <p>Shipping</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }}
+                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }}
                       <!-- TODO Need to figure out shipping cost if more than one of an item is chosen (incorporate additionalItemCost)-->
                       </p>
                     </div>
@@ -279,18 +280,21 @@
   const drawer = ref(null)
 
   const cartProducts = reactive([])
+  // const cartProducts = ref()
   const loaded = ref(false)
   const store = useProductDataStore()
+  const cart = useCartDataStore()
 
   //Call Datastore to get all Cart Products
   onMounted(async() => {
     const cart = useCartDataStore()
-    if(cart.cartData.length > 0){
+    console.log(cart.cartData.length)
+    if(cart.cartData.length>0 ){
       cartProducts.value = cart.cartData
       loaded.value = true
     }
     else {
-      cartProducts.value = cart.cartData
+      // cartProducts.value = cart.cartData
       loaded.value = false
     }
   })
@@ -356,6 +360,10 @@
         //Remove whole item from cart
         cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
         cartProducts.value = cart.cartData
+
+        //If there are no other products in cart data,
+        cart.cartData.length==0 ? loaded.value = false : '';
+
       }
       else if (otherVariants) {
         //Remove just this variant from the cart
@@ -380,7 +388,7 @@
     variant.cartQty++
     item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
     cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-    cartProducts.value = cart.cartData
+    cartProducts = cart.cartData
 
     // Do we need to do anything to the product store here?
     // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[item.variantNum].cartQty = item.variants[item.variantNum].cartQty)
@@ -389,12 +397,16 @@
 
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
-      const cart = useCartDataStore()
-      cartProducts.value = cart.cartData
-      if(cart.cartData.length > 0){
+      console.log(cart.cartData.length)
+      // const cart = useCartDataStore()
+      // console.log(cart)
+      // console.log("Cart button clicked: " + cart.cartData.length)
+      // // cartProducts.value = cart.cartData
+      if(cart.cartData.length>0 ){
+        cartProducts.value = cart.cartData
         loaded.value = true
-      }
-      else {
+      } else {
+        // cartProducts.value = cart.cartData
         loaded.value = false
       }
       // If the page is shop, open the shopping cart drawer
