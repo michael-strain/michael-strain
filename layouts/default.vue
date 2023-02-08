@@ -110,6 +110,7 @@
       <!--MAKE FONT ROBOTO-->
       <!--Make functional-->
       <v-navigation-drawer
+        v-if="cartProducts"
         v-model="drawer"
         temporary
         location="right"
@@ -121,7 +122,7 @@
 
         <v-divider />
 
-        <div v-if="cartProducts.value.length==0">
+        <div v-if="!loaded||cartProducts.value.length==0">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
@@ -132,7 +133,7 @@
           >
             <v-list-item v-for="(item, product) in cartProducts.value" :key="product">
               <!-- TODO Need to display a list item for each variant WITH inCart-->
-              <v-list-item v-for="variant in limitVariants(item.variants,item.variants.length)" :key="variant.id">
+              <v-list-item v-for="variant in limitVariants(item.variants,item.variants.length)" :key="variant">
                 <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
 
                 <div>
@@ -269,7 +270,7 @@
   const moveToCheckout = ref(() => router.push('/shop/checkout'))
 
   const theme = ref('myCustomLightTheme')
-  const themeIcon = ref('mdi-weatherS-sunny')
+  const themeIcon = ref('mdi-weather-sunny')
   const heart = ref('')
   const dialog = ref(false)
   const dialogText = ref('')
@@ -287,6 +288,7 @@
       loaded.value = true
     }
     else {
+      cartProducts.value = cart.cartData
       loaded.value = false
     }
   })
