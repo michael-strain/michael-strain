@@ -19,14 +19,24 @@
           >
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
               <v-carousel>
-                <v-carousel-item
+                <NuxtLink :to="'/shop/product/'+item.id">
+                  <v-carousel-item
+                    v-for="(img, i) in item.images"
+                    :key="i"
+                    :src="img.src"
+                    :lazy-src="img.src"
+                    :alt="img.alt"
+                    cover
+                  />
+                </NuxtLink>
+                <!-- <v-carousel-item
                   v-for="(img, i) in item.images"
                   :key="i"
                   :src="img.src"
                   :lazy-src="img.src"
                   :alt="img.alt"
                   cover
-                />
+                /> -->
               </v-carousel>
 
               <!-- Old method -->

@@ -23,9 +23,58 @@
         <v-col cols="12">
           <div class="flex flex-wrap">
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
-              <div
-                v-for="(item, productive) in store.productData"
-                :key="productive"
+              <!-- New way -->
+              <div v-if="product">
+                <v-img
+                  class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
+                  :src="product.images[0].src"
+                />
+                <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
+                  <v-card-title class="bg-surface">
+                    <p
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="text-wrap text-4xl m-3"
+                    >
+                      {{ product.title }}
+                    </p>
+                  </v-card-title>
+
+                  <v-card-subtitle
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-wrap text-2xl p-3 pt-5"
+                    v-html="product.description"
+                  />
+                </div>
+              
+                <!-- Make button green -->
+
+                <v-card-actions class="pb-5">
+                  <p
+                    class="m-5 text-3xl font-semibold text-green-600"
+                    size=""
+                  >
+                    {{ formatter.format((product.variants[product.variantNum].price)/100) }}
+                  </p>
+
+                  <v-btn
+                    class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                    variant="outlined"
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    @click="addToCart(product)"
+                  >
+                    <p class="text-base">
+                      Add to Cart
+                    </p>
+                  </v-btn>
+                </v-card-actions>
+                <!-- <v-card-text v-if="product.qty>0" class="float-right">{{ product.qty }} Items In Cart</v-card-text> -->
+              </div>
+
+
+              <!-- Old horrible way -->
+              <!--<div
+                v-for="(item, idx) in store.productData"
+                :key="idx"
                 class="flex items-center align-center justify-center"
               >
                 <div v-if="item.id === $route.params.id">
@@ -49,8 +98,6 @@
                       v-html="item.description"
                     />
                   </div>
-                
-                  <!-- Make button green -->
 
                   <v-card-actions class="pb-5">
                     <p
@@ -73,7 +120,7 @@
                   </v-card-actions>
                   <v-card-text v-if="item.qty>0" class="float-right">{{ item.qty }} Items In Cart</v-card-text>
                 </div>
-              </div>
+              </div> -->
             </v-card>
           </div>
         </v-col>
@@ -139,84 +186,6 @@
         </v-col>
       </v-row>
     </v-container> -->
-
-  <!--Shopping Cart-->
-
-  <!-- <div class="cart-item">
-        <img
-          class="cart-item__image"
-          :src="item.media.source"
-        >
-        <div class="cart-item__details">
-          <h4 class="cart-item__details-name">
-            {{ item.name }}
-          </h4>
-          <div class="cart-item__details-qty">
-            <button @click="() => updateQuantity(item.quantity - 1)">
-              -
-            </button>
-            <p>{{ item.quantity }}</p>
-            <button @click="() => updateQuantity(item.quantity + 1)">
-              +
-            </button>
-          </div>
-          <p class="cart-item__details-price">
-            {{ item.line_total.formatted_with_symbol }}
-          </p>
-        </div>
-      </div>
-  </div> -->
-  <!--Shopping Cart-->
-  <v-navigation-drawer
-    v-model="drawer"
-    temporary
-    location="right"
-  >
-    <v-list-item
-      title="Shopping Cart"
-      class="text-center"
-    />
-
-    <v-divider />
-
-    <v-list
-      density="compact"
-      nav
-    >
-      <div>
-        <img
-          src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
-        >
-        <div>
-          <h4 class="text-2xl">
-            Item Name
-          </h4>
-          <div>
-            <button>
-              -
-            </button>
-            <p>Quantity</p>
-            <button>
-              +
-            </button>
-          </div>
-          <p>
-            Line Total
-          </p>
-        </div>
-      </div>
-      <!-- <v-list-item
-            prepend-icon="mdi-view-dashboard"
-            title="Home"
-            value="home"
-          />
-          <v-list-item
-            prepend-icon="mdi-forum"
-            title="About"
-            value="about"
-          /> -->
-    </v-list>
-  </v-navigation-drawer>
 </template>
 
 
@@ -236,15 +205,11 @@ import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia'
 // import { useCartStore } from '~/stores/cart';
 
-const url = 'https://api.printify.com/v1/shops/6483145/products.json'
-const products = ref([])
+// const url = 'https://api.printify.com/v1/shops/6483145/products.json'
+// const products = ref([])
 const route = useRoute()
 const productId = ref(route.params.id)
-const pending = ref(true)
-
-const store = useProductDataStore()
-const cart = useCartDataStore()
-const cartData = ref()
+const product = ref()
 
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('en-US', {
@@ -256,22 +221,17 @@ const formatter = new Intl.NumberFormat('en-US', {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
-function getCurrentProduct() {
+onMounted(async () => {
   const store = useProductDataStore()
-  const products = storeToRefs(store.productData)
-  for (let i = 0; i < store.productData.length; i++) {
-    if (store.productData[i].id == productId.value) {
-      return store.productData[i]
-    }
-  }
-  console.log("Product id: " + productId.value)
-}
+  product.value = store.productData.find((item) => item.id == productId.value)
+  console.log(product.value)
+})
 
 // const product = computed(() => {
 //   return getCurrentProduct()
 // })
 
-const product = ref(getCurrentProduct())
+// const product = ref(getCurrentProduct())
 
 function addToCart(item){ 
   const cart = useCartDataStore()
