@@ -122,12 +122,14 @@
 
         <v-divider />
 
-        <div v-if="!loaded||cartProducts.value.length==0">
+        <div v-if="!loaded||cartProducts.value.cartData.length==0">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
         </div>
-        <div v-else>
+        <div
+          v-else-if="loaded||cartProducts.value>0"
+        >
           <v-list
             nav
           >
@@ -170,7 +172,7 @@
                   </div>
                 </div>
               </v-list-item>
-              <!-- <v-list-item-avatar>
+            <!-- <v-list-item-avatar>
                 <v-img :src="item.images[item.imageNum]" />
               </v-list-item-avatar>
 
@@ -212,7 +214,7 @@
                     <div class="grid grid-col-2">
                       <p class="text-right">
                         {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }}
-                        <!-- TODO Need to figure out shipping cost if more than one of an item is chosen (incorporate additionalItemCost)-->
+                      <!-- TODO Need to figure out shipping cost if more than one of an item is chosen (incorporate additionalItemCost)-->
                       </p>
                     </div>
                   </div>

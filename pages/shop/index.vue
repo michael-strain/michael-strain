@@ -166,11 +166,30 @@
   function heartClick(item, variant){ 
     const cart = useCartDataStore()
     const store = useProductDataStore()
+    let itemInCart = false
+    let cartSize = 0
 
     variant.cartQty++
     variant.inCart = true
     item.variants[item.variantNum] = variant
-    cart.$patch({ cartData: [...cart.cartData, item] }) //Does this work?  It was suggested by CoPilot - who says it was suggested by the Vue & Pinia docs
+
+    //if an item is already in the cart, patch the item with variant data
+    for (let i = 0; i < cart.cartData.length ; i++){
+      cartSize++
+      if (item.id == cart.cartData[i].id){
+        console.log("This item is already in the cart.  Updating it.")
+        cart.$patch(cart.cartData[i] = item)
+        itemInCart = true
+        break
+      }
+    }
+
+    if (!itemInCart){
+      cart.$patch(cart.cartData[cartSize] = item)
+    }
+  
+
+    // cart.$patch({ cartData: [...cart.cartData, item] }) //Does this work?  It was suggested by CoPilot - who says it was suggested by the Vue & Pinia docs
     // cartProducts.value = cart.cartData
 
     // Still need to ensure item & variant is available, visible, enabled, and can be shipped to user's country, etc.
