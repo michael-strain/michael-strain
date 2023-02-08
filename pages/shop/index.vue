@@ -18,19 +18,31 @@
             class="flex items-center align-center justify-center"
           >
             <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
-              <NuxtLink :to="`/shop/product/${item.id}`">
+              <v-carousel>
+                <v-carousel-item
+                  v-for="(img, i) in item.images"
+                  :key="i"
+                  :src="img.src"
+                  :lazy-src="img.src"
+                  :alt="img.alt"
+                  cover
+                />
+              </v-carousel>
+
+              <!-- Old method -->
+              <!-- <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
                   :src="item.images[item.imageNum].src"                  
                   class="h-64 mx-auto"
                 >
-              </NuxtLink>
+              </NuxtLink> -->
               
               <v-card class="bg-transparent">
                 <p
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
                 >
-                  {{ formatter.format((item.variants[0].price)/100) }}
+                  {{ formatter.format((item.variants[item.variantNum].price)/100) }}
                 </p>
               </v-card>
 
@@ -42,12 +54,21 @@
                   {{ item.title }}
                 </p>
               </v-card-title>
+              <v-card-subtitle class="text-wrap max-width-full justify-center text-center align-center">
+                <p
+                  :style="{fontFamily: 'Roboto Slab'}"
+                  class="text-wrap text-xl text-center"
+                >
+                  {{ item.variants[item.variantNum].title }}
+                </p>
+              </v-card-subtitle>
               
               <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
+                    v-if="item.variants.length>1"
                     icon
-                    @click="leftArrow(item)"
+                    @click="leftVariantArrow(item)"
                   >
                     <v-icon icon="mdi-chevron-left" />
                   </v-btn>
@@ -55,7 +76,7 @@
                   <v-btn
                     icon
                     transition="fade-transition"
-                    @click="heartClick(item)"
+                    @click="heartClick(item, item.variants[item.variantNum])"
                   >
                     <v-icon :icon="heartIcon(item)" />
                     <!-- <v-icon
@@ -68,8 +89,9 @@
                     /> -->
                   </v-btn>
                   <v-btn
+                    v-if="item.variants.length>1"
                     icon
-                    @click="rightArrow(item)"
+                    @click="rightVariantArrow(item)"
                   >
                     <v-icon icon="mdi-chevron-right" />
                   </v-btn>
@@ -91,6 +113,7 @@
   import { storeToRefs } from 'pinia'
 
   const products = ref([])
+  // const cartProducts = reactive([])
   const loaded = ref(false)
 
   onMounted(async() => {
@@ -108,8 +131,12 @@
       
       for (let i = 0; i < pData.length; i++) {
         // console.log("Adding imageNum to productData: " + pData[i].id)
-        pData[i].imageNum = 0
-        pData[i].qty = 0
+        pData[i].variantNum = 0
+        for (let j = 0; j < pData[i].variants.length; j++) {
+          //If new products are fetched, set their cartQty and inCart values
+          pData[i].variants[j].cartQty = 0
+          pData[i].variants[j].inCart = false
+        }
       }
       store.$patch({ productData: pData })
       products.value = store.productData
@@ -128,7 +155,7 @@
 
   function heartIcon(item){
     const store = useProductDataStore()
-    if(products.value[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty>0){
+    if(products.value[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[item.variantNum].cartQty>0){
       return "mdi-cards-heart"
     }
     else{
@@ -136,83 +163,142 @@
     }
   }
 
-  function heartClick(item){ 
+  function heartClick(item, variant){ 
     const cart = useCartDataStore()
     const store = useProductDataStore()
 
-    //if there are items in the cart
-    if(cart.cartData.length>0) {
-      console.log("Cart length: " + cart.cartData.length)
-      
-      //loop through the cart.  If the item is already in the cart, increment the qty
-      for (let i = 0; i < cart.cartData.length; i++) {
-        if (item.id === cart.cartData[i].id) {
-          item.qty ++
-          item.inCart = true //not sure if this is needed
-          cart.$patch(cart.cartData[i] = item)
-          store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-          products.value = store.productData
-          return
-        }
-      }
+    variant.cartQty++
+    variant.inCart = true
+    item.variants[item.variantNum] = variant
+    cart.$patch({ cartData: [...cart.cartData, item] }) //Does this work?  It was suggested by CoPilot - who says it was suggested by the Vue & Pinia docs
+    // cartProducts.value = cart.cartData
 
-      //if an item was not in the cart, add it to the cart
-      if (!item.inCart) {
-        item.qty = 1
-        item.inCart = true //not sure if this is needed
-        cart.$patch(cart.cartData[cart.cartData.length] = item)
-        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-        products.value = store.productData
-      }
-    //If there are no items in the cart
-    } else {
-      console.log("Adding first item to cart")
-      item.qty = 1
-      item.inCart=true
-      cart.$patch(cart.cartData[0] = item)
-      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-      products.value = store.productData
-    }
+    // Still need to ensure item & variant is available, visible, enabled, and can be shipped to user's country, etc.
+    // and still need to do this on the product [id] page as well
+
+
+
+
+    // // OLD CODE BELOW ALMOST WORKED
+
+    // //Need to ensure item & variant is available, visible, enabled, and can be shipped to user's country, etc.
+    // //Need to do this on the product [id] page as well
+
+
+    // const cart = useCartDataStore()
+    // const store = useProductDataStore()
+
+    // //if there are items in the cart
+    // if(cart.cartData.length>0) {
+    //   console.log("Cart length: " + cart.cartData.length)
+      
+    //   //loop through the cart.  If the item is already in the cart, increment the qty
+    //   for (let i = 0; i < cart.cartData.length; i++) {
+    //     if (item.id === cart.cartData[i].id) {
+    //       // item.qty ++
+    //       // item.inCart = true //not sure if this is needed
+    //       item.variants[item.variantNum].cartQty ++
+    //       item.variants[item.variantNum].inCart = true
+    //       cart.$patch(cart.cartData[i] = item)
+    //       store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    //       products.value = store.productData
+    //       return
+    //     }
+    //   }
+
+    //   //if an item was not in the cart, add it to the cart
+    //   if (!item.variants[item.variantNum].inCart) {
+    //     item.variants[item.variantNum].cartQty = 1
+    //     item.variants[item.variantNum].inCart = true //not sure if this is needed
+    //     cart.$patch(cart.cartData[cart.cartData.length] = item)
+    //     store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    //     products.value = store.productData
+    //   }
+    // //If there are no items in the cart
+    // } else {
+    //   console.log("Adding first item to cart")
+    //   item.variants[item.variantNum].cartQty = 1
+    //   item.variants[item.variantNum].inCart=true
+    //   cart.$patch(cart.cartData[0] = item)
+    //   store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    //   products.value = store.productData
+    // }
   }
 
-  function leftArrow(item){
-    // get current image number
-    let imageId = item.imageNum
-    if (imageId>0) {
-      imageId--
-    } else {
-      imageId = item.images.length-1
-    }
-
-    //patch the store with the new image number
+  function leftVariantArrow(item){
+    // Cycle through item variants
     const store = useProductDataStore()
+    let variantId = item.variantNum
+    if (variantId>0) {
+      variantId--
+    } else {
+      variantId = item.variants.length-1
+    }
     for (let i = 0; i < store.productData.length; i++) {
       if (store.productData[i].id === item.id) {
-        store.$patch( store.productData[i].imageNum=imageId )
+        store.$patch( store.productData[i].variantNum=variantId )
         products.value = store.productData
         return
       }
     }
   }
 
-  function rightArrow(item){
-    let imageId = item.imageNum
-    if (imageId==item.images.length-1) {
-      imageId = 0
-    } else {
-      imageId++
-    }
-
-    //patch the store with the new image number
+  function rightVariantArrow(item){
+    // Cycle through item variants
     const store = useProductDataStore()
+    let variantId = item.variantNum
+    if (variantId<item.variants.length-1) {
+      variantId++
+    } else {
+      variantId = 0
+    }
     for (let i = 0; i < store.productData.length; i++) {
-      if (store.productData[i].id == item.id) {
-        store.$patch( store.productData[i].imageNum = imageId )
+      if (store.productData[i].id === item.id) {
+        store.$patch( store.productData[i].variantNum=variantId )
         products.value = store.productData
         return
       }
     }
   }
+
+  // function leftImgArrow(item){
+  //   // get current image number
+  //   let imageId = item.imageNum
+  //   if (imageId>0) {
+  //     imageId--
+  //   } else {
+  //     imageId = item.images.length-1
+  //   }
+
+  //   //patch the store with the new image number
+  //   const store = useProductDataStore()
+  //   for (let i = 0; i < store.productData.length; i++) {
+  //     if (store.productData[i].id === item.id) {
+  //       store.$patch( store.productData[i].imageNum=imageId )
+  //       products.value = store.productData
+  //       return
+  //     }
+  //   }
+  // }
+
+  // function rightImgArrow(item){
+  //   let imageId = item.imageNum
+  //   if (imageId==item.images.length-1) {
+  //     imageId = 0
+  //   } else {
+  //     imageId++
+  //   }
+
+  //   //patch the store with the new image number
+  //   const store = useProductDataStore()
+  //   for (let i = 0; i < store.productData.length; i++) {
+  //     if (store.productData[i].id == item.id) {
+  //       store.$patch( store.productData[i].imageNum = imageId )
+  //       products.value = store.productData
+  //       return
+  //     }
+  //   }
+  // }
 </script>
 
 

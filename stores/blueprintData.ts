@@ -2,9 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useBlueprintDataStore = defineStore('blueprintData', () => {
-  const blueprintData = ref(
-    useLocalStorage("blueprintData", [],)
-  )
+  const blueprintData = ref(useLocalStorage("blueprintData", [],))
   return {
     blueprintData,
   }

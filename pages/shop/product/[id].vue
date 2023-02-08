@@ -16,6 +16,7 @@
     <ShopHeader />
 
     <!-- TODO Need to refactor this page to use '/api/query?col=products' if the product ID isn't available in storage for some reason -->
+    <!-- TODO Also need to do variant selector and print variant info and add variant to cart and stuff -->
 
     <v-container class="">
       <v-row dense>

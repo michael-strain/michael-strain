@@ -121,16 +121,54 @@
 
         <v-divider />
 
-        <div v-if="!loaded||cartProducts.length<0">
+        <div v-if="!loaded||cartProducts.value.length<0">
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
         </div>
-        <div v-else-if="cartProducts.length>0">
+        <div v-else-if="cartProducts.value.length>0||loaded">
           <v-list
             nav
           >
-            <v-list-item v-for="(item, product) in cartProducts" :key="product">
+            <v-list-item v-for="(item, product) in cartProducts.value" :key="product">
+              <!-- TODO Need to display a list item for each variant WITH inCart-->
+              <v-list-item v-for="variant in limitVariants(item.variants,item.variants.length)" :key="variant.id">
+                <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
+
+                <div>
+                  <!--TODO Consider putting a carousel in here as well lol-->
+                  <img
+                    :src="item.images[0].src"
+                  >
+                  <div>
+                    <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
+                      {{ item.title }}
+                    </h4>
+                    <h5 class="text-xl pt-0 pb-3 font-family fontFamily-'Roboto Slab'">
+                      {{ variant.title }}
+                    </h5>
+                    <div class="grid grid-cols-2">
+                      <div class="grid grid-cols-4">
+                        <button class="text-center" @click="decreaseCartItemQty(item, variant)">
+                          -
+                        </button>
+                        <p class="text-center">
+                          {{ variant.cartQty }}
+                        </p>
+                        <button class="text-center" @click="increaseCartItemQty(item, variant)">
+                          +
+                        </button>
+                      </div>
+                      <div class="grid grid-col-3">
+                        <p class="text-right">
+                          {{ formatter.format((item.variants[item.variantNum].price * item.variants[item.variantNum].cartQty)/100) }}
+                        <!-- TODO This should at some point not be just some random variant, but a chosen variant defaulting to zero -->
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </v-list-item>
               <!-- <v-list-item-avatar>
                 <v-img :src="item.images[item.imageNum]" />
               </v-list-item-avatar>
@@ -138,38 +176,6 @@
               <v-list-item-title>
                 {{ item.title }}
               </v-list-item-title> -->
-
-              <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
-
-              <div>
-                <img
-                  :src="item.images[item.imageNum].src"
-                >
-                <div>
-                  <h4 class="text-2xl pt-3 pb-3 font-family fontFamily-'Roboto Slab'">
-                    {{ item.title }}
-                  </h4>
-                  <div class="grid grid-cols-2">
-                    <div class="grid grid-cols-4">
-                      <button class="text-center" @click="decreaseCartItemQty(item)">
-                        -
-                      </button>
-                      <p class="text-center">
-                        {{ item.qty }}
-                      </p>
-                      <button class="text-center" @click="increaseCartItemQty(item)">
-                        +
-                      </button>
-                    </div>
-                    <div class="grid grid-col-3">
-                      <p class="text-right">
-                        {{ formatter.format((item.variants[0].price * item.qty)/100) }}
-                        <!-- TODO This should at some point not be just some random variant, but a chosen variant defaulting to zero -->
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </v-list-item>
 
 
@@ -185,7 +191,8 @@
                     Total
                   </h4>
                   <p class="text-right text-2xl">
-                    {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[0].price * b.qty), 0) + 500)/100) }}
+                    <!-- Probably Need a cart totaling function here -->
+                    {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }}
                   </p>
                 </div>
                 
@@ -194,7 +201,7 @@
                     <p>Item Cost</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[0].price * b.qty), 0))/100) }}
+                        {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0))/100) }}
                       </p>
                     </div>
                   </div>
@@ -202,8 +209,8 @@
                     <p>Shipping</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        $5.00
-                        <!-- TODO Need to put actual shipping sum here -->
+                        {{ formatter.format((cartProducts.value.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }}
+                        <!-- TODO Need to figure out shipping cost if more than one of an item is chosen (incorporate additionalItemCost)-->
                       </p>
                     </div>
                   </div>
@@ -243,7 +250,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, reactive } from 'vue'
   import { useCartDataStore } from '~/stores/cartData'
   import { useProductDataStore } from '~/stores/productData'
   // import { firebase } from '~/plugins/firebase'
@@ -261,13 +268,13 @@
   const moveToCheckout = ref(() => router.push('/shop/checkout'))
 
   const theme = ref('myCustomLightTheme')
-  const themeIcon = ref('mdi-weather-sunny')
+  const themeIcon = ref('mdi-weatherS-sunny')
   const heart = ref('')
   const dialog = ref(false)
   const dialogText = ref('')
   const drawer = ref(null)
 
-  const cartProducts = ref([])
+  const cartProducts = reactive([])
   const loaded = ref(false)
   const store = useProductDataStore()
 
@@ -305,42 +312,81 @@
   const pageTitle = computed(() => useRoute().path)
   // let pageTitle = ref(async () => {console.log(useRoute().path); return useRoute().path.tostring()})
 
-  function decreaseCartItemQty(item) {
+  function decreaseCartItemQty(item, variant) {
+
+    //Ultimately we need to:
+      // 1. Decrease the cartQty of the variant
+      // 2. If the cartQty of the variant is 0, remove the variant from the cart
+      // 3. If the cartQty of the variant is 0 and there are no more variants of this item in the cart, remove the item from the cart
+    
+    // In it's current form, i'm patching like crazy and I don't think it's absolutely necessary.
+    // Oh well for now I guess.
+
+    // It also appears that the qty doesn't always update properly. (I think it's because I'm not using the cartDataStore properly. Suggested by CoPilot)
+    // See below for a suggested fix:
+    // vue-3-composition-api-how-to-update-a-nested-object-in-a-ref
+
     const cart = useCartDataStore()
-    item.qty--
-    if (item.qty===0){
-      // Remove this shit from the cart
-      item.inCart = false
-      cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
-      // cartProducts.value.splice(cartProducts.value.map((x)=>{return x.id}).indexOf(item.id),1)
-      // cart.$patch(cartProducts.value)
+    let otherVariants = false
+
+    variant.cartQty--
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+
+    if (variant.cartQty==0){
+      variant.inCart = false
+      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
       cartProducts.value = cart.cartData
-      if (!cart.cartData[0]){
-        loaded.value = false
+
+      for (let j = 0; j < item.variants.length ; j++){
+        if (item.variants[j].cartQty>0){
+          console.log("There are still other variants of this item in the cart")
+          otherVariants = true
+          break
+        }
       }
+
+      //if there are other variants of this item in the cart, just remove this variant from the cart, otherwise remove the whole item
+      if (!otherVariants) {
+        //Remove whole item from cart
+        cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
+        cartProducts.value = cart.cartData
+      }
+      else if (otherVariants) {
+        //Remove just this variant from the cart
+        item = item.variants.splice(item.variants.map((x)=>{return x.id}).indexOf(variant.id),1)
+        cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+        cartProducts.value = cart.cartData
+      }
+
+      // cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      // cartProducts.value = cart.cartData
+
     } else {
-      // cartProducts.value[cartProducts.value.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty
-      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
+      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant // I don't think this line is necessary
+      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
       cartProducts.value = cart.cartData
     }
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
   }
 
-  function increaseCartItemQty(item) {
+  function increaseCartItemQty(item, variant) {
+
     const cart = useCartDataStore()
-    item.qty++
-    cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
+    variant.cartQty++
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+    cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
     cartProducts.value = cart.cartData
-    // cart.$patch(cart.cartData[array.map((x)=>{return x.id}).indexOf(item.id)].qty=item.qty)
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].qty = item.qty)
+
+    // Do we need to do anything to the product store here?
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[item.variantNum].cartQty = item.variants[item.variantNum].cartQty)
     
   }
 
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
       const cart = useCartDataStore()
+      cartProducts.value = cart.cartData
       if(cart.cartData.length > 0){
-        cartProducts.value = cart.cartData
         loaded.value = true
       }
       else {
@@ -382,5 +428,15 @@
     dialog.value = true
     dialogText.value = "Hello.  I don't know how to search yet.  Sorry"
     // dialogClicked()
+  }
+
+  function limitVariants(variants, length) {
+    let cartVariants = []
+    for (let i = 0; i < length; i++){
+      if (variants[i].cartQty>0){
+        cartVariants.push(variants[i])
+      }
+    }
+    return cartVariants
   }
 </script>
