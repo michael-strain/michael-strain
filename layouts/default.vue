@@ -134,9 +134,9 @@
           >
             <v-list-item v-for="(item, product) in cartProducts" :key="product">
               <!-- TODO Need to display a list item for each variant WITH inCart-->
-              <v-list-item v-for="variant in variantsInCart(item.variants)" :key="variant">
+              <v-list-item v-for="variant in variantsInCart(item.variants)" :key="variant.id">
                 <!-- TODO Need to make the buttons update all the relevant stuff (cartData store, productData store, then storeToRef to make everything react appropriately)-->
-                <div v-if="variant.inCart">
+                <div>
                   <!--TODO Consider putting a carousel in here as well lol-->
                   <img
                     :src="item.images[0].src"
@@ -162,7 +162,7 @@
                       </div>
                       <div class="grid grid-col-3">
                         <p class="text-right">
-                          {{ formatter.format((item.variants[item.variantNum].price * item.variants[item.variantNum].cartQty)/100) }}
+                          {{ formatter.format((variant.price * variant.cartQty)/100) }}
                         <!-- TODO This should maybe be it's own function -->
                         <!-- We might also need a cart totaling thing for orders that uses the function as well-->
                         </p>
@@ -246,7 +246,7 @@
 </template>
 
 <script setup>
-  import { ref, reactive } from 'vue'
+  import { ref, reactive, computed } from 'vue'
   import { useCartDataStore } from '~/stores/cartData'
   import { useProductDataStore } from '~/stores/productData'
   // import { firebase } from '~/plugins/firebase'
@@ -467,14 +467,30 @@
   //   return cartVariants
   // }
 
-  function variantsInCart(item){
+//   const publishedBooksMessage = computed(() => {
+//   return author.books.length > 0 ? 'Yes' : 'No'
+// })
+  // const variantsInCart = computed((item)=> {
+  const variantsInCart = function (item) {
     let cartVariants=[]
-    for (let variant in variants){
-      if (variant.inCart){
-        cartVariants.push(variant)
+    for (let i=0; i<item.length; i++){
+      if(item[i].inCart){
+        cartVariants.push(item[i])
       }
     }
-    console.log("Returning variants: " + cartVariants)
+    console.log(cartVariants)
     return cartVariants
   }
+
+    // function variantsInCart (item) {
+    // let cartVariants=[]
+    // for (let variant in item){
+    //   if (variant.inCart){
+    //     cartVariants.push(variant)
+    //   }
+    // }
+  //   console.log("Returning variants: " + cartVariants)
+  //   return cartVariants
+  // }
+  //)
 </script>
