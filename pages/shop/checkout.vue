@@ -1,5 +1,14 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <!--To Do:
+    Card number counter arrows and error/warning.
+    Expiration for Month.
+    Expiration for Year.
+    Sticky cart. Adjust width to accomodate.
+    Country options.
+    Autofill email and name for account info if an account is made.
+    Height spacing.
+  -->
   <div>
     <div
       v-if="cart.cartData === null || cart.cartData.length === 0"
@@ -11,15 +20,6 @@
     <div v-else>
       <!-- v-else-if="infoSubmitted" -->
       <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
-      <div
-        v-for="(item, product) in cart.cartData"
-        :key="product"
-        class="flex items-center align-center justify-center"
-      >
-        {{ item.title }}
-
-        Cost of Shipping to {{ country }}: {{ item.shipping_cost }}
-      </div>
       <div>
         <!-- Show the form -->
         <v-form
@@ -30,11 +30,20 @@
           <v-card class="w-2/3 my-5 bg-custcard">
             <v-container class="">
               <h3
-                class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
+                class="justify-center text-center align-center font-bold text-5xl my-5"
                 :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
               >
                 Shipping Address
               </h3>
+              <h4
+                v-for="(item, product) in cart.cartData"
+                :key="product"
+                class="flex items-center align-center justify-center"
+              >
+                <!-- {{ item.title }} -->
+
+                Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
+            </h4>
               <v-row class="pt-5">
                 <v-col
                   cols="12"
@@ -213,7 +222,7 @@
           @submit.prevent="submitShippingInfo"
         >
           <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-          <v-card class="w-2/3 my-5 bg-custcard">
+          <v-card class="w-2/3 bg-custcard">
             <v-container class="">
               <h3
                 class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
@@ -278,7 +287,7 @@
                   cols="12"
                   sm=""
                 >
-                <v-text-field
+                  <v-text-field
                     type="number"
                     label="Security Code"
                     placeholder="Security Code"
