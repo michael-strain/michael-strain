@@ -188,8 +188,9 @@
                   <p class="text-right text-2xl">
                     <!-- Probably Need a cart totaling function here -->
                     <!-- Need to incorporate the shipping cost variance for firstItemCost vs additionalItemCost -->
-                    {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }}
+                    {{ formatter.format(cartTotal/100) }}
                   </p>
+                  <!-- {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0) + (cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0)))/100) }} -->
                 </div>
                 
                 <div>
@@ -197,15 +198,17 @@
                     <p>Item Cost</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0))/100) }}
+                        {{ formatter.format((itemTotal)/100) }}
                       </p>
+                      <!-- {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].price * b.variants[b.variantNum].cartQty), 0))/100) }} -->
                     </div>
                   </div>
                   <div class="grid grid-cols-2">
                     <p>Shipping</p>
                     <div class="grid grid-col-2">
                       <p class="text-right">
-                        {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }}
+                        {{ formatter.format(shipTotal/100) }}
+                        <!-- {{ formatter.format((cartProducts.reduce((a, b) => a + (b.variants[b.variantNum].firstItemCost * b.variants[b.variantNum].cartQty), 0))/100) }} -->
                       <!-- TODO Need to figure out shipping cost if more than one of an item is chosen (incorporate additionalItemCost)-->
                       </p>
                     </div>
@@ -481,6 +484,39 @@
     console.log(cartVariants)
     return cartVariants
   }
+
+  const itemTotal = computed(() => {
+    let total = 0
+    for (let i=0; i<cartProducts.value.length; i++){
+      for (let j=0; j<cartProducts.value[i].variants.length; j++){
+        if (cartProducts.value[i].variants[j].inCart){
+          total += cartProducts.value[i].variants[j].price * cartProducts.value[i].variants[j].cartQty
+        }
+      }
+    }
+    return total
+  })
+
+  const shipTotal = computed(() => {
+    let total = 0
+    for (let i=0; i<cartProducts.value.length; i++){
+      for (let j=0; j<cartProducts.value[i].variants.length; j++){
+        if (cartProducts.value[i].variants[j].inCart){
+          if (cartProducts.value[i].variants[j].cartQty>1){
+            console.log()
+            // total += cartProducts.value[i].variants[j].additionalItemCost * (cartProducts.value[i].variants[j].cartQty-1)
+            total += (cartProducts.value[i].variants[j].additionalItemCost * (cartProducts.value[i].variants[j].cartQty-1)) + cartProducts.value[i].variants[j].firstItemCost
+          }
+          else {
+            total += cartProducts.value[i].variants[j].firstItemCost
+          }
+        }
+      }
+    }
+    return total
+  })
+
+  const cartTotal = computed(() => { return itemTotal.value + shipTotal.value })
 
     // function variantsInCart (item) {
     // let cartVariants=[]
