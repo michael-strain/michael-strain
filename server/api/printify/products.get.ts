@@ -54,6 +54,8 @@ export default defineEventHandler(async (event) => {
       } else {
         console.log("Found new product! " + products[i].id)
 
+        //itemcost + itemShippingcost + desiredProfitMargin = displayed price?
+
         //for each product, for each variant, look through each shipping profile to find relevant shipping information
         let printProviderUrl = 'https://api.printify.com/v1/catalog/blueprints/' + products[i].blueprint_id + '/print_providers/' + products[i].print_provider_id + '/shipping.json'
 
