@@ -1,3 +1,19 @@
+Thoughts 2/9/23
+---------------
+Head empty no thoughts
+-Refactor item costs:
+    -Pricing should = (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+
+Thoughts 2/8/23
+---------------
+Cart Pricing D:
+Need to ensure product & cart datastore persistence (may as well ensure blueprints too)
+Need to finish product creation workflow so ash has something to do
+While ash works on product creation, I'll work on the the order workflow
+
+Thoughts 2/7/23
+---------------
+
 Shop - variant selector (Show variant Title & Update Pricing & details) & correct shipping info
 Shopping cart doesn't work for ashley
 cart not displaying sometimes
