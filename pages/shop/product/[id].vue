@@ -23,55 +23,103 @@
         <v-col cols="12">
           <div class="flex flex-wrap">
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
-              <div
-                v-for="(item, productive) in store.productData"
-                :key="productive"
-                class="flex items-center align-center justify-center"
-              >
-                <div v-if="item.id === $route.params.id">
+              <!-- New way -->
+              <div v-if="product">
+                <div class="">
                   <v-img
                     class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
-                    :src="item.images[item.imageNum].src"
+                    :src="product.images[0].src"
                   />
+                </div>
+                <div>
                   <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
                     <v-card-title class="bg-surface">
                       <p
                         :style="{fontFamily: 'Roboto Slab'}"
-                        class="text-wrap text-4xl m-3"
+                        class="text-wrap text-4xl m-3 text-center"
                       >
-                        {{ item.title }}
+                        {{ product.title }}
                       </p>
                     </v-card-title>
+                    <v-card-title class="bg-surface text-center">
+                      {{ product.variants[product.variantNum].title }}
+                    </v-card-title>
+                    <!-- <v-divider /> -->
 
                     <v-card-subtitle
                       :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-wrap text-2xl p-3 pt-5"
-                      v-html="item.description"
+                      class="text-wrap text-2xl"
+                      v-html="product.description"
                     />
+
+                    <v-card-actions class="justify-center bg-surface">
+                      <p
+                        class="m-5 text-3xl font-semibold text-green-600"
+                        size=""
+                      >
+                        {{ formatter.format((product.variants[product.variantNum].price)/100) }}
+                      </p>
+                      <v-btn
+                        class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                        variant="outlined"
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        @click="addToCart(product, product.variants[product.variantNum])"
+                      >
+                        <p class="text-base">
+                          Add to Cart
+                        </p>
+                      </v-btn>
+                    </v-card-actions>
+                    <v-divider />
+
+                    <!-- <v-radio-group
+                      v-model="product"
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="text-wrap text-2xl m-3"
+                    >
+                      <v-radio
+                        v-for="(variant, index) in product.variants"
+                        :key="index"
+                        :label="variant.title"
+                        :value="variant.title"
+                      />
+                    </v-radio-group> -->
+
+                    <v-select
+                      :default="product.variants[product.variantNum].title"
+                      label="Select a variant"
+                      :items="product.variants"
+                      variant="solo"
+                      @update:model-value="changeProductVariantNum(product, $event)"
+                    /> 
+                    More Variant data can go here :)
+                    <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+                    <p>SKU: {{ product.variants[product.variantNum].sku }}</p>
                   </div>
                 
                   <!-- Make button green -->
 
-                  <v-card-actions class="pb-5">
-                    <p
-                      class="m-5 text-3xl font-semibold text-green-600"
-                      size=""
-                    >
-                      {{ formatter.format((item.variants[0].price)/100) }}
-                    </p>
-
-                    <v-btn
-                      class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
-                      variant="outlined"
+                  <!-- <v-list v-for="(variant, index) in product.variants" :key="index" @click="product.variantNum = index">
+                    <v-list-item
                       :style="{fontFamily: 'Roboto Slab'}"
-                      @click="addToCart(item)"
+                      class="text-wrap text-2xl m-3"
                     >
-                      <p class="text-base">
-                        Add to Cart
-                      </p>
-                    </v-btn>
-                  </v-card-actions>
-                  <v-card-text v-if="item.qty>0" class="float-right">{{ item.qty }} Items In Cart</v-card-text>
+                      {{ variant.title }}
+                    </v-list-item>>
+                  </v-list> -->
+                  
+
+
+                  <!-- <v-select
+                    label="Select a variant"
+                    :items="product.variants"
+                    chips
+                    variant="solo"
+                  /> -->
+                  <!-- :default="product.variants[product.variantNum].title" -->
+
+                  
+                  <!-- <v-card-text v-if="product.qty>0" class="float-right">{{ product.qty }} Items In Cart</v-card-text> -->
                 </div>
               </div>
             </v-card>
@@ -139,84 +187,6 @@
         </v-col>
       </v-row>
     </v-container> -->
-
-  <!--Shopping Cart-->
-
-  <!-- <div class="cart-item">
-        <img
-          class="cart-item__image"
-          :src="item.media.source"
-        >
-        <div class="cart-item__details">
-          <h4 class="cart-item__details-name">
-            {{ item.name }}
-          </h4>
-          <div class="cart-item__details-qty">
-            <button @click="() => updateQuantity(item.quantity - 1)">
-              -
-            </button>
-            <p>{{ item.quantity }}</p>
-            <button @click="() => updateQuantity(item.quantity + 1)">
-              +
-            </button>
-          </div>
-          <p class="cart-item__details-price">
-            {{ item.line_total.formatted_with_symbol }}
-          </p>
-        </div>
-      </div>
-  </div> -->
-  <!--Shopping Cart-->
-  <v-navigation-drawer
-    v-model="drawer"
-    temporary
-    location="right"
-  >
-    <v-list-item
-      title="Shopping Cart"
-      class="text-center"
-    />
-
-    <v-divider />
-
-    <v-list
-      density="compact"
-      nav
-    >
-      <div>
-        <img
-          src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
-        >
-        <div>
-          <h4 class="text-2xl">
-            Item Name
-          </h4>
-          <div>
-            <button>
-              -
-            </button>
-            <p>Quantity</p>
-            <button>
-              +
-            </button>
-          </div>
-          <p>
-            Line Total
-          </p>
-        </div>
-      </div>
-      <!-- <v-list-item
-            prepend-icon="mdi-view-dashboard"
-            title="Home"
-            value="home"
-          />
-          <v-list-item
-            prepend-icon="mdi-forum"
-            title="About"
-            value="about"
-          /> -->
-    </v-list>
-  </v-navigation-drawer>
 </template>
 
 
@@ -234,17 +204,10 @@ import { ref, computed, reactive } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
 import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia'
-// import { useCartStore } from '~/stores/cart';
 
-const url = 'https://api.printify.com/v1/shops/6483145/products.json'
-const products = ref([])
 const route = useRoute()
 const productId = ref(route.params.id)
-const pending = ref(true)
-
-const store = useProductDataStore()
-const cart = useCartDataStore()
-const cartData = ref()
+const product = ref()
 
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('en-US', {
@@ -256,176 +219,84 @@ const formatter = new Intl.NumberFormat('en-US', {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
-function getCurrentProduct() {
+//When the page loads, get the data from the store using our ID
+onMounted(async () => {
   const store = useProductDataStore()
-  const products = storeToRefs(store.productData)
-  for (let i = 0; i < store.productData.length; i++) {
-    if (store.productData[i].id == productId.value) {
-      return store.productData[i]
-    }
-  }
-  console.log("Product id: " + productId.value)
-}
+  product.value = store.productData.find((item) => item.id == productId.value)
+  console.log(product.value)
+})
 
-// const product = computed(() => {
-//   return getCurrentProduct()
-// })
 
-const product = ref(getCurrentProduct())
-
-function addToCart(item){ 
-  const cart = useCartDataStore()
-
-    //if there are items in the cart
-    if(cart.cartData.length>0) {
-      console.log("Cart length: " + cart.cartData.length)
-      
-      //loop through the cart.  If the item is already in the cart, increment the qty
-      for (let i = 0; i < cart.cartData.length; i++) {
-        if (item.id === cart.cartData[i].id) {
-          item.qty ++
-          item.inCart = true //not sure if this is needed
-          cart.$patch(cart.cartData[i] = item)
-          return
-        }
-      }
-
-      //if an item was not in the cart, add it to the cart
-      if (!item.inCart) {
-        item.qty = 1
-        item.inCart = true //not sure if this is needed
-        cart.$patch(cart.cartData[cart.cartData.length] = item)
-      }
-    //If there are no items in the cart
-    } else {
-      console.log("Adding first item to cart")
-      item.qty = 1
-      item.inCart=true
-      cart.$patch(cart.cartData[0] = item)
-      console.log(item)
-      console.log(cart.cartData[0])
-    }
-  
-  
-  //OLD WAY
-
-//   //might be fun to change icon to mdi-cart-heart, numbers to the icon, or even animation when item added
-//   console.log("Item id: " + item.id)
-
-//   // add item to cart based on item id
+//function heartClick(item, item.variants[item.variantNum])
+// function addToCart(item){ 
 //   const cart = useCartDataStore()
-//   let notfound = true
-//   cartData.value = storeToRefs(cart.cartData.data)
-//   if (cart.cartData.data != null && cart.cartData.data.length > 0) {
-//     console.log("Products are in cart")
-//     // if (item in cart.cartData.data) {
-      
-//     for (let i = 0; i < cart.cartData.data.length; i++) {
-//       if (item.id === cart.cartData.data[i].id) {
-//         notfound = false
-//         console.log("Item is in cart:  " + i)
-//         item.qty +=1
-//         cart.$patch(cart.cartData.data[i] = item)
+
+//   //if there are items in the cart
+//   if(cart.cartData.length>0) {
+//     console.log("Cart length: " + cart.cartData.length)
+    
+//     //loop through the cart.  If the item is already in the cart, increment the qty
+//     for (let i = 0; i < cart.cartData.length; i++) {
+//       if (item.id === cart.cartData[i].id) {
+//         item.qty ++
+//         item.inCart = true //not sure if this is needed
+//         cart.$patch(cart.cartData[i] = item)
 //         return
-//       } else {
-//         console.log("Not this item: " + i)
-//         let notfound = true
-//         // item.qty = 1
-//         // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
 //       }
 //     }
-//     if (notfound) {
+
+//     //if an item was not in the cart, add it to the cart
+//     if (!item.inCart) {
 //       item.qty = 1
-//       cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//       item.inCart = true //not sure if this is needed
+//       cart.$patch(cart.cartData[cart.cartData.length] = item)
 //     }
-//     // cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
+//   //If there are no items in the cart
 //   } else {
-//     console.log("Products are not in cart")
+//     console.log("Adding first item to cart")
 //     item.qty = 1
-//     cart.$patch(cart.cartData.data[cart.cartData.data.length] = item)
-//     return
+//     item.inCart=true
+//     cart.$patch(cart.cartData[0] = item)
+//     console.log(item)
+//     console.log(cart.cartData[0])
 //   }
+// }
+
+function changeProductVariantNum(item, e){
+  console.log("Changing variant number to " + e)
+  let idx = item.variants.map((x)=>{return x.title}).indexOf(e)
+  item.variantNum = idx
+  console.log(item)
 }
 
-// It's possibly (more likely) that we should be fetching our data from the api instead of a product data store... but i want to be efficient! idk what to do :'(
+function addToCart(item, variant){ 
+  const cart = useCartDataStore()
+  const store = useProductDataStore()
+  let itemInCart = false
 
+  variant.cartQty++
+  variant.inCart = true
+  // item.variants[item.variantNum] = variant
+  item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
 
-//for items in store.products.data
-//if item.id == $route.params.id
-//then set product to item
-
-
-// for(let i = 0; i < store.products.data.length; i++){
-//   if (store.products.data[i].id == route.params.id){
-//     const product = ref(store.products.data[i])
-//     const productTitle = ref(product.value.title)
-//     console.log(productTitle.value)
-//   } else {continue}
-// }
-
-// for(let i = 0; i < store.products.data.length; i++){
-//   if(store.products.data[i].id == route.params.id){
-//     const product = ref(store.products.data[i])
-//     console.log(product.value)
-//     const productTitle = ref(product.value.title)
-//     break
-//   }
-// }
-
-
-// const shopId = '6483145'
-// const baseUrl = `https://api.printify.com/v1/shops/${shopId}`
-// const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
-// const scopes = ['shops.manage','shops.read','catalog.read','orders.read','orders.write','products.read','products.write','webhooks.read','webhooks.write','uploads.read','uploads.write','print_providers.read']
-// const getProductsQuery = `/products.json`
-// // const idQuery = `/shops/${shopId}/products/${productId}.json`
-// // const orderIdQuery = `/shops/${shopId}/orders/${orderId}.json`
-// const postOrderQuery = `/orders.json`
-// // const sendOrderToProduction = `/shops/${shopId}/orders/${orderId}/send_to_production.json`
-// const postCalcShipping = `/orders/shipping.json`
-// // const postCancelUnpaidOrder = `/orders/${orderId}/cancel.json`
-
-//
-//  Now we are going to specify required inputs for the queries
-//
-
-// POST Order Body
-const postOrderBody = 
-{
-  "external_id": "<string>",
-  "line_items": [
-    {
-      "product_id": "<string>",
-      "print_provider_id": "<integer>",
-      "blueprint_id": "<integer>",
-      "variant_id": "<integer>",
-      "print_areas": "<object>",
-      "quantity": "<integer>"
-    },
-    {
-      "product_id": "<string>",
-      "print_provider_id": "<integer>",
-      "blueprint_id": "<integer>",
-      "variant_id": "<integer>",
-      "print_areas": "<object>",
-      "quantity": "<integer>"
+  //if an item is already in the cart, patch the item with variant data
+  for (let i = 0; i < cart.cartData.length ; i++){
+    if (item.id == cart.cartData[i].id){
+      console.log("This item is already in the cart.  Updating it.")
+      cart.$patch( cart.cartData[i] = item )
+      store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+      itemInCart = true
     }
-  ],
-  "shipping_method": 1,
-  "send_shipping_notification": "<boolean>",
-  "address_to": {
-    "first_name": "<string>",
-    "last_name": "<string>",
-    "email": "<string>",
-    "phone": "<string>",
-    "country": "<string>",
-    "region": "<string>",
-    "address1": "<string>",
-    "address2": "<string>",
-    "city": "<string>",
-    "zip": "<string>"
+  }
+
+  if (!itemInCart){
+    if (cart.cartData.length){
+      cart.$patch(cart.cartData[cart.cartData.length] = item)
+      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+    } else {
+      cart.$patch(cart.cartData[0]=item)
+      store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+    }
   }
 }
-
-
 </script>
