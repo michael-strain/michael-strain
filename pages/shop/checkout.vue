@@ -441,6 +441,7 @@ const items = ref([
   'Panama',
 ])
 
+
 const cart = useCartDataStore()
 const cartData = ref()
 cartData.value = storeToRefs(cart.cartData)
