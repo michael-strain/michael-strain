@@ -7,102 +7,112 @@
     Sticky cart. Adjust width to accomodate.
     Country options.
     Autofill email and name for account info if an account is made.
-    Height spacing.
+    Pretty background.
+    Button
   -->
-  <div>
-    <div
-      v-if="cart.cartData === null || cart.cartData.length === 0"
-    >
-      <NuxtLink to="/shop">
-        Cart Empty, Go Shop
-      </NuxtLink>
-    </div>
-    <div v-else>
-      <!-- v-else-if="infoSubmitted" -->
-      <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
-      <div>
-        <!-- Show the form -->
-        <v-form
-          class="flex text-center align-middle items-center justify-center flex-shrink mt-20"
-          @submit.prevent="submitShippingInfo"
-        >
-          <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-          <v-card class="w-2/3 my-5 bg-custcard">
-            <v-container class="">
-              <h3
-                class="justify-center text-center align-center font-bold text-5xl my-5"
-                :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
-              >
-                Shipping Address
-              </h3>
-              <h4
-                v-for="(item, product) in cart.cartData"
-                :key="product"
-                class="flex items-center align-center justify-center"
-              >
-                <!-- {{ item.title }} -->
+  <div
+    class="bg-image"
+    style="
+      background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Others/images/76.webp');
+      height: 100;
+    "
+  >
+    <div>
+      <div
+        v-if="cart.cartData === null || cart.cartData.length === 0"
+      >
+        <NuxtLink to="/shop">
+          Cart Empty, Go Shop
+        </NuxtLink>
+      </div>
+      <div v-else>
+        <!-- v-else-if="infoSubmitted" -->
+        <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
+        <div>
+          <!--SHIPPING ADDRESS FORM-->
+          <v-form
+            class="flex text-center align-middle items-center justify-center flex-shrink"
+            @submit.prevent="submitShippingInfo"
+          >
+            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
+            <v-card class="w-1/2 bg-custcard mt-10">
+              <v-container class="">
+                <h3
+                  class="justify-center text-center align-center font-bold text-5xl my-5"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+                >
+                  Shipping Address
+                </h3>
+                <h4
+                  v-for="(item, product) in cart.cartData"
+                  :key="product"
+                  class="flex items-center align-center justify-center"
+                >
+                  <!-- {{ item.title }} -->
 
-                Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
-            </h4>
-              <v-row class="pt-5">
-                <v-col
-                  cols="12"
-                  sm=""
-                  class=""
-                >
-                  <!-- <label for="firstName">First Name</label> -->
-                  <v-text-field
-                    id="firstName"
-                    v-model="firstName"
-                    type="text"
-                    label="First Name"
-                    placeholder="First Name"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col>
-                  <!-- <label for="lastName">Last Name</label> -->
-                  <v-text-field
-                    id="lastName"
-                    v-model="lastName"
-                    type="text"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="email">Email</label> -->
-                  <v-text-field
-                    id="email"
-                    v-model="email"
-                    type="email"
-                    label="Email Address"
-                    placeholder="Email Address"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="phone">Phone</label> -->
-                  <v-text-field
-                    id="phone"
-                    v-model="phone"
-                    type="tel"
-                    label="Phone Number"
-                    placeholder="Phone Number"
-                    variant="solo"
-                  />
-                </v-col>
-              </v-row>
+                  Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
+                </h4>
+                <v-row class="pt-5">
+                  <v-col
+                    cols="12"
+                    sm=""
+                    class=""
+                  >
+                    <!-- <label for="firstName">First Name</label> -->
+                    <v-text-field
+                      id="firstName"
+                      v-model="firstName"
+                      type="text"
+                      label="First Name"
+                      placeholder="First Name"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col>
+                    <!-- <label for="lastName">Last Name</label> -->
+                    <v-text-field
+                      id="lastName"
+                      v-model="lastName"
+                      type="text"
+                      label="Last Name"
+                      placeholder="Last Name"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row class="justify-center text-center align-center">
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="email">Email</label> -->
+                    <v-text-field
+                      id="email"
+                      v-model="email"
+                      type="email"
+                      label="Email Address"
+                      placeholder="Email Address"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="phone">Phone</label> -->
+                    <v-text-field
+                      id="phone"
+                      v-model="phone"
+                      type="tel"
+                      label="Phone Number"
+                      placeholder="Phone Number"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
               
-              <!-- <label for="country">Country</label> -->
-              <!-- <select
+                <!-- <label for="country">Country</label> -->
+                <!-- <select
                     id="country"
                     v-model="country"
                     label="Country"
@@ -119,282 +129,289 @@
                       Panama
                     </option>
                   </select> -->
-              <v-row class="justify-center text-center align-center">
-                <v-col
-                  cols="12"
-                  sm=""
+                <v-row class="justify-center text-center align-center">
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="address1">Address 1</label> -->
+                    <v-text-field
+                      id="address1"
+                      v-model="address1"
+                      type="text"
+                      placeholder="Street Address or P.O. Box"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="address2">Address 2</label> -->
+                    <v-text-field
+                      id="address2"
+                      v-model="address2"
+                      type="text"
+                      placeholder="Apt, suite, unit, ect."
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="city">City</label> -->
+                    <v-text-field
+                      id="city"
+                      v-model="city"
+                      type="text"
+                      placeholder="City"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="region">Region</label> -->
+                    <v-text-field
+                      id="region"
+                      v-model="region"
+                      type="text"
+                      placeholder="State"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="zip">Zip</label> -->
+                    <v-text-field
+                      id="zip"
+                      v-model="zip"
+                      type="text"
+                      placeholder="Zip"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-combobox
+                      id="country"
+                      v-model="country"
+                      :items="items"
+                      label="Country"
+                      placeholder="Country"
+                      variant="solo"
+                      transition="scale-transition"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm=""
+                    class=""
+                  >
+                    <v-btn class="align-middle items-center h-full">
+                      <!-- mdi-checkbox-blank-outline -->
+                      <v-icon
+                        icon="mdi-checkbox-blank-outline"
+                        class="mr-3"
+                        type="submit"
+                      />Use as Billing Address
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-form>
+
+          <!--PAYMENT INFORMATION FORM-->
+          <v-form
+            class="flex text-center align-middle items-center justify-center flex-shrink mt-10 pb-10"
+            @submit.prevent="submitShippingInfo"
+          >
+            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
+            <v-card class="w-1/2 bg-custcard">
+              <v-container class="">
+                <h3
+                  class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
                 >
-                  <!-- <label for="address1">Address 1</label> -->
-                  <v-text-field
-                    id="address1"
-                    v-model="address1"
-                    type="text"
-                    placeholder="Street Address or P.O. Box"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="address2">Address 2</label> -->
-                  <v-text-field
-                    id="address2"
-                    v-model="address2"
-                    type="text"
-                    placeholder="Apt, suite, unit, ect."
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="city">City</label> -->
-                  <v-text-field
-                    id="city"
-                    v-model="city"
-                    type="text"
-                    placeholder="City"
-                    variant="solo"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="region">Region</label> -->
-                  <v-text-field
-                    id="region"
-                    v-model="region"
-                    type="text"
-                    placeholder="State"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="zip">Zip</label> -->
-                  <v-text-field
-                    id="zip"
-                    v-model="zip"
-                    type="text"
-                    placeholder="Zip"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-combobox
-                    id="country"
-                    v-model="country"
-                    :items="items"
-                    label="Country"
-                    placeholder="Country"
-                    variant="solo"
-                    transition="scale-transition"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm=""
-                  class=""
-                >
-                  <v-checkbox
-                    class="h-14"
-                    label="Use as Billing Address"
-                  />
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-form>
-        <v-form
-          class="flex text-center align-middle items-center justify-center flex-shrink mt-20"
-          @submit.prevent="submitShippingInfo"
-        >
-          <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-          <v-card class="w-2/3 bg-custcard">
-            <v-container class="">
-              <h3
-                class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
-                :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
-              >
-                Payment Information
-              </h3>
-              <v-row class="pt-5">
-                <v-col
-                  cols="12"
-                  sm=""
-                  class=""
-                >
-                  <!-- <label for="firstName">First Name</label> -->
-                  <v-text-field
-                    type="text"
-                    label="Name on Card"
-                    placeholder="Name on Card"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col>
-                  <!-- <label for="lastName">Last Name</label> -->
-                  <v-text-field
-                    type="number"
-                    label="Card Number"
-                    placeholder="Card Number"
-                    variant="solo"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-combobox
-                    id="country"
-                    v-model="country"
-                    :items="items"
-                    label="Expiration Month"
-                    placeholder="Expiration Month"
-                    variant="solo"
-                    transition="scale-transition"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-combobox
-                    id="country"
-                    v-model="country"
-                    :items="items"
-                    label="Expiration Year"
-                    placeholder="Expiration Year"
-                    variant="solo"
-                    transition="scale-transition"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-text-field
-                    type="number"
-                    label="Security Code"
-                    placeholder="Security Code"
-                    variant="solo"
-                  />
-                </v-col>
-              </v-row>
-              <v-row class="justify-center text-center align-center">
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="address1">Address 1</label> -->
-                  <v-text-field
-                    id="address1"
-                    v-model="address1"
-                    type="text"
-                    placeholder="Street Address or P.O. Box"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="address2">Address 2</label> -->
-                  <v-text-field
-                    id="address2"
-                    v-model="address2"
-                    type="text"
-                    placeholder="Apt, suite, unit, ect."
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="city">City</label> -->
-                  <v-text-field
-                    id="city"
-                    v-model="city"
-                    type="text"
-                    placeholder="City"
-                    variant="solo"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="region">Region</label> -->
-                  <v-text-field
-                    id="region"
-                    v-model="region"
-                    type="text"
-                    placeholder="State"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <!-- <label for="zip">Zip</label> -->
-                  <v-text-field
-                    id="zip"
-                    v-model="zip"
-                    type="text"
-                    placeholder="Zip"
-                    variant="solo"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-combobox
-                    id="country"
-                    v-model="country"
-                    :items="items"
-                    label="Country"
-                    placeholder="Country"
-                    variant="solo"
-                    transition="scale-transition"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm=""
-                >
-                  <v-btn class="color-error align-middle items-center h-full">
-                    <v-icon
-                      icon="mdi-email"
-                      class="mr-3"
-                      type="submit"
-                    />Continue
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-form>
+                  Payment Information
+                </h3>
+                <v-row class="pt-5">
+                  <v-col
+                    cols="12"
+                    sm=""
+                    class=""
+                  >
+                    <!-- <label for="firstName">First Name</label> -->
+                    <v-text-field
+                      type="text"
+                      label="Name on Card"
+                      placeholder="Name on Card"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col>
+                    <!-- <label for="lastName">Last Name</label> -->
+                    <v-text-field
+                      type="number"
+                      label="Card Number"
+                      placeholder="Card Number"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-combobox
+                      id="country"
+                      v-model="country"
+                      :items="items"
+                      label="Expiration Month"
+                      placeholder="Expiration Month"
+                      variant="solo"
+                      transition="scale-transition"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-combobox
+                      id="country"
+                      v-model="country"
+                      :items="items"
+                      label="Expiration Year"
+                      placeholder="Expiration Year"
+                      variant="solo"
+                      transition="scale-transition"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-text-field
+                      type="number"
+                      label="Security Code"
+                      placeholder="Security Code"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row class="justify-center text-center align-center">
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="address1">Address 1</label> -->
+                    <v-text-field
+                      id="address1"
+                      v-model="address1"
+                      type="text"
+                      placeholder="Street Address or P.O. Box"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="address2">Address 2</label> -->
+                    <v-text-field
+                      id="address2"
+                      v-model="address2"
+                      type="text"
+                      placeholder="Apt, suite, unit, ect."
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="city">City</label> -->
+                    <v-text-field
+                      id="city"
+                      v-model="city"
+                      type="text"
+                      placeholder="City"
+                      variant="solo"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="region">Region</label> -->
+                    <v-text-field
+                      id="region"
+                      v-model="region"
+                      type="text"
+                      placeholder="State"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <!-- <label for="zip">Zip</label> -->
+                    <v-text-field
+                      id="zip"
+                      v-model="zip"
+                      type="text"
+                      placeholder="Zip"
+                      variant="solo"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-combobox
+                      id="country"
+                      v-model="country"
+                      :items="items"
+                      label="Country"
+                      placeholder="Country"
+                      variant="solo"
+                      transition="scale-transition"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm=""
+                  >
+                    <v-btn class="align-middle items-center h-full">
+                      <v-icon
+                        icon="mdi-email"
+                        class="mr-3"
+                        type="submit"
+                      />Continue
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-form>
+        </div>
       </div>
     </div>
   </div>
