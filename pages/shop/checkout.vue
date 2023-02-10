@@ -1,10 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <!--To Do:
-    Card number counter arrows and error/warning.
     Expiration for Month.
     Expiration for Year.
-    Sticky cart. Adjust width to accomodate.
     Country options.
     Autofill email and name for account info if an account is made.
     Pretty background.
@@ -12,12 +10,10 @@
     Watch function for useAsBiling.
   -->
   <div
-    class="bg-image"
-    style="
-      background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Others/images/76.webp');
-      height: 100;
-    "
+  class="bg-image bg-repeat"
+  style="background-image: url('../img/leaf-background.jpg')"
   >
+  <!-- <v-img src="../img/leaf-background.jpg" /> -->
     <div>
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
@@ -209,7 +205,7 @@
                     <v-combobox
                       id="country"
                       v-model="country"
-                      :items="items"
+                      :items="countries"
                       label="Country"
                       placeholder="Country"
                       variant="solo"
@@ -239,6 +235,7 @@
               </v-container>
             </v-card>
           </v-form>
+
 
           <!--PAYMENT INFORMATION FORM-->
           <v-form
@@ -291,7 +288,7 @@
                     <v-combobox
                       id="expmonth"
                       v-model="expmonth"
-                      :items="number"
+                      :items="months"
                       label="Expiration Month"
                       placeholder="Expiration Month"
                       variant="solo"
@@ -306,7 +303,7 @@
                     <v-combobox
                       id="expyear"
                       v-model="expyear"
-                      :items="number"
+                      :items="expirationYearOptions()"
                       label="Expiration Year"
                       placeholder="Expiration Year"
                       variant="solo"
@@ -404,7 +401,7 @@
                     <v-combobox
                       id="countryb"
                       v-model="countryb"
-                      :items="items"
+                      :items="countries"
                       label="Country"
                       placeholder="Country"
                       variant="solo"
@@ -439,6 +436,7 @@
 import { ref } from 'vue'
 import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia';
+import { range } from '@antfu/utils';
 
 const infoSubmitted = ref(false)
 
@@ -452,12 +450,20 @@ const address1 = ref('')
 const address2 = ref('')
 const city = ref('')
 const zip = ref('')
-const items = ref([
-  'Canada',
-  'Europe',
-  'United States',
-  'Panama',
-])
+
+// Form Options
+const months = ["1 - January","2 - February","3 - March","4 - April","5 - May","6 - June","7 - July","8 - August","9 - September","10 - October","11 - November","12 - December"]
+function expirationYearOptions () {
+  let years = [];
+  for (let i=0; i<40; i++) {
+
+    years.push(new Date().getFullYear()+i);
+  }
+  return years
+}
+
+
+
 const cardname = ref('')
 const cardnum = ref('')
 const expmonth = ref('')
