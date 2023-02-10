@@ -35,7 +35,7 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 <md:w-3/4 bg-custcard mt-10">
+            <v-card class="w-1/2 <lg:w-3/4 bg-custcard mt-10">
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold text-5xl my-5"
@@ -132,7 +132,7 @@
                 <v-row class="justify-center text-center align-center">
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="address1">Address 1</label> -->
@@ -146,7 +146,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="address2">Address 2</label> -->
@@ -160,7 +160,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="city">City</label> -->
@@ -174,7 +174,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="region">Region</label> -->
@@ -188,7 +188,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="zip">Zip</label> -->
@@ -202,7 +202,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <v-combobox
@@ -222,10 +222,13 @@
                     sm=""
                     class=""
                   >
-                    <v-btn class="align-middle items-center h-full">
+                    <v-btn
+                      class="align-middle items-center h-full"
+                      @click="useAsBilling=!useAsBilling; updateBilling()"
+                    >
                       <!-- mdi-checkbox-blank-outline -->
                       <v-icon
-                        icon="mdi-checkbox-blank-outline"
+                        :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
                         class="mr-3"
                         type="submit"
                       />Use as Billing Address
@@ -242,7 +245,7 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 <md:w-3/4  bg-custcard">
+            <v-card class="w-1/2 <lg:w-3/4  bg-custcard">
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
@@ -281,7 +284,7 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    md="4"
+                    md=""
                     sm="6"
                   >
                     <v-combobox
@@ -317,7 +320,6 @@
                     <v-text-field
                       id="securitycode"
                       v-model="securitycode"
-                      type="number"
                       label="Security Code"
                       placeholder="Security Code"
                       variant="solo"
@@ -325,7 +327,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="address1">Address 1</label> -->
@@ -339,7 +341,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="address2">Address 2</label> -->
@@ -353,7 +355,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="city">City</label> -->
@@ -367,7 +369,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="region">Region</label> -->
@@ -381,7 +383,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <!-- <label for="zip">Zip</label> -->
@@ -395,7 +397,7 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    md="4"
+                    md="6"
                     sm="6"
                   >
                     <v-combobox
@@ -473,6 +475,19 @@ const itemsb = ref([
   'United States',
   'Panama',
 ])
+
+const useAsBilling = ref(false)
+
+const updateBilling = function () {
+  if (useAsBilling.value){
+    countryb.value = country.value
+    regionb.value = region.value
+    address1b.value = address1.value
+    address2b.value = address2.value
+    cityb.value = city.value
+    zipb.value = zip.value
+  }
+}
 
 const cart = useCartDataStore()
 const cartData = ref()
