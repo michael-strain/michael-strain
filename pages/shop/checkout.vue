@@ -254,6 +254,8 @@
                   >
                     <!-- <label for="firstName">First Name</label> -->
                     <v-text-field
+                      id="cardname"
+                      v-model="cardname"
                       type="text"
                       label="Name on Card"
                       placeholder="Name on Card"
@@ -263,6 +265,8 @@
                   <v-col>
                     <!-- <label for="lastName">Last Name</label> -->
                     <v-text-field
+                      id="cardnum"
+                      v-model="cardnum"
                       type="number"
                       label="Card Number"
                       placeholder="Card Number"
@@ -276,9 +280,9 @@
                     sm=""
                   >
                     <v-combobox
-                      id="country"
-                      v-model="country"
-                      :items="items"
+                      id="expmonth"
+                      v-model="expmonth"
+                      :items="number"
                       label="Expiration Month"
                       placeholder="Expiration Month"
                       variant="solo"
@@ -290,9 +294,9 @@
                     sm=""
                   >
                     <v-combobox
-                      id="country"
-                      v-model="country"
-                      :items="items"
+                      id="expyear"
+                      v-model="expyear"
+                      :items="number"
                       label="Expiration Year"
                       placeholder="Expiration Year"
                       variant="solo"
@@ -304,6 +308,8 @@
                     sm=""
                   >
                     <v-text-field
+                      id="securitycode"
+                      v-model="securitycode"
                       type="number"
                       label="Security Code"
                       placeholder="Security Code"
@@ -318,8 +324,8 @@
                   >
                     <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
-                      id="address1"
-                      v-model="address1"
+                      id="address1b"
+                      v-model="address1b"
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="solo"
@@ -331,8 +337,8 @@
                   >
                     <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
-                      id="address2"
-                      v-model="address2"
+                      id="address2b"
+                      v-model="address2b"
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="solo"
@@ -344,8 +350,8 @@
                   >
                     <!-- <label for="city">City</label> -->
                     <v-text-field
-                      id="city"
-                      v-model="city"
+                      id="cityb"
+                      v-model="cityb"
                       type="text"
                       placeholder="City"
                       variant="solo"
@@ -359,8 +365,8 @@
                   >
                     <!-- <label for="region">Region</label> -->
                     <v-text-field
-                      id="region"
-                      v-model="region"
+                      id="regionb"
+                      v-model="regionb"
                       type="text"
                       placeholder="State"
                       variant="solo"
@@ -372,8 +378,8 @@
                   >
                     <!-- <label for="zip">Zip</label> -->
                     <v-text-field
-                      id="zip"
-                      v-model="zip"
+                      id="zipb"
+                      v-model="zipb"
                       type="text"
                       placeholder="Zip"
                       variant="solo"
@@ -384,8 +390,8 @@
                     sm=""
                   >
                     <v-combobox
-                      id="country"
-                      v-model="country"
+                      id="countryb"
+                      v-model="countryb"
                       :items="items"
                       label="Country"
                       placeholder="Country"
@@ -440,7 +446,24 @@ const items = ref([
   'United States',
   'Panama',
 ])
-
+const cardname = ref('')
+const cardnum = ref('')
+const expmonth = ref('')
+const expyear = ref('')
+const securitycode = ref('')
+// Are these necessary?
+const countryb = ref('')
+const regionb = ref('')
+const address1b = ref('')
+const address2b = ref('')
+const cityb = ref('')
+const zipb = ref('')
+const itemsb = ref([
+  'Canada',
+  'Europe',
+  'United States',
+  'Panama',
+])
 
 const cart = useCartDataStore()
 const cartData = ref()
