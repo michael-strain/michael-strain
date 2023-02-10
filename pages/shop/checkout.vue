@@ -1,19 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <!--To Do:
-    Expiration for Month.
-    Expiration for Year.
     Country options.
     Autofill email and name for account info if an account is made.
-    Pretty background.
     Button pretty.
-    Watch function for useAsBiling.
+    Scaling headers
   -->
   <div
-  class="bg-image bg-repeat"
-  style="background-image: url('../img/leaf-background.jpg')"
+    class="bg-image bg-repeat"
+    style="background-image: url('../img/leaf-background.jpg')"
   >
-  <!-- <v-img src="../img/leaf-background.jpg" /> -->
+    <!-- <v-img src="../img/leaf-background.jpg" /> -->
     <div>
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
@@ -32,23 +29,21 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 <lg:w-3/4 bg-custcard mt-10">
+            <v-card color="#fbfbd0" class="w-1/2 <lg:w-3/4 bg-green-600 mt-10">
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold text-5xl my-5"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl my-5"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(211, 211, 18)'}"
                 >
                   Shipping Address
                 </h3>
-                <h4
+                <!-- <h4
                   v-for="(item, product) in cart.cartData"
                   :key="product"
                   class="flex items-center align-center justify-center"
                 >
-                  <!-- {{ item.title }} -->
-
                   Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
-                </h4>
+                </h4> -->
                 <v-row class="pt-5">
                   <v-col
                     cols="12"
@@ -62,7 +57,8 @@
                       type="text"
                       label="First Name"
                       placeholder="First Name"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col>
@@ -73,7 +69,8 @@
                       type="text"
                       label="Last Name"
                       placeholder="Last Name"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                 </v-row>
@@ -89,7 +86,8 @@
                       type="email"
                       label="Email Address"
                       placeholder="Email Address"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -103,7 +101,8 @@
                       type="tel"
                       label="Phone Number"
                       placeholder="Phone Number"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                 </v-row>
@@ -114,7 +113,8 @@
                     v-model="country"
                     label="Country"
                     placeholder="Country"
-                    variant="solo"
+                    variant="outlined"
+                      bg-color="#fdfde8"
                   >
                     <option value="US">
                       United States
@@ -138,7 +138,8 @@
                       v-model="address1"
                       type="text"
                       placeholder="Street Address or P.O. Box"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -152,7 +153,8 @@
                       v-model="address2"
                       type="text"
                       placeholder="Apt, suite, unit, ect."
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -166,7 +168,8 @@
                       v-model="city"
                       type="text"
                       placeholder="City"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -180,7 +183,8 @@
                       v-model="region"
                       type="text"
                       placeholder="State"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -194,7 +198,8 @@
                       v-model="zip"
                       type="text"
                       placeholder="Zip"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -208,7 +213,8 @@
                       :items="countries"
                       label="Country"
                       placeholder="Country"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -243,15 +249,15 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 <lg:w-3/4  bg-custcard">
+            <v-card color="#fbfbd0" class="w-1/2 <lg:w-3/4">
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl mt-5 mb-10"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(211, 211, 18)'}"
                 >
                   Payment Information
                 </h3>
-                <v-row class="pt-5">
+                <v-row class="pt-5 ">
                   <v-col
                     cols="12"
                     sm=""
@@ -264,7 +270,8 @@
                       type="text"
                       label="Name on Card"
                       placeholder="Name on Card"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col>
@@ -275,7 +282,8 @@
                       type="number"
                       label="Card Number"
                       placeholder="Card Number"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                 </v-row>
@@ -291,7 +299,8 @@
                       :items="months"
                       label="Expiration Month"
                       placeholder="Expiration Month"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -306,7 +315,8 @@
                       :items="expirationYearOptions()"
                       label="Expiration Year"
                       placeholder="Expiration Year"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -320,7 +330,8 @@
                       v-model="securitycode"
                       label="Security Code"
                       placeholder="Security Code"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -334,7 +345,8 @@
                       v-model="address1b"
                       type="text"
                       placeholder="Street Address or P.O. Box"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -348,7 +360,8 @@
                       v-model="address2b"
                       type="text"
                       placeholder="Apt, suite, unit, ect."
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -362,7 +375,8 @@
                       v-model="cityb"
                       type="text"
                       placeholder="City"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -376,7 +390,8 @@
                       v-model="regionb"
                       type="text"
                       placeholder="State"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -390,7 +405,8 @@
                       v-model="zipb"
                       type="text"
                       placeholder="Zip"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                     />
                   </v-col>
                   <v-col
@@ -404,7 +420,8 @@
                       :items="countries"
                       label="Country"
                       placeholder="Country"
-                      variant="solo"
+                      variant="outlined"
+                      bg-color="#fdfde8"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -415,11 +432,11 @@
                     sm=""
                   >
                     <v-btn class="align-middle items-center h-full">
-                      <v-icon
+                      <!-- <v-icon
                         icon="mdi-email"
                         class="mr-3"
-                        type="submit"
-                      />Continue
+                        type="submit" -->
+                      Continue
                     </v-btn>
                   </v-col>
                 </v-row>
