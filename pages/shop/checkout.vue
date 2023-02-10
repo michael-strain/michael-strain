@@ -132,7 +132,8 @@
                 <v-row class="justify-center text-center align-center">
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
@@ -145,7 +146,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
@@ -158,7 +160,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="city">City</label> -->
                     <v-text-field
@@ -169,11 +172,10 @@
                       variant="solo"
                     />
                   </v-col>
-                </v-row>
-                <v-row>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="region">Region</label> -->
                     <v-text-field
@@ -186,7 +188,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="zip">Zip</label> -->
                     <v-text-field
@@ -199,7 +202,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <v-combobox
                       id="country"
@@ -277,7 +281,8 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <v-combobox
                       id="expmonth"
@@ -291,7 +296,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <v-combobox
                       id="expyear"
@@ -305,7 +311,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <v-text-field
                       id="securitycode"
@@ -316,11 +323,10 @@
                       variant="solo"
                     />
                   </v-col>
-                </v-row>
-                <v-row class="justify-center text-center align-center">
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
@@ -333,7 +339,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
@@ -346,7 +353,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="city">City</label> -->
                     <v-text-field
@@ -357,11 +365,10 @@
                       variant="solo"
                     />
                   </v-col>
-                </v-row>
-                <v-row>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="region">Region</label> -->
                     <v-text-field
@@ -374,7 +381,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <!-- <label for="zip">Zip</label> -->
                     <v-text-field
@@ -387,7 +395,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm=""
+                    md="4"
+                    sm="6"
                   >
                     <v-combobox
                       id="countryb"
