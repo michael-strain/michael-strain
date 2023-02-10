@@ -35,7 +35,7 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 bg-custcard mt-10">
+            <v-card class="w-1/2 <md:w-3/4 bg-custcard mt-10">
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold text-5xl my-5"
@@ -242,7 +242,7 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card class="w-1/2 bg-custcard">
+            <v-card class="w-1/2 <md:w-3/4  bg-custcard">
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold text-5xl mt-5 mb-10"
