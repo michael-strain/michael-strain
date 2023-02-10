@@ -12,6 +12,7 @@
 
     Use v-data-tables for your products list.
 -->
+
   <v-form class="flex text-center align-middle items-center justify-center flex-shrink bg-white">
     <v-card class="w-full">
       <v-container class="bg-white">
