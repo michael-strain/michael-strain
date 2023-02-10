@@ -8,7 +8,8 @@
     Country options.
     Autofill email and name for account info if an account is made.
     Pretty background.
-    Button
+    Button pretty.
+    Watch function for useAsBiling.
   -->
   <div
     class="bg-image"
