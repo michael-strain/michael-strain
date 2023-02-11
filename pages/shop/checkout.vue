@@ -1,12 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <!--To Do:
-    Country options.
-    Autofill email and name for account info if an account is made.
-    Button pretty.
-    Scaling headers
-  -->
-  <!--Green Colors:#ccff99, rgba(77, 132, 21), 406e12-->
   <div
     class="bg-image bg-repeat"
     style="background-image: url('../img/leaf-background-2.jpg')"
@@ -15,32 +8,34 @@
     <div class="">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
-        class="flex text-center align-center items-center justify-center flex-shrink h-screen"
+        class="flex align-center justify-center h-screen"
       >
         <v-card
           color="#fbfbd0"
-          class="w-2/3 h-2/3"
+          class="w-1/2 <lg:w-3/4 mt-10 h-2/3 "
         >
-          <v-container class="">
-            <h3
-              class="m-10 font-bold lg:text-5xl <md:text-3xl m-5"
-              :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-            >
-              Your cart is empty.
-            </h3>
-            <v-btn
-              size="large"
-              variant=""
-              color="#ffc266"
-              class="align-middle items-center h-full m-10"
-            >
-              <NuxtLink
-                to="/shop"
-                class="lg:text-2xl <md:text-xl"
+          <v-container class="fill-height text-center align-center justify-center">
+            <div class="">
+              <h3
+                class="font-bold lg:text-5xl text-4xl my-5"
+                :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
               >
-                Visit the <b>shop</b> page.<br>Find something you love.
-              </NuxtLink>
-            </v-btn>
+                Your cart is empty.
+              </h3>
+              <v-btn
+                size="large"
+                variant="flat"
+                color="#ffc266"
+                class="fill-height m-10"
+              >
+                <NuxtLink
+                  to="/shop"
+                  class="lg:text-2xl text-xl text-wrap m-5"
+                >
+                  Visit the <b>shop</b> page.<br>Find something you love.
+                </NuxtLink>
+              </v-btn>
+            </div>
           </v-container>
         </v-card>
       </div>
@@ -60,7 +55,7 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl my-5"
+                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl my-5"
                   :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Shipping Address
@@ -253,19 +248,36 @@
                     sm=""
                     class=""
                   >
+                    <!-- <v-btn
+                      size="large"
+                      variant=""
+                      color="#ffc266"
+                      class="bg-red fill-height m-10"
+                    >
+                      <NuxtLink
+                        to="/shop"
+                        class="lg:text-2xl text-xl text-wrap"
+                      >
+                        Visit the <b>shop</b> page.<br>Find something you love.
+                      </NuxtLink>
+                    </v-btn> -->
+
+
                     <v-btn
                       size="large"
                       variant="flat"
                       color="#ffc266"
-                      class="align-middle items-center h-full text-white"
+                      class="fill-height align-middle items-center h-full text-white "
                       @click="useAsBilling=!useAsBilling; updateBilling()"
                     >
-                      <!-- mdi-checkbox-blank-outline -->
-                      <v-icon
-                        :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
-                        class="mr-3"
-                        type="submit"
-                      />Use as Billing Address
+                      <div class="text-wrap text-md m-2">
+                        <v-icon
+                          :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
+                          class="mr-3 text-wrap flex flex-wrap text-wrap"
+                        />
+                        <!--This v-icon used to say type="submit"-->
+                        Same as Billing Address
+                      </div>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -286,7 +298,7 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl mt-5 mb-10"
+                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl mt-5 mb-10"
                   :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Payment Information
@@ -468,14 +480,27 @@
                       size="large"
                       variant="flat"
                       color="#ffc266"
+                      class=" fill-height align-middle items-center h-full text-white "
+                      @click="echo('I love you <3')"
+                    >
+                      <div class="text-wrap text-md m-2">
+                        <v-icon
+                          icon="mdi-cards-heart"
+                          class="mr-3 text-wrap flex flex-wrap text-wrap"
+                          type="submit"
+                        />
+                        Continue
+                      </div>
+                    </v-btn>
+                    <!-- Old Button -->
+                    <!-- <v-btn
+                      size="large"
+                      variant="flat"
+                      color="#ffc266"
                       class="align-middle items-center h-full text-white"
                     >
-                      <!-- <v-icon
-                        icon="mdi-email"
-                        class="mr-3"
-                        type="submit" -->
                       Continue
-                    </v-btn>
+                    </v-btn> -->
                   </v-col>
                 </v-row>
               </v-container>
@@ -647,6 +672,10 @@ const postOrderBody =
         "city": "<string>",
         "zip": "<string>"
     }
+}
+
+function echo(msg){
+  console.log(msg.toString())
 }
 
 </script>
