@@ -12,13 +12,37 @@
     style="background-image: url('../img/leaf-background-2.jpg')"
   >
     <!-- <v-img src="../img/leaf-background.jpg" /> -->
-    <div>
+    <div class="">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
+        class="flex text-center align-center items-center justify-center flex-shrink h-screen"
       >
-        <NuxtLink to="/shop">
-          Cart Empty, Go Shop
-        </NuxtLink>
+        <v-card
+          color="#fbfbd0"
+          class="w-2/3 h-2/3"
+        >
+          <v-container class="">
+            <h3
+              class="m-10 font-bold lg:text-5xl <md:text-3xl m-5"
+              :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
+            >
+              Your cart is empty.
+            </h3>
+            <v-btn
+              size="large"
+              variant=""
+              color="#ffc266"
+              class="align-middle items-center h-full m-10"
+            >
+              <NuxtLink
+                to="/shop"
+                class="lg:text-2xl <md:text-xl"
+              >
+                Visit the <b>shop</b> page.<br>Find something you love.
+              </NuxtLink>
+            </v-btn>
+          </v-container>
+        </v-card>
       </div>
       <div v-else>
         <!-- v-else-if="infoSubmitted" -->
@@ -258,7 +282,7 @@
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
               color="#fbfbd0"
-              class="w-1/2 <lg:w-3/4"
+              class="w-1/2 <lg:w-3/4 justify-center text-center align-center"
             >
               <v-container class="">
                 <h3
