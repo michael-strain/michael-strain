@@ -6,9 +6,10 @@
     Button pretty.
     Scaling headers
   -->
+  <!--Green Colors:#ccff99, rgba(77, 132, 21), 406e12-->
   <div
     class="bg-image bg-repeat"
-    style="background-image: url('../img/leaf-background.jpg')"
+    style="background-image: url('../img/leaf-background-2.jpg')"
   >
     <!-- <v-img src="../img/leaf-background.jpg" /> -->
     <div>
@@ -29,11 +30,14 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card color="#fbfbd0" class="w-1/2 <lg:w-3/4 bg-green-600 mt-10">
+            <v-card
+              color="#fbfbd0"
+              class="w-1/2 <lg:w-3/4 bg-green-600 mt-10"
+            >
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl my-5"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(211, 211, 18)'}"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Shipping Address
                 </h3>
@@ -226,7 +230,10 @@
                     class=""
                   >
                     <v-btn
-                      class="align-middle items-center h-full"
+                      size="large"
+                      variant="flat"
+                      color="#ffc266"
+                      class="align-middle items-center h-full text-white"
                       @click="useAsBilling=!useAsBilling; updateBilling()"
                     >
                       <!-- mdi-checkbox-blank-outline -->
@@ -249,11 +256,14 @@
             @submit.prevent="submitShippingInfo"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
-            <v-card color="#fbfbd0" class="w-1/2 <lg:w-3/4">
+            <v-card
+              color="#fbfbd0"
+              class="w-1/2 <lg:w-3/4"
+            >
               <v-container class="">
                 <h3
                   class="justify-center text-center align-center font-bold lg:text-5xl <md:text-3xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(211, 211, 18)'}"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Payment Information
                 </h3>
@@ -279,7 +289,6 @@
                     <v-text-field
                       id="cardnum"
                       v-model="cardnum"
-                      type="number"
                       label="Card Number"
                       placeholder="Card Number"
                       variant="outlined"
@@ -431,7 +440,12 @@
                     cols="12"
                     sm=""
                   >
-                    <v-btn class="align-middle items-center h-full">
+                    <v-btn
+                      size="large"
+                      variant="flat"
+                      color="#ffc266"
+                      class="align-middle items-center h-full text-white"
+                    >
                       <!-- <v-icon
                         icon="mdi-email"
                         class="mr-3"
