@@ -1,13 +1,28 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<!--Colors
+Yellows: #FBFBD0, #FCEDB6, #FDDF9B, #FED081, #FFC266
+Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
+
+-->
+
+
 <template>
+
+<div class="bg-background">background</div>
+<div class="bg-surface">surface</div>
+<div class="bg-primary">primary</div>
+<div class="bg-primary-darken-1">primary-darken-1</div>
+<div class="bg-secondary">secondary</div>
+<div class="bg-secondary-darken-1">secondary-darken-1</div>
+
+
   <div
     class="bg-image bg-repeat p-20 h-screen"
     style="background-image: url('../img/leaf-background-2.jpg')"
   >
-    <!--Store Faqs Category-->
+    <!--Store Faqs Category--> <!--color="#fbfbd0"-->
     <v-card
       class="w-1/2 <lg:w-3/4 mt-10"
-      color="#fbfbd0"
     >
       <h3
         class="text-center font-bold lg:text-5xl text-4xl m-10"
@@ -15,10 +30,9 @@
       >
         Frequently Asked Questions
       </h3>
+      <!-- color="#fbfbd0" -->
       <v-expansion-panels
-        color="#fbfbd0"
         variant="accordion"
-        class=""
       >
         <v-expansion-panel
           title="Refund and Replacement Policy"

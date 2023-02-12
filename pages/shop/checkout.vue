@@ -11,7 +11,6 @@
         class="flex align-center justify-center h-screen"
       >
         <v-card
-          color="#fbfbd0"
           class="w-1/2 <lg:w-3/4 mt-10 h-2/3 "
         >
           <v-container class="fill-height text-center align-center justify-center">
@@ -22,10 +21,11 @@
               >
                 Your cart is empty.
               </h3>
+              <!-- color="#ffc266" -->
               <v-btn
                 size="large"
                 variant="flat"
-                color="#ffc266"
+                color="button"
                 class="fill-height m-10"
               >
                 <NuxtLink
