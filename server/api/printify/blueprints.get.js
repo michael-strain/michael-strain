@@ -46,37 +46,70 @@ export default defineEventHandler(async () => {
   let requestCounter = 0
   let requestTimer = 0
 
-  const blueprints = await $fetch(opts.url, {
-    method: 'GET',
-    headers: opts.headers
-  })
+  function sleep(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+      requestCounter=0
+    });
+  }
+
+  if(requestCounter < 400){
+    const blueprints = await $fetch(opts.url, {
+      method: 'GET',
+      headers: opts.headers
+    })
+    requestCounter++
+  } else {
+    await sleep(60000)
+  }
+
 
   let blueprintsFinal = []
   //Old way we just returned blueprints.  Times were simpler then.. :/
 
   for (let i=0; i<blueprints.length; i++) {
     let printProviderUrl = "https://api.printify.com/v1/catalog/blueprints/" + blueprints[i].id + "/print_providers.json"
-    const printProviders = await $fetch(printProviderUrl, {
-      method: 'GET',
-      headers: opts.headers
-    })
+    
+    if (requestCounter < 400){
+      const printProviders = await $fetch(printProviderUrl, {
+        method: 'GET',
+        headers: opts.headers
+      })
+      requestCounter++
+    } else {
+      await sleep(60000)
+    }
+
     // console.log("Print Providers Fetched, 0ID: " + printProviders[0].id)
     for (let j=0; j<printProviders.length; j++){
       let variantUrl = 'https://api.printify.com/v1/catalog/blueprints/' + blueprints[i].id + '/print_providers/' + printProviders[j].id + '/variants.json'
       // console.log("Fetching: " + variantUrl)
-      let variantData = await $fetch(variantUrl, {
-        method:'GET',
-        headers:opts.headers
-      })
+
+      if (requestCounter < 400){
+        let variantData = await $fetch(variantUrl, {
+          method:'GET',
+          headers:opts.headers
+        })
+        requestCounter++
+      } else {
+        await sleep(60000)
+      }
       console.log("Variant Data: " + variantData)
       console.log("Variants Fetched, 0ID: " + variantData[0].id)
 
       let shippingUrl = 'https://api.printify.com/v1/catalog/blueprints/' + blueprints[i].id + '/print_providers/' + printProviders[j].id + '/shipping.json'
       console.log("Fetching: " + shippingUrl)
-      let shipping = await $fetch(shippingUrl, {
-        method: 'GET',
-        headers: opts.headers
-      })
+
+      if (requestCounter < 400){
+        let shipping = await $fetch(shippingUrl, {
+          method: 'GET',
+          headers: opts.headers
+        })
+        requestCounter++
+      } else {
+        await sleep(60000)
+      }
+      
       console.log("Shipping Data Fetched, 0 handling time: " + shipping[0].handling_time)
 
       for (let k=0; k<variantData.variants.length; k++) {
