@@ -133,6 +133,9 @@
 
   onMounted(async() => {
     const store = useProductDataStore()
+    const cart = useCartDataStore()
+    const user = useUserDataStore()
+    
     if(store.productData.length > 0){
       // console.log("Products already loaded")
       products.value = store.productData
@@ -294,7 +297,24 @@
         if (countryList[j] == user.userData[0].country) {
           sProfile = variant.shippingProfile[i]
           variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+          // console.log("variant.cost: " + variant.cost)
+          // console.log("sProfile.first_item.cost: " + sProfile.first_item.cost)
+          // console.log("additional item cost: " + sProfile.additional_items.cost)
+          // console.log("variant.cost * .25: " + (variant.cost * 0.25))
+          // console.log("Our Costs: " + (variant.cost + sProfile.first_item.cost))
+          // console.log("Our Profits: " + (variant.cost * 0.25) + sProfile.additional_items.cost + 100)
           // console.log("Shipping Profile: " + sProfile)
+
+          //Example: Test Hand Towel
+          // cost= 896
+          // sProfile.first_item.cost = 429
+          // sProfile.additional_items.cost = 199
+
+          //Cost = 896 + 429 + 199 = 1524
+
+          //Profit Margin = 224 + 100 (324)
+          //Total Cost = 896 + 429 + 324 + 199 = 1848
+          //
         }
       }
     }
