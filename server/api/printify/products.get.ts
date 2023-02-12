@@ -47,6 +47,15 @@ export default defineEventHandler(async (event) => {
   //   return { result: result.result }
   // } 
 
+  let requestCounter = 0
+
+  function sleep(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms)
+      requestCounter = 0
+    });
+  }
+
   //Get all Products from Printify
   const opts = {
     method: 'GET',
@@ -57,10 +66,16 @@ export default defineEventHandler(async (event) => {
     }
   }
   
-  const { data: products } = await $fetch(opts.url, {
-    method: 'GET',
-    headers: opts.headers
-  })
+  if(requestCounter < 400){
+    const { data: products } = await $fetch(opts.url, {
+      method: 'GET',
+      headers: opts.headers
+    })
+    requestCounter++
+  } else {
+    await sleep(60000)
+  }
+  
 
   //used to have await
   const docs = await queryByCollection("products")
@@ -83,10 +98,15 @@ export default defineEventHandler(async (event) => {
           let printProviderUrl = 'https://api.printify.com/v1/catalog/blueprints/' + products[i].blueprint_id + '/print_providers/' + products[i].print_provider_id + '/shipping.json'
 
           //used to have await
-          let shipping = await $fetch(printProviderUrl, {
-            method: 'GET',
-            headers: opts.headers
-          })
+          if (requestCounter < 400) {
+            let shipping = await $fetch(printProviderUrl, {
+              method: 'GET',
+              headers: opts.headers
+            })
+            requestCounter++
+          } else {
+            await sleep(60000)
+          }
 
           // console.log(shipping)
 
