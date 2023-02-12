@@ -1,8 +1,24 @@
+Thoughts 2/11/23
+----------------
+-The app may be causing explosive bloat in my system Cache (Linux Ubuntu system, cleaned 670.89GB from system cache)
+Need to have a way for users to match their country with printify country codes and store it in the userDataStore
+reviews/comments/user-taken product photos/ratings on the product details page
+Project reduce all the pricing again
+redo shop frontend to make it pretty again
+-adding variants and pricing to the blueprint Selector
+ashley plz work on the faqs page at your own request
+
+
 Thoughts 2/9/23
 ---------------
+Incorporate country checking for shipping estimates
+Display shipping rates the old way (first item + additional items)
+Profit margins should be based on variant cost + 25% + $1.00
+DATA PERSISTENCE!!!!
 Head empty no thoughts
 -Refactor item costs:
-    -Pricing should = (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+-Pricing should = (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+
 
 Thoughts 2/8/23
 ---------------
