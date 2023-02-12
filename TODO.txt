@@ -1,8 +1,17 @@
+Thoughts 2/11/23
+----------------
+-The app seems to be causing explosive bloat in my system Cache (Linux Ubuntu system, cleaned 670.89GB from system cache)
+
 Thoughts 2/9/23
 ---------------
+Incorporate country checking for shipping estimates
+Display shipping rates the old way (first item + additional items)
+Profit margins should be based on variant cost + 25% + $1.00
+DATA PERSISTENCE!!!!
 Head empty no thoughts
 -Refactor item costs:
-    -Pricing should = (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+-Pricing should = (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+
 
 Thoughts 2/8/23
 ---------------

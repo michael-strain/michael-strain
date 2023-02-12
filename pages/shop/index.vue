@@ -47,12 +47,16 @@
                 >
               </NuxtLink> -->
               
+              <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
               <v-card class="bg-transparent">
                 <p
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
                 >
-                  {{ formatter.format((item.variants[item.variantNum].price)/100) }}
+                  {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                </p>
+                <p>
+                  + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                 </p>
               </v-card>
 
@@ -120,6 +124,7 @@
   import { ref, onMounted } from 'vue'
   import { useProductDataStore } from '~/stores/productData';
   import { useCartDataStore } from '~/stores/cartData';
+  import { useUserDataStore } from '~/stores/userData';
   import { storeToRefs } from 'pinia'
 
   const products = ref([])
@@ -136,6 +141,9 @@
     }
     else {
       // console.log("Fetching products from Firestore")
+
+
+      //TODO Probably need to replace this with a direct ID call or something... idk there should always be products in the datastore at this point maybe it's nbd.
       const pData = await $fetch('/api/query?col=products', { method: 'GET' })
       // console.log(pData)
       
@@ -259,6 +267,97 @@
     // }
   }
 
+  // (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
+  // const itemPrice = computed((variant) => {
+  //   let price = variant.cost + variant.firstItemShippingCost + (variant.cost * 0.25) + 100 // Profit margin is 25% of cost + $1.00
+  //   return price
+  // })
+
+  // const itemPrice =  function (variant) {
+  //   let price = variant.cost + variant.firstItemCost + (variant.cost * 0.25) + 100 // Profit margin is 25% of cost + $1.00
+  //   return price
+  // }
+  
+  const itemPrice = function(variant) {
+    // const cart = useCartDataStore()
+    const user = useUserDataStore()
+    let sProfile = false
+
+    // is this running correctly?
+    // console.log("Profiles: " + variant.shippingProfile[0])
+    for (let i = 0; i < variant.shippingProfile.length ; i++) {
+      // console.log(variant.shippingProfile[i].countries)
+      // console.log(user.userData[0].country)
+      let countryList = []
+      countryList = variant.shippingProfile[i].countries
+      for (let j = 0; j < countryList.length; j++) {
+        if (countryList[j] == user.userData[0].country) {
+          sProfile = variant.shippingProfile[i]
+          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+          // console.log("Shipping Profile: " + sProfile)
+        }
+      }
+    }
+    if (!sProfile) {
+      for (let i=0; variant.shippingProfile.length; i++) {
+        for (let j=0; variant.shippingProfile[i].countries.length; j++){
+          if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+            sProfile = variant.shippingProfile[i]
+            variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+            // console.log("Shipping Profile: " + sProfile)
+          }
+        }
+      }
+    }
+    // console.log(sProfile)
+    
+    // cart.$patch(variant.id, {itemCost: variant.itemCost})
+    // console.log(sProfile.first_item.cost)
+    return variant.itemCost // Profit margin is 25% of cost + $1.00
+    //   let firstItemCost = variant.shippingProfile[].first_item.cost
+    //   let additionalItemCost = variant.shippingProfile[].additional_items.cost
+    // return variant.cost + 
+  }
+
+  // const itemShippingPrice = computed((variant) => {
+  //   let shipCost = variant.additionalItemCost * variant.cartQty
+  //   console.log(shipCost)
+  //   return { shipCost }
+  // })
+
+  const itemShippingPrice = function(variant) {
+  const user = useUserDataStore()
+  let sProfile = false
+
+  // is this running correctly?
+  // console.log("Profiles: " + variant.shippingProfile[0])
+  for (let i = 0; i < variant.shippingProfile.length ; i++) {
+    for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
+      if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
+        sProfile = variant.shippingProfile[i]
+        variant.shipCost = sProfile.additional_items.cost
+        // console.log("Shipping Profile: " + sProfile)
+        return variant.shipCost
+      }
+    }
+  }
+  if (!sProfile) {
+    for (let i=0; variant.shippingProfile.length; i++) {
+      for (let j=0; variant.shippingProfile[i].countries.length; j++) {
+        if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+          sProfile = variant.shippingProfile[i]
+          variant.shipCost = sProfile.additional_items.cost
+          // console.log("Shipping Profile: " + sProfile)
+          return variant.shipCost
+        }
+      }
+    }
+  }
+  // console.log(sProfile.first_item.cost)
+  return (variant.shipCost >0 ? variant.shipCost : 1000)
+  }
+
+
   function leftVariantArrow(item){
     // Cycle through item variants
     const store = useProductDataStore()
@@ -353,6 +452,29 @@
   //     }
   //   }
   // }
+
+// type Variant = {
+//   additionalItemCost: number
+//   cartQty: number
+//   cost: number
+//   firstItemCost: number
+//   grams: number
+//   handlingTime: number
+//   handlingTimeUnit: string
+//   id: number
+//   inCart: boolean
+//   is_available: boolean
+//   is_default: boolean
+//   is_enabled: boolean
+//   options: number[]
+//   price: number
+//   quantity: number
+//   shippingCountries: string[]
+//   sku: string
+//   title: string
+// }
+
+
 </script>
 
 

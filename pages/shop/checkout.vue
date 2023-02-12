@@ -18,6 +18,8 @@
       >
         {{ item.title }}
 
+        TODO
+        NEED TO REDO THIS
         Cost of Shipping to {{ country }}: {{ item.shipping_cost }}
       </div>
       <div>

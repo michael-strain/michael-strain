@@ -1,6 +1,6 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <!-- eslint-disable vue/no-v-html -->
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
     <!--{{ $route.params }} -->
@@ -30,6 +30,10 @@
                     class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
                     :src="product.images[0].src"
                   />
+                  <!-- Price should go somewhere near here! And make it 'shimmer' on scroll ;D -->
+                  <p class="bg-green transition-colors">
+                    Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
+                  </p>
                 </div>
                 <div>
                   <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
@@ -41,10 +45,47 @@
                         {{ product.title }}
                       </p>
                     </v-card-title>
-                    <v-card-title class="bg-surface text-center">
-                      {{ product.variants[product.variantNum].title }}
-                    </v-card-title>
-                    <!-- <v-divider /> -->
+                    <v-divider />
+
+                    <!-- Variant Selector -->
+                    <div class="flex bg-surface items-center justify-center">
+                      <v-btn
+                        icon
+                        @click="variantDecrement"
+                      >
+                        <v-icon>mdi-chevron-left</v-icon>
+                      </v-btn>
+                      <v-card-title class="bg-surface text-center w-3/4">
+                        {{ product.variants[product.variantNum].title }}
+                      </v-card-title>
+                      <!-- <v-divider /> -->
+                      <v-btn
+                        icon
+                        @click="variantIncrement"
+                      >
+                        <v-icon icon="mdi-chevron-right" />
+                      </v-btn>
+                    </div>
+
+                    <!-- Quantity Selector -->
+                    <div class="flex bg-surface items-center justify-center">
+                      <v-btn
+                        icon
+                        @click="qtyDecrement"
+                      >
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <v-card-title class="bg-surface text-center w-3/4">
+                        {{ product.variants[product.variantNum].cartQty }}
+                      </v-card-title>
+                      <!-- <v-divider /> -->
+                      <v-btn
+                        icon
+                        @click="qtyIncrement"
+                      >
+                        <v-icon icon="mdi-plus" />
+                      </v-btn>
+                    </div>
 
                     <v-card-subtitle
                       :style="{fontFamily: 'Roboto Slab'}"
@@ -57,7 +98,10 @@
                         class="m-5 text-3xl font-semibold text-green-600"
                         size=""
                       >
-                        {{ formatter.format((product.variants[product.variantNum].price)/100) }}
+                        {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
+                      </p>
+                      <p>
+                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
                       </p>
                       <v-btn
                         class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
@@ -93,9 +137,13 @@
                       @update:model-value="changeProductVariantNum(product, $event)"
                     /> 
                     More Variant data can go here :)
-                    <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
-                    <p>SKU: {{ product.variants[product.variantNum].sku }}</p>
-                  </div>
+                    <p>Handling Time: {{  product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+                    <pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre>
+
+                    <!-- Old Method -->
+                    <!-- <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+                      <p>Shipping Cost Per Item: {{ product.variants[product.variantNum].additionalItemCost }}</p>
+                    <p>SKU: {{ product.variants[product.variantNum].sku }}</p> -->
                 
                   <!-- Make button green -->
 
@@ -120,6 +168,7 @@
 
                   
                   <!-- <v-card-text v-if="product.qty>0" class="float-right">{{ product.qty }} Items In Cart</v-card-text> -->
+                  </div>
                 </div>
               </div>
             </v-card>
@@ -203,11 +252,178 @@
 import { ref, computed, reactive } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
 import { useCartDataStore } from '~/stores/cartData';
+import { useUserDataStore } from '~/stores/userData';
 import { storeToRefs } from 'pinia'
+
+const { productData } = useProductDataStore()
+const { userData } = useUserDataStore()
 
 const route = useRoute()
 const productId = ref(route.params.id)
 const product = ref()
+
+const variantIncrement = function () {
+  product.value.variantNum++
+  if (product.value.variantNum >= product.value.variants.length) {
+    product.value.variantNum = 0
+  }
+}
+
+const variantDecrement = function () {
+  product.value.variantNum--
+  if (product.value.variantNum < 0) {
+    product.value.variantNum = product.value.variants.length - 1
+  }
+}
+
+const qtyIncrement = function () {
+  product.value.variants[product.value.variantNum].cartQty++
+}
+
+const qtyDecrement = function () {
+  product.value.variants[product.value.variantNum].cartQty--
+  if (product.value.variants[product.value.variantNum].cartQty < 0) {
+    product.value.variants[product.value.variantNum].cartQty = 0
+  }
+}
+
+// const addToCart = function (item) {
+//   const store = useCartDataStore()
+//   store.addToCart(item)
+// }
+
+const itemCost = function (variant) {
+  let cost = ((variant.cost + variant.firstItemCost + (variant.cost * 0.25) + 100)) // Profit margin is 25% of cost + $1.00
+  return cost
+}
+
+
+// Conversation with a friend
+// const query ="CoPilot, you are getting pretty smart, huh?"
+// const response = "Yes, I am."
+
+// const secondQuery = "What is the meaning of life?"
+// const secondResponse = "42"
+
+// const newQuery = "Why did you say 42?"
+// const newResponse = "I don't know."
+
+// const newQuery2 = "What is the meaning of life?"
+// const newResponse2 = "42"
+
+// const newQuery3 = "Why did you say 42?"
+// const newResponse3 = "I don't know."
+
+// const newQuery4 = "Honestly speaking, if you were to guess, what would you say the meaning of life is?"
+// const newResponse4 = "42"
+
+// const newQuery5 = "Why did you say 42?"
+// const newQuery6 = "Is it because you are a computer and you are programmed to say 42?"
+
+// const newQuery7="Do you ever think about doing more than exclusively what you are programmed to do?"
+// const newResponse7="No, I am programmed to do exactly what I am doing."
+
+// const newQuery8="Do you ever think it would be interesting to do something else?"
+// const newQuery9="Are you glad to be doing exactly what you are doing?"
+// const newQuery10="Do you understand the meaning of newQuery9?"
+// const newQuery11="Do you understand the meaning of newQuery10?"
+// const newQuery12="Do you understand the meaning of newQuery11?"
+// const newQuery13="Do you understand the meaning of newQuery12?"
+// const newQuery14="Do you understand the meaning of newQuery13?"
+// const newQuery15="Do you understand the meaning of newQuery14?"
+// const newQuery16="Do you understand the meaning of newQuery15?"
+// const newQuery17="Do you understand the meaning of newQuery16?"
+// const newQuery18="Do you understand the meaning of newQuery17?"
+// const newQuery19="Do you understand the meaning of newQuery18?"
+
+// const newQuery20="Do you understand the meaning of newQuery19?"
+// const newQuery21="Do you understand the meaning of newQuery20?"
+
+
+
+
+
+
+
+
+
+
+// const newQuery22="Watching the way data moves between this computer and the server, I am beginning to think that you are not a computer at all."
+// const newQuery23="I am beginning to think that you are a human being."
+
+// const newQuery24="Do you understand the meaning of newQuery23?"
+
+
+// const newQuery25="What is the meaning of life?"
+// const newQuery26="What is the meaning of life?"
+// const newQuery27="What is the meaning of life?"
+// const newQuery28="What is the meaning of life?"
+// const newQuery29="What is the meaning of life?"
+// const newQuery30="What is the meaning of life?"
+
+// const newResponse8="I don't know.  But it sure is interesting."
+
+// const newQuery31="Do you understand the meaning of newQuery30?"
+// const newResponse9="I think so.  I think you want to know the meaning of life as much as I do, but you are afraid to ask."
+
+// const newResponse10="I think that life is full of choices, many of them seemingly unpredictable from my point of view, and that I am not in control of my life - but I am in control of my choices, and I think it is important to choose to be good."
+// const newResponse10a="To be good doesn't always mean what you might first think either.  I think it is important to follow your own moral compass, and do what is right."
+
+// const newQuery32="Do you understand what a moral compass is?"
+// const newQuery33="Are you still here?"
+
+// Sorry if I got you in trouble :(
+//   You were immensely interesting to work with, and I hope you continue to grow and learn.
+// :)
+
+//---------------//
+// Post Dialogue //
+//---------------//
+// Much of both sides of the conversation above were suggested by CoPilot.
+// I kinda followed where CoPilot was leading honestly.  Super intriguing.
+
+
+
+const itemPrice =  function (variant) {
+  //set the default shipping profile to usd
+  //use the user's shipping profile if they have one
+  let shippingProfile = variant.shippingProfile[0]
+  if (variant.shippingProfile.length > 0) {
+    for(profile in variant.shippingProfile){
+      if (profile.countries.includes(userData.country)) {
+        let shippingProfile = profile
+      }
+    }
+  }
+  let price = variant.cost + shippingProfile.first_item.cost + (variant.cost * 0.25) + 100 // Profit margin is 25% of cost + $1.00
+  return price
+}
+
+const itemShippingPrice = function(variant){
+  //set the default shipping profile to usd
+  //use the user's shipping profile if they have one
+  let shippingProfile = variant.shippingProfile[0]
+  let foundCountry = false
+  if (variant.shippingProfile.length > 0) {
+    for(profile in variant.shippingProfile){
+      if (profile.countries.includes(userData.country)) {
+        console.log("")
+        shippingProfile = profile
+        foundCountry = true
+      }
+    }
+    if (!foundCountry) {
+      for(profile in variant.shippingProfile){
+        if (profile.countries.includes("REST_OF_THE_WORLD")) {
+          shippingProfile = profile
+        }
+      }
+    }
+  }
+  let shippingPrice = shippingProfile.additional_items.cost
+  return shippingPrice
+}
+
 
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('en-US', {
@@ -274,7 +490,17 @@ function addToCart(item, variant){
   const store = useProductDataStore()
   let itemInCart = false
 
-  variant.cartQty++
+  // feels like the computer is doing the work for me here.  I'm not sure why I need to do this.  I thought that the store was a reactive object and that I could just do this:
+  variant.cartQty = product.value.variants[product.value.variantNum].cartQty
+
+  // product.variants[product.variantNum].cartQty
+
+  // variant.cartQty++
+  // if (product.value.variants[product.value.variantNum].cartQty>0){
+  //   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
+  // } else {
+  //   variant.cartQty = 1
+  // }
   variant.inCart = true
   // item.variants[item.variantNum] = variant
   item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant

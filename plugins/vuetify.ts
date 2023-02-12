@@ -17,7 +17,7 @@ const myCustomLightTheme = {
     success: '#4CAF50',
     warning: '#FB8C00',
     custcard: '#e2e8f0'
-  }
+  },
 }
 
 const myCustomDarkTheme = {
