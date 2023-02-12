@@ -90,6 +90,7 @@ export default defineEventHandler(async (event) => {
 
           // console.log(shipping)
 
+          //for each variant in product
           for (let k=0; k<products[i].variants.length; k++) {
             let shippingProfile = 0
             products[i].variants[k].shippingProfile = []

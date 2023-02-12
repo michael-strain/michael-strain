@@ -51,7 +51,6 @@
             <p>Publicly Displayed Price: ${{ formatter.format((item.variants[item.variantNum].cost + item.variants[item.variantNum].shippingProfiles[0].first_item.cost)) }}</p>
             <p>Additional Item Cost: ${{ formatter.format((item.variants[item.variantNum].shippingProfiles[0].additional_item.cost)) }}</p>
             <p>Costs * 25%: ${{ formatter.format(((item.variants[item.variantNum].cost + item.variants[item.variantNum].shippingProfiles[0].first_item.cost)*0.25)/100) }}</p>
-
           </v-card-subtitle>
             
           <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
@@ -119,10 +118,12 @@
     else {
       // console.log("Fetching blueprints from Printify API")
       const bpData = await $fetch('/api/printify/blueprints', { method: 'GET' })
+
+      console.log(bpData)
       
       for (let i = 0; i < bpData.length; i++) {
         // console.log("Adding imageNum to blueprintData: " + bpData.blueprintData[i].id)
-        bpData.blueprintData[i].variantNum = 0
+        bpData[i].variantNum = "0"
       }
       store.$patch({ blueprintData: bpData })
       blueprints.value = store.blueprintData
