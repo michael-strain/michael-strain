@@ -24,7 +24,7 @@
               <v-btn
                 size="large"
                 variant="flat"
-                color="primary-darken-1"
+                color="button"
                 class="fill-height m-10"
               >
                 <NuxtLink

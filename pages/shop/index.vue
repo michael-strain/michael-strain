@@ -17,8 +17,13 @@
             :key="product"
             class="flex items-center align-center justify-center"
           >
-            <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
-              <v-carousel>
+            <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2">
+              <v-carousel
+                hide-delimiters
+                class=""
+                height="320"
+                show-arrows="hover"
+              >
                 <NuxtLink :to="'/shop/product/'+item.id">
                   <v-carousel-item
                     v-for="(img, i) in item.images"
@@ -26,17 +31,20 @@
                     :src="img.src"
                     :lazy-src="img.src"
                     :alt="img.alt"
-                    cover
-                  />
+                  >
+                    <div class="p-3">
+                      <p
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        class="bg-surface text-secondary-darken-1 p-2 text-2xl float-right "
+                      >
+                        {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                      </p>
+                    <!-- <p>
+                      + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
+                    </p> -->
+                    </div>
+                  </v-carousel-item>
                 </NuxtLink>
-                <!-- <v-carousel-item
-                  v-for="(img, i) in item.images"
-                  :key="i"
-                  :src="img.src"
-                  :lazy-src="img.src"
-                  :alt="img.alt"
-                  cover
-                /> -->
               </v-carousel>
 
               <!-- Old method -->
@@ -48,7 +56,7 @@
               </NuxtLink> -->
               
               <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
-              <v-card class="bg-transparent">
+              <!-- <v-card class="bg-purple">
                 <p
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
@@ -58,9 +66,9 @@
                 <p>
                   + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                 </p>
-              </v-card>
+              </v-card> -->
 
-              <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
+              <v-card-title class="text-wrap max-width-full justify-center text-center align-center">
                 <p
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-wrap text-2xl"
@@ -77,7 +85,7 @@
                 </p>
               </v-card-subtitle>
               
-              <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
+              <div class="d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
                     v-if="item.variants.length>1"
