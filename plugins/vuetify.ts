@@ -15,6 +15,7 @@ const myCustomLightTheme = {
     secondary: '#8bc34a',
     'secondary-darken-1': '#5a9216',
     button: '#ffc266',
+    textfield: '#fdfde8',
   },
 }
 
