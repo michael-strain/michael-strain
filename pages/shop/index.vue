@@ -4,32 +4,32 @@
 
 <!-- NEW VERSION -->
 <template>
-  <!-- <div
-    class="bg-image bg-repeat"
+  <div
+    class="bg-image img-opacity-40 bg-repeat"
     style="background-image: url('../img/leaf-background-2.jpg')"
-  > -->
-  <div>
-    <div class="w-full p-0 m-0">
-      <ShopHeader />
-      <div class="flex flex-wrap items-center align-center justify-center">
-        <div 
-          v-if="loaded"
-          class="flex flex-wrap items-center align-center justify-center w-full"
-        >
-          <div
-            v-for="(item, product) in products"
-            :key="product"
-            class="flex items-center align-center justify-center"
+  >
+    <div class="opacity-none">
+      <div class="w-full p-0 m-0">
+        <ShopHeader />
+        <div class="flex flex-wrap items-center align-center justify-center">
+          <div 
+            v-if="loaded"
+            class="flex flex-wrap items-center align-center justify-center w-full"
           >
-            <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-445px ">
-              <v-carousel
-                height="320"
-                show-arrows="hover"
-                color="secondary-darken-1"
-                hide-delimiter-background
-                delimiter-icon="mdi-circle-slice-8"
-              >
-                <NuxtLink :to="'/shop/product/'+item.id">
+            <div
+              v-for="(item, product) in products"
+              :key="product"
+              class="flex items-center align-center justify-center"
+            >
+              <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-445px ">
+                <v-carousel
+                  height="320"
+                  show-arrows="hover"
+                  color="secondary-darken-1"
+                  hide-delimiter-background
+                  delimiter-icon="mdi-circle-slice-8"
+                >
+                  <!-- <NuxtLink :to="'/shop/product/'+item.id"> -->
                   <v-carousel-item
                     v-for="(img, i) in item.images"
                     :key="i"
@@ -50,24 +50,24 @@
                         {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
                         <v-icon :icon="heartIcon(item)" />
                       </p>
-                      <!-- <p>
+                    <!-- <p>
                       + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                     </p> -->
                     </v-btn>
                   </v-carousel-item>
-                </NuxtLink>
-              </v-carousel>
+                <!-- </NuxtLink> -->
+                </v-carousel>
 
-              <!-- Old method -->
-              <!-- <NuxtLink :to="`/shop/product/${item.id}`">
+                <!-- Old method -->
+                <!-- <NuxtLink :to="`/shop/product/${item.id}`">
                 <img
                   :src="item.images[item.imageNum].src"                  
                   class="h-64 mx-auto"
                 >
               </NuxtLink> -->
               
-              <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
-              <!-- <v-card class="bg-purple">
+                <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
+                <!-- <v-card class="bg-purple">
                 <p
                   :style="{fontFamily: 'Roboto Slab'}"
                   class="text-green-400 pr-4 pb-4 text-3xl float-right"
@@ -78,26 +78,44 @@
                   + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                 </p>
               </v-card> -->
-              <div class="h-100 justify-center text-center align-center">
-                <v-card-title class="text-wrap max-width-full ">
-                  <p
-                    :style="{fontFamily: 'Roboto Slab'}"
-                    class="text-2xl"
-                  >
-                    {{ item.title }}
-                  </p>
-                </v-card-title>
-                <v-card-subtitle class="pb-3 max-width-full">
-                  <p
-                    :style="{fontFamily: 'Roboto Slab'}"
-                    class="text-xl text-center "
-                  >
-                    <v-icon icon="mdi-chevron-left" />
-                    {{ item.variants[item.variantNum].title }}
-                    <v-icon icon="mdi-chevron-right" />
-                  </p>
-                </v-card-subtitle>
-              </div>
+                <div class="h-100 justify-center text-center align-center">
+                  <NuxtLink :to="'/shop/product/'+item.id">
+                    <v-card-title class="text-wrap max-width-full ">
+                      <p
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        class="text-2xl"
+                      >
+                        {{ item.title }}
+                      </p>
+                    </v-card-title>
+                  </NuxtLink>
+                  <v-card-subtitle class="pb-3 max-width-full">
+                    <p
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="text-xl text-center "
+                    >
+                      <!-- <v-icon icon="mdi-chevron-left" /> -->
+                      <v-btn
+                        v-if="item.variants.length>1"
+                        variant="text"
+                        icon
+                        @click="leftVariantArrow(item)"
+                      >
+                        <v-icon icon="mdi-chevron-left" />
+                      </v-btn>
+                      {{ item.variants[item.variantNum].title }}
+                      <!-- <v-icon icon="mdi-chevron-right" /> -->
+                      <v-btn
+                        v-if="item.variants.length>1"
+                        icon
+                        variant="text"
+                        @click="rightVariantArrow(item)"
+                      >
+                        <v-icon icon="mdi-chevron-right" />
+                      </v-btn>
+                    </p>
+                  </v-card-subtitle>
+                </div>
               
               
               <!-- <div class="d-flex items-center justify-center text-center align-center m-0">
@@ -134,13 +152,13 @@
                   </v-btn> -->
               <!-- </v-card-actions> -->
               <!-- </div> -->
-            </v-card>
+              </v-card>
+            </div> 
           </div> 
-        </div> 
+        </div>
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 
 
