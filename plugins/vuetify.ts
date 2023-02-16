@@ -2,22 +2,36 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-
-//YELLOW AND GREEN
+//Purple
 const myCustomLightTheme = {
   dark: false,
   colors: {
     background: '#FFFFFF',
-    surface: '#fbfbd0',
-    dimsurface: '#fff9c4',
+    surface: '#FFECEE',
     primary: '#cbc693',
     'primary-darken-1': '#bef67a',
     secondary: '#8bc34a',
-    'secondary-darken-1': '#5a9216',
-    button: '#ffc266',
+    'secondary-darken-1': '#4C1973',
+    button: '#4C1973',
     textfield: '#fdfde8',
   },
 }
+
+//YELLOW AND GREEN
+// const myCustomLightTheme = {
+//   dark: false,
+//   colors: {
+//     background: '#FFFFFF',
+//     surface: '#fbfbd0',
+//     dimsurface: '#fff9c4',
+//     primary: '#cbc693',
+//     'primary-darken-1': '#bef67a',
+//     secondary: '#8bc34a',
+//     'secondary-darken-1': '#5a9216',
+//     button: '#ffc266',
+//     textfield: '#fdfde8',
+//   },
+// }
 
 //ORIGINAL
 // const myCustomLightTheme = {

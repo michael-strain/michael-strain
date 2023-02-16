@@ -1,12 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<!-- MAJOR REVISION TIME -->
 
 
-<!-- NEW VERSION -->
 <template>
   <div
     class="bg-image img-opacity-40 bg-repeat"
-    style="background-image: url('../img/leaf-background-2.jpg')"
+    style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <div class="opacity-none">
       <div class="w-full p-0 m-0">
@@ -29,7 +27,6 @@
                   hide-delimiter-background
                   delimiter-icon="mdi-circle-slice-8"
                 >
-                  <!-- <NuxtLink :to="'/shop/product/'+item.id"> -->
                   <v-carousel-item
                     v-for="(img, i) in item.images"
                     :key="i"
@@ -55,29 +52,8 @@
                     </p> -->
                     </v-btn>
                   </v-carousel-item>
-                <!-- </NuxtLink> -->
                 </v-carousel>
-
-                <!-- Old method -->
-                <!-- <NuxtLink :to="`/shop/product/${item.id}`">
-                <img
-                  :src="item.images[item.imageNum].src"                  
-                  class="h-64 mx-auto"
-                >
-              </NuxtLink> -->
               
-                <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
-                <!-- <v-card class="bg-purple">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-green-400 pr-4 pb-4 text-3xl float-right"
-                >
-                  {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
-                </p>
-                <p>
-                  + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
-                </p>
-              </v-card> -->
                 <div class="h-100 justify-center text-center align-center">
                   <NuxtLink :to="'/shop/product/'+item.id">
                     <v-card-title class="text-wrap max-width-full ">
@@ -94,7 +70,6 @@
                       :style="{fontFamily: 'Roboto Slab'}"
                       class="text-xl text-center "
                     >
-                      <!-- <v-icon icon="mdi-chevron-left" /> -->
                       <v-btn
                         v-if="item.variants.length>1"
                         variant="text"
@@ -104,7 +79,6 @@
                         <v-icon icon="mdi-chevron-left" />
                       </v-btn>
                       {{ item.variants[item.variantNum].title }}
-                      <!-- <v-icon icon="mdi-chevron-right" /> -->
                       <v-btn
                         v-if="item.variants.length>1"
                         icon
@@ -118,16 +92,6 @@
                 </div>
               
               
-              <!-- <div class="d-flex items-center justify-center text-center align-center m-0">
-                <v-card-actions>
-                  <v-btn
-                    v-if="item.variants.length>1"
-                    icon
-                    @click="leftVariantArrow(item)"
-                  >
-                    <v-icon icon="mdi-chevron-left" />
-                  </v-btn> -->
-
               <!-- <v-btn
                     icon
                     transition="fade-transition"
@@ -143,15 +107,16 @@
                       icon="mdi-cards-heart-outline"
                     /> -->
               <!-- </v-btn> -->
-              <!-- <v-btn
-                    v-if="item.variants.length>1"
-                    icon
-                    @click="rightVariantArrow(item)"
-                  >
-                    <v-icon icon="mdi-chevron-right" />
-                  </v-btn> -->
               <!-- </v-card-actions> -->
-              <!-- </div> -->
+
+              
+                <!-- Old method -->
+                <!-- <NuxtLink :to="`/shop/product/${item.id}`">
+                <img
+                  :src="item.images[item.imageNum].src"                  
+                  class="h-64 mx-auto"
+                >
+              </NuxtLink> -->
               </v-card>
             </div> 
           </div> 

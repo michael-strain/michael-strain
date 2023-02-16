@@ -2,7 +2,7 @@
 <template>
   <div
     class="bg-image bg-repeat"
-    style="background-image: url('../img/leaf-background-2.jpg')"
+    style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <!-- <v-img src="../img/leaf-background.jpg" /> -->
     <div class="">
@@ -53,7 +53,7 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl my-5"
+                  class="justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
                   :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Shipping Address
@@ -276,7 +276,7 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl mt-5 mb-10"
+                  class="justify-center text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
                   :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
                 >
                   Payment Information
