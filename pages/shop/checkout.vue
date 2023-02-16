@@ -21,8 +21,8 @@
             <v-container class="fill-height text-center flex align-center justify-center">
               <div class="">
                 <h3
-                  class="font-bold text-white text-5xl my-5 fill-height text-center flex align-item-center justify-center"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 5px purple'}">
+                  class="font-bold text-secondary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
+                  :style="{fontFamily: 'Roboto Slab'}">
                   Your cart is empty.
                 </h3>
                 <v-btn
@@ -58,8 +58,8 @@
             >
               <v-container class="">
                 <h3
-                  class="text-white justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 3px purple'}">
+                  class="text-secondary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
+                  :style="{fontFamily: 'Roboto Slab'}">
                   Shipping Address
                 </h3>
                 <!-- <h4
@@ -231,21 +231,6 @@
                     sm=""
                     class=""
                   >
-                    <!-- <v-btn
-                      size="large"
-                      variant=""
-                      color="#ffc266"
-                      class="bg-red fill-height m-10"
-                    >
-                      <NuxtLink
-                        to="/shop"
-                        class="lg:text-2xl text-xl text-wrap"
-                      >
-                        Visit the <b>shop</b> page.<br>Find something you love.
-                      </NuxtLink>
-                    </v-btn> -->
-
-
                     <v-btn
                       size="large"
                       variant="flat"
@@ -280,8 +265,8 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-white text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 3px purple'}">
+                  class="justify-center text-secondary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
+                  :style="{fontFamily: 'Roboto Slab'}">
                 
                   Payment Information
                 </h3>
