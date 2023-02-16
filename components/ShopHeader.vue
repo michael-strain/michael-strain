@@ -1,16 +1,16 @@
 <template>
   <NuxtLink to="/shop">
     <h3
-      class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
-      :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+      class="pt-10 text-black justify-center text-center align-center font-bold text-6xl mb-10"
+      :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(139, 195, 74)'}"
     >
-      SHOP
+      L.S.DOPE
     </h3>
   </NuxtLink>
   
   <!--Quick Links-->
   <ul
-    class="text-green-400 m-5 text-lg flex flex-wrap justify-center text-center align-center text-lg"
+    class="text-secondary m-5 flex flex-wrap justify-center text-center align-center text-lg"
     :style="{fontFamily: 'Roboto Slab'}"
   >
     <li class="m-3 hover:text-green-600">
