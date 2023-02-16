@@ -4,6 +4,10 @@
 
 <!-- NEW VERSION -->
 <template>
+  <!-- <div
+    class="bg-image bg-repeat"
+    style="background-image: url('../img/leaf-background-2.jpg')"
+  > -->
   <div>
     <div class="w-full p-0 m-0">
       <ShopHeader />
@@ -17,12 +21,13 @@
             :key="product"
             class="flex items-center align-center justify-center"
           >
-            <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2">
+            <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-445px ">
               <v-carousel
-                hide-delimiters
-                class=""
                 height="320"
                 show-arrows="hover"
+                color="secondary-darken-1"
+                hide-delimiter-background
+                delimiter-icon="mdi-circle-slice-8"
               >
                 <NuxtLink :to="'/shop/product/'+item.id">
                   <v-carousel-item
@@ -32,17 +37,23 @@
                     :lazy-src="img.src"
                     :alt="img.alt"
                   >
-                    <div class="p-3">
+                    <v-btn
+                      rounded
+                      class="h-auto w-30 m-2 float-right"
+                      transition="fade-transition"
+                      @click="heartClick(item, item.variants[item.variantNum])"
+                    >
                       <p
                         :style="{fontFamily: 'Roboto Slab'}"
-                        class="bg-surface text-secondary-darken-1 p-2 text-2xl float-right "
+                        class="text-secondary-darken-1 p-2 text-xl float-right "
                       >
                         {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                        <v-icon :icon="heartIcon(item)" />
                       </p>
-                    <!-- <p>
+                      <!-- <p>
                       + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                     </p> -->
-                    </div>
+                    </v-btn>
                   </v-carousel-item>
                 </NuxtLink>
               </v-carousel>
@@ -67,25 +78,29 @@
                   + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                 </p>
               </v-card> -->
-
-              <v-card-title class="text-wrap max-width-full justify-center text-center align-center">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-wrap text-2xl"
-                >
-                  {{ item.title }}
-                </p>
-              </v-card-title>
-              <v-card-subtitle class="text-wrap max-width-full justify-center text-center align-center">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-wrap text-xl text-center"
-                >
-                  {{ item.variants[item.variantNum].title }}
-                </p>
-              </v-card-subtitle>
+              <div class="h-100 justify-center text-center align-center">
+                <v-card-title class="text-wrap max-width-full ">
+                  <p
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-2xl"
+                  >
+                    {{ item.title }}
+                  </p>
+                </v-card-title>
+                <v-card-subtitle class="pb-3 max-width-full">
+                  <p
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-xl text-center "
+                  >
+                    <v-icon icon="mdi-chevron-left" />
+                    {{ item.variants[item.variantNum].title }}
+                    <v-icon icon="mdi-chevron-right" />
+                  </p>
+                </v-card-subtitle>
+              </div>
               
-              <div class="d-flex items-center justify-center text-center align-center m-0">
+              
+              <!-- <div class="d-flex items-center justify-center text-center align-center m-0">
                 <v-card-actions>
                   <v-btn
                     v-if="item.variants.length>1"
@@ -93,15 +108,15 @@
                     @click="leftVariantArrow(item)"
                   >
                     <v-icon icon="mdi-chevron-left" />
-                  </v-btn>
+                  </v-btn> -->
 
-                  <v-btn
+              <!-- <v-btn
                     icon
                     transition="fade-transition"
                     @click="heartClick(item, item.variants[item.variantNum])"
                   >
-                    <v-icon :icon="heartIcon(item)" />
-                    <!-- <v-icon
+                    <v-icon :icon="heartIcon(item)" /> -->
+              <!-- <v-icon
                       v-if="item.qty>0"
                       icon="mdi-cards-heart"
                     />
@@ -109,22 +124,23 @@
                       v-else
                       icon="mdi-cards-heart-outline"
                     /> -->
-                  </v-btn>
-                  <v-btn
+              <!-- </v-btn> -->
+              <!-- <v-btn
                     v-if="item.variants.length>1"
                     icon
                     @click="rightVariantArrow(item)"
                   >
                     <v-icon icon="mdi-chevron-right" />
-                  </v-btn>
-                </v-card-actions>
-              </div>
+                  </v-btn> -->
+              <!-- </v-card-actions> -->
+              <!-- </div> -->
             </v-card>
           </div> 
         </div> 
       </div>
     </div>
   </div>
+  <!-- </div> -->
 </template>
 
 
@@ -304,7 +320,7 @@
       for (let j = 0; j < countryList.length; j++) {
         if (countryList[j] == user.userData[0].country) {
           sProfile = variant.shippingProfile[i]
-          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100
           // console.log("variant.cost: " + variant.cost)
           // console.log("sProfile.first_item.cost: " + sProfile.first_item.cost)
           // console.log("additional item cost: " + sProfile.additional_items.cost)
