@@ -1,15 +1,15 @@
 <template>
   <NuxtLink to="/shop">
     <h3
-      class="pt-10 text-black justify-center text-center align-center font-bold text-6xl mb-10"
-      :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(139, 195, 74)'}"
+      class="pt-10 text-white justify-center text-center align-center font-bold text-6xl"
+      :style="{fontFamily: 'Roboto Slab', textShadow: '2px 4px 2px purple, 0px 0px 10px black'}"
     >
       L.S.DOPE
     </h3>
   </NuxtLink>
   
   <!--Quick Links-->
-  <ul
+  <!-- <ul
     class="text-secondary m-5 flex flex-wrap justify-center text-center align-center text-lg"
     :style="{fontFamily: 'Roboto Slab'}"
   >
@@ -33,5 +33,5 @@
         ALL
       </NuxtLink>
     </li>
-  </ul>
+  </ul> -->
 </template>

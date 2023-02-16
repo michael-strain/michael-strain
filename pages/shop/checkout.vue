@@ -1,41 +1,46 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
-    class="bg-image bg-repeat"
+    class="bg-image bg-repeat align-items-center align-middle items-center h-full"
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
+    <ShopHeader />
     <!-- <v-img src="../img/leaf-background.jpg" /> -->
-    <div class="">
+    <div class="h-full">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
-        class="flex align-center justify-center h-screen"
-      >
+        class="grid h-full place-items-center pb-40"
+      > 
+        <!-- Old v-if cart null div class -->
+        <!-- class="flex align-items-center justify-center" -->
         <v-card
-          class="w-1/2 <lg:w-3/4 mt-10 h-2/3 "
+          class="w-1/2 <lg:w-3/4"
         >
-          <v-container class="fill-height text-center align-center justify-center">
-            <div class="">
-              <h3
-                class="font-bold lg:text-5xl text-4xl my-5"
-                :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-              >
-                Your cart is empty.
-              </h3>
-              <v-btn
-                size="large"
-                variant="flat"
-                color="button"
-                class="fill-height m-10"
-              >
-                <NuxtLink
-                  to="/shop"
-                  class="lg:text-2xl text-xl text-wrap m-5"
+          <!--SAFE TO EDIT-->
+          <div>
+            <v-container class="fill-height text-center flex align-center justify-center">
+              <div class="">
+                <h3
+                  class="font-bold text-white text-5xl my-5 fill-height text-center flex align-item-center justify-center"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 5px purple'}">
+                  Your cart is empty.
+                </h3>
+                <v-btn
+                  size="large"
+                  variant="flat"
+                  color="button"
+                  class="fill-height m-10"
                 >
-                  Visit the <b>shop</b> page.<br>Find something you love.
-                </NuxtLink>
-              </v-btn>
-            </div>
-          </v-container>
+                  <NuxtLink
+                    to="/shop"
+                    class="lg:text-2xl text-xl text-wrap m-5"
+                  >
+                    Visit the <b>shop</b> page.<br>Find something you love.
+                  </NuxtLink>
+                </v-btn>
+              </div>
+            </v-container>
+          </div>
         </v-card>
       </div>
       <div v-else>
@@ -53,9 +58,8 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-                >
+                  class="text-white justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 3px purple'}">
                   Shipping Address
                 </h3>
                 <!-- <h4
@@ -276,9 +280,9 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-                >
+                  class="justify-center text-white text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
+                  :style="{fontFamily: 'Roboto Slab', textShadow: '1px 2px 1px purple, 0px 0px 3px purple'}">
+                
                   Payment Information
                 </h3>
                 <v-row class="pt-5 ">

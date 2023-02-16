@@ -6,9 +6,15 @@
     class="bg-image img-opacity-40 bg-repeat"
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
-    <div class="opacity-none">
-      <div class="w-full p-0 m-0">
+    <div class="">
+      <div class="">
         <ShopHeader />
+        <p
+          class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
+        >
+        Welcome to L.S.Dope. All of the art you see here was created by small, independent artists.
+        </p>
         <div class="flex flex-wrap items-center align-center justify-center">
           <div 
             v-if="loaded"
