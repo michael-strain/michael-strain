@@ -223,24 +223,21 @@
         variant.inCart = false
         cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id), 1)
         item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-        //Set item variable to include new variant
         store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
       } else {
         variant.cartQty = 1
         variant.inCart = true
         item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-        //Set item variable to include new variant
         store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-        cart.cartData[cart.cartData.length] = item
+        cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)]=item)
       }
-    }
-    else{
+    } else {
       variant.cartQty=1
       variant.inCart = true
       item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
       //Set item variable to include new variant
       store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-      cart.cartData[cart.cartData.length] = item
+      cart.cartData[cart.cartData.length] = item //should be ok since this is the first item in the cart
     }
 
     // heart.value(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants.map((x)=>{return x.id}).indexOf(variant.id)])
