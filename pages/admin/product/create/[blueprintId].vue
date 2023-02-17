@@ -54,11 +54,10 @@
           >
             <v-text-field
               label="Blueprint ID"
-              placeholder="Blueprint ID"
               variant="outlined"
               class=""
             >
-              {{ blueprintId }}
+              {{ blueprint.id }}
             </v-text-field>
           </v-col>
         </v-row>
@@ -70,9 +69,9 @@
             sm=""
             class=""
           >
-            <v-combobox
+            <!-- <v-combobox
               v-model="select"
-              :items="items"
+              :items=""
               label="Tags"
               clearable
               multiple
@@ -80,6 +79,12 @@
               variant="outlined"
               chips
               transition="scale-transition"
+            /> -->
+            <v-text-field
+              label="Tags"
+              placeholder="Tags"
+              variant="outlined"
+              class=""
             />
           </v-col>
           <v-col
@@ -87,7 +92,24 @@
             sm=""
             class=""
           >
-            <v-combobox
+            <v-text-field
+              label="Print Provider"
+              placeholder="Print Provider"
+              variant="outlined"
+              class=""
+            >
+              {{ blueprint.variants[blueprint.variantNum].printProvider.title }} (ID: {{ blueprint.variants[blueprint.variantNum].printProvider.id }})
+            </v-text-field>
+            <v-text-field
+              label="Variant"
+              placeholder="Variant"
+              variant="outlined"
+              class=""
+            >
+              {{ blueprint.variants[blueprint.variantNum].title }} (ID: {{ blueprint.variants[blueprint.variantNum].id }})
+            </v-text-field>
+            <!-- Not a combobox like we initially thought-->
+            <!-- <v-combobox
               v-model="select"
               :items="items"
               label="Print Provider"
@@ -97,7 +119,9 @@
               variant="outlined"
               chips
               transition="scale-transition"
-            />
+            >
+              {{ blueprint.printProvider.title }} & {{ blueprint.printProvider.id }}
+            </v-combobox> -->
           </v-col>
           <v-col
             cols="12"
@@ -172,10 +196,26 @@
             sm=""
           >
             <v-text-field
-              label="Shipping Cost"
-              placeholder="Shipping Cost"
+              label="Shipping First Item Cost"
+              placeholder="Shipping First Item Cost"
               variant="outlined"
-            />
+            >
+              <!-- This should probably show the full list of shipping profiles -->
+              {{ blueprint.variants[blueprint.variantNum].shippingProfiles[0].first_item.cost }}
+            </v-text-field>
+          </v-col>
+          <v-col
+            cols="12"
+            sm=""
+          >
+            <v-text-field
+              label="Shipping Additional Items Cost"
+              placeholder="Shipping Additional Items Cost"
+              variant="outlined"
+            >
+              <!-- This should probably show the full list of shipping profiles -->
+              {{ blueprint.variants[blueprint.variantNum].shippingProfiles[0].additional_items.cost }}
+            </v-text-field>
           </v-col>
           <v-col
             cols="12"
@@ -306,7 +346,7 @@
                 Tags
               </div>
               <v-item
-                v-for="n in 8"
+                v-for="n in blueprint.tags.length"
                 :key="n"
                 v-slot="{ selectedClass, toggle }"
               >
@@ -314,7 +354,7 @@
                   :class="selectedClass"
                   @click="toggle"
                 >
-                  Tag {{ n }}
+                  Tag {{ blueprint.tag[n] }}
                 </v-chip>
               </v-item>
             </v-item-group>
@@ -474,6 +514,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useBlueprintDataStore } from '~/stores/blueprintData';
+
+const blueprint = ref({})
 const route = useRoute()
 const blueprintId = ref()
 const select = ref([])
@@ -484,6 +527,8 @@ const items = ref([
   'Vuetify',
 ])
 
+const store = useBlueprintDataStore()
+
 // We could update this to true to print blueprint and print provider info after they are successfully fetched.
 const doWeNeedDetails = ref(false)
 
@@ -491,6 +536,9 @@ const doWeNeedDetails = ref(false)
 onMounted(async() => {
   if (route.params.blueprintId) {
     blueprintId.value = route.params.blueprintId
+    //get index of blueprint
+    const blueprintIndex = store.blueprintData.findIndex((element, index, array) => element.id === parseInt(blueprintId.value))
+    blueprint.value = store.blueprintData[blueprintIndex]
   }
 })
 
@@ -511,14 +559,17 @@ onMounted(async() => {
 // TODO
 // on blueprintId.value change, fetch the appropriate print-provider and product info
 
-watch(blueprintId, async (newVal, oldVal) => {
-  if (newVal) {
-    // fetch blueprint info
-    // fetch print-provider info
-    // fetch product info
-    console.log(newVal)
-  }
-})
+// watch(blueprintId, async (newVal, oldVal) => {
+//   if (newVal) {
+//     // fetch blueprint info
+//     // fetch print-provider info
+//     // fetch product info
+//     //get index of blueprint
+//     const blueprintIndex = store.blueprintData.findIndex((blueprint) => blueprint.id === newVal)
+//     blueprint.value = store.blueprintData[blueprintIndex]
+//     console.log(newVal)
+//   }
+// })
 
 </script>
 

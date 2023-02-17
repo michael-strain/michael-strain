@@ -1,3 +1,16 @@
+Thoughts 2/16/23
+----------------
+-Need to add a way to remove items from the cart (Suggested by CoPilot)
+-Need to figure out how to either stream or paginate blueprint data (Suggested by CoPilot)
+-Need to output blueprint variant and pricing data to csv for analysis
+-Need to keep a history of previously fetched pricing data in order to setup price change alerts
+
+Thoughts 2/13/23
+----------------
+-We could really use an updated logo, favicon, and home button
+-Need to add a way to remove items from the cart
+-Need to figure out how to either stream or paginate blueprint data
+
 Thoughts 2/11/23
 ----------------
 -The app may be causing explosive bloat in my system Cache (Linux Ubuntu system, cleaned 670.89GB from system cache)

@@ -13,7 +13,7 @@
           class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
           :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
         >
-        Welcome to L.S.Dope. All of the art you see here was created by small, independent artists.
+          Welcome to L.S.Dope. All of the art you see here was created by small, independent artists.
         </p>
         <div class="flex flex-wrap items-center align-center justify-center">
           <div 
@@ -51,7 +51,9 @@
                         class="text-secondary-darken-1 p-2 text-xl float-right "
                       >
                         {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
-                        <v-icon :icon="heartIcon(item)" />
+                        <v-icon
+                          :icon="heart(item.variants[item.variantNum])"
+                        />
                       </p>
                     <!-- <p>
                       + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
@@ -141,6 +143,15 @@
   import { useUserDataStore } from '~/stores/userData';
   import { storeToRefs } from 'pinia'
 
+  const heart = ref((variant)=> {
+    if (variant.cartQty>0){
+      return "mdi-cards-heart"
+    }
+    else{
+      return "mdi-cards-heart-outline"
+    }
+  })
+
   const products = ref([])
   // const cartProducts = reactive([])
   const loaded = ref(false)
@@ -188,45 +199,63 @@
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
-  function heartIcon(item){
-    const store = useProductDataStore()
-    if(products.value[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[item.variantNum].cartQty>0){
-      return "mdi-cards-heart"
-    }
-    else{
-      return "mdi-cards-heart-outline"
-    }
-  }
+  // function heartIcon(item){
+  //   if (item.cartQty>0){
+  //     return "mdi-cards-heart"
+  //   }
+  //   else{
+  //     return "mdi-cards-heart-outline"
+  //   }
+  // }
 
   function heartClick(item, variant){ 
     const cart = useCartDataStore()
     const store = useProductDataStore()
-    let itemInCart = false
 
-    variant.cartQty++
-    variant.inCart = true
-    // item.variants[item.variantNum] = variant
-    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+    // console.log(item)
+    // console.log(variant)
 
-    //if an item is already in the cart, patch the item with variant data
-    for (let i = 0; i < cart.cartData.length ; i++){
-      if (item.id == cart.cartData[i].id){
-        console.log("This item is already in the cart.  Updating it.")
-        cart.$patch( cart.cartData[i] = item )
-        store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-        itemInCart = true
-      }
-    }
 
-    if (!itemInCart){
-      if (cart.cartData.length){
-        cart.$patch(cart.cartData[cart.cartData.length] = item)
+    //Check the cart specifically if this variant has cartQty>0
+    if (cart.cartData.length>0){
+      if (variant.cartQty>0){
+        variant.cartQty = 0
+        variant.inCart = false
+        cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id), 1)
+        item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
         store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
       } else {
-        cart.$patch(cart.cartData[0]=item)
-        store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+        variant.cartQty = 1
+        variant.inCart = true
+        item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+        cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)]=item)
       }
+    } else {
+      variant.cartQty=1
+      variant.inCart = true
+      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+      //Set item variable to include new variant
+      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+      cart.cartData[cart.cartData.length] = item //should be ok since this is the first item in the cart
     }
+
+    // heart.value(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants.map((x)=>{return x.id}).indexOf(variant.id)])
+    // item.variants[item.variantNum] = variant
+    
+
+    //This shouldn't ever happen now since we are using heart click as a toggle instead of an incrementer
+    //if an item is already in the cart, patch the item with variant data
+    // let itemInCart = false
+    // for (let i = 0; i < cart.cartData.length ; i++){
+    //   if (item.id == cart.cartData[i].id){
+    //     console.log("This item is already in the cart.  Updating it.")
+    //     cart.$patch( cart.cartData[i] = item )
+    //     store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+    //     itemInCart = true
+    //   }
+    // }
+
   
 
     // cart.$patch({ cartData: [...cart.cartData, item] }) //Does this work?  It was suggested by CoPilot - who says it was suggested by the Vue & Pinia docs
@@ -295,6 +324,9 @@
   //   return price
   // }
   
+
+
+  // THIS FUNCTION
   const itemPrice = function(variant) {
     // const cart = useCartDataStore()
     const user = useUserDataStore()
@@ -310,7 +342,7 @@
       for (let j = 0; j < countryList.length; j++) {
         if (countryList[j] == user.userData[0].country) {
           sProfile = variant.shippingProfile[i]
-          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100
+          variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
           // console.log("variant.cost: " + variant.cost)
           // console.log("sProfile.first_item.cost: " + sProfile.first_item.cost)
           // console.log("additional item cost: " + sProfile.additional_items.cost)
@@ -337,7 +369,7 @@
         for (let j=0; variant.shippingProfile[i].countries.length; j++){
           if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
             sProfile = variant.shippingProfile[i]
-            variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+            Math.ceil(variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
             // console.log("Shipping Profile: " + sProfile)
           }
         }
