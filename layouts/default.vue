@@ -389,6 +389,8 @@
     const store = useProductDataStore()
     store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
     
+    // itemTotal()
+    // shipTotal()
   }
 
   function increaseCartItemQty(item, variant) {
@@ -403,6 +405,9 @@
     // May as well try :D
     const store = useProductDataStore()
     store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+
+    // itemTotal()
+    // shipTotal()
     
   }
 
@@ -1036,7 +1041,7 @@ const itemPrice = function(variant) {
       // console.log(variant.shippingProfile[i].countries[j])
       if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
         sProfile = variant.shippingProfile[i]
-        variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+        variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
         cart.$patch(variant.id, {itemCost: variant.itemCost})
         return variant.itemCost
         // console.log("Shipping Profile: " + sProfile)
@@ -1047,7 +1052,7 @@ const itemPrice = function(variant) {
     for (let i=0; variant.shippingProfile.length; i++) {
       if (variant.shippingProfile[i].countries.includes("REST_OF_THE_WORLD")) {
         sProfile = variant.shippingProfile[i]
-        variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+        variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
         cart.$patch(variant.id, {itemCost: variant.itemCost})
         return variant.itemCost
         // console.log("Shipping Profile: " + sProfile)
@@ -1055,7 +1060,7 @@ const itemPrice = function(variant) {
     }
   }
   // console.log(sProfile)
-  variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+  variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
   cart.$patch(variant.id, {itemCost: variant.itemCost})
   return variant.itemCost
   //   let firstItemCost = variant.shippingProfile[].first_item.cost
@@ -1122,7 +1127,10 @@ const itemPrice = function(variant) {
         total += (itemPrice(cartProducts.value[i].variants[j]) * cartProducts.value[i].variants[j].cartQty)
       }
     }
-    console.log("Items Total Price: " + total)
+
+    total = Math.ceil(total)
+
+    // console.log("Items Total Price: " + total)
     return total
   }))
 
@@ -1153,7 +1161,7 @@ const itemPrice = function(variant) {
     for (let i=0; i<cartProducts.value.length; i++){
       for (let j=0; j<cartProducts.value[i].variants.length; j++){
         if (cartProducts.value[i].variants[j].inCart){
-          total += itemShippingPrice(cartProducts.value[i].variants[j])
+          total += itemShippingPrice(cartProducts.value[i].variants[j]) * cartProducts.value[i].variants[j].cartQty
         }
       }
     }
