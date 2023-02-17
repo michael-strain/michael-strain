@@ -216,9 +216,9 @@
     // console.log(variant)
 
 
-    //Check the cart specifically if variant has cartQty>0
+    //Check the cart specifically if this variant has cartQty>0
     if (cart.cartData.length>0){
-      if (cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)].variants[cart.cartData[cart.cartData.map((y)=>{return y.id}).indexOf(item.id)].variants.map((z)=>{return z.id}).indexOf(variant.id)].cartQty>0){
+      if (variant.cartQty>0){
         variant.cartQty = 0
         variant.inCart = false
         cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id), 1)
