@@ -68,23 +68,6 @@ const myCustomDarkTheme = {
   }
 }
 
-//Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
-
-//PINK AND PURPLE
-// const myCustomLightTheme = {
-//   dark: false,
-//   colors: {
-//     background: '#FEDBD0',
-//     surface: '#D9B8B0',
-//     primary: '#B4958F',
-//     'primary-darken-1': '8E726F',
-//     secondary: '#694F4E',
-//     'secondary-darken-1': '#442C2E',
-//   },
-// }
-
-
-
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
     components,
