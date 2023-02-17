@@ -236,6 +236,8 @@
         </v-col>
       </v-row>
     </v-container> -->
+    <ShopFooter />
+
 </template>
 
 

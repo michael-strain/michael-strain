@@ -468,6 +468,8 @@
       </div>
     </div>
   </div>
+  <ShopFooter />
+
 </template>
 
 <script setup>

@@ -7,7 +7,7 @@ Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
 
 <template>
   <div
-    class="bg-image bg-repeat h-screen"
+    class="bg-image bg-repeat h-fill"
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
@@ -33,6 +33,7 @@ Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
       </v-card>
     </div>
   </div>
+  <ShopFooter />
 </template>
 
 <script setup>
