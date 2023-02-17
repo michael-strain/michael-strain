@@ -242,7 +242,6 @@
       <!-- Content! -->
       <slot />
     </v-main>
-    <TheFooter />
   </v-app>
 </template>
 

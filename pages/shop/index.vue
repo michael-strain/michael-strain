@@ -1,99 +1,110 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<!-- MAJOR REVISION TIME -->
 
 
-<!-- NEW VERSION -->
 <template>
-  <div>
-    <div class="w-full p-0 m-0">
-      <ShopHeader />
-      <div class="flex flex-wrap items-center align-center justify-center">
-        <div 
-          v-if="loaded"
-          class="flex flex-wrap items-center align-center justify-center w-full"
+  <div
+    class="bg-image img-opacity-40 bg-repeat"
+    style="background-image: url('../img/purple-mushroom.jpg')"
+  >
+    <div class="">
+      <div class="">
+        <ShopHeader />
+        <p
+          class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
         >
-          <div
-            v-for="(item, product) in products"
-            :key="product"
-            class="flex items-center align-center justify-center"
+        Welcome to L.S.Dope. All of the art you see here was created by small, independent artists.
+        </p>
+        <div class="flex flex-wrap items-center align-center justify-center">
+          <div 
+            v-if="loaded"
+            class="flex flex-wrap items-center align-center justify-center w-full"
           >
-            <v-card class="bg-white w-80 text-wrap rounded-xl border flex m-5 p-2">
-              <v-carousel>
-                <NuxtLink :to="'/shop/product/'+item.id">
+            <div
+              v-for="(item, product) in products"
+              :key="product"
+              class="flex items-center align-center justify-center"
+            >
+              <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-445px ">
+                <v-carousel
+                  height="320"
+                  show-arrows="hover"
+                  color="secondary-darken-1"
+                  hide-delimiter-background
+                  delimiter-icon="mdi-circle-slice-8"
+                >
                   <v-carousel-item
                     v-for="(img, i) in item.images"
                     :key="i"
                     :src="img.src"
                     :lazy-src="img.src"
                     :alt="img.alt"
-                    cover
-                  />
-                </NuxtLink>
-                <!-- <v-carousel-item
-                  v-for="(img, i) in item.images"
-                  :key="i"
-                  :src="img.src"
-                  :lazy-src="img.src"
-                  :alt="img.alt"
-                  cover
-                /> -->
-              </v-carousel>
-
-              <!-- Old method -->
-              <!-- <NuxtLink :to="`/shop/product/${item.id}`">
-                <img
-                  :src="item.images[item.imageNum].src"                  
-                  class="h-64 mx-auto"
-                >
-              </NuxtLink> -->
-              
-              <!-- These should each individually 'shimmer' on scroll from top to bottom left to right -->
-              <v-card class="bg-transparent">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-green-400 pr-4 pb-4 text-3xl float-right"
-                >
-                  {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
-                </p>
-                <p>
-                  + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
-                </p>
-              </v-card>
-
-              <v-card-title class="bg-surface text-wrap max-width-full justify-center text-center align-center">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-wrap text-2xl"
-                >
-                  {{ item.title }}
-                </p>
-              </v-card-title>
-              <v-card-subtitle class="text-wrap max-width-full justify-center text-center align-center">
-                <p
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-wrap text-xl text-center"
-                >
-                  {{ item.variants[item.variantNum].title }}
-                </p>
-              </v-card-subtitle>
-              
-              <div class="bg-surface d-flex items-center justify-center text-center align-center m-0">
-                <v-card-actions>
-                  <v-btn
-                    v-if="item.variants.length>1"
-                    icon
-                    @click="leftVariantArrow(item)"
                   >
-                    <v-icon icon="mdi-chevron-left" />
-                  </v-btn>
-
-                  <v-btn
+                    <v-btn
+                      rounded
+                      class="h-auto w-30 m-2 float-right"
+                      transition="fade-transition"
+                      @click="heartClick(item, item.variants[item.variantNum])"
+                    >
+                      <p
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        class="text-secondary-darken-1 p-2 text-xl float-right "
+                      >
+                        {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                        <v-icon :icon="heartIcon(item)" />
+                      </p>
+                    <!-- <p>
+                      + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
+                    </p> -->
+                    </v-btn>
+                  </v-carousel-item>
+                </v-carousel>
+              
+                <div class="h-100 justify-center text-center align-center">
+                  <NuxtLink :to="'/shop/product/'+item.id">
+                    <v-card-title class="text-wrap max-width-full ">
+                      <p
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        class="text-2xl"
+                      >
+                        {{ item.title }}
+                      </p>
+                    </v-card-title>
+                  </NuxtLink>
+                  <v-card-subtitle class="pb-3 max-width-full">
+                    <p
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="text-xl text-center "
+                    >
+                      <v-btn
+                        v-if="item.variants.length>1"
+                        variant="text"
+                        icon
+                        @click="leftVariantArrow(item)"
+                      >
+                        <v-icon icon="mdi-chevron-left" />
+                      </v-btn>
+                      {{ item.variants[item.variantNum].title }}
+                      <v-btn
+                        v-if="item.variants.length>1"
+                        icon
+                        variant="text"
+                        @click="rightVariantArrow(item)"
+                      >
+                        <v-icon icon="mdi-chevron-right" />
+                      </v-btn>
+                    </p>
+                  </v-card-subtitle>
+                </div>
+              
+              
+              <!-- <v-btn
                     icon
                     transition="fade-transition"
                     @click="heartClick(item, item.variants[item.variantNum])"
                   >
-                    <v-icon :icon="heartIcon(item)" />
-                    <!-- <v-icon
+                    <v-icon :icon="heartIcon(item)" /> -->
+              <!-- <v-icon
                       v-if="item.qty>0"
                       icon="mdi-cards-heart"
                     />
@@ -101,22 +112,25 @@
                       v-else
                       icon="mdi-cards-heart-outline"
                     /> -->
-                  </v-btn>
-                  <v-btn
-                    v-if="item.variants.length>1"
-                    icon
-                    @click="rightVariantArrow(item)"
-                  >
-                    <v-icon icon="mdi-chevron-right" />
-                  </v-btn>
-                </v-card-actions>
-              </div>
-            </v-card>
+              <!-- </v-btn> -->
+              <!-- </v-card-actions> -->
+
+              
+                <!-- Old method -->
+                <!-- <NuxtLink :to="`/shop/product/${item.id}`">
+                <img
+                  :src="item.images[item.imageNum].src"                  
+                  class="h-64 mx-auto"
+                >
+              </NuxtLink> -->
+              </v-card>
+            </div> 
           </div> 
-        </div> 
+        </div>
       </div>
     </div>
   </div>
+  <ShopFooter />
 </template>
 
 
@@ -296,7 +310,7 @@
       for (let j = 0; j < countryList.length; j++) {
         if (countryList[j] == user.userData[0].country) {
           sProfile = variant.shippingProfile[i]
-          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.25) + 100
+          variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100
           // console.log("variant.cost: " + variant.cost)
           // console.log("sProfile.first_item.cost: " + sProfile.first_item.cost)
           // console.log("additional item cost: " + sProfile.additional_items.cost)

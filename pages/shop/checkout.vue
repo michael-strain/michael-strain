@@ -1,42 +1,46 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
-    class="bg-image bg-repeat"
-    style="background-image: url('../img/leaf-background-2.jpg')"
+    class="bg-image bg-repeat align-items-center align-middle items-center h-full"
+    style="background-image: url('../img/purple-mushroom.jpg')"
   >
+    <ShopHeader />
     <!-- <v-img src="../img/leaf-background.jpg" /> -->
-    <div class="">
+    <div class="h-full">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
-        class="flex align-center justify-center h-screen"
-      >
+        class="grid h-full place-items-center pb-40"
+      > 
+        <!-- Old v-if cart null div class -->
+        <!-- class="flex align-items-center justify-center" -->
         <v-card
-          color="#fbfbd0"
-          class="w-1/2 <lg:w-3/4 mt-10 h-2/3 "
+          class="w-1/2 <lg:w-3/4"
         >
-          <v-container class="fill-height text-center align-center justify-center">
-            <div class="">
-              <h3
-                class="font-bold lg:text-5xl text-4xl my-5"
-                :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-              >
-                Your cart is empty.
-              </h3>
-              <v-btn
-                size="large"
-                variant="flat"
-                color="#ffc266"
-                class="fill-height m-10"
-              >
-                <NuxtLink
-                  to="/shop"
-                  class="lg:text-2xl text-xl text-wrap m-5"
+          <!--SAFE TO EDIT-->
+          <div>
+            <v-container class="fill-height text-center flex align-center justify-center">
+              <div class="">
+                <h3
+                  class="font-bold text-secondary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
+                  :style="{fontFamily: 'Roboto Slab'}">
+                  Your cart is empty.
+                </h3>
+                <v-btn
+                  size="large"
+                  variant="flat"
+                  color="button"
+                  class="fill-height m-10"
                 >
-                  Visit the <b>shop</b> page.<br>Find something you love.
-                </NuxtLink>
-              </v-btn>
-            </div>
-          </v-container>
+                  <NuxtLink
+                    to="/shop"
+                    class="lg:text-2xl text-xl text-wrap m-5"
+                  >
+                    Visit the <b>shop</b> page.<br>Find something you love.
+                  </NuxtLink>
+                </v-btn>
+              </div>
+            </v-container>
+          </div>
         </v-card>
       </div>
       <div v-else>
@@ -50,14 +54,12 @@
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
-              color="#fbfbd0"
               class="w-1/2 <lg:w-3/4 bg-green-600 mt-10"
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl my-5"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-                >
+                  class="text-secondary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
+                  :style="{fontFamily: 'Roboto Slab'}">
                   Shipping Address
                 </h3>
                 <!-- <h4
@@ -81,7 +83,7 @@
                       label="First Name"
                       placeholder="First Name"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col>
@@ -93,7 +95,7 @@
                       label="Last Name"
                       placeholder="Last Name"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                 </v-row>
@@ -110,7 +112,7 @@
                       label="Email Address"
                       placeholder="Email Address"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -125,30 +127,11 @@
                       label="Phone Number"
                       placeholder="Phone Number"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                 </v-row>
               
-                <!-- <label for="country">Country</label> -->
-                <!-- <select
-                    id="country"
-                    v-model="country"
-                    label="Country"
-                    placeholder="Country"
-                    variant="outlined"
-                      bg-color="#fdfde8"
-                  >
-                    <option value="US">
-                      United States
-                    </option>
-                    <option value="CA">
-                      Canada
-                    </option>
-                    <option value="PA">
-                      Panama
-                    </option>
-                  </select> -->
                 <v-row class="justify-center text-center align-center">
                   <v-col
                     cols="12"
@@ -162,7 +145,7 @@
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -177,7 +160,7 @@
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -192,7 +175,7 @@
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -207,7 +190,7 @@
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -222,7 +205,7 @@
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -237,7 +220,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -248,25 +231,10 @@
                     sm=""
                     class=""
                   >
-                    <!-- <v-btn
-                      size="large"
-                      variant=""
-                      color="#ffc266"
-                      class="bg-red fill-height m-10"
-                    >
-                      <NuxtLink
-                        to="/shop"
-                        class="lg:text-2xl text-xl text-wrap"
-                      >
-                        Visit the <b>shop</b> page.<br>Find something you love.
-                      </NuxtLink>
-                    </v-btn> -->
-
-
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="#ffc266"
+                      color="button"
                       class="fill-height align-middle items-center h-full text-white "
                       @click="useAsBilling=!useAsBilling; updateBilling()"
                     >
@@ -293,14 +261,13 @@
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
-              color="#fbfbd0"
               class="w-1/2 <lg:w-3/4 justify-center text-center align-center"
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-center align-center font-bold lg:text-5xl <md:text-4xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(255, 194, 102)'}"
-                >
+                  class="justify-center text-secondary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
+                  :style="{fontFamily: 'Roboto Slab'}">
+                
                   Payment Information
                 </h3>
                 <v-row class="pt-5 ">
@@ -317,7 +284,7 @@
                       label="Name on Card"
                       placeholder="Name on Card"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col>
@@ -328,7 +295,7 @@
                       label="Card Number"
                       placeholder="Card Number"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                 </v-row>
@@ -345,7 +312,7 @@
                       label="Expiration Month"
                       placeholder="Expiration Month"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -361,7 +328,7 @@
                       label="Expiration Year"
                       placeholder="Expiration Year"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -376,7 +343,7 @@
                       label="Security Code"
                       placeholder="Security Code"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -391,7 +358,7 @@
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -406,7 +373,7 @@
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -421,7 +388,7 @@
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -436,7 +403,7 @@
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -451,7 +418,7 @@
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                     />
                   </v-col>
                   <v-col
@@ -466,7 +433,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="#fdfde8"
+                      bg-color="textfield"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -479,7 +446,7 @@
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="#ffc266"
+                      color="button"
                       class=" fill-height align-middle items-center h-full text-white "
                       @click="echo('I love you <3')"
                     >
@@ -492,15 +459,6 @@
                         Continue
                       </div>
                     </v-btn>
-                    <!-- Old Button -->
-                    <!-- <v-btn
-                      size="large"
-                      variant="flat"
-                      color="#ffc266"
-                      class="align-middle items-center h-full text-white"
-                    >
-                      Continue
-                    </v-btn> -->
                   </v-col>
                 </v-row>
               </v-container>
@@ -510,6 +468,8 @@
       </div>
     </div>
   </div>
+  <ShopFooter />
+
 </template>
 
 <script setup>
