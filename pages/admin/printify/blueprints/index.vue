@@ -195,7 +195,7 @@
       storeDataCount++
     }
 
-    console.log(bpData)
+    // console.log(bpData)
 
     for (let i = 0; i < bpData.length; i++) {
       //for each item returned by query, 
