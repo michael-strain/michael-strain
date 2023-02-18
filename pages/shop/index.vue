@@ -29,7 +29,7 @@
                 <v-carousel
                   height="320"
                   show-arrows="hover"
-                  color="secondary-darken-1"
+                  color="primary-darken-1"
                   hide-delimiter-background
                   delimiter-icon="mdi-circle-slice-8"
                 >
@@ -48,7 +48,7 @@
                     >
                       <p
                         :style="{fontFamily: 'Roboto Slab'}"
-                        class="text-secondary-darken-1 p-2 text-xl float-right "
+                        class="p-2 text-xl float-right "
                       >
                         {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
                         <v-icon

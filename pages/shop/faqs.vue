@@ -11,15 +11,12 @@ Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    <v-btn>Button Example</v-btn>
     <div
       class="d-flex justify-center align-center"
     >
       <v-card
         class="w-1/2 <lg:w-3/4 flex m-10"
       >
-        <v-btn>Button Example</v-btn>
-
         <div
           v-for="item in someData"
           :key="item.id"
@@ -31,7 +28,7 @@ Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
           >
             {{ item.title }}
           </h>
-          <p class="text-justify pt-2 text-secondary-darken-1">
+          <p class="text-justify pt-2 text-primary-darken-1">
             {{ item.paragraph }}
           </p>
         </div>

@@ -19,14 +19,16 @@ const myCustomLightTheme = {
   colors: {
     background: '#FFFFFF',
     surface: '#FFECEE',
-    primary: '#cbc693',
-    'primary-darken-1': '#bef67a',
-    secondary: '#8bc34a',
-    'secondary-darken-1': '#4C1973',
-    button: '#4C1973',
-    textfield: '#fdfde8',
+    'surface-darken-1': '#F0F0F0',
+    'surface-normal-1': '#FFECEE',
+    primary: '#A683B1',
+    'primary-darken-1': '#4C1973',
+    secondary: '#bef67a', //ONLY THIS WORKS???
+    'secondary-darken-1': '#8bc34a',
+    error: '#FB8C00',
   },
 }
+
 
 //YELLOW AND GREEN
 // const myCustomLightTheme = {
@@ -91,14 +93,16 @@ export default defineNuxtPlugin(nuxtApp => {
       }
     },
     defaults: {
-      VCard: {
-        color: '',
-        VBtn: { variant: 'flat', color:'blue' },
-      },
-      VBtn: { variant: 'flat', color:'primary', size: 'large'},
+      // VCard: {
+      //   color: '',
+      //   VBtn: { variant: 'flat', color:'blue' },
+      // },
+      // VBtn: { variant: 'flat', color:'', size: 'large'},
     },
-                  // class="fill-height m-10"
   })
+
+  // Found this labeled as primary in an scss/sass file somewhere
+  // #cbd5e1
 
   nuxtApp.vueApp.use(vuetify)
 })

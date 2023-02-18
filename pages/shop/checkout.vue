@@ -21,7 +21,7 @@
             <v-container class="fill-height text-center flex align-center justify-center">
               <div class="">
                 <h3
-                  class="font-bold text-secondary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
+                  class="font-bold text-primary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Your cart is empty.
@@ -29,7 +29,7 @@
                 <v-btn
                   size="large"
                   variant="flat"
-                  color="button"
+                  color="primary-darken-1"
                   class="fill-height m-10"
                 >
                   <NuxtLink
@@ -59,7 +59,7 @@
             >
               <v-container class="">
                 <h3
-                  class="text-secondary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
+                  class="text-primary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Shipping Address
@@ -85,7 +85,7 @@
                       label="First Name"
                       placeholder="First Name"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col>
@@ -97,7 +97,7 @@
                       label="Last Name"
                       placeholder="Last Name"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -114,7 +114,7 @@
                       label="Email Address"
                       placeholder="Email Address"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -129,7 +129,7 @@
                       label="Phone Number"
                       placeholder="Phone Number"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -147,7 +147,7 @@
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -162,7 +162,7 @@
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -177,7 +177,7 @@
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -192,7 +192,7 @@
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -207,7 +207,7 @@
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -222,7 +222,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -236,7 +236,7 @@
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="button"
+                      color="primary-darken-1"
                       class="fill-height align-middle items-center h-full text-white "
                       @click="useAsBilling=!useAsBilling; updateBilling()"
                     >
@@ -267,7 +267,7 @@
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-secondary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
+                  class="justify-center text-primary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Payment Information
@@ -286,7 +286,7 @@
                       label="Name on Card"
                       placeholder="Name on Card"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col>
@@ -297,7 +297,7 @@
                       label="Card Number"
                       placeholder="Card Number"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -314,7 +314,7 @@
                       label="Expiration Month"
                       placeholder="Expiration Month"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -330,7 +330,7 @@
                       label="Expiration Year"
                       placeholder="Expiration Year"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -345,7 +345,7 @@
                       label="Security Code"
                       placeholder="Security Code"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -360,7 +360,7 @@
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -375,7 +375,7 @@
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -390,7 +390,7 @@
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -405,7 +405,7 @@
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -420,7 +420,7 @@
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -435,7 +435,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -448,7 +448,7 @@
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="button"
+                      color="primary-darken-1"
                       class=" fill-height align-middle items-center h-full text-white "
                       @click="echo('I love you <3')"
                     >
