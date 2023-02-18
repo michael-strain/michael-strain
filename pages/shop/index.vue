@@ -137,6 +137,9 @@
 
 
 <script setup>
+
+  //Minor Issue: The heart icon doesn't always update properly when you click it. It seems to be a problem with the reactive array.
+
   import { ref, onMounted } from 'vue'
   import { useProductDataStore } from '~/stores/productData';
   import { useCartDataStore } from '~/stores/cartData';
@@ -208,106 +211,219 @@
   //   }
   // }
 
+
+  // Only one issue appears to remain here.
+  // If you add two different items to the cart, and then remove the more recently added item, the cart gets new array objects of the variant you are trying to remove
+  // This is because the cart is not being updated with the new variant object when you add it to the cart.  It is only being updated with the new variant object when you remove it from the cart. (Suggested by CoPilot)
+
+
   function heartClick(item, variant){ 
     const cart = useCartDataStore()
-    const store = useProductDataStore()
+    // const store = useProductDataStore()
 
-    //x   //Scenario 1: No items in cart, add this item to cart
-    //x   //Scenario 2: This item is in cart, but not this variant, add this variant to cart
+   //TODO
+   //Looks like the heart icon doesn't always necessarily show whether or not a variant is in the cart. 
 
+    //:D   //Scenario 1: No items in cart, add this item to cart
+    //:D   //Scenario 2: This item is in cart, but not this variant, add this variant to cart
+    //   //Scenario 3: This item is in cart, and this variant is in cart:
+          //  //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
+          //  //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
+    //   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
 
-    //If the user presses the heart button on an item, then a different item, then again on the first item, the first item 
-
-    //x   //Scenario 3: This item is in cart, and this variant is in cart:
-            //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
-            //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
-
-    //x   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
-
-
-
-    let thisIteminCart = false
+    let thisItemInCart = false
     let thisVariantInCart = false
     let otherVariants = false
+    let otherItems = false
+    let itemIndex = null
+    let variantIndex = null
 
+
+
+    //Scenario 1: No items in cart, add this item to cart
     if (cart.cartData.length==0) {
-      console.log("No items in cart") //Scenario 1
+      // console.log("No items in cart") //Scenario 1
       variant.cartQty = 1
       variant.inCart = true
-      item.variants[item.variantNum].variant = variant
+      item.variants[item.variantNum] = variant
       // cart.$patch({ cartData: [item] })
       cart.$patch(cart.cartData[0] = item)
-      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
       return
     }
 
-    for (let i=0; i<cart.cartData.length; i++){
+    //Checking if this item is in the cart, and if other items are in the cart
+    cartLoop: for (let i=0; i<cart.cartData.length; i++){
+      if (cart.cartData[i].id != item.id){
+        otherItems = true
+      }
       if (cart.cartData[i].id == item.id){
-        thisIteminCart = true
-        otherVariants = false
-        console.log("Already found this item in cart")
+        thisItemInCart = true
 
-        for (let j=0; j<cart.cartData[i].variants.length; j++) {
-          if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].variant.id != variant.id) {
+        variantLoop: for (let j=0; j<cart.cartData[i].variants.length; j++) {
+          if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].id != variant.id) {
             otherVariants = true
-            console.log("Found other variants of this item in cart")
-            break
           }
-        }
-        
-        // Scenario 3
-        for (let j=0; j<cart.cartData[i].variants.length; j++) {
-          if (cart.cartData[i].variants[j].variant.id == variant.id) {
+          if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].id == variant.id) {
             thisVariantInCart = true
-            console.log("Found this variant in the cart.")
-            if (thisVariantInCart) {
-              if (otherVariants) {
-                console.log("Removing just the one variant.") //Scenario 3b
-                variant.cartQty = 0
-                variant.inCart = false
-                item.variants[item.variantNum].variant = variant
-                cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
-                store.$patch(store.productData[store.productData.indexOf(item)] = item)
-                return
-              }
-              else {
-                console.log("This is the only variant of this item in the cart.  Removing the whole item.") //Scenario 3a
-                variant.cartQty = 0
-                variant.inCart = false
-                item.variants[item.variantNum].variant = variant
-                cart.$patch(cart.cartData.splice(cart.cartData.indexOf(item), 1))
-                store.$patch(store.productData.splice(store.productData.indexOf(item), 1))
-                return
-              }
-            } else {
-              console.log("This variant is not in the cart.  Adding it.") //Scenario 2
-              variant.cartQty = 1
-              variant.inCart = true
-              item.variants[item.variantNum].variant = variant
-              cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
-              store.$patch(store.productData[store.productData.indexOf(item)] = item)
-              return
+            itemIndex = i
+            variantIndex = j
+          }
+          if (otherVariants && thisVariantInCart) {
+            if (otherItems && thisItemInCart) {
+              break cartLoop
             }
+            break variantLoop //Does this break out of both for loops, or just the variant loop?
           }
         }
       }
-      break
+      if (otherItems && thisItemInCart) {
+        break cartLoop
+      }
     }
 
-    //Scenario 4 - This item is not in cart, but other items are, add this item (and variant) to cart
-    if (!thisIteminCart) {
+    //Scenario 2: This item is in cart, but not this variant, add this variant to cart
+    if (thisItemInCart && !thisVariantInCart) {
+      console.log("This item is in cart, but not this variant")
       variant.cartQty = 1
       variant.inCart = true
-      thisIteminCart = true
-      item.variants[item.variantNum].variant = variant
+      item.variants[variantIndex] = variant
       cart.$patch(cart.cartData[cart.cartData.length] = item)
-      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      // cart.cartData[itemIndex].variants.push(variant)
+      // cart.$patch({ cartData: cart.cartData })
+      // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+      return
+    }
+
+    //Scenario 3: This item is in cart, and this variant is in cart:
+    if (thisItemInCart && thisVariantInCart) {
+      console.log("This item and this variant are in cart.")
+
+      //Other variants should only be set to true if there are other variants OF THIS ITEM in the cart
+      //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
+      if (!otherVariants) {
+        console.log("This is the only variant of this item in cart - Scenario 3a")
+        variant.cartQty = 0
+        variant.inCart = false
+        item.variants[item.variantNum] = variant
+        cart.$patch(cart.cartData[itemIndex].variants[variantIndex] = variant)
+        cart.cartData.splice(itemIndex, 1)
+        cart.$patch({ cartData: cart.cartData })
+        // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+        return
+      }
+      //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
+      if (otherVariants) {
+        console.log("There are other variants of this item in cart - Scenario 3b")
+        variant.cartQty = 0
+        variant.inCart = false
+        item.variants[item.variantNum] = variant
+        cart.$patch(cart.cartData[itemIndex].variants[variantIndex] = variant)
+        cart.cartData.splice(itemIndex, 1)
+        cart.$patch({ cartData: cart.cartData })
+        // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+        return
+      }
+    }
+
+    //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
+    if (!thisItemInCart && otherItems) {
+      console.log("This item is not in cart, but other items are, add this item (and variant) to cart")
+      variant.cartQty = 1
+      variant.inCart = true
+      item.variants[item.variantNum] = variant
+      cart.$patch(cart.cartData[cart.cartData.length] = item)
+      // store.$patch(store.productData[i] = item)
       return
     }
   }
 
 
 
+    //OLD METHOD
+  //   for (i=0; i<cart.cartData.length; i++){
+  //     if (cart.cartData[i].id == item.id){
+  //       for (let j=0; j<cart.cartData[i].variants.length; j++) {
+  //         if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].id != variant.id) {
+  //           otherVariants = true
+  //         }
+  //         if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].id == variant.id) {
+  //           thisVariantInCart = true
+  //         }
+  //         if (otherVariants && thisVariantInCart) {
+  //           break
+  //         }
+  //       }
+        
+
+
+  //       if (thisVariantInCart) {
+  //         if (otherVariants) {
+  //           console.log("Removing just the one variant.") //Scenario 3b
+  //           variant.cartQty = 0
+  //           variant.inCart = false
+            
+  //           item.variants[item.variantNum] = variant
+  //           cart.$patch(cart.cartData[i].variants[item.variantNum] = variant)
+  //           // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+  //           return
+  //         }
+  //         else {
+  //           console.log("This is the only variant of this item in the cart.  Removing the whole item.") //Scenario 3a
+  //           // cart is not being updated with the new variant object when you add it to the cart.  It is only being updated with the new variant object when you remove it from the cart. (Suggested by CoPilot)
+  //           // Update cart with the new variant object
+
+
+  //           variant.cartQty = 0
+  //           variant.inCart = false
+  //           item.variants[item.variantNum] = variant
+  //           cart.$patch(cart.cartData[i].variants[item.variantNum] = variant)
+  //           // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+  //           // cart.$patch(cart.cartData[i].variants[item.variantNum] = variant)
+  //           cart.$patch(cart.cartData.splice(i, 1)) //Removes the item from the cart
+
+  //         }
+  //       } else {
+  //         console.log("This variant is not in the cart, but the item is.  Adding it.") //Scenario 2
+  //         variant.cartQty = 1
+  //         variant.inCart = true
+  //         item.variants[item.variantNum] = variant
+  //         cart.$patch(cart.cartData[i].variants[item.variantNum] = variant)
+  //         // cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
+  //         // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item)] = item)
+  //         return
+  //       }
+  //       break
+  //     }
+  //   }
+
+  //   //Scenario 4 - Suggested by CoPilot
+  //   //I think we need something here to handle the case where the item is not in the cart, but other items are.  I think this is the only case where we need to update the cart with the new variant object.
+
+  //   //Nope, we are still having issues with the cart not being updated with the new variant object when you add it to the cart.  It is only being updated with the new variant object when you remove it from the cart. (Suggested by CoPilot)
+  //   if (!thisItemInCart && otherItems) {
+  //     console.log("This item is not in cart, but other items are, add this item (and variant) to cart")
+  //     // Thanks CoPilot.  Sorry I'm slow sometimes, but I'm getting there.  It's also 2:30am here, so I'm not at my best.  I'll try to get this working tomorrow.  OR I could continue now! :D
+  //     variant.cartQty = 1
+  //     variant.inCart = true
+  //     item.variants[item.variantNum] = variant
+  //     cart.$patch(cart.cartData[cart.cartData.length] = item)
+  //     // store.$patch(store.productData[i] = item)
+  //     return
+  //   }
+
+  //   //Scenario 4 - This item is not in cart, but other items are, add this item (and variant) to cart
+  //   // if (!thisItemInCart) {
+  //   //   console.log("This item is not in cart, but other items are, add this item (and variant) to cart")
+  //   //   variant.cartQty = 1
+  //   //   variant.inCart = true
+  //   //   thisItemInCart = true //This is not needed
+  //   //   item.variants[item.variantNum] = variant
+  //   //   cart.$patch(cart.cartData[cart.cartData.length-1] = item) //Does this work?
+  //   //   store.$patch(store.productData[i] = item) //Does this work?
+  //   //   return
+  //   // }
+  // }
 
 
   // THIS FUNCTION

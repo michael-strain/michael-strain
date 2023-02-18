@@ -351,7 +351,7 @@
 
       for (let j = 0; j < item.variants.length ; j++){
         if (item.variants[j].cartQty>0){
-          console.log("There are still other variants of this item in the cart")
+          // console.log("There are still other variants of this item in the cart")
           otherVariants = true
           break
         }
@@ -420,7 +420,7 @@
   function profileClick () {
     if (pageTitle.value.includes("/shop")){
       const cart = useCartDataStore()
-      console.log(cart.cartData.length)
+      // console.log(cart.cartData.length)
       // const cart = useCartDataStore()
       // console.log(cart)
       // console.log("Cart button clicked: " + cart.cartData.length)
@@ -777,7 +777,7 @@ const itemShippingPrice = function(variant) {
 
     for (let j = 0; j < item.variants.length ; j++){
       if (item.variants[j].cartQty>0){
-        console.log("There are still other variants of this item in the cart")
+        // console.log("There are still other variants of this item in the cart")
         otherVariants = true
         break
       }

@@ -107,7 +107,7 @@
                         class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                         variant="outlined"
                         :style="{fontFamily: 'Roboto Slab'}"
-                        @click="addToCart(product, product.variants[product.variantNum])"
+                        @click="heartClick(product, product.variants[product.variantNum])"
                       >
                         <p class="text-base">
                           Add to Cart
@@ -137,7 +137,7 @@
                       @update:model-value="changeProductVariantNum(product, $event)"
                     /> 
                     More Variant data can go here :)
-                    <p>Handling Time: {{  product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+                    <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
                     <pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre>
 
                     <!-- Old Method -->
@@ -294,19 +294,19 @@ const qtyDecrement = function () {
 //   store.addToCart(item)
 // }
 
-const itemCost = function (variant) {
-  let cost = ((variant.cost + variant.firstItemCost + (variant.cost * 0.25) + 100)) // Profit margin is 25% of cost + $1.00
-  return cost
-}
+// const itemCost = function (variant) {
+//   let cost = ((variant.cost + variant.firstItemCost + (variant.cost * 0.25) + 100)) // Profit margin is 25% of cost + $1.00
+//   return cost
+// }
 
 const itemPrice =  function (variant) {
   //set the default shipping profile to usd
   //use the user's shipping profile if they have one
   let shippingProfile = variant.shippingProfile[0]
   if (variant.shippingProfile.length > 0) {
-    for(profile in variant.shippingProfile){
-      if (profile.countries.includes(userData.country)) {
-        let shippingProfile = profile
+    for(let i=0; i<variant.shippingProfile.length; i++){
+      if (variant.shippingProfile[i].countries.includes(userData.country)) {
+        shippingProfile = variant.shippingProfile[i]
       }
     }
   }
@@ -320,17 +320,19 @@ const itemShippingPrice = function(variant){
   let shippingProfile = variant.shippingProfile[0]
   let foundCountry = false
   if (variant.shippingProfile.length > 0) {
-    for(profile in variant.shippingProfile){
-      if (profile.countries.includes(userData.country)) {
+    for(let i=0; i<variant.shippingProfile.length; i++){
+      if (variant.shippingProfile[i].countries.includes(userData.country)) {
         console.log("")
-        shippingProfile = profile
+        shippingProfile = variant.shippingProfile[i]
         foundCountry = true
+        break
       }
     }
     if (!foundCountry) {
-      for(profile in variant.shippingProfile){
-        if (profile.countries.includes("REST_OF_THE_WORLD")) {
-          shippingProfile = profile
+      for(let i=0; i<variant.shippingProfile.length; i++){
+        if (variant.shippingProfile[i].countries.includes("REST_OF_THE_WORLD")) {
+          shippingProfile = variant.shippingProfile[i]
+          break
         }
       }
     }
@@ -358,41 +360,6 @@ onMounted(async () => {
 })
 
 
-//function heartClick(item, item.variants[item.variantNum])
-// function addToCart(item){ 
-//   const cart = useCartDataStore()
-
-//   //if there are items in the cart
-//   if(cart.cartData.length>0) {
-//     console.log("Cart length: " + cart.cartData.length)
-    
-//     //loop through the cart.  If the item is already in the cart, increment the qty
-//     for (let i = 0; i < cart.cartData.length; i++) {
-//       if (item.id === cart.cartData[i].id) {
-//         item.qty ++
-//         item.inCart = true //not sure if this is needed
-//         cart.$patch(cart.cartData[i] = item)
-//         return
-//       }
-//     }
-
-//     //if an item was not in the cart, add it to the cart
-//     if (!item.inCart) {
-//       item.qty = 1
-//       item.inCart = true //not sure if this is needed
-//       cart.$patch(cart.cartData[cart.cartData.length] = item)
-//     }
-//   //If there are no items in the cart
-//   } else {
-//     console.log("Adding first item to cart")
-//     item.qty = 1
-//     item.inCart=true
-//     cart.$patch(cart.cartData[0] = item)
-//     console.log(item)
-//     console.log(cart.cartData[0])
-//   }
-// }
-
 function changeProductVariantNum(item, e){
   console.log("Changing variant number to " + e)
   let idx = item.variants.map((x)=>{return x.title}).indexOf(e)
@@ -400,44 +367,142 @@ function changeProductVariantNum(item, e){
   console.log(item)
 }
 
-function addToCart(item, variant){ 
-  const cart = useCartDataStore()
-  const store = useProductDataStore()
-  let itemInCart = false
+// function addToCart(item, variant){ 
+//   const cart = useCartDataStore()
+//   const store = useProductDataStore()
+//   let itemInCart = false
 
-  // feels like the computer is doing the work for me here.  I'm not sure why I need to do this.  I thought that the store was a reactive object and that I could just do this:
-  variant.cartQty = product.value.variants[product.value.variantNum].cartQty
+//   // feels like the computer is doing the work for me here.  I'm not sure why I need to do this.  I thought that the store was a reactive object and that I could just do this:
+//   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
 
-  // product.variants[product.variantNum].cartQty
+//   // product.variants[product.variantNum].cartQty
 
-  // variant.cartQty++
-  // if (product.value.variants[product.value.variantNum].cartQty>0){
-  //   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
-  // } else {
-  //   variant.cartQty = 1
-  // }
-  variant.inCart = true
-  // item.variants[item.variantNum] = variant
-  item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+//   // variant.cartQty++
+//   // if (product.value.variants[product.value.variantNum].cartQty>0){
+//   //   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
+//   // } else {
+//   //   variant.cartQty = 1
+//   // }
+//   variant.inCart = true
+//   // item.variants[item.variantNum] = variant
+//   item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
 
-  //if an item is already in the cart, patch the item with variant data
-  for (let i = 0; i < cart.cartData.length ; i++){
-    if (item.id == cart.cartData[i].id){
-      console.log("This item is already in the cart.  Updating it.")
-      cart.$patch( cart.cartData[i] = item )
-      store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-      itemInCart = true
+//   //if an item is already in the cart, patch the item with variant data
+//   for (let i = 0; i < cart.cartData.length ; i++){
+//     if (item.id == cart.cartData[i].id){
+//       console.log("This item is already in the cart.  Updating it.")
+//       cart.$patch( cart.cartData[i] = item )
+//       store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+//       itemInCart = true
+//     }
+//   }
+
+//   if (!itemInCart){
+//     if (cart.cartData.length){
+//       cart.$patch(cart.cartData[cart.cartData.length] = item)
+//       store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+//     } else {
+//       cart.$patch(cart.cartData[0]=item)
+//       store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+//     }
+//   }
+// }
+
+function heartClick(item, variant){ 
+    const cart = useCartDataStore()
+    const store = useProductDataStore()
+
+    //x   //Scenario 1: No items in cart, add this item to cart
+    //x   //Scenario 2: This item is in cart, but not this variant, add this variant to cart
+
+
+    //If the user presses the heart button on an item, then a different item, then again on the first item, the first item 
+
+    //x   //Scenario 3: This item is in cart, and this variant is in cart:
+            //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
+            //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
+
+    //x   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
+
+
+
+    let thisIteminCart = false
+    let thisVariantInCart = false
+    let otherVariants = false
+
+    if (cart.cartData.length==0) {
+      // console.log("No items in cart") //Scenario 1
+      variant.cartQty = 1
+      variant.inCart = true
+      item.variants[item.variantNum].variant = variant
+      // cart.$patch({ cartData: [item] })
+      cart.$patch(cart.cartData[0] = item)
+      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      return
     }
-  }
 
-  if (!itemInCart){
-    if (cart.cartData.length){
+    for (let i=0; i<cart.cartData.length; i++){
+      if (cart.cartData[i].id == item.id){
+        thisIteminCart = true
+        otherVariants = false
+        // console.log("Already found this item in cart")
+
+        for (let j=0; j<cart.cartData[i].variants.length; j++) {
+          if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].variant.id != variant.id) {
+            otherVariants = true
+            // console.log("Found other variants of this item in cart")
+            break
+          }
+        }
+        
+        // Scenario 3
+        for (let j=0; j<cart.cartData[i].variants.length; j++) {
+          if (cart.cartData[i].variants[j].variant.id == variant.id) {
+            thisVariantInCart = true
+            // console.log("Found this variant in the cart.")
+            if (thisVariantInCart) {
+              if (otherVariants) {
+                // console.log("Removing just the one variant.") //Scenario 3b
+                variant.cartQty = 0
+                variant.inCart = false
+                item.variants[item.variantNum].variant = variant
+                cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
+                store.$patch(store.productData[store.productData.indexOf(item)] = item)
+                return
+              }
+              else {
+                // console.log("This is the only variant of this item in the cart.  Removing the whole item.") //Scenario 3a
+                variant.cartQty = 0
+                variant.inCart = false
+                item.variants[item.variantNum].variant = variant
+                cart.$patch(cart.cartData.splice(cart.cartData.indexOf(item), 1))
+                store.$patch(store.productData.splice(store.productData.indexOf(item), 1))
+                return
+              }
+            } else {
+              // console.log("This variant is not in the cart.  Adding it.") //Scenario 2
+              variant.cartQty = 1
+              variant.inCart = true
+              item.variants[item.variantNum].variant = variant
+              cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
+              store.$patch(store.productData[store.productData.indexOf(item)] = item)
+              return
+            }
+          }
+        }
+      }
+      break
+    }
+
+    //Scenario 4 - This item is not in cart, but other items are, add this item (and variant) to cart
+    if (!thisIteminCart) {
+      variant.cartQty = 1
+      variant.inCart = true
+      thisIteminCart = true
+      item.variants[item.variantNum].variant = variant
       cart.$patch(cart.cartData[cart.cartData.length] = item)
-      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-    } else {
-      cart.$patch(cart.cartData[0]=item)
-      store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
+      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      return
     }
-  }
 }
 </script>
