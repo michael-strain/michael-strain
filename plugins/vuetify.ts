@@ -1,6 +1,17 @@
+import { createApp } from 'vue'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
+createVuetify({
+  defaults: {
+    VCard: {
+      color: 'button',
+      VBtn: { variant: 'flat', color:'blue' },
+    },
+    VBtn: { variant: 'flat', color:'red' },
+  },
+})
 
 //Purple
 const myCustomLightTheme = {
@@ -78,7 +89,15 @@ export default defineNuxtPlugin(nuxtApp => {
         myCustomLightTheme,
         myCustomDarkTheme,
       }
-    }
+    },
+    defaults: {
+      VCard: {
+        color: '',
+        VBtn: { variant: 'flat', color:'blue' },
+      },
+      VBtn: { variant: 'flat', color:'primary', size: 'large'},
+    },
+                  // class="fill-height m-10"
   })
 
   nuxtApp.vueApp.use(vuetify)
