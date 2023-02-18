@@ -168,7 +168,7 @@
                         </p>
                       </div>
                       <div>
-                        <v-icon :icon="hover ? 'mdi-skull-outline' : 'mdi-alpha-x-box-outline'" @click="removeVariant(item, variant); hover=!hover" @mouseover="hover=!hover" @mouseleave="hover=!hover" />
+                        <v-icon :icon="hover ? 'mdi-skull-outline' : 'mdi-alpha-x-circle-outline'" @click="removeVariant(item, variant); hover=!hover" @mouseover="hover=!hover" @mouseleave="hover=!hover" />
                         <!-- :icon="hover?'mdi-skull-scan-outline':'mdi-alpha-x-box-outline'" -->
                       </div>
                     </div>

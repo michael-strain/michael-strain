@@ -22,7 +22,8 @@
               <div class="">
                 <h3
                   class="font-bold text-secondary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
-                  :style="{fontFamily: 'Roboto Slab'}">
+                  :style="{fontFamily: 'Roboto Slab'}"
+                >
                   Your cart is empty.
                 </h3>
                 <v-btn
@@ -59,7 +60,8 @@
               <v-container class="">
                 <h3
                   class="text-secondary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
-                  :style="{fontFamily: 'Roboto Slab'}">
+                  :style="{fontFamily: 'Roboto Slab'}"
+                >
                   Shipping Address
                 </h3>
                 <!-- <h4
@@ -257,7 +259,7 @@
           <!--PAYMENT INFORMATION FORM-->
           <v-form
             class="flex text-center align-middle items-center justify-center flex-shrink mt-10 pb-10"
-            @submit.prevent="submitShippingInfo"
+            @submit.prevent="submitOrder"
           >
             <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
@@ -266,8 +268,8 @@
               <v-container class="">
                 <h3
                   class="justify-center text-secondary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
-                  :style="{fontFamily: 'Roboto Slab'}">
-                
+                  :style="{fontFamily: 'Roboto Slab'}"
+                >
                   Payment Information
                 </h3>
                 <v-row class="pt-5 ">
@@ -469,10 +471,23 @@
     </div>
   </div>
   <ShopFooter />
-
 </template>
 
 <script setup>
+// Let's set our shit straight
+// Step 1 - Ensure cart data is present
+// Step 2 - Display cart data as an order summary
+// Step 3 - Collect payment and shipping information
+// Step 4 - Before we actually get payment confirmation, we are going to POST the order to printify (/v1/shops/{shop_id}/orders.json)
+// Step 5 - Update the database with the order information, and associate the user with the order - not sure yet how this will be structured in firebase
+// Step 6 - Submit payment
+// Step 7 - If payment is successful, post order
+  // Step 7a - If payment is successful, update database with order information
+// Step 8 - If payment is not successful, display error message & allow user to try again with different payment information
+  // Step 8a- Store payment information for automatic retry at a later date and time (Friday morning?), maybe with different payment gateway or something?
+
+
+
 import { ref } from 'vue'
 import { useCartDataStore } from '~/stores/cartData';
 import { storeToRefs } from 'pinia';
@@ -541,7 +556,6 @@ const cartData = ref()
 cartData.value = storeToRefs(cart.cartData)
 
 async function submitShippingInfo() {
-  // for each item in cart get the shipping cost and create line items
   const cart = useCartDataStore()
   const shipTotal = ref()
   const lineItems = ref([])
@@ -557,41 +571,6 @@ async function submitShippingInfo() {
     "city": city.value,
     "zip": zip.value
   })
-
-  cartData.value = storeToRefs(cart.cartData)
-  if (cart.cartData != null && cart.cartData.length > 0) {
-    console.log("Products are in cart")
-    // if (item in cart.cartData) {
-      
-    for (let i = 0; i < cart.cartData.length; i++) {
-      console.log(cart.cartData[i].id)
-      // create line items
-      lineItems.value[i] = {
-        "product_id": cart.cartData[i].id,
-        "variant_id": cart.cartData[i].variants[0].id,
-        "quantity": cart.cartData[i].qty
-      }
-    }
-    // get shipping cost
-    // not working yet
-    const opts = {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
-        'Access-Control-Allow-Origin': 'https://localhost:3000/shop/*',
-        'User-Agent': 'Michael-Strain Nuxt App'
-      },
-      body: {
-        'line_items': lineItems.value,
-        'address_to': addressTo.value
-      }
-    };
-    const url = 'https://api.printful.com/v1/shops/6483145/orders/shipping.json'
-    // const { data:shipCost } = await useFetch(url, opts)
-    //console.log(await useFetch(url, opts))
-  }
-  infoSubmitted.value = true
 }
 
 
@@ -636,6 +615,72 @@ const postOrderBody =
 
 function echo(msg){
   console.log(msg.toString())
+}
+
+function submitOrder(){
+  // POST Order
+  console.log("I'm gonna do it")
+
+  //First, post the order information to the database.  Not sure if there should be a users collection that contains orders, or if the orders should be stored in their own collection and referenced by the user's collection.
+  //I think the orders should be stored in their own collection, with a UID value.
+  //The UID value should be the same as the user's UID value, so that we can easily reference the user's orders.
+
+  //The orders collection should look something like this:
+  //orders: {
+  //  orderID: {
+  //    orderStatus: 'Created',
+  //    paymentStatus: 'Not Paid'
+  //    printifyOrderStatus: 'Not Sent'
+  //    printifyOrderId: null
+  //    userID: userID,
+  //    orderDate: orderDate,
+  //    orderTotal: orderTotal,
+  //    orderItems: [],
+  //    orderShipping: {
+  //      shippingCharged: shippingCharged,
+  //      shippingMethod: shippingMethod,
+  //      ourShippingCost: ourShippingCost,
+  //      shippingProvider: shippingProvider,
+  //      shippingProviderCost: shippingProviderCost,
+  //      shippingProviderTrackingNumber: null,
+  //      firstName: firstName,
+  //      lastName: lastName,
+  //      email: email,
+  //      phone: phone,
+  //      country: country,
+  //      region: region,
+  //      address1: address1,
+  //      address2: address2,
+  //      city: city,
+  //      zip: zip
+  //  },
+  //    orderBilling: {
+  //      firstName: firstName,
+  //      lastName: lastName,
+  //      email: email,
+  //      phone: phone,
+  //      country: country,
+  //      region: region,
+  //      address1: address1,
+  //      address2: address2,
+  //      city: city,
+  //      zip: zip,
+  // // Card information may actually be stored as a payment token depending on payment processor
+  // //       cardNumber: cardNumber,
+  // //       cardExpMonth: cardExpMonth,
+  // //      cardExpYear: cardExpYear,
+  // //      cardSecurityCode: cardSecurityCode
+  //  },
+  //}
+
+  // Add product to DB
+  const { submitOrder } = $fetch("/api/add?col=orders", {
+    method: 'POST',
+    body: {"thereIs":"Nothing here yet lol"}
+  })
+
+  //
+
 }
 
 </script>

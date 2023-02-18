@@ -226,10 +226,10 @@
 
     //:D   //Scenario 1: No items in cart, add this item to cart
     //:D   //Scenario 2: This item is in cart, but not this variant, add this variant to cart
-    //   //Scenario 3: This item is in cart, and this variant is in cart:
-          //  //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
-          //  //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
-    //   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
+    //:D   //Scenario 3: This item is in cart, and this variant is in cart:
+          //:D  //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
+          //:D  //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
+    //:D   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
 
     let thisItemInCart = false
     let thisVariantInCart = false
