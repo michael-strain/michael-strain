@@ -1,3 +1,36 @@
+Thoughts 2/17/23
+----------------
+-Future Priorities
+    -Could be interesting to add online gambling to the portfolio
+        -https://www.gamblingcommission.gov.uk/ (Suggested by CoPilot)
+        -https://www.grandviewresearch.com/industry-analysis/online-gambling-market
+    -Finish building the todo
+    -Research & Consider integrating multiple payment processors/gateways/merchant account providers including whitelabel and international products
+        -https://quadrapay.com/payment-gateway/
+        -https://www.paypal.com/us/webapps/mpp/merchant
+        -https://www.stripe.com/
+        -https://www.braintreepayments.com/
+        -https://www.2checkout.com/
+        -https://www.worldpay.com/us/developers (Suggested by CoPilot)
+        -https://www.authorize.net/
+        -https://www.payeezy.com/ (Suggested by CoPilot)
+        -https://www.payza.com/ (Suggested by CoPilot)
+        -https://www.payoneer.com/ (Suggested by CoPilot)
+        -https://sharkprocessing.com/panama-merchant-account/ (? seems kinda fishy)
+        -https://ikajo.com/
+        -https://akurateco.com
+        -https://www.payone.com/en/ (Suggested by CoPilot)
+        -https://unipaygateway.com/
+        -https://www.usabusiness.co.in/best-e-commerce-payment-gateways-in-panama/
+
+-Today's priorities:
+    -Checkout Page -> Validate Order -> Verify Printify Status -> Send to Payment Processor & Recieve Payment Confirmation -> Send Order to Printify API -> Send customer e-mail confirmation (and maybe send me a happy text! :D)
+    -Order Confirmation Page / Order Status Page
+    -Product Management (Edit & Delete)
+    -Product Creation Form & Image Uploader
+    -Verify that Auth is functioning well enough to avoid security issues
+    -Add a way to remove items from the cart (Suggested by CoPilot)
+
 Thoughts 2/16/23
 ----------------
 -Need to add a way to remove items from the cart (Suggested by CoPilot)

@@ -212,118 +212,102 @@
     const cart = useCartDataStore()
     const store = useProductDataStore()
 
-    // console.log(item)
-    // console.log(variant)
+    //x   //Scenario 1: No items in cart, add this item to cart
+    //x   //Scenario 2: This item is in cart, but not this variant, add this variant to cart
 
 
-    //Check the cart specifically if this variant has cartQty>0
-    if (cart.cartData.length>0){
-      if (variant.cartQty>0){
-        variant.cartQty = 0
-        variant.inCart = false
-        cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id), 1)
-        item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-      } else {
-        variant.cartQty = 1
-        variant.inCart = true
-        item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-        store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-        cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-      }
-    } else {
-      variant.cartQty=1
+    //If the user presses the heart button on an item, then a different item, then again on the first item, the first item 
+
+    //x   //Scenario 3: This item is in cart, and this variant is in cart:
+            //Scenario 3a: If this is the only variant of this item in cart, remove the item from cart
+            //Scenario 3b: If there are other variants of this item in cart, remove this variant from cart
+
+    //x   //Scenario 4: This item is not in cart, but other items are, add this item (and variant) to cart
+
+
+
+    let thisIteminCart = false
+    let thisVariantInCart = false
+    let otherVariants = false
+
+    if (cart.cartData.length==0) {
+      console.log("No items in cart") //Scenario 1
+      variant.cartQty = 1
       variant.inCart = true
-      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-      //Set item variable to include new variant
-      store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-      cart.cartData[cart.cartData.length] = item //should be ok since this is the first item in the cart
+      item.variants[item.variantNum].variant = variant
+      // cart.$patch({ cartData: [item] })
+      cart.$patch(cart.cartData[0] = item)
+      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      return
     }
 
-    // heart.value(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants[store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)].variants.map((x)=>{return x.id}).indexOf(variant.id)])
-    // item.variants[item.variantNum] = variant
-    
+    for (let i=0; i<cart.cartData.length; i++){
+      if (cart.cartData[i].id == item.id){
+        thisIteminCart = true
+        otherVariants = false
+        console.log("Already found this item in cart")
 
-    //This shouldn't ever happen now since we are using heart click as a toggle instead of an incrementer
-    //if an item is already in the cart, patch the item with variant data
-    // let itemInCart = false
-    // for (let i = 0; i < cart.cartData.length ; i++){
-    //   if (item.id == cart.cartData[i].id){
-    //     console.log("This item is already in the cart.  Updating it.")
-    //     cart.$patch( cart.cartData[i] = item )
-    //     store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-    //     itemInCart = true
-    //   }
-    // }
+        for (let j=0; j<cart.cartData[i].variants.length; j++) {
+          if (cart.cartData[i].variants[j].cartQty>0 && cart.cartData[i].variants[j].variant.id != variant.id) {
+            otherVariants = true
+            console.log("Found other variants of this item in cart")
+            break
+          }
+        }
+        
+        // Scenario 3
+        for (let j=0; j<cart.cartData[i].variants.length; j++) {
+          if (cart.cartData[i].variants[j].variant.id == variant.id) {
+            thisVariantInCart = true
+            console.log("Found this variant in the cart.")
+            if (thisVariantInCart) {
+              if (otherVariants) {
+                console.log("Removing just the one variant.") //Scenario 3b
+                variant.cartQty = 0
+                variant.inCart = false
+                item.variants[item.variantNum].variant = variant
+                cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
+                store.$patch(store.productData[store.productData.indexOf(item)] = item)
+                return
+              }
+              else {
+                console.log("This is the only variant of this item in the cart.  Removing the whole item.") //Scenario 3a
+                variant.cartQty = 0
+                variant.inCart = false
+                item.variants[item.variantNum].variant = variant
+                cart.$patch(cart.cartData.splice(cart.cartData.indexOf(item), 1))
+                store.$patch(store.productData.splice(store.productData.indexOf(item), 1))
+                return
+              }
+            } else {
+              console.log("This variant is not in the cart.  Adding it.") //Scenario 2
+              variant.cartQty = 1
+              variant.inCart = true
+              item.variants[item.variantNum].variant = variant
+              cart.$patch(cart.cartData[cart.cartData.indexOf(item)] = item)
+              store.$patch(store.productData[store.productData.indexOf(item)] = item)
+              return
+            }
+          }
+        }
+      }
+      break
+    }
 
-  
-
-    // cart.$patch({ cartData: [...cart.cartData, item] }) //Does this work?  It was suggested by CoPilot - who says it was suggested by the Vue & Pinia docs
-    // cartProducts.value = cart.cartData
-
-    // Still need to ensure item & variant is available, visible, enabled, and can be shipped to user's country, etc.
-    // and still need to do this on the product [id] page as well
-
-
-
-
-    // // OLD CODE BELOW ALMOST WORKED
-
-    // //Need to ensure item & variant is available, visible, enabled, and can be shipped to user's country, etc.
-    // //Need to do this on the product [id] page as well
-
-
-    // const cart = useCartDataStore()
-    // const store = useProductDataStore()
-
-    // //if there are items in the cart
-    // if(cart.cartData.length>0) {
-    //   console.log("Cart length: " + cart.cartData.length)
-      
-    //   //loop through the cart.  If the item is already in the cart, increment the qty
-    //   for (let i = 0; i < cart.cartData.length; i++) {
-    //     if (item.id === cart.cartData[i].id) {
-    //       // item.qty ++
-    //       // item.inCart = true //not sure if this is needed
-    //       item.variants[item.variantNum].cartQty ++
-    //       item.variants[item.variantNum].inCart = true
-    //       cart.$patch(cart.cartData[i] = item)
-    //       store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-    //       products.value = store.productData
-    //       return
-    //     }
-    //   }
-
-    //   //if an item was not in the cart, add it to the cart
-    //   if (!item.variants[item.variantNum].inCart) {
-    //     item.variants[item.variantNum].cartQty = 1
-    //     item.variants[item.variantNum].inCart = true //not sure if this is needed
-    //     cart.$patch(cart.cartData[cart.cartData.length] = item)
-    //     store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-    //     products.value = store.productData
-    //   }
-    // //If there are no items in the cart
-    // } else {
-    //   console.log("Adding first item to cart")
-    //   item.variants[item.variantNum].cartQty = 1
-    //   item.variants[item.variantNum].inCart=true
-    //   cart.$patch(cart.cartData[0] = item)
-    //   store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
-    //   products.value = store.productData
-    // }
+    //Scenario 4 - This item is not in cart, but other items are, add this item (and variant) to cart
+    if (!thisIteminCart) {
+      variant.cartQty = 1
+      variant.inCart = true
+      thisIteminCart = true
+      item.variants[item.variantNum].variant = variant
+      cart.$patch(cart.cartData[cart.cartData.length] = item)
+      store.$patch(store.productData[store.productData.indexOf(item)] = item)
+      return
+    }
   }
 
-  // (printifyCost + firstItemShippingCost + (Profit Margin)) + (additionalItemShippingCost * cartQty)
-  // const itemPrice = computed((variant) => {
-  //   let price = variant.cost + variant.firstItemShippingCost + (variant.cost * 0.25) + 100 // Profit margin is 25% of cost + $1.00
-  //   return price
-  // })
 
-  // const itemPrice =  function (variant) {
-  //   let price = variant.cost + variant.firstItemCost + (variant.cost * 0.25) + 100 // Profit margin is 25% of cost + $1.00
-  //   return price
-  // }
-  
+
 
 
   // THIS FUNCTION
