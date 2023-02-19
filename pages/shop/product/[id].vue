@@ -31,12 +31,12 @@
                     :src="product.images[0].src"
                   />
                   <!-- Price should go somewhere near here! And make it 'shimmer' on scroll ;D -->
-                  <p class="bg-green transition-colors">
+                  <!-- <p class="bg-green transition-colors">
                     Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
-                  </p>
+                  </p> -->
                 </div>
                 <div>
-                  <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
+                  <div class="sm<:w-full sm:w-1/2">
                     <v-card-title class="bg-surface">
                       <p
                         :style="{fontFamily: 'Roboto Slab'}"
@@ -45,28 +45,70 @@
                         {{ product.title }}
                       </p>
                     </v-card-title>
-                    <v-divider />
+                  </div>
+                  <div class="sm<:w-full sm:w-1/2">
+                    <!-- v-if="product.variants.length>1" -->
+                    <v-select
+                    v-if="product.variants.length>1"
 
-                    <!-- Variant Selector -->
-                    <div class="flex bg-surface items-center justify-center">
+                      :default="product.variants[product.variantNum].title"
+                      label="Select a variant"
+                      :items="product.variants"
+                      class="bg-surface justify-center"
+                      variant="none"
+                      @update:model-value="changeProductVariantNum(product, $event)"
+                    /> 
+
+                    <!-- Variant Name -->
+                    <!-- <div class="flex bg-surface items-center justify-center">
                       <v-btn
                         icon
                         @click="variantDecrement"
                       >
                         <v-icon>mdi-chevron-left</v-icon>
                       </v-btn>
+                      
                       <v-card-title class="bg-surface text-center w-3/4">
                         {{ product.variants[product.variantNum].title }}
-                      </v-card-title>
-                      <!-- <v-divider /> -->
-                      <v-btn
+                      </v-card-title> -->
+                    <!-- <v-divider /> -->
+                    <!-- <v-btn
                         icon
                         @click="variantIncrement"
                       >
                         <v-icon icon="mdi-chevron-right" />
                       </v-btn>
-                    </div>
+                    </div> -->
 
+                    
+
+                    <v-card-subtitle
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="text-wrap text-2xl py-5"
+                      v-html="product.description"
+                    />
+
+                    <v-card-actions class="justify-center bg-surface">
+                      <p
+                        class="m-5 text-3xl font-semibold text-green-600"
+                        size=""
+                      >
+                        {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
+                      </p>
+                      <!-- <p>
+                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
+                      </p> -->
+                      <v-btn
+                        class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                        variant="outlined"
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        @click="heartClick(product, product.variants[product.variantNum])"
+                      >
+                        <p class="text-base">
+                          Add to Cart
+                        </p>
+                      </v-btn>
+                    </v-card-actions>
                     <!-- Quantity Selector -->
                     <div class="flex bg-surface items-center justify-center">
                       <v-btn
@@ -86,35 +128,10 @@
                         <v-icon icon="mdi-plus" />
                       </v-btn>
                     </div>
-
-                    <v-card-subtitle
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-wrap text-2xl"
-                      v-html="product.description"
-                    />
-
-                    <v-card-actions class="justify-center bg-surface">
-                      <p
-                        class="m-5 text-3xl font-semibold text-green-600"
-                        size=""
-                      >
-                        {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
-                      </p>
-                      <p>
-                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
-                      </p>
-                      <v-btn
-                        class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
-                        variant="outlined"
-                        :style="{fontFamily: 'Roboto Slab'}"
-                        @click="heartClick(product, product.variants[product.variantNum])"
-                      >
-                        <p class="text-base">
-                          Add to Cart
-                        </p>
-                      </v-btn>
-                    </v-card-actions>
+                    
                     <v-divider />
+
+                    
 
                     <!-- <v-radio-group
                       v-model="product"
@@ -129,13 +146,13 @@
                       />
                     </v-radio-group> -->
 
-                    <v-select
+                    <!-- <v-select
                       :default="product.variants[product.variantNum].title"
                       label="Select a variant"
                       :items="product.variants"
                       variant="solo"
                       @update:model-value="changeProductVariantNum(product, $event)"
-                    /> 
+                    />  -->
                     More Variant data can go here :)
                     <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
                     <pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre>
@@ -144,9 +161,7 @@
                     <!-- <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
                       <p>Shipping Cost Per Item: {{ product.variants[product.variantNum].additionalItemCost }}</p>
                     <p>SKU: {{ product.variants[product.variantNum].sku }}</p> -->
-                
                   <!-- Make button green -->
-
                   <!-- <v-list v-for="(variant, index) in product.variants" :key="index" @click="product.variantNum = index">
                     <v-list-item
                       :style="{fontFamily: 'Roboto Slab'}"
@@ -155,9 +170,6 @@
                       {{ variant.title }}
                     </v-list-item>>
                   </v-list> -->
-                  
-
-
                   <!-- <v-select
                     label="Select a variant"
                     :items="product.variants"
@@ -165,8 +177,6 @@
                     variant="solo"
                   /> -->
                   <!-- :default="product.variants[product.variantNum].title" -->
-
-                  
                   <!-- <v-card-text v-if="product.qty>0" class="float-right">{{ product.qty }} Items In Cart</v-card-text> -->
                   </div>
                 </div>
@@ -236,8 +246,7 @@
         </v-col>
       </v-row>
     </v-container> -->
-    <ShopFooter />
-
+  <ShopFooter />
 </template>
 
 
