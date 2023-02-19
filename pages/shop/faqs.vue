@@ -15,7 +15,7 @@ Pink to Purple: #FEDBD0, #D9B8B0, #B4958F, #8E726F, #694F4E, #442C2E
       class="d-flex justify-center align-center"
     >
       <v-card
-        class="w-1/2 <lg:w-3/4 flex m-10"
+        class="w-1/2 <lg:w-3/4 flex m-10 opacity-80"
       >
         <div
           v-for="item in someData"

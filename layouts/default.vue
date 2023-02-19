@@ -4,7 +4,7 @@
 
 <!-- TODO This layout needs a complete overhaul for code efficiency, readability, and best practices -->
 <template>
-  <v-app :theme="theme">
+  <v-app :theme="theme" class="pt-0 mt-0">
     <!-- Popup -->
     <div class="text-center">
       <v-dialog v-model="dialog" width="500">
@@ -33,7 +33,7 @@
     </div>
     <!-- End Popup -->
 
-    <v-main :class="pageTitle=='/' ? 'pt-0':''">
+    <v-main :class="pageTitle=='/' ? 'pt-0 mt-0':'pt-0 mt-0'">
       <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="noHeaderPadding.includes(useRoute().path) ? 'py-0 my-0' : ''">
         <v-card class="d-flex m-2 flex-shrink opacity-90">
           <div v-if="false" class="my-1">
