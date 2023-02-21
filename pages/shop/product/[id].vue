@@ -20,13 +20,15 @@
               <!-- New way -->
               <div v-if="product">
                 <v-card-title class="bg-surface py-5">
-                  <p
+                  <p                      
                     :style="{fontFamily: 'Roboto Slab'}"
                     class="text-wrap text-5xl m-3 text-center"
                   >
                     {{ product.title }}
                   </p>
                 </v-card-title>
+                
+                <!--Carousel-->
                 <div class="sm:(w-1/3 h-full) flex sm<:w-full sm:float-left">
                   <v-carousel
                     color="primary-darken-1"
@@ -38,13 +40,99 @@
                     />
                   </v-carousel>
                 </div>
-                <!-- Price should go somewhere near here! And make it 'shimmer' on scroll ;D -->
-                <!-- <p class="bg-green transition-colors">
-                    Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
-                  </p> -->
-                <div class="sm<:w-full sm:w-2/3 float-left sm:float-none p-8">
-                  <!-- Variant Selector -->
-                  <!-- <div class="flex bg-surface items-center justify-center">
+        
+                <!--Right Side (Basically Everything)-->
+                <div class="sm<:w-full sm:w-2/3 float-left sm:float-none p-10">
+                  <!--Price and Buttons-->
+                  <div class="justify-space-between flex">
+                    <v-btn
+                      class="text-wrap sm:w-full md:w-1/3 !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                      variant="outlined"
+                      size="x-large"
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      @click="heartClick(product, product.variants[product.variantNum])"
+                    >
+                      <p class="text-base">
+                        Add to Cart
+                      </p>
+                    </v-btn>
+                    
+                    <p
+                      class="w-1/4 text-4xl font-semibold text-green-600 text-center"
+                      size=""
+                    >
+                      {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
+                    </p>
+                    <!-- <p>
+                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
+                      </p> -->
+                    
+                    <v-btn
+                      class="w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                      variant="outlined"
+                      size="x-large"
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      @click="heartClick(product, product.variants[product.variantNum])"
+                    >
+                      <p class="text-base">
+                        <v-icon class="pr-3">
+                          mdi-cart
+                        </v-icon>View Cart
+                      </p>
+                    </v-btn>
+                  </div>
+                  <p
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-wrap text-xl text-justify py-10"
+                    v-html="product.description"
+                  />
+                  <div class="flex align-center">
+                    <v-select
+                      :default="product.variants[product.variantNum].title"
+                      label="Select a variant"
+                      :items="product.variants"
+                      class=""
+                      @update:model-value="changeProductVariantNum(product, $event)"
+                    /> 
+                  </div>
+                </div>
+              </div>
+            </v-card>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+  <ShopFooter />
+</template>
+
+<!-- <p class="bg-green transition-colors">
+  Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
+/p> -->
+
+<!--Quantity Adjustor-->
+<!-- <div class="flex float-right bg-surface items-center justify-center">
+                    <v-btn
+                      icon
+                      @click="qtyDecrement"
+                    >
+                      <v-icon>mdi-minus</v-icon>
+                    </v-btn>
+                    <v-card-title class="bg-surface text-center w-3/4">
+                      {{ product.variants[product.variantNum].cartQty }}
+                    </v-card-title>
+                    <v-btn
+                      icon
+                      @click="qtyIncrement"
+                    >
+                      <v-icon icon="mdi-plus" />
+                    </v-btn>
+                  </div> -->
+<!-- More Variant data can go here :)
+<p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+<pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre> -->
+<!-- Variant Selector -->
+<!-- <div class="flex bg-surface items-center justify-center">
                       <v-btn
                         icon
                         @click="variantDecrement"
@@ -61,10 +149,9 @@
                         <v-icon icon="mdi-chevron-right" />
                       </v-btn>
                     </div> -->
-
-                  <!-- Quantity Selector -->
-                  <!-- <div class="flex bg-surface items-center justify-center">
-                      <v-btn
+<!-- Quantity Selector -->
+<!-- <div class="flex bg-surface items-center justify-center">
+            <v-btn
                         icon
                         @click="qtyDecrement"
                       >
@@ -80,71 +167,6 @@
                         <v-icon icon="mdi-plus" />
                       </v-btn>
                     </div> -->
-
-                  <v-card-subtitle
-                    :style="{fontFamily: 'Roboto Slab'}"
-                    class="text-wrap text-justify"
-                    v-html="product.description"
-                  />
-                  <v-select
-                    :default="product.variants[product.variantNum].title"
-                    label="Select a variant"
-                    :items="product.variants"
-                    class="p-4"
-                    @update:model-value="changeProductVariantNum(product, $event)"
-                  /> 
-                  <v-card-actions class="float-left flex">
-                    <p
-                      class="text-3xl font-semibold text-green-600"
-                      size=""
-                    >
-                      {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
-                    </p>
-                    <!-- <p>
-                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
-                      </p> -->
-                    <v-btn
-                      class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
-                      variant="outlined"
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      @click="heartClick(product, product.variants[product.variantNum])"
-                    >
-                      <p class="text-base">
-                        Add to Cart
-                      </p>
-                    </v-btn>
-                  </v-card-actions>
-                  <div class="flex float-right bg-surface items-center justify-center">
-                    <v-btn
-                      icon
-                      @click="qtyDecrement"
-                    >
-                      <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <v-card-title class="bg-surface text-center w-3/4">
-                      {{ product.variants[product.variantNum].cartQty }}
-                    </v-card-title>
-                    <v-btn
-                      icon
-                      @click="qtyIncrement"
-                    >
-                      <v-icon icon="mdi-plus" />
-                    </v-btn>
-                  </div>
-                  <!-- More Variant data can go here :)
-                    <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
-                    <pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre> -->
-                </div>
-              </div>
-            </v-card>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-  <ShopFooter />
-</template>
-
 
 <script setup>
 import { ref, computed, reactive } from 'vue'
