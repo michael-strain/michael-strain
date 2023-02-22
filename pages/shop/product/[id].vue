@@ -29,7 +29,7 @@
                 </v-card-title>
                 
                 <!--Carousel-->
-                <div class="sm:(w-1/3 h-full) flex sm<:w-full sm:float-left">
+                <div class="sm:(w-full h-full float-none) flex md:(w-1/3 float-left mr-10)">
                   <v-carousel
                     color="primary-darken-1"
                     hide-delimiter-background
@@ -42,11 +42,11 @@
                 </div>
         
                 <!--Right Side (Basically Everything)-->
-                <div class="sm<:w-full sm:w-2/3 float-left sm:float-none p-10">
+                <div class="sm:(float-none p-10 w-full) md:(w-full)">
                   <!--Price and Buttons-->
-                  <div class="justify-space-between flex">
+                  <div class="text-center justify-space-between sm:(flex-none md:flex)">
                     <v-btn
-                      class="text-wrap sm:w-full md:w-1/3 !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                      class="text-wrap <md:w-3/4 md:w-1/3 !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                       variant="outlined"
                       size="x-large"
                       :style="{fontFamily: 'Roboto Slab'}"
@@ -58,7 +58,7 @@
                     </v-btn>
                     
                     <p
-                      class="w-1/4 text-4xl font-semibold text-green-600 text-center"
+                      class="<md:(w-full py-6) md:(w-1/3 pt-2) text-center text-4xl font-semibold text-green-600"
                       size=""
                     >
                       {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
@@ -68,7 +68,7 @@
                       </p> -->
                     
                     <v-btn
-                      class="w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                      class="<md:w-3/4 md:w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                       variant="outlined"
                       size="x-large"
                       :style="{fontFamily: 'Roboto Slab'}"
@@ -83,7 +83,7 @@
                   </div>
                   <p
                     :style="{fontFamily: 'Roboto Slab'}"
-                    class="text-wrap text-xl text-justify py-10"
+                    class="text-wrap text-xl text-justify py-10 <md:px-5"
                     v-html="product.description"
                   />
                   <div class="flex align-center">
