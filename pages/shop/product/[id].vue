@@ -4,7 +4,7 @@
 <template>
   <div
     class="bg-image bg-repeat align-items-center align-middle items-center h-full"
-    style="background-image: url('../img/purple-mushroom.jpg')"
+    style="background-image: url('/img/purple-mushroom.jpg')"
   >
     <!-- This is the product specific page based on the name passed in through the url.
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
