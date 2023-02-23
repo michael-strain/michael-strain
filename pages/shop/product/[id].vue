@@ -64,9 +64,9 @@
                       {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
                     </p>
                     
-                    <NuxtLink to="/shop/checkout" class="<md:w-3/4 md:w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)">
+                    <NuxtLink to="/shop/checkout" class="<md:w-3/4 md:w-1/3">
                       <v-btn
-                        class="text-wrap !font-semibold"
+                        class="<md:w-3/4 w-full text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                         variant="outlined"
                         size="x-large"
                         :style="{fontFamily: 'Roboto Slab'}"
