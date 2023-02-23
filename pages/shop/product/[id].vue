@@ -63,23 +63,21 @@
                     >
                       {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
                     </p>
-                    <!-- <p>
-                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
-                      </p> -->
                     
-                    <v-btn
-                      class="<md:w-3/4 md:w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
-                      variant="outlined"
-                      size="x-large"
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      @click="heartClick(product, product.variants[product.variantNum])"
-                    >
-                      <p class="text-base">
-                        <v-icon class="pr-3">
-                          mdi-cart
-                        </v-icon>View Cart
-                      </p>
-                    </v-btn>
+                    <NuxtLink to="/shop/checkout" class="<md:w-3/4 md:w-1/3 text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)">
+                      <v-btn
+                        class="text-wrap !font-semibold"
+                        variant="outlined"
+                        size="x-large"
+                        :style="{fontFamily: 'Roboto Slab'}"
+                      >
+                        <p class="text-base">
+                          <v-icon class="pr-3">
+                            mdi-cart
+                          </v-icon>View Cart
+                        </p>
+                      </v-btn>
+                    </NuxtLink>
                   </div>
                   <p
                     :style="{fontFamily: 'Roboto Slab'}"
@@ -167,6 +165,9 @@
                         <v-icon icon="mdi-plus" />
                       </v-btn>
                     </div> -->
+                    <!-- <p>
+                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
+                      </p> -->
 
 <script setup>
 import { ref, computed, reactive } from 'vue'
