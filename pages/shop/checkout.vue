@@ -5,18 +5,18 @@
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    <!-- <v-img src="../img/leaf-background.jpg" /> -->
-    <div class="h-full">
+    
+    
+    
+    <!--OLD FORMS-->
+    <!-- <div class="h-full">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
         class="grid h-full place-items-center pb-40"
-      > 
-        <!-- Old v-if cart null div class -->
-        <!-- class="flex align-items-center justify-center" -->
+      >
         <v-card
           class="w-1/2 <lg:w-3/4"
         >
-          <!--SAFE TO EDIT-->
           <div>
             <v-container class="fill-height text-center flex align-center justify-center">
               <div class="">
@@ -45,15 +45,11 @@
         </v-card>
       </div>
       <div v-else>
-        <!-- v-else-if="infoSubmitted" -->
-        <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
         <div>
-          <!--SHIPPING ADDRESS FORM-->
           <v-form
             class="flex text-center align-middle items-center justify-center flex-shrink"
             @submit.prevent="submitShippingInfo"
           >
-            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
               class="w-1/2 <lg:w-3/4 bg-green-600 mt-10"
             >
@@ -63,21 +59,20 @@
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Shipping Address
-                </h3>
-                <!-- <h4
+                </h3> -->
+    <!-- <h4
                   v-for="(item, product) in cart.cartData"
                   :key="product"
                   class="flex items-center align-center justify-center"
                 >
                   Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
                 </h4> -->
-                <v-row class="pt-5">
+    <!-- <v-row class="pt-5">
                   <v-col
                     cols="12"
                     sm=""
                     class=""
                   >
-                    <!-- <label for="firstName">First Name</label> -->
                     <v-text-field
                       id="firstName"
                       v-model="firstName"
@@ -89,7 +84,6 @@
                     />
                   </v-col>
                   <v-col>
-                    <!-- <label for="lastName">Last Name</label> -->
                     <v-text-field
                       id="lastName"
                       v-model="lastName"
@@ -106,7 +100,6 @@
                     cols="12"
                     sm=""
                   >
-                    <!-- <label for="email">Email</label> -->
                     <v-text-field
                       id="email"
                       v-model="email"
@@ -121,7 +114,6 @@
                     cols="12"
                     sm=""
                   >
-                    <!-- <label for="phone">Phone</label> -->
                     <v-text-field
                       id="phone"
                       v-model="phone"
@@ -140,7 +132,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
                       id="address1"
                       v-model="address1"
@@ -155,7 +146,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
                       id="address2"
                       v-model="address2"
@@ -170,7 +160,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="city">City</label> -->
                     <v-text-field
                       id="city"
                       v-model="city"
@@ -185,7 +174,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="region">Region</label> -->
                     <v-text-field
                       id="region"
                       v-model="region"
@@ -200,7 +188,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="zip">Zip</label> -->
                     <v-text-field
                       id="zip"
                       v-model="zip"
@@ -245,7 +232,6 @@
                           :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
                           class="mr-3 text-wrap flex flex-wrap text-wrap"
                         />
-                        <!--This v-icon used to say type="submit"-->
                         Same as Billing Address
                       </div>
                     </v-btn>
@@ -253,15 +239,12 @@
                 </v-row>
               </v-container>
             </v-card>
-          </v-form>
-
-
-          <!--PAYMENT INFORMATION FORM-->
-          <v-form
+          </v-form> -->
+    <!--PAYMENT INFORMATION FORM-->
+    <!-- <v-form
             class="flex text-center align-middle items-center justify-center flex-shrink mt-10 pb-10"
             @submit.prevent="submitOrder"
           >
-            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
               class="w-1/2 <lg:w-3/4 justify-center text-center align-center"
             >
@@ -278,7 +261,6 @@
                     sm=""
                     class=""
                   >
-                    <!-- <label for="firstName">First Name</label> -->
                     <v-text-field
                       id="cardname"
                       v-model="cardname"
@@ -290,7 +272,6 @@
                     />
                   </v-col>
                   <v-col>
-                    <!-- <label for="lastName">Last Name</label> -->
                     <v-text-field
                       id="cardnum"
                       v-model="cardnum"
@@ -353,7 +334,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
                       id="address1b"
                       v-model="address1b"
@@ -368,7 +348,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
                       id="address2b"
                       v-model="address2b"
@@ -383,7 +362,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="city">City</label> -->
                     <v-text-field
                       id="cityb"
                       v-model="cityb"
@@ -398,7 +376,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="region">Region</label> -->
                     <v-text-field
                       id="regionb"
                       v-model="regionb"
@@ -413,7 +390,6 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="zip">Zip</label> -->
                     <v-text-field
                       id="zipb"
                       v-model="zipb"
@@ -469,6 +445,7 @@
         </div>
       </div>
     </div>
+  </div> -->
   </div>
   <ShopFooter />
 </template>
