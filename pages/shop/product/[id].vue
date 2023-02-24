@@ -93,7 +93,7 @@
                     class="text-wrap text-xl text-justify py-10 <md:px-5"
                     v-html="product.description"
                   />
-                  <div class="flex align-center">
+                  <div class="flex align-center" v-if="product.variants.length>1">
                     <v-select
                       :default="product.variants[product.variantNum].title"
                       label="Select a variant"

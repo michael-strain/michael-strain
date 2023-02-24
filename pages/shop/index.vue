@@ -25,41 +25,46 @@
               :key="product"
               class="flex items-center align-center justify-center"
             >
-              <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-445px ">
+              <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-450px">
+                <div class="static h-0">
+                  <v-btn
+                    rounded
+                    class="absolute top-5 left-40 z-50"
+                    transition="fade-transition"
+                    @click="heartClick(item, item.variants[item.variantNum])"
+                  >
+                    <p
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      class="p-1 text-xl"
+                    >
+                      <!-- class="p-2 text-xl float-right " -->
+                      {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                      <v-icon
+                        :icon="heart(item.variants[item.variantNum])"
+                      />
+                    </p>
+                    <!-- <p>
+                      + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
+                    </p> -->
+                  </v-btn>
+                </div>
                 <v-carousel
                   height="320"
                   show-arrows="hover"
                   color="primary-darken-1"
                   hide-delimiter-background
                   delimiter-icon="mdi-circle-slice-8"
+                  class="pt-0 mt-0"
                 >
-                  <v-carousel-item
-                    v-for="(img, i) in item.images"
-                    :key="i"
-                    :src="img.src"
-                    :lazy-src="img.src"
-                    :alt="img.alt"
-                  >
-                    <v-btn
-                      rounded
-                      class="h-auto w-30 m-2 float-right"
-                      transition="fade-transition"
-                      @click="heartClick(item, item.variants[item.variantNum])"
-                    >
-                      <p
-                        :style="{fontFamily: 'Roboto Slab'}"
-                        class="p-2 text-xl float-right "
-                      >
-                        {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
-                        <v-icon
-                          :icon="heart(item.variants[item.variantNum])"
-                        />
-                      </p>
-                    <!-- <p>
-                      + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
-                    </p> -->
-                    </v-btn>
-                  </v-carousel-item>
+                  <NuxtLink to="">
+                    <v-carousel-item
+                      v-for="(img, i) in item.images"
+                      :key="i"
+                      :src="img.src"
+                      :lazy-src="img.src"
+                      :alt="img.alt"
+                    />
+                  </NuxtLink>
                 </v-carousel>
               
                 <div class="h-100 justify-center text-center align-center">
