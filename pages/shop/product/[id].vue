@@ -32,12 +32,18 @@
                 <div class="sm:(w-full h-full float-none) flex md:(w-1/3 float-left mr-10)">
                   <v-carousel
                     color="primary-darken-1"
-                    hide-delimiter-background
                     delimiter-icon="mdi-circle-slice-8"
                   >
-                    <v-img
-                      :src="product.images[0].src"
+                    <v-carousel-item
+                      v-for="(img, i) in product.images"
+                      :key="i"
+                      :src="img.src"
+                      :lazy-src="img.src"
+                      :alt="img.alt"
                     />
+                    <!-- <v-img
+                      :src="product.images[0].src"
+                    /> -->
                   </v-carousel>
                 </div>
         
@@ -64,7 +70,10 @@
                       {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
                     </p>
                     
-                    <NuxtLink to="/shop/checkout" class="<md:w-3/4 md:w-1/3">
+                    <NuxtLink
+                      to="/shop/checkout"
+                      class="<md:w-3/4 md:w-1/3"
+                    >
                       <v-btn
                         class="<md:w-3/4 w-full text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                         variant="outlined"
