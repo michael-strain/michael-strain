@@ -5,7 +5,78 @@
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    
+    <v-container class="flex mt-8">
+      <v-card class="bg-white w-3/4 text-wrap rounded-xl border flex shadow-xl">
+        <!--C1-->
+        <div class="bg-purple h-100 w-1/3 flex float-left">
+          <!-- <v-img
+            :src="product.images[0].src"
+          /> -->
+        </div>
+        <!--C2-->
+        <div class="w-1/2 float-left">
+          <v-card-title class="w-full">
+            <p                      
+              :style="{fontFamily: 'Roboto Slab'}"
+              class="text-wrap w-full text-3xl"
+            >
+              Product Title
+            </p>
+          </v-card-title>
+          <p
+            :style="{fontFamily: 'Roboto Slab'}"
+            class="ml-3 text-wrap text-xl"
+          >
+            Subtitle
+          </p>
+
+          <div class="flex m-3 items-center">
+            <v-btn
+              icon
+              size="small"
+              variant="none"
+              @click="qtyDecrement"
+            >
+              <v-icon>mdi-minus</v-icon>
+            </v-btn>
+            <p class="text-bold mx-1 text-xl">
+              0
+            </p>
+
+            <v-btn
+              icon
+              size="small"
+              variant="none"
+              @click="qtyIncrement"
+            >
+              <v-icon icon="mdi-plus" />
+            </v-btn>
+          </div>
+          <v-btn class="m-3 mt-0">
+            Delete
+          </v-btn>
+          
+        </div>
+        <!--C3-->
+        <div class="bg-surface h-120 w-1/6 float-right text-right p-5">
+          <p>Item Cost $XX.00</p>
+          <p>Shipping $XX.00</p>
+          <divider />
+          <p class="font-bold">
+            Total $XX.00
+          </p>
+        </div>
+      </v-card>
+      <divider class="p-5" />
+      <v-card class="w-1/4 h-auto text-wrap rounded-xl border shadow-xl">
+        <p
+          :style="{fontFamily: 'Roboto Slab'}"
+          class="ml-3 text-wrap text-xl"
+        >
+          Card Processing
+        </p>
+      </v-card>
+    </v-container>
     
     
     <!--OLD FORMS-->
