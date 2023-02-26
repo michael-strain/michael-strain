@@ -10,6 +10,7 @@ import {
   setDoc,
   collectionGroup,
   Timestamp,
+WhereFilterOp,
 } from "firebase/firestore"
 import { firestoreDb } from "../lib/firebase"
 
@@ -25,32 +26,17 @@ export const queryByCollection = async (col:string, id?:string) => {
   })
   // results.shift() // Remove the first element which is always an empty object for some reason
   return results
+}
 
-
-  // if(id){
-  //   // @ts-ignore
-  //   const docRef = doc(collection(firestoreDb, col), id)
-  //   const docSnap = await getDoc(docRef)
-  //   if (docSnap.exists()) {
-  //     const docs = Array.from(docSnap.data().docs).map((doc)=> {
-  //       return {
-  //         ...docSnap.data(),
-  //         id: docSnap.id,
-  //       }
-  //   })
-  //  }
-  // } else {
-  //   // @ts-ignore
-  //   const colRef = collection(firestoreDb, col)
-  //   const snapshot = await getDocs(colRef)
-  //   const docs = Array.from(snapshot.docs).map((doc)=> {
-  //     return {
-  //       ...doc.data(),
-  //       id: doc.id,
-  //     }
-  //   })
-  //   return docs
-  // }
+export const queryCollectionWhere = async (col:string, field:string, operator:WhereFilterOp, value:string) => {
+  const results = Array()
+  const q = query(collection(firestoreDb, col), where(field, operator, value))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(doc => {
+    let docData = doc.data()
+    results.push(docData)
+  })
+  return results
 }
 
 export const set = async (col:string, document:Object) => {
@@ -68,3 +54,4 @@ export const del = async (col, id) => {
   const docRef = doc(firestoreDb, col, id)
   return await deleteDoc(docRef)
 }
+

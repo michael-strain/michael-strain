@@ -506,6 +506,19 @@ const address2 = ref('')
 const city = ref('')
 const zip = ref('')
 
+const shipping = ref({
+  firstName: firstName.value,
+  lastName: lastName.value,
+  email: email.value,
+  phone: phone.value,
+  country: country.value,
+  region: region.value,
+  address1: address1.value,
+  address2: address2.value,
+  city: city.value,
+  zip: zip.value,
+})
+
 // Form Options
 const months = ["1 - January","2 - February","3 - March","4 - April","5 - May","6 - June","7 - July","8 - August","9 - September","10 - October","11 - November","12 - December"]
 function expirationYearOptions () {
@@ -518,13 +531,13 @@ function expirationYearOptions () {
 }
 
 
+// Are these necessary? - No, not with Braintree
+// const cardname = ref('')
+// const cardnum = ref('')
+// const expmonth = ref('')
+// const expyear = ref('')
+// const securitycode = ref('')
 
-const cardname = ref('')
-const cardnum = ref('')
-const expmonth = ref('')
-const expyear = ref('')
-const securitycode = ref('')
-// Are these necessary?
 const countryb = ref('')
 const regionb = ref('')
 const address1b = ref('')

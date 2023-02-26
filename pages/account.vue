@@ -18,6 +18,14 @@
           ADMIN
         </h6>
       </NuxtLink>
+      <NuxtLink to="/braintree">
+        <h6
+          class="text-black justify-center text-center align-center font-bold text-xl mb-10"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
+        >
+          Braintree
+        </h6>
+      </NuxtLink>
       <div v-if="auth.currentUser || firebaseUser">
         <v-card>
           <v-card-title>You are logged in</v-card-title>
@@ -59,6 +67,8 @@
 <script setup>
 import { async } from '@firebase/util';
 import { getAuth } from 'firebase/auth'
+import { useUserDataStore } from '~/stores/userData';
+
 const auth = getAuth();
 const firebaseUser = useFirebaseUser()
 firebaseUser.value = auth.currentUser;
@@ -86,5 +96,7 @@ if(auth.currentUser!==null){
   if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
     loadAdminLink.value = 'true'
   }
+
+
 }
 </script>
