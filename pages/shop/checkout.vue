@@ -5,21 +5,21 @@
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    <v-container class="flex mt-8">
-      <v-card class="h-full bg-white w-3/4 text-wrap rounded-xl border flex shadow-xl">
+    <v-container class="md:flex mt-8">
+      <v-card class="h-full bg-white md:w-3/4 text-wrap rounded-xl border flex shadow-xl">
         <v-card
           class="d-flex"
           variant="none"
         >
           <!--C1-->
-          <div class="p-10 pr-4 w-2/3 flex h-full w-full align-center">
+          <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
             <img
               src="/img/black-gold-mushroom.jpg"
               class=""
             >
           </div>
           <!--C2-->
-          <div class="pt-7 w-100">
+          <div class="pt-7 w-100 <md:(text-center pb-5)">
             <v-card-title class="w-full">
               <p                      
                 :style="{fontFamily: 'Roboto Slab'}"
@@ -35,7 +35,7 @@
               Subtitle
             </p>
 
-            <div class="flex m-3 items-center">
+            <div class="flex m-3 items-center <md:justify-center">
               <v-btn
                 icon
                 size="small"
@@ -64,7 +64,7 @@
             <p class="text-bold ml-3">Shipping - $XX.00</p> -->
           </div>
           <!--C3-->
-          <div class="bg-surface w-1/3 text-center p-8">
+          <div class="bg-surface lg:w-1/3 text-center p-8">
             <p >Item Cost<br/>$XX.00</p>
             <divider class="p-5" />
             <p>Shipping<br/>$XX.00</p>
@@ -76,18 +76,18 @@
         <div class="bg-surface-darken-1 p-1 w-full" />
         <!--Second-->
         <v-card
-          class="d-flex"
+          class=""
           variant="none"
         >
           <!--C1-->
-          <div class="p-10 pr-4 w-2/3 flex h-full w-full align-center">
+          <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
             <img
               src="/img/black-gold-mushroom.jpg"
               class=""
             >
           </div>
           <!--C2-->
-          <div class="pt-7 w-100">
+          <div class="pt-7 w-100 <md:(text-center pb-5)">
             <v-card-title class="w-full">
               <p                      
                 :style="{fontFamily: 'Roboto Slab'}"
@@ -103,7 +103,7 @@
               Subtitle
             </p>
 
-            <div class="flex m-3 items-center">
+            <div class="flex m-3 items-center <md:justify-center">
               <v-btn
                 icon
                 size="small"
@@ -132,7 +132,7 @@
             <p class="text-bold ml-3">Shipping - $XX.00</p> -->
           </div>
           <!--C3-->
-          <div class="bg-surface w-1/3 text-center p-8">
+          <div class="bg-surface lg:w-1/3 text-center p-8">
             <p >Item Cost<br/>$XX.00</p>
             <divider class="p-5" />
             <p>Shipping<br/>$XX.00</p>
@@ -145,7 +145,7 @@
       
       <!--Card Processing-->
       <v-divider vertical class="p-2" />
-      <v-card class="w-1/4 h-auto text-wrap rounded-xl border shadow-xl">
+      <v-card class="md:w-100 h-auto text-wrap rounded-xl border shadow-xl">
         <p
           :style="{fontFamily: 'Roboto Slab'}"
           class="ml-3 text-wrap text-xl text-center"
