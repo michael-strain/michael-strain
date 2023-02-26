@@ -1,69 +1,49 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <main class="wrapper" :class="mode">
-    <div class="grid">
-      <AppButton text="Hello VueDose!" />
-      
-    </div>
-  </main>
+  <div
+    v-for="c in Object.keys(vcolors)"
+    :key="c"
+    :class="'bg-' + c"
+  >
+    <p>{{ c }}</p>
+  </div>
+  <!-- <div class="bg-background">
+    background
+  </div>
+  <div class="bg-surface">
+    surface
+  </div>
+  <div class="bg-primary">
+    primary
+  </div>
+  <div class="bg-primary-darken-1">
+    primary-darken-1
+  </div>
+  <div class="bg-secondary">
+    secondary
+  </div>
+  <div class="bg-secondary-darken-1">
+    secondary-darken-1
+  </div>
+  <div class="bg-surface-darken-1">
+    surface-darken-1
+  </div> -->
 </template>
 
-<script>
-import AppButton from "/components/AppButton";
+<script setup>
+  //Need to setup vcolors by pulling them from the current vuetify theme object's colors object
+  //Do I need to import the vuetify file here?
+  //how do I get the name of the active vuetify theme object so I can pull it's colors object?
+  import { ref } from 'vue'
 
+  import { useTheme } from 'vuetify'
 
-export default {
-  name: "App",
-  data: () => ({
-    mode: "light",
-  }),
-  components: {
-    AppButton,
-  },
-  methods: {
-    toggleTheme() {
-      this.mode = this.mode === "light" ? "dark" : "light";
-    },
-  },
-};
+  const theme = useTheme()
+
+  //theme.global.name.value = theme.global.current.value
+
+  
+  const vcolors = theme.global.current.value.colors
+  console.log(Object.keys(vcolors))
+  // vcolors = theme.value.colors
 </script>
-<style>
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-</style>
-<style scoped>
-.light {
-  --background-color: white;
-  --on-background-color: #222;
-}
-
-.dark {
-  --background-color: #222;
-  --on-background-color: white;
-}
-
-.custom-theme {
-  --button-border-color: pink;
-  --button-hover-background-color: rgb(206, 161, 195);
-}
-
-.wrapper {
-  width: 100%;
-  min-height: 100vh;
-
-  margin: 0;
-  padding: 0;
-  transition: 1s ease-in-out background-color;
-  background-color: var(--background-color);
-}
-
-.grid {
-  color: var(--on-background-color);
-  padding: 24px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 24px;
-}
-</style>

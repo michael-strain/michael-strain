@@ -5,23 +5,94 @@
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    <!-- <v-img src="../img/leaf-background.jpg" /> -->
-    <div class="h-full">
+    <v-container class="flex mt-8">
+      <v-card class="bg-white w-3/4 text-wrap rounded-xl border flex shadow-xl">
+        <!--C1-->
+        <div class="bg-purple h-100 w-1/3 flex float-left">
+          <!-- <v-img
+            :src="product.images[0].src"
+          /> -->
+        </div>
+        <!--C2-->
+        <div class="w-1/2 float-left">
+          <v-card-title class="w-full">
+            <p                      
+              :style="{fontFamily: 'Roboto Slab'}"
+              class="text-wrap w-full text-3xl"
+            >
+              Product Title
+            </p>
+          </v-card-title>
+          <p
+            :style="{fontFamily: 'Roboto Slab'}"
+            class="ml-3 text-wrap text-xl"
+          >
+            Subtitle
+          </p>
+
+          <div class="flex m-3 items-center">
+            <v-btn
+              icon
+              size="small"
+              variant="none"
+              @click="qtyDecrement"
+            >
+              <v-icon>mdi-minus</v-icon>
+            </v-btn>
+            <p class="text-bold mx-1 text-xl">
+              0
+            </p>
+
+            <v-btn
+              icon
+              size="small"
+              variant="none"
+              @click="qtyIncrement"
+            >
+              <v-icon icon="mdi-plus" />
+            </v-btn>
+          </div>
+          <v-btn class="m-3 mt-0">
+            Delete
+          </v-btn>
+          
+        </div>
+        <!--C3-->
+        <div class="bg-surface h-120 w-1/6 float-right text-right p-5">
+          <p>Item Cost $XX.00</p>
+          <p>Shipping $XX.00</p>
+          <divider />
+          <p class="font-bold">
+            Total $XX.00
+          </p>
+        </div>
+      </v-card>
+      <divider class="p-5" />
+      <v-card class="w-1/4 h-auto text-wrap rounded-xl border shadow-xl">
+        <p
+          :style="{fontFamily: 'Roboto Slab'}"
+          class="ml-3 text-wrap text-xl"
+        >
+          Card Processing
+        </p>
+      </v-card>
+    </v-container>
+    
+    
+    <!--OLD FORMS-->
+    <!-- <div class="h-full">
       <div
         v-if="cart.cartData === null || cart.cartData.length === 0"
         class="grid h-full place-items-center pb-40"
-      > 
-        <!-- Old v-if cart null div class -->
-        <!-- class="flex align-items-center justify-center" -->
+      >
         <v-card
           class="w-1/2 <lg:w-3/4"
         >
-          <!--SAFE TO EDIT-->
           <div>
             <v-container class="fill-height text-center flex align-center justify-center">
               <div class="">
                 <h3
-                  class="font-bold text-secondary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
+                  class="font-bold text-primary-darken-1 text-5xl my-5 fill-height text-center flex align-item-center justify-center"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Your cart is empty.
@@ -29,7 +100,7 @@
                 <v-btn
                   size="large"
                   variant="flat"
-                  color="button"
+                  color="primary-darken-1"
                   class="fill-height m-10"
                 >
                   <NuxtLink
@@ -45,39 +116,34 @@
         </v-card>
       </div>
       <div v-else>
-        <!-- v-else-if="infoSubmitted" -->
-        <!-- Show the items and pricing info and pictures and such - make an invoice looking page -->
         <div>
-          <!--SHIPPING ADDRESS FORM-->
           <v-form
             class="flex text-center align-middle items-center justify-center flex-shrink"
             @submit.prevent="submitShippingInfo"
           >
-            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
               class="w-1/2 <lg:w-3/4 bg-green-600 mt-10"
             >
               <v-container class="">
                 <h3
-                  class="text-secondary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
+                  class="text-primary-darken-1 justify-center text-center align-center font-bold lg:text-5xl text-4xl my-5"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Shipping Address
-                </h3>
-                <!-- <h4
+                </h3> -->
+    <!-- <h4
                   v-for="(item, product) in cart.cartData"
                   :key="product"
                   class="flex items-center align-center justify-center"
                 >
                   Cost of Shipping to{{ country }}: {{ item.shipping_cost }}
                 </h4> -->
-                <v-row class="pt-5">
+    <!-- <v-row class="pt-5">
                   <v-col
                     cols="12"
                     sm=""
                     class=""
                   >
-                    <!-- <label for="firstName">First Name</label> -->
                     <v-text-field
                       id="firstName"
                       v-model="firstName"
@@ -85,11 +151,10 @@
                       label="First Name"
                       placeholder="First Name"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col>
-                    <!-- <label for="lastName">Last Name</label> -->
                     <v-text-field
                       id="lastName"
                       v-model="lastName"
@@ -97,7 +162,7 @@
                       label="Last Name"
                       placeholder="Last Name"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -106,7 +171,6 @@
                     cols="12"
                     sm=""
                   >
-                    <!-- <label for="email">Email</label> -->
                     <v-text-field
                       id="email"
                       v-model="email"
@@ -114,14 +178,13 @@
                       label="Email Address"
                       placeholder="Email Address"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
                     cols="12"
                     sm=""
                   >
-                    <!-- <label for="phone">Phone</label> -->
                     <v-text-field
                       id="phone"
                       v-model="phone"
@@ -129,7 +192,7 @@
                       label="Phone Number"
                       placeholder="Phone Number"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -140,14 +203,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
                       id="address1"
                       v-model="address1"
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -155,14 +217,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
                       id="address2"
                       v-model="address2"
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -170,14 +231,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="city">City</label> -->
                     <v-text-field
                       id="city"
                       v-model="city"
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -185,14 +245,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="region">Region</label> -->
                     <v-text-field
                       id="region"
                       v-model="region"
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -200,14 +259,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="zip">Zip</label> -->
                     <v-text-field
                       id="zip"
                       v-model="zip"
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -222,7 +280,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -236,7 +294,7 @@
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="button"
+                      color="primary-darken-1"
                       class="fill-height align-middle items-center h-full text-white "
                       @click="useAsBilling=!useAsBilling; updateBilling()"
                     >
@@ -245,7 +303,6 @@
                           :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
                           class="mr-3 text-wrap flex flex-wrap text-wrap"
                         />
-                        <!--This v-icon used to say type="submit"-->
                         Same as Billing Address
                       </div>
                     </v-btn>
@@ -253,21 +310,18 @@
                 </v-row>
               </v-container>
             </v-card>
-          </v-form>
-
-
-          <!--PAYMENT INFORMATION FORM-->
-          <v-form
+          </v-form> -->
+    <!--PAYMENT INFORMATION FORM-->
+    <!-- <v-form
             class="flex text-center align-middle items-center justify-center flex-shrink mt-10 pb-10"
             @submit.prevent="submitOrder"
           >
-            <!-- Login with google/facebook option here to save user data for faster checkout next time? -->
             <v-card
               class="w-1/2 <lg:w-3/4 justify-center text-center align-center"
             >
               <v-container class="">
                 <h3
-                  class="justify-center text-secondary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
+                  class="justify-center text-primary-darken-1 text-center align-center font-bold lg:text-5xl text-4xl mt-5 mb-10"
                   :style="{fontFamily: 'Roboto Slab'}"
                 >
                   Payment Information
@@ -278,7 +332,6 @@
                     sm=""
                     class=""
                   >
-                    <!-- <label for="firstName">First Name</label> -->
                     <v-text-field
                       id="cardname"
                       v-model="cardname"
@@ -286,18 +339,17 @@
                       label="Name on Card"
                       placeholder="Name on Card"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col>
-                    <!-- <label for="lastName">Last Name</label> -->
                     <v-text-field
                       id="cardnum"
                       v-model="cardnum"
                       label="Card Number"
                       placeholder="Card Number"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                 </v-row>
@@ -314,7 +366,7 @@
                       label="Expiration Month"
                       placeholder="Expiration Month"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -330,7 +382,7 @@
                       label="Expiration Year"
                       placeholder="Expiration Year"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -345,7 +397,7 @@
                       label="Security Code"
                       placeholder="Security Code"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -353,14 +405,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address1">Address 1</label> -->
                     <v-text-field
                       id="address1b"
                       v-model="address1b"
                       type="text"
                       placeholder="Street Address or P.O. Box"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -368,14 +419,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="address2">Address 2</label> -->
                     <v-text-field
                       id="address2b"
                       v-model="address2b"
                       type="text"
                       placeholder="Apt, suite, unit, ect."
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -383,14 +433,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="city">City</label> -->
                     <v-text-field
                       id="cityb"
                       v-model="cityb"
                       type="text"
                       placeholder="City"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -398,14 +447,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="region">Region</label> -->
                     <v-text-field
                       id="regionb"
                       v-model="regionb"
                       type="text"
                       placeholder="State"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -413,14 +461,13 @@
                     md="6"
                     sm="6"
                   >
-                    <!-- <label for="zip">Zip</label> -->
                     <v-text-field
                       id="zipb"
                       v-model="zipb"
                       type="text"
                       placeholder="Zip"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                     />
                   </v-col>
                   <v-col
@@ -435,7 +482,7 @@
                       label="Country"
                       placeholder="Country"
                       variant="outlined"
-                      bg-color="textfield"
+                      bg-color="background"
                       transition="scale-transition"
                     />
                   </v-col>
@@ -448,7 +495,7 @@
                     <v-btn
                       size="large"
                       variant="flat"
-                      color="button"
+                      color="primary-darken-1"
                       class=" fill-height align-middle items-center h-full text-white "
                       @click="echo('I love you <3')"
                     >
@@ -469,6 +516,7 @@
         </div>
       </div>
     </div>
+  </div> -->
   </div>
   <ShopFooter />
 </template>

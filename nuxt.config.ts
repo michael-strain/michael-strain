@@ -45,14 +45,14 @@ export default defineNuxtConfig({
     },
     vite:{
         define:{
-            'process.env.DEBUG':false,
+            'process.env.DEBUG':true,
         },
-        css:{
-            preprocessorOptions: {
-                scss: {
-                  additionalData: '@use "@/assets/_colors.scss" as *;'
-                }
-            }
-        }
+        // css:{
+        //     preprocessorOptions: {
+        //         scss: {
+        //           additionalData: '@use "@/assets/_colors.scss" as *;'
+        //         }
+        //     }
+        // }
     },
 })

@@ -2,22 +2,16 @@
 <!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div>
-    <!--{{ $route.params }} -->
-    <!-- {{ $route.params.id }}  -->
-    <!-- {{ productTitle }} -->
-    <!-- {{ store.products }} -->
-    <!-- Requires a Product ID -->
-    <!-- Requires a Shop ID  -->
+  <div
+    class="bg-image bg-repeat align-items-center align-middle items-center h-full"
+    style="background-image: url('/img/purple-mushroom.jpg')"
+  >
     <!-- This is the product specific page based on the name passed in through the url.
     Check out Vuetify slide groups for showcasing art on a variety of printify products.
     https://next.vuetifyjs.com/en/components/slide-groups/ -->
     
     <ShopHeader />
-
     <!-- TODO Need to refactor this page to use '/api/query?col=products' if the product ID isn't available in storage for some reason -->
-    <!-- TODO Also need to do variant selector and print variant info and add variant to cart and stuff -->
-
     <v-container class="">
       <v-row dense>
         <v-col cols="12">
@@ -25,149 +19,88 @@
             <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
               <!-- New way -->
               <div v-if="product">
-                <div class="">
-                  <v-img
-                    class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
-                    :src="product.images[0].src"
-                  />
-                  <!-- Price should go somewhere near here! And make it 'shimmer' on scroll ;D -->
-                  <p class="bg-green transition-colors">
-                    Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
+                <v-card-title class="bg-surface py-5">
+                  <p                      
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-wrap text-5xl m-3 text-center"
+                  >
+                    {{ product.title }}
                   </p>
-                </div>
-                <div>
-                  <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
-                    <v-card-title class="bg-surface">
-                      <p
-                        :style="{fontFamily: 'Roboto Slab'}"
-                        class="text-wrap text-4xl m-3 text-center"
-                      >
-                        {{ product.title }}
-                      </p>
-                    </v-card-title>
-                    <v-divider />
-
-                    <!-- Variant Selector -->
-                    <div class="flex bg-surface items-center justify-center">
-                      <v-btn
-                        icon
-                        @click="variantDecrement"
-                      >
-                        <v-icon>mdi-chevron-left</v-icon>
-                      </v-btn>
-                      <v-card-title class="bg-surface text-center w-3/4">
-                        {{ product.variants[product.variantNum].title }}
-                      </v-card-title>
-                      <!-- <v-divider /> -->
-                      <v-btn
-                        icon
-                        @click="variantIncrement"
-                      >
-                        <v-icon icon="mdi-chevron-right" />
-                      </v-btn>
-                    </div>
-
-                    <!-- Quantity Selector -->
-                    <div class="flex bg-surface items-center justify-center">
-                      <v-btn
-                        icon
-                        @click="qtyDecrement"
-                      >
-                        <v-icon>mdi-minus</v-icon>
-                      </v-btn>
-                      <v-card-title class="bg-surface text-center w-3/4">
-                        {{ product.variants[product.variantNum].cartQty }}
-                      </v-card-title>
-                      <!-- <v-divider /> -->
-                      <v-btn
-                        icon
-                        @click="qtyIncrement"
-                      >
-                        <v-icon icon="mdi-plus" />
-                      </v-btn>
-                    </div>
-
-                    <v-card-subtitle
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-wrap text-2xl"
-                      v-html="product.description"
+                </v-card-title>
+                
+                <!--Carousel-->
+                <div class="sm:(w-full h-full float-none) flex md:(w-1/3 float-left mr-10)">
+                  <v-carousel
+                    color="primary-darken-1"
+                    delimiter-icon="mdi-circle-slice-8"
+                  >
+                    <v-carousel-item
+                      v-for="(img, i) in product.images"
+                      :key="i"
+                      :src="img.src"
+                      :lazy-src="img.src"
+                      :alt="img.alt"
                     />
-
-                    <v-card-actions class="justify-center bg-surface">
-                      <p
-                        class="m-5 text-3xl font-semibold text-green-600"
-                        size=""
-                      >
-                        {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
+                    <!-- <v-img
+                      :src="product.images[0].src"
+                    /> -->
+                  </v-carousel>
+                </div>
+        
+                <!--Right Side (Basically Everything)-->
+                <div class="sm:(float-none p-10 w-full) md:(w-full)">
+                  <!--Price and Buttons-->
+                  <div class="text-center justify-space-between sm:(flex-none md:flex)">
+                    <v-btn
+                      class="text-wrap <md:w-3/4 md:w-1/3 !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                      variant="outlined"
+                      size="x-large"
+                      :style="{fontFamily: 'Roboto Slab'}"
+                      @click="heartClick(product, product.variants[product.variantNum])"
+                    >
+                      <p class="text-base">
+                        Add to Cart
                       </p>
-                      <p>
-                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
-                      </p>
+                    </v-btn>
+                    
+                    <p
+                      class="<md:(w-full py-6) md:(w-1/3 pt-2) text-center text-4xl font-semibold text-green-600"
+                      size=""
+                    >
+                      {{ formatter.format((itemPrice(product.variants[product.variantNum])/100)) }}
+                    </p>
+                    
+                    <NuxtLink
+                      to="/shop/checkout"
+                      class="<md:w-3/4 md:w-1/3"
+                    >
                       <v-btn
-                        class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
+                        class="<md:w-3/4 w-full text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
                         variant="outlined"
+                        size="x-large"
                         :style="{fontFamily: 'Roboto Slab'}"
-                        @click="heartClick(product, product.variants[product.variantNum])"
                       >
                         <p class="text-base">
-                          Add to Cart
+                          <v-icon class="pr-3">
+                            mdi-cart
+                          </v-icon>View Cart
                         </p>
                       </v-btn>
-                    </v-card-actions>
-                    <v-divider />
-
-                    <!-- <v-radio-group
-                      v-model="product"
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-wrap text-2xl m-3"
-                    >
-                      <v-radio
-                        v-for="(variant, index) in product.variants"
-                        :key="index"
-                        :label="variant.title"
-                        :value="variant.title"
-                      />
-                    </v-radio-group> -->
-
+                    </NuxtLink>
+                  </div>
+                  <p
+                    :style="{fontFamily: 'Roboto Slab'}"
+                    class="text-wrap text-xl text-justify py-10 <md:px-5"
+                    v-html="product.description"
+                  />
+                  <div class="flex align-center" v-if="product.variants.length>1">
                     <v-select
                       :default="product.variants[product.variantNum].title"
                       label="Select a variant"
                       :items="product.variants"
-                      variant="solo"
+                      class=""
                       @update:model-value="changeProductVariantNum(product, $event)"
                     /> 
-                    More Variant data can go here :)
-                    <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
-                    <pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre>
-
-                    <!-- Old Method -->
-                    <!-- <p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
-                      <p>Shipping Cost Per Item: {{ product.variants[product.variantNum].additionalItemCost }}</p>
-                    <p>SKU: {{ product.variants[product.variantNum].sku }}</p> -->
-                
-                  <!-- Make button green -->
-
-                  <!-- <v-list v-for="(variant, index) in product.variants" :key="index" @click="product.variantNum = index">
-                    <v-list-item
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-wrap text-2xl m-3"
-                    >
-                      {{ variant.title }}
-                    </v-list-item>>
-                  </v-list> -->
-                  
-
-
-                  <!-- <v-select
-                    label="Select a variant"
-                    :items="product.variants"
-                    chips
-                    variant="solo"
-                  /> -->
-                  <!-- :default="product.variants[product.variantNum].title" -->
-
-                  
-                  <!-- <v-card-text v-if="product.qty>0" class="float-right">{{ product.qty }} Items In Cart</v-card-text> -->
                   </div>
                 </div>
               </div>
@@ -177,80 +110,75 @@
       </v-row>
     </v-container>
   </div>
-
-
-
-
-  <!--Product Container-->
-  <!-- <v-container class="">
-      <v-row dense>
-        <v-col cols="12">
-          <div class="flex flex-wrap">
-            <v-card class="bg-white w-full text-wrap rounded-xl border flex m-5 p-2 shadow-xl">
-              <v-img
-                class="sm:(w-1/2 h-full) flex sm<:w-full sm:float-left"
-                src="https://images-api.printify.com/mockup/63b7410a0b5a3e94ee0565ad/88141/58694/glowing-mushroom-mug.jpg"
-              />
-
-              <div class="sm<:w-full sm:w-1/2 float-left sm:float-none">
-                <v-card-title class="bg-surface">
-                  <p
-                    :style="{fontFamily: 'Roboto Slab'}"
-                    class="text-wrap text-4xl m-3"
-                  >
-                    Glowing Mushroom Mug
-                  </p>
-                </v-card-title>
-
-                <v-card-subtitle
-                  :style="{fontFamily: 'Roboto Slab'}"
-                  class="text-wrap"
-                >
-                  <p class="text-2xl p-3 pt-5">
-                    This mug gets its magic from a heat-reactive surface. The ceramic cup reveals the design once the mug gets warm. It will go back to its original colors, black outside and white inside, when it cools down. The C-shaped handle helps keep a sturdy grip. This mug holds 11 ounces – plenty for that big morning cup of coffee. Hand washing recommened. 
-                  </p>
-                </v-card-subtitle>
-
-                <v-card-actions class="pb-5">
-                  <p
-                    class="m-5 text-3xl font-semibold text-green-600"
-                    size=""
-                  >
-                    $15
-                  </p>
-
-                  <v-btn
-                    class="text-wrap !font-semibold !text-green-600 !text-2x3 hover:(!text-green-800)"
-                    variant="outlined"
-                    :style="{fontFamily: 'Roboto Slab'}"
-                    @click="addToCart(item)"
-                  >
-                    <p class="text-base">
-                      Add to Cart
-                    </p>
-                  </v-btn>
-                </v-card-actions>
-              </div>
-            </v-card>
-          </div> 
-        </v-col>
-      </v-row>
-    </v-container> -->
-    <ShopFooter />
-
+  <ShopFooter />
 </template>
 
+<!-- <p class="bg-green transition-colors">
+  Per Item: {{ formatter.format((itemPrice(product.variants[product.variantNum]))/100) }}
+/p> -->
 
-
-
-
-
-
+<!--Quantity Adjustor-->
+<!-- <div class="flex float-right bg-surface items-center justify-center">
+                    <v-btn
+                      icon
+                      @click="qtyDecrement"
+                    >
+                      <v-icon>mdi-minus</v-icon>
+                    </v-btn>
+                    <v-card-title class="bg-surface text-center w-3/4">
+                      {{ product.variants[product.variantNum].cartQty }}
+                    </v-card-title>
+                    <v-btn
+                      icon
+                      @click="qtyIncrement"
+                    >
+                      <v-icon icon="mdi-plus" />
+                    </v-btn>
+                  </div> -->
+<!-- More Variant data can go here :)
+<p>Handling Time: {{ product.variants[product.variantNum].handlingTime }} {{ product.variants[product.variantNum].handlingTimeUnit }}s</p>
+<pre>Shipping Profile: {{ product.variants[product.variantNum].shippingProfile }}</pre> -->
+<!-- Variant Selector -->
+<!-- <div class="flex bg-surface items-center justify-center">
+                      <v-btn
+                        icon
+                        @click="variantDecrement"
+                      >
+                        <v-icon>mdi-chevron-left</v-icon>
+                      </v-btn>
+                      <v-card-title class="bg-surface text-center w-3/4">
+                        {{ product.variants[product.variantNum].title }}
+                      </v-card-title>
+                      <v-btn
+                        icon
+                        @click="variantIncrement"
+                      >
+                        <v-icon icon="mdi-chevron-right" />
+                      </v-btn>
+                    </div> -->
+<!-- Quantity Selector -->
+<!-- <div class="flex bg-surface items-center justify-center">
+            <v-btn
+                        icon
+                        @click="qtyDecrement"
+                      >
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <v-card-title class="bg-surface text-center w-3/4">
+                        {{ product.variants[product.variantNum].cartQty }}
+                      </v-card-title>
+                      <v-btn
+                        icon
+                        @click="qtyIncrement"
+                      >
+                        <v-icon icon="mdi-plus" />
+                      </v-btn>
+                    </div> -->
+                    <!-- <p>
+                        + {{ formatter.format((itemShippingPrice(product.variants[product.variantNum])/100)) }} Shipping
+                      </p> -->
 
 <script setup>
-
-// Time to introduce Variants
-
 import { ref, computed, reactive } from 'vue'
 import { useProductDataStore } from '~/stores/productData';
 import { useCartDataStore } from '~/stores/cartData';
@@ -355,7 +283,8 @@ const formatter = new Intl.NumberFormat('en-US', {
 //When the page loads, get the data from the store using our ID
 onMounted(async () => {
   const store = useProductDataStore()
-  product.value = store.productData.find((item) => item.id == productId.value)
+  // product.value = store.productData.find((item) => item.id == productId.value)
+  product.value = store.productData[store.productData.map((x)=>{return x.id}).indexOf(productId.value)]
   console.log(product.value)
 })
 
@@ -366,47 +295,6 @@ function changeProductVariantNum(item, e){
   item.variantNum = idx
   console.log(item)
 }
-
-// function addToCart(item, variant){ 
-//   const cart = useCartDataStore()
-//   const store = useProductDataStore()
-//   let itemInCart = false
-
-//   // feels like the computer is doing the work for me here.  I'm not sure why I need to do this.  I thought that the store was a reactive object and that I could just do this:
-//   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
-
-//   // product.variants[product.variantNum].cartQty
-
-//   // variant.cartQty++
-//   // if (product.value.variants[product.value.variantNum].cartQty>0){
-//   //   variant.cartQty = product.value.variants[product.value.variantNum].cartQty
-//   // } else {
-//   //   variant.cartQty = 1
-//   // }
-//   variant.inCart = true
-//   // item.variants[item.variantNum] = variant
-//   item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
-
-//   //if an item is already in the cart, patch the item with variant data
-//   for (let i = 0; i < cart.cartData.length ; i++){
-//     if (item.id == cart.cartData[i].id){
-//       console.log("This item is already in the cart.  Updating it.")
-//       cart.$patch( cart.cartData[i] = item )
-//       store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-//       itemInCart = true
-//     }
-//   }
-
-//   if (!itemInCart){
-//     if (cart.cartData.length){
-//       cart.$patch(cart.cartData[cart.cartData.length] = item)
-//       store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-//     } else {
-//       cart.$patch(cart.cartData[0]=item)
-//       store.$patch( store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)]=item)
-//     }
-//   }
-// }
 
 function heartClick(item, variant){ 
     const cart = useCartDataStore()
