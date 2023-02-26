@@ -1,3 +1,7 @@
+Thoughts 2/25/23
+----------------
+-Need to consider spending time creating automated tests for the app
+
 Thoughts 2/17/23
 ----------------
 -Future Priorities
@@ -22,7 +26,7 @@ Thoughts 2/17/23
         -https://www.payone.com/en/ (Suggested by CoPilot)
         -https://unipaygateway.com/
         -https://www.usabusiness.co.in/best-e-commerce-payment-gateways-in-panama/
-
+    -We should really be storing our images as webp
 -Today's priorities:
     -Figure out data persistence issues man: time for some serious debugging & Pinia research
     -Checkout Page -> Validate Order -> Verify Printify Status -> Send to Payment Processor & Recieve Payment Confirmation -> Send Order to Printify API -> Send customer e-mail confirmation (and maybe send me a happy text! :D)

@@ -484,7 +484,7 @@
     
     // cart.$patch(variant.id, {itemCost: variant.itemCost})
     // console.log(sProfile.first_item.cost)
-    return variant.itemCost // Profit margin is 25% of cost + $1.00
+    return variant.itemCost // Profit margin is 10% of cost + $1.00
     //   let firstItemCost = variant.shippingProfile[].first_item.cost
     //   let additionalItemCost = variant.shippingProfile[].additional_items.cost
     // return variant.cost + 
