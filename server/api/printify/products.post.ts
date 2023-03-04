@@ -47,8 +47,34 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   // Data validation stuff
-  const requiredFields = ['title', 'description', 'variants', 'blueprint_id', 'print_provider_id', 'print_areas']
+  const requiredFields = ['title', 'description', 'variants', 'blueprint_id', 'print_provider_id', 'print_areas', 'images']
   const title = String(body.title)
+  const description = String(body.description)
+  const variants = Array(body.variants)
+  // variants: {
+  //   "id" = Number,
+  //   "price" = Number, //as cents
+  //   "is_enabled" = Boolean,
+  // }
+  const blueprint_id = Number(body.blueprint_id) // should be passed in by the client when making a post request
+  const print_provider_id = Number(body.print_provider_id) //should also be passed in by the client when making a post request
+  const print_areas = Array(body.print_areas) //should return an ID of an image uploaded to printify by the user in order to make the post request
+  // print_areas: {
+  //   "variant_ids" = Array, //of numbers
+  //   "print_area_id" = Number,
+  //   "placeholders: [{
+  //     "position" = string, // "front" or "back" or maybe more?
+  //     "images": [{
+  //       "id" = string,
+  //       "x" = Number,
+  //       "y" = Number,
+  //       "scale" = Number,
+  //       "angle" = Number
+  //     }]
+  //   }]
+  // }
+  
+  
 
   const opts = {
     url: 'https://api.printify.com/v1/shops/6483145/products.json',
