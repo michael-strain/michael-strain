@@ -1,81 +1,295 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
-    class="bg-image bg-repeat align-items-center align-middle items-center h-full"
+    class="bg-image bg-repeat h-full"
     style="background-image: url('../img/purple-mushroom.jpg')"
   >
     <ShopHeader />
-    <v-container class="flex mt-8">
-      <v-card class="bg-white w-3/4 text-wrap rounded-xl border flex shadow-xl">
-        <!--C1-->
-        <div class="bg-purple h-100 w-1/3 flex float-left">
-          <!-- <v-img
-            :src="product.images[0].src"
-          /> -->
-        </div>
-        <!--C2-->
-        <div class="w-1/2 float-left">
-          <v-card-title class="w-full">
-            <p                      
-              :style="{fontFamily: 'Roboto Slab'}"
-              class="text-wrap w-full text-3xl"
+    
+    <v-container class="mt-8 md:flex">
+      <v-card class="h-full bg-white w-3/4 <md:w-full text-wrap rounded-xl border flex shadow-xl">
+        <v-card
+          class="d-sm-flex"
+          variant="none"
+        >
+          <!--C1-->
+          <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
+            <img
+              src="/img/black-gold-mushroom.jpg"
+              class=""
             >
-              Product Title
-            </p>
-          </v-card-title>
-          <p
-            :style="{fontFamily: 'Roboto Slab'}"
-            class="ml-3 text-wrap text-xl"
-          >
-            Subtitle
-          </p>
-
-          <div class="flex m-3 items-center">
-            <v-btn
-              icon
-              size="small"
-              variant="none"
-              @click="qtyDecrement"
-            >
-              <v-icon>mdi-minus</v-icon>
-            </v-btn>
-            <p class="text-bold mx-1 text-xl">
-              0
-            </p>
-
-            <v-btn
-              icon
-              size="small"
-              variant="none"
-              @click="qtyIncrement"
-            >
-              <v-icon icon="mdi-plus" />
-            </v-btn>
           </div>
-          <v-btn class="m-3 mt-0">
-            Delete
-          </v-btn>
-          
-        </div>
-        <!--C3-->
-        <div class="bg-surface h-120 w-1/6 float-right text-right p-5">
-          <p>Item Cost $XX.00</p>
-          <p>Shipping $XX.00</p>
-          <divider />
-          <p class="font-bold">
+          <!--C2-->
+          <div class="pt-7 w-100 <md:(text-center pb-5)">
+            <v-card-title class="w-full">
+              <p                      
+                :style="{fontFamily: 'Roboto Slab'}"
+                class="text-wrap w-full text-3xl"
+              >
+                Big-Ass Mother-Fucking Product Title
+              </p>
+            </v-card-title>
+            <p
+              :style="{fontFamily: 'Roboto Slab'}"
+              class="ml-3 text-wrap text-xl"
+            > 
+              With an average length subtitle. :P
+            </p>
+
+            <div class="flex m-3 items-center <md:justify-center">
+              <v-btn
+                icon
+                size="small"
+                variant="none"
+                @click="qtyDecrement"
+              >
+                <v-icon>mdi-minus</v-icon>
+              </v-btn>
+              <p class="text-bold mx-1 text-xl">
+                0
+              </p>
+
+              <v-btn
+                icon
+                size="small"
+                variant="none"
+                @click="qtyIncrement"
+              >
+                <v-icon icon="mdi-plus" />
+              </v-btn>
+            </div>
+            <v-btn class="m-3 mt-0">
+              Delete
+            </v-btn>
+            <!-- <p class="text-bold ml-3">Item Cost - $XX.00</p>
+            <p class="text-bold ml-3">Shipping - $XX.00</p> -->
+          </div>
+          <!--C3-->
+          <div class="bg-surface lg:w-1/3 text-center p-8 align-center">
+            <p>Item Cost<br>$XX.00</p>
+            <divider class="p-5" />
+            <p>Shipping<br>$XX.00</p>
+          <!-- <p class="font-bold">
             Total $XX.00
-          </p>
-        </div>
+          </p> -->
+          </div>
+        </v-card>
+        <div class="bg-surface-darken-1 p-1 w-full" />
+        <!--Second-->
+        <v-card
+          class="d-sm-flex"
+          variant="none"
+        >
+          <!--C1-->
+          <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
+            <img
+              src="/img/black-gold-mushroom.jpg"
+              class=""
+            >
+          </div>
+          <!--C2-->
+          <div class="pt-7 w-100 <md:(text-center pb-5)">
+            <v-card-title class="w-full">
+              <p                      
+                :style="{fontFamily: 'Roboto Slab'}"
+                class="text-wrap w-full text-3xl"
+              >
+                Product Title
+              </p>
+            </v-card-title>
+            <p
+              :style="{fontFamily: 'Roboto Slab'}"
+              class="ml-3 text-wrap text-xl"
+            > 
+              Subtitle
+            </p>
+
+            <div class="flex m-3 items-center <md:justify-center">
+              <v-btn
+                icon
+                size="small"
+                variant="none"
+                @click="qtyDecrement"
+              >
+                <v-icon>mdi-minus</v-icon>
+              </v-btn>
+              <p class="text-bold mx-1 text-xl">
+                0
+              </p>
+
+              <v-btn
+                icon
+                size="small"
+                variant="none"
+                @click="qtyIncrement"
+              >
+                <v-icon icon="mdi-plus" />
+              </v-btn>
+            </div>
+            <v-btn class="m-3 mt-0">
+              Delete
+            </v-btn>
+            <!-- <p class="text-bold ml-3">Item Cost - $XX.00</p>
+            <p class="text-bold ml-3">Shipping - $XX.00</p> -->
+          </div>
+          <!--C3-->
+          <div class="bg-surface lg:w-1/3 text-center p-8 align-center">
+            <p>Item Cost<br>$XX.00</p>
+            <divider class="p-5" />
+            <p>Shipping<br>$XX.00</p>
+          <!-- <p class="font-bold">
+            Total $XX.00
+          </p> -->
+          </div>
+        </v-card>
       </v-card>
-      <divider class="p-5" />
-      <v-card class="w-1/4 h-auto text-wrap rounded-xl border shadow-xl">
+      
+  
+      <!--Divider-->
+      <v-divider
+        vertical
+        class="p-2"
+      />
+      
+      <!--Order Information-->
+      <v-card
+        class="h-full bg-white text-wrap rounded-xl border flex shadow-xl"
+      >
+        <v-card-title class="w-full pb-5 bg-surface ">
+          <p                      
+            :style="{fontFamily: 'Roboto Slab'}"
+            class="p-4 text-wrap text-center text-primary-darken-1 font-bold w-full text-3xl"
+          >
+            Order Information
+          </p>
+        </v-card-title> 
+        <v-container class="">          
+          <div class="">
+            <v-text-field
+              id="firstName"
+              v-model="firstName"
+              type="text"
+              label="First Name"
+              placeholder="First Name"
+              hide-details
+              bg-color="background"
+              class=""
+            />
+
+            <v-text-field
+              id="lastName"
+              v-model="lastName"
+              type="text"
+              label="Last Name"
+              placeholder="Last Name"
+              hide-details
+              bg-color="background"
+              class=""
+            />
+            
+            <v-text-field
+              id="email"
+              v-model="email"
+              type="email"
+              label="Email Address"
+              placeholder="Email Address"
+              hide-details
+              bg-color="background"
+              class=""
+            />
+           
+            <v-text-field
+              id="phone"
+              v-model="phone"
+              type="tel"
+              label="Phone Number"
+              placeholder="Phone Number"
+              hide-details
+              bg-color="background"
+            />
+              
+            <v-text-field
+              id="address1"
+              v-model="address1"
+              type="text"
+              label="Street Address"
+              placeholder="Street Address or P.O. Box"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="address2"
+              v-model="address2"
+              type="text"
+              label="Apt, suite, unit, ect."
+              placeholder="Apt, suite, unit, ect."
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="city"
+              v-model="city"
+              type="text"
+              label="City"
+              placeholder="City"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="region"
+              v-model="region"
+              type="text"
+              label="State"
+              placeholder="State"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="zip"
+              v-model="zip"
+              type="text"
+              label="Zip Code"
+              placeholder="Zip Code"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="country"
+              v-model="country"
+              :items="countries"
+              label="Country"
+              placeholder="Country"
+              hide-details
+              bg-color="background"
+              transition="scale-transition"
+            />
+          </div>
+          <v-btn
+            size="large"
+            variant="flat"
+            color="primary-darken-1"
+            class="fill-height align-middle items-center h-full text-white mt-5"
+            @click="useAsBilling=!useAsBilling; updateBilling()"
+          >
+            <div class="text-wrap text-md m-2">
+              <v-icon
+                :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
+                class="mr-3 text-wrap flex flex-wrap text-wrap"
+              />
+              Same as Billing Address
+            </div>
+          </v-btn>
+        </v-container>
+      </v-card>
+
+      <!-- <v-card class="md:w-100 h-auto text-wrap rounded-xl border shadow-xl">
         <p
           :style="{fontFamily: 'Roboto Slab'}"
-          class="ml-3 text-wrap text-xl"
+          class="ml-3 text-wrap text-xl text-center"
         >
           Card Processing
         </p>
-      </v-card>
+      </v-card> -->
     </v-container>
     
     
