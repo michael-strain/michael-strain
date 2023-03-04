@@ -7,13 +7,13 @@ createVuetify({
   defaults: {
     VCard: {
       color: 'button',
-      VBtn: { variant: 'flat', color:'blue' },
+      VBtn: { variant: 'flat', color:'blue' }
     },
-    VBtn: { variant: 'flat', color:'red' },
-  },
+    VBtn: { variant: 'flat', color:'red' }
+  }
 })
 
-//Purple
+//Purple theme
 const myCustomLightTheme = {
   dark: false,
   colors: {
@@ -25,8 +25,8 @@ const myCustomLightTheme = {
     'primary-darken-1': '#4C1973',
     secondary: '#bef67a', //ONLY THIS WORKS???
     'secondary-darken-1': '#8bc34a',
-    error: '#FB8C00',
-  },
+    error: '#FB8C00'
+  }
 }
 
 
@@ -77,7 +77,7 @@ const myCustomDarkTheme = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
-    custcard: '#252525',
+    custcard: '#252525'
   }
 }
 
@@ -89,20 +89,20 @@ export default defineNuxtPlugin(nuxtApp => {
       defaultTheme: 'myCustomLightTheme',
       themes: {
         myCustomLightTheme,
-        myCustomDarkTheme,
+        myCustomDarkTheme
       }
-    },
-    defaults: {
-      // VCard: {
-      //   color: '',
-      //   VBtn: { variant: 'flat', color:'blue' },
-      // },
-      // VBtn: { variant: 'flat', color:'', size: 'large'},
-    },
-  })
+    }
+    // defaults: {
+    //   // VCard: {
+    //   //   color: '',
+    //   //   VBtn: { variant: 'flat', color:'blue' },
+    //   // },
+    //   // VBtn: { variant: 'flat', color:'', size: 'large'},
+    // },
+  });
 
   // Found this labeled as primary in an scss/sass file somewhere
   // #cbd5e1
 
-  nuxtApp.vueApp.use(vuetify)
+  nuxtApp.vueApp.use(vuetify);
 })

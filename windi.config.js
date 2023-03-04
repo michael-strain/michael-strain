@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} **/
 module.exports = {
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -6,14 +6,14 @@ module.exports = {
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
-    "./app.vue",
+    "./app.vue"
   ],
   theme: {
-    extend: {},
+    extend: {}
   },
   shortcuts: {
     '':'' //Can set things globally here, example below
     // 'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md'
   },
-  plugins: [],
+  plugins: []
 }
