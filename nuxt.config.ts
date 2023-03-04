@@ -1,5 +1,6 @@
 // // nuxt.config.ts
 // import { defineNuxtConfig } from 'nuxt'
+import WindiCSS from 'vite-plugin-windicss'
 
 export default defineNuxtConfig({
     runtimeConfig: {
@@ -47,6 +48,9 @@ export default defineNuxtConfig({
         define:{
             'process.env.DEBUG':true,
         },
+        plugins:[
+            WindiCSS()
+        ]
         // css:{
         //     preprocessorOptions: {
         //         scss: {
