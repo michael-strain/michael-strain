@@ -4,7 +4,7 @@ import WindiCSS from 'vite-plugin-windicss'
 
 export default defineNuxtConfig({
     runtimeConfig: {
-        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+        FIREBASE_API_KEY: 'AIzaSyDv2dJDwn9QNmkNiqB-INMD9EklS-B-Lfk',
     },
     modules:[
         'nuxt-windicss',
@@ -45,12 +45,12 @@ export default defineNuxtConfig({
         // ga: { id: 'UA-XXXXXXXXX-X' }
     },
     vite:{
-        define:{
-            'process.env.DEBUG':true,
-        },
-        plugins:[
-            WindiCSS()
-        ]
+        // define:{
+        //     'process.env.DEBUG':true,
+        // },
+        // plugins:[
+        //     WindiCSS() //not sure this should exist
+        // ]
         // css:{
         //     preprocessorOptions: {
         //         scss: {
