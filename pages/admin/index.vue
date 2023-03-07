@@ -5,7 +5,12 @@
     <p>Admin page</p>
     <p>Only logged in ADMIN users can see this page</p>
     {{ auth.currentUser.uid }}
-    <NuxtLink to="/admin/printify/products">Products</NuxtLink>
+    <v-btn>
+      <NuxtLink to="/admin/printify/products">Products</NuxtLink>
+    </v-btn>
+    <v-btn>
+      <NuxtLink to="/admin/product/create">Create Product</NuxtLink>
+    </v-btn>
   </div>
 </template>
 
@@ -16,7 +21,7 @@ import { useRouter } from 'vue-router'
 
 const auth = getAuth();
 const firebaseUser = useFirebaseUser()
-firebaseUser.value = auth.currentUser;
+// firebaseUser.value = auth.currentUser;
 
 const loadAdminPanel = ref(false)
 

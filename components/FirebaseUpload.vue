@@ -56,5 +56,6 @@ const onFileChange = async (e) => {
   const { snapshot, downloadUrl, metadata } = await uploadFile(files[0])
   emits("fileUploading",false)
   emits("fileChange", snapshot, downloadUrl, metadata)
+  console.log(downloadUrl)
 }
 </script>
