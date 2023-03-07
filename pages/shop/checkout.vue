@@ -6,16 +6,28 @@
   >
     <ShopHeader />
     
-    <v-container class="mt-8 md:flex">
-      <v-card class="h-full bg-white w-3/4 <md:w-full text-wrap rounded-xl border flex shadow-xl">
+    <v-container
+      v-if="cartProducts != null && cartProducts.length>0"
+      class="mt-8 md:flex"
+    >
+      <!-- <v-list-item v-for="(item, product) in cartProducts" :key="product">
+            <v-list-item v-for="variant in variantsInCart(item.variants)" :key="variant.id"> -->
+      <v-card
+        v-for="(item, product) in cartProducts"
+        :key="product"
+        class="h-full bg-white w-3/4 <md:w-full text-wrap rounded-xl border flex shadow-xl"
+      >
         <v-card
+          v-for="variant in variantsInCart(item.variants)"
+          :key="variant.id"
           class="d-sm-flex"
           variant="none"
         >
           <!--C1-->
           <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
             <img
-              src="/img/black-gold-mushroom.jpg"
+              :src="item.images[0].src"
+              lazy-src="img/black-gold-mushroom.jpg"
               class=""
             >
           </div>
@@ -26,82 +38,14 @@
                 :style="{fontFamily: 'Roboto Slab'}"
                 class="text-wrap w-full text-3xl"
               >
-                Big-Ass Mother-Fucking Product Title
+                {{ item.title }}
               </p>
             </v-card-title>
             <p
               :style="{fontFamily: 'Roboto Slab'}"
               class="ml-3 text-wrap text-xl"
-            > 
-              With an average length subtitle. :P
-            </p>
-
-            <div class="flex m-3 items-center <md:justify-center">
-              <v-btn
-                icon
-                size="small"
-                variant="none"
-                @click="qtyDecrement"
-              >
-                <v-icon>mdi-minus</v-icon>
-              </v-btn>
-              <p class="text-bold mx-1 text-xl">
-                0
-              </p>
-
-              <v-btn
-                icon
-                size="small"
-                variant="none"
-                @click="qtyIncrement"
-              >
-                <v-icon icon="mdi-plus" />
-              </v-btn>
-            </div>
-            <v-btn class="m-3 mt-0">
-              Delete
-            </v-btn>
-            <!-- <p class="text-bold ml-3">Item Cost - $XX.00</p>
-            <p class="text-bold ml-3">Shipping - $XX.00</p> -->
-          </div>
-          <!--C3-->
-          <div class="bg-surface lg:w-1/3 text-center p-8 align-center">
-            <p>Item Cost<br>$XX.00</p>
-            <divider class="p-5" />
-            <p>Shipping<br>$XX.00</p>
-          <!-- <p class="font-bold">
-            Total $XX.00
-          </p> -->
-          </div>
-        </v-card>
-        <div class="bg-surface-darken-1 p-1 w-full" />
-        <!--Second-->
-        <v-card
-          class="d-sm-flex"
-          variant="none"
-        >
-          <!--C1-->
-          <div class="p-10 <md:pb-0 lg:(w-2/3 pr-4 p-10) h-full align-center">
-            <img
-              src="/img/black-gold-mushroom.jpg"
-              class=""
             >
-          </div>
-          <!--C2-->
-          <div class="pt-7 w-100 <md:(text-center pb-5)">
-            <v-card-title class="w-full">
-              <p                      
-                :style="{fontFamily: 'Roboto Slab'}"
-                class="text-wrap w-full text-3xl"
-              >
-                Product Title
-              </p>
-            </v-card-title>
-            <p
-              :style="{fontFamily: 'Roboto Slab'}"
-              class="ml-3 text-wrap text-xl"
-            > 
-              Subtitle
+              {{ variant.title }}
             </p>
 
             <div class="flex m-3 items-center <md:justify-center">
@@ -109,24 +53,27 @@
                 icon
                 size="small"
                 variant="none"
-                @click="qtyDecrement"
+                @click="decreaseCartItemQty(item, variant)"
               >
                 <v-icon>mdi-minus</v-icon>
               </v-btn>
               <p class="text-bold mx-1 text-xl">
-                0
+                {{ variant.cartQty }}
               </p>
 
               <v-btn
                 icon
                 size="small"
                 variant="none"
-                @click="qtyIncrement"
+                @click="increaseCartItemQty(item, variant)"
               >
                 <v-icon icon="mdi-plus" />
               </v-btn>
             </div>
-            <v-btn class="m-3 mt-0">
+            <v-btn
+              class="m-3 mt-0"
+              @click="removeVariant(item,variant)"
+            >
               Delete
             </v-btn>
             <!-- <p class="text-bold ml-3">Item Cost - $XX.00</p>
@@ -134,16 +81,19 @@
           </div>
           <!--C3-->
           <div class="bg-surface lg:w-1/3 text-center p-8 align-center">
-            <p>Item Cost<br>$XX.00</p>
-            <divider class="p-5" />
-            <p>Shipping<br>$XX.00</p>
+            <p>Item Cost<br>{{ formatter.format((itemPrice(variant) * variant.cartQty)/100)}}</p>
+            <!-- <divider class="p-5" /> -->
+            <p>Shipping<br>{{ formatter.format((itemShippingPrice(variant) * variant.cartQty)/100) }}</p>
           <!-- <p class="font-bold">
             Total $XX.00
           </p> -->
           </div>
         </v-card>
+        <!-- <div
+          v-if="cartProducts.length>1" 
+          class="bg-surface-darken-1 p-1 w-full"
+        /> -->
       </v-card>
-      
   
       <!--Divider-->
       <v-divider
@@ -290,6 +240,10 @@
           Card Processing
         </p>
       </v-card> -->
+    </v-container>
+    <v-container v-else>
+      No items found in cart.
+      Let's Go Shopping!
     </v-container>
     
     
@@ -752,8 +706,10 @@
 
 import { ref } from 'vue'
 import { useCartDataStore } from '~/stores/cartData';
-import { storeToRefs } from 'pinia';
-import { range } from '@antfu/utils';
+import { useProductDataStore } from '~/stores/productData'
+import { useUserDataStore } from '~/stores/userData'
+// import { storeToRefs } from 'pinia';
+// import { range } from '@antfu/utils';
 
 const infoSubmitted = ref(false)
 
@@ -792,6 +748,16 @@ function expirationYearOptions () {
   return years
 }
 
+function variantsInCart(item) {
+    let cartVariants=[]
+    for (let i=0; i<item.length; i++){
+      if(item[i].inCart){
+        cartVariants.push(item[i])
+      }
+    }
+    return cartVariants
+  }
+
 
 // Are these necessary? - No, not with Braintree
 // const cardname = ref('')
@@ -826,9 +792,32 @@ const updateBilling = function () {
   }
 }
 
+// const cart = useCartDataStore()
+// const cartData = ref()
+// cartData.value = storeToRefs(cart.cartData)
+const cartProducts = ref([])
+// const cartProducts = ref()
+const loaded = ref(false)
+// const store = useProductDataStore()
 const cart = useCartDataStore()
-const cartData = ref()
-cartData.value = storeToRefs(cart.cartData)
+// const user = useUserDataStore()
+
+const hover = ref(false)
+
+// const pageTitle = computed(() => useRoute().path)
+
+//Call Datastore to get all Cart Products
+onMounted(async() => {
+  if(cart.cartData.length>0 ){
+    console.log(cart.cartData)
+    cartProducts.value = cart.cartData
+    loaded.value = true
+  }
+  else {
+    // cartProducts.value = cart.cartData
+    loaded.value = false
+  }
+})
 
 async function submitShippingInfo() {
   const cart = useCartDataStore()
@@ -953,9 +942,238 @@ function submitOrder(){
     method: 'POST',
     body: {"thereIs":"Nothing here yet lol"}
   })
-
-  //
-
 }
+
+  function decreaseCartItemQty(item, variant) {
+
+    //Ultimately we need to:
+      // 1. Decrease the cartQty of the variant
+      // 2. If the cartQty of the variant is 0, remove the variant from the cart
+      // 3. If the cartQty of the variant is 0 and there are no more variants of this item in the cart, remove the item from the cart
+
+    // In it's current form, i'm patching like crazy and I don't think it's absolutely necessary.
+    // Oh well for now I guess.
+
+    // It also appears that the qty doesn't always update properly. (I think it's because I'm not using the cartDataStore properly. Suggested by CoPilot)
+    // See below for a suggested fix:
+    // vue-3-composition-api-how-to-update-a-nested-object-in-a-ref
+
+    const cart = useCartDataStore()
+    let otherVariants = false
+
+    variant.cartQty--
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+
+    if (variant.cartQty==0){
+      variant.inCart = false
+      item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      cartProducts.value = cart.cartData
+
+      for (let j = 0; j < item.variants.length ; j++){
+        if (item.variants[j].cartQty>0){
+          // console.log("There are still other variants of this item in the cart")
+          otherVariants = true
+          break
+        }
+      }
+
+      //if there are not other variants of this item in the cart, just remove the whole item
+      if (!otherVariants) {
+        //Remove whole item from cart
+        cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
+        cartProducts.value = cart.cartData
+
+        //If there are no other products in cart data, set loaded to false
+        if(cart.cartData.length==0){
+          cart.$patch(cart.cartData=[])
+          loaded.value = false
+        }
+
+      }
+      // else if (otherVariants) {
+        //Remove just this variant from the cart
+        // item = item.variants.splice(item.variants.map((x)=>{return x.id}).indexOf(variant.id),1)
+
+        // We don't actually want to remove it from the item, just set cartQty and inCart values
+        // cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+        // cartProducts.value = cart.cartData
+
+        // This is all actually already happening above
+      // }
+
+      // cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      // cartProducts.value = cart.cartData
+
+    } else {
+      // item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant // I don't think this line is necessary
+      // Just patch the cart with the already formatted item
+      cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+      cartProducts.value = cart.cartData
+    }
+
+    //Just for fun, we patch the whole damn product store with everything the cart is doing
+    const store = useProductDataStore()
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+
+    // itemTotal()
+    // shipTotal()
+  }
+
+  function increaseCartItemQty(item, variant) {
+
+    const cart = useCartDataStore()
+    variant.cartQty++
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+    cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    cartProducts.value = cart.cartData
+
+    // Do we need to do anything to the product store here?
+    // May as well try :D
+    const store = useProductDataStore()
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+
+    // itemTotal()
+    // shipTotal()
+
+  }
+
+  function removeVariant(item, variant) {
+    const cart = useCartDataStore()
+    let otherVariants = false
+
+    variant.cartQty = 0
+    variant.inCart = false
+    item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
+    cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    cartProducts.value = cart.cartData
+
+    for (let j = 0; j < item.variants.length ; j++){
+      if (item.variants[j].cartQty>0){
+        // console.log("There are still other variants of this item in the cart")
+        otherVariants = true
+        break
+      }
+    }
+
+    //if there are not other variants of this item in the cart, just remove the whole item
+    if (!otherVariants) {
+      //Remove whole item from cart
+      cart.$patch(cart.cartData.splice(cart.cartData.map((x)=>{return x.id}).indexOf(item.id),1))
+      cartProducts.value = cart.cartData
+
+      //If there are no other products in cart data, set loaded to false
+      if(cart.cartData.length==0){
+        cart.$patch(cart.cartData=[])
+        loaded.value = false
+      }
+    }
+
+    //Update the store to show updated inCart and cartQty values
+    const store = useProductDataStore()
+    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+
+    // itemTotal()
+    // shipTotal()
+  }
+
+  const itemPrice = function(variant) {
+    const cart = useCartDataStore()
+    const user = useUserDataStore()
+    let sProfile = false
+
+    // is this running correctly?
+    // console.log("Profiles: " + variant.shippingProfile[0])
+    for (let i = 0; i < variant.shippingProfile.length ; i++) {
+      // console.log(variant.shippingProfile[i].countries)
+      // console.log(user.userData[0].country)
+
+      //going to try a for country in countries loo
+      for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
+        // console.log(variant.shippingProfile[i].countries[j])
+        if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
+          sProfile = variant.shippingProfile[i]
+          variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+          cart.$patch(variant.id, {itemCost: variant.itemCost})
+          return variant.itemCost
+          // console.log("Shipping Profile: " + sProfile)
+        }
+      }
+    }
+    if ( !sProfile.first_item.cost || sProfile.first_item.cost<1) {
+      for (let i=0; variant.shippingProfile.length; i++) {
+        if (variant.shippingProfile[i].countries.includes("REST_OF_THE_WORLD")) {
+          sProfile = variant.shippingProfile[i]
+          variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+          cart.$patch(variant.id, {itemCost: variant.itemCost})
+          return variant.itemCost
+          // console.log("Shipping Profile: " + sProfile)
+        }
+      }
+    }
+    // console.log(sProfile)
+    variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+    cart.$patch(variant.id, {itemCost: variant.itemCost})
+    return variant.itemCost
+    //   let firstItemCost = variant.shippingProfile[].first_item.cost
+    //   let additionalItemCost = variant.shippingProfile[].additional_items.cost
+    // return variant.cost + 
+  }
+
+
+  const itemTotal = ref(computed(()=>{
+    let total = 0
+    for (let i=0; i<cartProducts.value.length; i++){
+      for (let j=0; j<cartProducts.value[i].variants.length; j++){
+        total += (itemPrice(cartProducts.value[i].variants[j]) * cartProducts.value[i].variants[j].cartQty)
+      }
+    }
+
+    total = Math.ceil(total)
+
+    // console.log("Items Total Price: " + total)
+    return total
+  }))
+
+  const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+
+      // These options are needed to round to whole numbers if that's what you want.
+      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
+  const itemShippingPrice = function(variant) {
+    const user = useUserDataStore()
+    let sProfile = false
+
+    // is this running correctly?
+    // console.log("Profiles: " + variant.shippingProfile[0])
+    for (let i = 0; i < variant.shippingProfile.length ; i++) {
+      for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
+        if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
+          sProfile = variant.shippingProfile[i]
+          variant.shipCost = sProfile.additional_items.cost
+          // console.log("Shipping Profile: " + sProfile)
+          return variant.shipCost
+        }
+      }
+    }
+    if (!sProfile) {
+      for (let i=0; variant.shippingProfile.length; i++) {
+        for (let j=0; variant.shippingProfile[i].countries.length; j++) {
+          if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+            sProfile = variant.shippingProfile[i]
+            variant.shipCost = sProfile.additional_items.cost
+            // console.log("Shipping Profile: " + sProfile)
+            return variant.shipCost
+          }
+        }
+      }
+    }
+    // console.log(sProfile.first_item.cost)
+    return (variant.shipCost >0 ? variant.shipCost : 1000)
+  }
 
 </script>

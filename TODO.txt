@@ -1,3 +1,15 @@
+Thoughts 3/6/23
+---------------
+-Put the braintree integration on the checkout page
+-Start fully testing functionality
+-Integrate cartData in checkout page
+-Finish product creation workflow - upload image to cdn?  or create a file on the server? IDK.
+-Create orders collection items in the Firebase DB
+-Create a way to view orders in the admin panel
+-Create a way to view own orders in the user panel
+
+
+
 Thoughts 2/25/23
 ----------------
 -Need to consider spending time creating automated tests for the app

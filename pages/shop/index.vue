@@ -38,7 +38,7 @@
                       class="p-1 text-xl"
                     >
                       <!-- class="p-2 text-xl float-right " -->
-                      {{ formatter.format(itemPrice(item.variants[item.variantNum])/100) }}
+                      {{ formatter.format((itemPrice(item.variants[item.variantNum])+itemShippingPrice(item.variants[item.variantNum]))/100) }}
                       <v-icon
                         :icon="heart(item.variants[item.variantNum])"
                       />
