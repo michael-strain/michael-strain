@@ -1,33 +1,35 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <TheHeader />
   <div>
     <div class="w-full p-0 m-0">
-      <NuxtLink to="/account">
+      <!-- <NuxtLink to="/account">
         <h3
-          class="text-black justify-center text-center align-center font-bold text-5xl mb-10"
-          :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
+          class="text-grey-400 justify-center text-center align-center font-bold text-5xl mb-10"
+          :style="{fontFamily: 'Roboto Slab'}"
         >
-          ACCOUNT
+          Michael Strain
         </h3>
-      </NuxtLink>
-      <NuxtLink v-if="loadAdminLink" to="/admin">
+      </NuxtLink> -->
+      
+      <!-- <NuxtLink v-if="loadAdminLink" to="/admin">
         <h6
           class="text-black justify-center text-center align-center font-bold text-xl mb-10"
           :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
         >
           ADMIN
         </h6>
-      </NuxtLink>
-      <NuxtLink to="/braintree">
+      </NuxtLink> -->
+      <!-- <NuxtLink to="/braintree">
         <h6
           class="text-black justify-center text-center align-center font-bold text-xl mb-10"
           :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
         >
           Braintree
         </h6>
-      </NuxtLink>
-      <div v-if="auth.currentUser || firebaseUser">
-        <v-card>
+      </NuxtLink> -->
+      <div class="mx-3 mx-md-4 mt-n6" v-if="auth.currentUser || firebaseUser">
+        <v-card class="">
           <v-card-title>You are logged in</v-card-title>
           <v-card-subtitle>Someday, actionable content will go here</v-card-subtitle>
           <v-card-text>I need to add password reset, display name, profile picture upload, account delete, and other settings as they become applicable.</v-card-text>
@@ -50,8 +52,9 @@
           </v-card-actions>
         </v-card>
       </div>
-      <div v-else>
+      <div class="mx-3 mx-md-4 mt-n6" if-else="auth.currentUser || firebaseUser">
         <v-card>
+          <TheHeader />
           <v-card-title>You are not currently logged in.</v-card-title>
           <v-card-actions>
             <NuxtLink to="/login">
