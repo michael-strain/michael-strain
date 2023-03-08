@@ -58,7 +58,7 @@ export const initUser = async () => {
   const auth = getAuth()
   setPersistence(auth, browserSessionPersistence)
   const firebaseUser = useFirebaseUser()
-  firebaseUser.value = auth.currentUser
+  // firebaseUser = auth.currentUser
 
   const userCookie = useCookie("userCookie")
 
@@ -99,7 +99,7 @@ export const initUser = async () => {
       router.push("/")
     }
 
-    firebaseUser.value = user
+    // firebaseUser.value = user
 
     // @ts-ignore
     userCookie.value = user // ignore error because nuxt will serialize to json

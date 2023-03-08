@@ -156,12 +156,11 @@
         </v-row>
         
         <!--PRICING-->
-        <v-row class=" ">
+        <!-- <v-row class=" ">
           <v-col
             cols="12"
             sm=""
           >
-            <!-- class="flex text-center align-middle items-center justify-center flex-shrink" -->
             <v-text-field
               label="Product Cost"
               placeholder="Product Cost"
@@ -198,7 +197,7 @@
               variant="outlined"
             />
           </v-col>
-        </v-row>
+        </v-row> -->
         
         <!--  UPLOAD FILES-->
         <v-row>
