@@ -9,8 +9,11 @@
     </v-card> -->
     
     <div class="">
-      <div class="position-relative max-w-700px z-index-2 mx-auto bg-transparent" variant="none">
-        <p class="text-4xl text-center elevation-10 m-3 mb-n10 font-bold rounded-lg bg-gradient-to-b from-gray-700 via-gray-600 to-gray-900 text-white p-10">
+      <div
+        class="position-relative max-w-700px z-index-2 mx-auto bg-transparent"
+        variant=""
+      >
+        <p class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10">
           User Account
         </p>
       </div>
@@ -95,10 +98,9 @@
 
       <!-- Login User with Email and Password -->
       
-      <v-card
+      <div
         v-else
-        class="m-auto bg-white flex max-w-700px elevation-15"
-        variant="tonal"
+        class="m-auto px-10 bg-white max-w-700px elevation-5 rounded-25px"
       >
         <!-- <v-card class="w-1/3 float mb-n16">
         <p class="text-4xl text-center font-bold bg-blue-900 text-white p-8">
@@ -137,7 +139,7 @@
             style="gap: 3rem"
           >
             <div
-              class="p-2 elevation-10 outline outline-1 outline-orange-400 rounded-lg bg-gradient-to-b from-yellow-200 via-orange-300 to-red-400 hover:from-blue-200 hover:via-indigo-300 hover:to-purple-400 hover:ring-indigo-300"
+              class="p-2 elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
             >
               <v-btn
                 variant="text"
@@ -146,13 +148,13 @@
                 <v-icon
                   icon="mdi-google"
                   color="white"
-                  class="p-4 mr-3 outline rounded-full outline-2 bg-orange-500"
-                />
+                  class="p-4 mr-3"
+                  size="x-large" />
                 Login with Google
               </v-btn>
             </div>
             <div
-              class="p-2 elevation-10 text-white outline outline-1 outline-black hover:outline-orange-400 rounded-lg bg-gradient-to-b from-gray-500 via-gray-500 to-gray-800 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+              class="p-2 elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
             >
               <v-btn
                 variant="text"
@@ -163,8 +165,7 @@
                   icon="mdi-email-outline"
                   color="white"
                   class="p-4 mr-3"
-                  size="x-large"
- 
+                  size="x-large" 
                 />
                 Login with Email
               </v-btn>
@@ -179,9 +180,8 @@
             </v-btn>
           </v-card-actions>
         </div>
-      </v-card>
+      </div>
     </div>
-    
   </div>
   <!-- <div class="h-100px bg-gradient-to-b from-indigo-400 to-indigo-900" /> -->
   <TheFooter class="bg-black " />
