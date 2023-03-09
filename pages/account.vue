@@ -11,19 +11,18 @@
           <p
             class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10"
           >
-          User Account
+            User Account
           </p>
         </NuxtLink>
         <NuxtLink
           v-if="loadAdminLink"
           to="/admin"
         >
-          <h6
-            class="text-black justify-center text-center align-center font-bold text-xl mb-10"
-            :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
+          <p
+            class="text-center text-white"
           >
-            ADMIN
-          </h6>
+            Link for Admins
+          </p>
         </NuxtLink>
       <!-- <NuxtLink to="/braintree">
         <h6
@@ -35,9 +34,12 @@
       </NuxtLink> -->
       </div>
       <div v-if="auth.currentUser || firebaseUser">
-        <v-card>
-          <v-card-title>You are logged in</v-card-title>
-          <v-card-subtitle>Someday, actionable content will go here</v-card-subtitle>
+        <div class="m-auto bg-white max-w-700px elevation-5 rounded-25px">
+          <div class="p-5 text-lg text-center">
+            <p class="text-gray-600 mt-10">
+              You are currently logged in.
+            </p>
+          </div>          <v-card-subtitle>Someday, actionable content will go here</v-card-subtitle>
           <v-card-text>I need to add password reset, display name, profile picture upload, account delete, and other settings as they become applicable.</v-card-text>
           <v-list lines="one">
             <v-list-item
@@ -56,7 +58,7 @@
               Sign Out
             </v-btn>
           </v-card-actions>
-        </v-card>
+        </div>
       </div>
       <div
         v-else
@@ -87,7 +89,6 @@
     </div>
   </div>
   <TheFooter class="bg-black" />
-
 </template>
 
 <script setup>
