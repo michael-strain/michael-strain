@@ -1,6 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+
+<!--To Do
+White corners on footer.
+Sticky footer to the bottom. Reference some other page where I did this.
+Add background image.
+WTF are the current colors coming from?
+Color lightmode using theme. 
+Color darkmode using theme.
+Make theme use override per page. 
+-->
+
 <template>
-  <div class="bg-repeat h-auto p-20 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
+  <div class="bg-repeat h-auto p-20 <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
     <!-- <TheHeader /> -->
     <!-- <v-card class="w-3/4 mx-auto">
       <p class="text-4xl text-center font-bold bg-blue-900 text-white p-11 mb-n16">
@@ -100,7 +111,7 @@
       
       <div
         v-else
-        class="m-auto px-10 bg-white max-w-700px elevation-5 rounded-25px"
+        class="m-auto bg-white max-w-700px elevation-5 rounded-25px" 
       >
         <!-- <v-card class="w-1/3 float mb-n16">
         <p class="text-4xl text-center font-bold bg-blue-900 text-white p-8">
@@ -133,13 +144,12 @@
             />
           </v-container>
           <div
-            class="flex justify-center align-baseline flex-wrap "
+            class="flex justify-content-around flex-wrap px-5"
             justify-center
             align-baseline
-            style="gap: 3rem"
           >
             <div
-              class="p-2 elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+              class="p-2 flex-fill elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
             >
               <v-btn
                 variant="text"
@@ -149,12 +159,13 @@
                   icon="mdi-google"
                   color="white"
                   class="p-4 mr-3"
-                  size="x-large" />
+                  size="x-large"
+                />
                 Login with Google
               </v-btn>
             </div>
             <div
-              class="p-2 elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+              class="p-2 <md:(mt-6) md:ml-10 text-white flex-fill elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
             >
               <v-btn
                 variant="text"
@@ -184,7 +195,7 @@
     </div>
   </div>
   <!-- <div class="h-100px bg-gradient-to-b from-indigo-400 to-indigo-900" /> -->
-  <TheFooter class="bg-black " />
+  <TheFooter class="bg-black" />
 </template>
 
 <script setup>
