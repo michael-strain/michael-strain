@@ -1,8 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <!--To Do
-White corners on footer.
-Sticky footer to the bottom. Reference some other page where I did this.
 Add background image.
 WTF are the current colors coming from?
 Color lightmode using theme. 
@@ -11,7 +9,7 @@ Make theme use override per page.
 -->
 
 <template>
-  <div class="bg-repeat h-auto p-20 <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
+  <div class="h-screen p-20 <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
     <!-- <TheHeader /> -->
     <!-- <v-card class="w-3/4 mx-auto">
       <p class="text-4xl text-center font-bold bg-blue-900 text-white p-11 mb-n16">
@@ -153,6 +151,7 @@ Make theme use override per page.
             >
               <v-btn
                 variant="text"
+                class="w-full"
                 @click="loginWithGoogle"
               >
                 <v-icon
@@ -169,6 +168,7 @@ Make theme use override per page.
             >
               <v-btn
                 variant="text"
+                class="w-full"
                 @click="signInUser(loginEmail, loginPassword)"
                 @keyup.enter="signInUser(loginEmail, loginPassword)"
               >
