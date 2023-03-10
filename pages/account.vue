@@ -66,7 +66,7 @@ White card is not floating high enough.
           <!--Account Info Text-->
           <div class="flex-grow">
             <p class="font-bold text-2xl">
-              First Last Name
+              Name Placeholder
             </p>
             <p>mymessage@email.com</p>
             <p>258 First Street</p>
