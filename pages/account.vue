@@ -12,9 +12,10 @@ White card is not floating high enough.
 -->
 
 <template>
-  <div class="h-screen p-20 <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
+  <div class="p-20 h-full <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
     <div>
-      <div class="position-relative max-w-700px z-index-2 mx-auto bg-transparent">
+      <!--Header-->
+      <div class="position-relative max-w-50rem z-index-2 mx-auto bg-transparent">
         <NuxtLink to="/account">
           <!-- <h3
           class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10"
@@ -47,12 +48,12 @@ White card is not floating high enough.
       </div>
       <div
         v-if="auth.currentUser || firebaseUser"
-        class="m-auto bg-white p-10 max-w-700px elevation-5 rounded-25px"
+        class="m-auto bg-white p-10 max-w-50rem elevation-5 rounded-25px"
       >
         <!--Profile Pic and Account Info Text-->
-        <div class="text-lg flex space-x-4 <sm:(flex-wrap space-x-0 space-y-4)">
+        <div class="flex space-x-1.5rem <sm:(flex-wrap space-x-0 space-y-1.5rem)">
           <!--Profile Image with Icon Relative Container-->
-          <div class="flex align-center relative bg-green h-min w-max-1/3 <sm:(w-full)">
+          <div class="flex align-center relative bg-green w-max-1/3 <sm:(w-full)">
             <img
               src="/img/MLogo.png"
             >
@@ -64,8 +65,8 @@ White card is not floating high enough.
             </div>
           </div>
           <!--Account Info Text-->
-          <div class="flex-grow">
-            <p class="font-bold text-2xl">
+          <div class="flex-grow text-lg">
+            <p class="font-bold text-1.5rem">
               Name Placeholder
             </p>
             <p>mymessage@email.com</p>
@@ -76,29 +77,16 @@ White card is not floating high enough.
             </p>
           </div>
         </div>
-        <!--End Test Code-->
-        <p class="mt-4">
+        <!--Paragraph-->
+        <p class="my-1rem">
           I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
         </p>
-        <!-- <v-list lines="one">
-          <v-list-item
-            :key="auth.currentUser.uid"
-            :title="auth.currentUser.displayName"
-            :subtitle="auth.currentUser.email"
-            :prepend-avatar="userPhotoUrl"
-            lazy-prepend-avatar="/img/MLogo.png"
-          />
-        </v-list> -->
-
-        <!-- <v-card-text>{{ auth.currentUser }}</v-card-text> -->
-        <!-- <v-btn @click="signOutUser">
-            Sign Out
-          </v-btn> -->
+        <!--Buttons-->
         <div
-          class="flex justify-around flex-wrap mt-4 space-x-4 <sm:(space-x-0 space-y-4)"
+          class="flex justify-center flex-wrap mt-1.5rem space-x-2rem <sm:(space-x-0 space-y-1.5rem)"
         >
           <div
-            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="p-2 min-w-12rem text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
             <v-btn
               variant="text"
@@ -108,7 +96,7 @@ White card is not floating high enough.
             </v-btn>
           </div>
           <div
-            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="p-2 min-w-12rem text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
             <v-btn
               variant="text"
@@ -123,9 +111,9 @@ White card is not floating high enough.
       <!--If Else (Not Logged In)-->
       <div
         v-else
-        class="m-auto bg-white max-w-700px elevation-5 rounded-25px"
+        class="m-auto bg-white p-10 max-w-50rem elevation-5 rounded-25px"
       >
-        <div class="p-5 text-lg text-center">
+        <div class="pb-5 text-1.25rem text-center">
           <p class="text-gray-600 mt-10">
             You are not currently logged in.
           </p>
@@ -134,7 +122,7 @@ White card is not floating high enough.
           class="flex justify-center flex-wrap"
         >
           <div
-            class="p-2 w-1/3 text-center mb-10 elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
             <NuxtLink to="/login">
               <v-btn
@@ -149,7 +137,23 @@ White card is not floating high enough.
       </div>
     </div>
   </div>
+  <TheFooter class="bg-yellow" />
 </template>
+
+        <!-- <v-list lines="one">
+          <v-list-item
+            :key="auth.currentUser.uid"
+            :title="auth.currentUser.displayName"
+            :subtitle="auth.currentUser.email"
+            :prepend-avatar="userPhotoUrl"
+            lazy-prepend-avatar="/img/MLogo.png"
+          />
+        </v-list> -->
+
+        <!-- <v-card-text>{{ auth.currentUser }}</v-card-text> -->
+        <!-- <v-btn @click="signOutUser">
+            Sign Out
+          </v-btn> -->
 
 <script setup>
 import { async } from '@firebase/util';
