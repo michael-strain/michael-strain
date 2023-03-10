@@ -5,25 +5,27 @@
     <NuxtLink to="/admin/product/create">
       <v-btn>Add Product</v-btn>
     </NuxtLink>
-    <NuxtLink to="/admin/printify/blueprints">
+    <!-- <NuxtLink to="/admin/printify/blueprints">
       <v-btn>Printify Blueprints</v-btn>
-    </NuxtLink>
+    </NuxtLink> -->
     <v-card v-if="displayAddProductCard">
       <v-card-title>Add a Product to Printify</v-card-title>
     </v-card>
     <v-list>
       <v-list-item v-for="product in products" :key="product.id">
         <v-list-item-title>{{ product.title }}</v-list-item-title>
-        <v-icon @click="displayEditProductCard=!displayEditProductCard">mdi-pencil</v-icon>
-        <v-icon @click="deleteProduct(product.id)">mdi-delete</v-icon>
+        <v-list-item-title>{{ product.variants[0].price }}</v-list-item-title>
+        <!-- <v-icon @click="displayEditProductCard=!displayEditProductCard">mdi-pencil</v-icon> -->
+        <!-- <v-icon @click="deleteProduct(product.id)">mdi-delete</v-icon> -->
         <!-- get picture, price, and other applicable details, add CRUD buttons -->
-        <v-card v-if="displayEditProductCard">
-          <v-card-title>Edit Product {{ product.title }}</v-card-title>
-        </v-card>
+        <NuxtLink :to="'/admin/product/'+product.id">
+          <v-list-item-title>Edit Product</v-list-item-title>
+        </NuxtLink>
       </v-list-item>
     </v-list>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -40,25 +42,25 @@ const displayAddProductCard = ref(false)
 const displayEditProductCard = ref(false)
 
 onMounted(async () => {
-  if (auth.currentUser.uid!==null){
-    if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
-      getProducts()
+  //TEMPORARILY TURNING OFF AUTH REQUIREMENTS
+  // if (auth.currentUser.uid!==null){
+  //   if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
+      products.value = await getProducts()
       loadAdminProducts.value = 'true'
-    } else {
-      const router = useRouter()
-      router.push('/account')
-    }
-  }
-  else {
-    const router = useRouter()
-    router.push('/login')
-  }
+  //   } else {
+  //     const router = useRouter()
+  //     router.push('/account')
+  //   }
+  // }
+  // else {
+  //   const router = useRouter()
+  //   router.push('/login')
+  // }
 })
 
 const refreshPrintifyProducts = async () => {
   console.log("Refreshing Printify Products")
-  const { result } = await useFetch("/api/printify/products")
-
+  const { result } = await $fetch("/api/printify/products", {method:'GET'})
   console.log(result)
 
   // fetch all products from the printify api for our store
@@ -105,9 +107,9 @@ const refreshPrintifyProducts = async () => {
 const getProducts = async () => {
   // https://firebase.google.com/docs/firestore/query-data/get-data
   // https://firebase.google.com/docs/firestore/query-data/listen
-  const { result } = await $fetch("/api/query?col=products")
+  const result = await $fetch("/api/query?col=products", {method: "GET"})
   products.value = result
-  return products.value
+  return result
 }
 
 

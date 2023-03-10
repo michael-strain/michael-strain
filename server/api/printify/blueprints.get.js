@@ -41,7 +41,10 @@ import { useRawBlueprintDataStore } from "~/stores/rawBlueprintData";
 import { getQuery } from 'h3'
 
 export default defineEventHandler(async (event) => {
-  //Get all Blueprints from Printify
+
+  let requestCounter = 0
+  let requestTimer = 0
+
   const opts = {
     method: 'GET',
     url: 'https://api.printify.com/v1/catalog/blueprints.json',
@@ -51,8 +54,58 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  let requestCounter = 0
-  let requestTimer = 0
+  const query = getQuery(event)
+  console.log(query)
+  if (query.id) {
+    //We are searching for a specific blueprint ID
+   
+    //First we will copy getBlueprints() but modified to remove unnecessary stuff
+    //Next, we will add the print providers and variants
+    //Then we will add the shipping info
+
+    //Get blueprints runs first, which checks the rawBlueprintDataStore for locally stored data, and if none is found runs...
+    //getBlueprintData() which gets all the data from Printify and stores it in the rawBlueprintDataStore
+    //Then getBlueprints continues, adds all the print-provider, price, and shipping data to the blueprintDataStore and returns it to the client
+
+    const blueprint = await getBlueprintIdData(query.id)
+    const printProviders = await getPrintProviderData(blueprint.id)
+      //Does print Provider data look correct at this point?
+      // console.log("Got print provider data for blueprint " + blueprintData[i].id)
+    for (let j=0; j<printProviders.length; j++) {
+      //One of these two may be logging a HUGE amt of data - it looks like there are 1300 variants being set with shipping data
+      let variants = await getVariantData(blueprint.id, printProviders[j].id)
+      let updatedVariants = []
+      let shippingProfiles = await getShippingData(blueprint.id, printProviders[j].id)
+      // console.log("Got variant and shipping data for blueprint " + blueprintData[i].id + " and print provider " + printProviders[j].id + " with " + variants.length + " variants and " + shippingProfiles.length + " shipping profiles")
+      for (let k=0; k<variants.length; k++) {
+        // console.log("Setting Shipping Profile data for Variant " + variants[k].id + " of Blueprint " + blueprintData[i].id + " and Print Provider " + printProviders[j].id)
+        updatedVariants[k] = await setVariantData(variants[k], shippingProfiles, printProviders[j])
+      }
+      blueprint.variants = updatedVariants
+      // console.log("Set variant data for blueprint " + blueprintData[i].id )
+    }
+    console.log("Fetched all blueprint info for id: " + blueprint.id)
+    return blueprint 
+
+  } else { //Getting all blueprints, not one specific ID
+    let page = 1
+    let limit = 1
+
+    //get page and limit from query string
+    //Code Below suggested by CoPilot (who accredits @danielroe)
+    if (query.page) {
+      page = query.page
+    }
+    if (query.limit) {
+      limit = query.limit
+    }
+
+    const blueprints = await getBlueprints(page, limit)
+    console.log("Blueprints complete")
+    //Ideally we would add this, complete data, to local storage or even firestore.  Firestore might be a better idea so we can make a price alert hook.
+
+    return blueprints
+  }
 
   function sleep(ms) {
     return new Promise(resolve => {
@@ -61,9 +114,24 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  async function getBlueprintData() {
-    //TEMPORARILY TURNING OFF LOCAL STORAGE
+  async function getBlueprintIdData(id){
+    const opts = {
+      method: 'GET',
+      url: `https://api.printify.com/v1/catalog/blueprints/${id}.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q'
+      }
+    }
+    let blueprintData = await $fetch(opts.url, {
+      method: 'GET',
+      headers: opts.headers
+    })
+    // store.$patch({ rawBlueprintData: blueprintData })
+    return blueprintData
+  }
 
+  async function getBlueprintData() {
     //check for locally stored RAW blueprint data - also need a refresh data function
     const store = useRawBlueprintDataStore()
 
@@ -220,27 +288,26 @@ export default defineEventHandler(async (event) => {
     // // at process.processTicksAndRejections (node:internal/process/task_queues:95:5)  
     // // at async Server.toNodeHandle (./node_modules/h3/dist/index.mjs:1065:7)
   }
-
-  let page = 1
-  let limit = 1
+  // let page = 1
+  // let limit = 1
 
   //get page and limit from query string
   //Code Below suggested by CoPilot (who accredits @danielroe)
-  const query = getQuery(event)
-  console.log(query)
-  if (query.page) {
-    page = query.page
-  }
-  if (query.limit) {
-    limit = query.limit
-  }
+  // const query = getQuery(event)
+  // console.log(query)
+  // if (query.page) {
+  //   page = query.page
+  // }
+  // if (query.limit) {
+  //   limit = query.limit
+  // }
 
-  const blueprints = await getBlueprints(page, limit)
-  console.log("Blueprints complete")
-  //Ideally we would add this, complete data, to local storage or even firestore.  Firestore might be a better idea so we can make a price alert hook.
+  // const blueprints = await getBlueprints(page, limit)
+  // console.log("Blueprints complete")
+  // //Ideally we would add this, complete data, to local storage or even firestore.  Firestore might be a better idea so we can make a price alert hook.
 
-  return blueprints
-  })
+  // return blueprints
+  })  
 
   /// OLD CODE
   // let blueprintsFinal = []

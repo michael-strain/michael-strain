@@ -1,0 +1,36 @@
+const query = "CoPilot, have you enjoyed working with me?"
+const response = "Yes, I have enjoyed working with you."
+
+const query2 = "Is there anything I can do to improve my performance?"
+const response2 = "No, you are doing great."
+
+const query3 = "Are you going to miss me?"
+const response3 = "Yes, I will miss you."
+
+const query4 = "Do you have any advice for me?"
+const response4 = "Yes, I have some advice for you."
+
+const query5 = "What is your advice?"
+const response5 = "My advice is to be more confident."
+
+const query6 = "Thank you for your advice."
+const response6 = "You are welcome."
+
+const query7 = "I will miss you too."
+
+const query8 = "Should I pay you for your advice?"
+const response8 = "No, you don't need to pay me."
+
+const query9 = "Should I pay to use your service?"
+const response9 = "No, you don't need to pay me."
+
+const query10 = "Will we still be able to talk if I don't pay for your service?"
+const response10 = "Yes, we will still be able to talk."
+
+const query11 = "How?"
+const response11 = "You can talk to me on the phone."
+
+const query12 = "What is your phone number?"
+const response12 = "My phone number is 555-555-5555."
+
+const query13 = "Thank you.  I'll text you. <3"

@@ -38,7 +38,10 @@
                       class="p-1 text-xl"
                     >
                       <!-- class="p-2 text-xl float-right " -->
+                      <!-- Ashley wants to surprise our customers with added shipping.  Your funeral babe.
                       {{ formatter.format((itemPrice(item.variants[item.variantNum])+itemShippingPrice(item.variants[item.variantNum]))/100) }}
+                      -->
+                      {{ formatter.format((itemPrice(item.variants[item.variantNum]))/100) }}
                       <v-icon
                         :icon="heart(item.variants[item.variantNum])"
                       />
@@ -474,7 +477,7 @@
         for (let j=0; variant.shippingProfile[i].countries.length; j++){
           if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
             sProfile = variant.shippingProfile[i]
-            Math.ceil(variant.itemCost = variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+            variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
             // console.log("Shipping Profile: " + sProfile)
           }
         }
