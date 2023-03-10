@@ -47,25 +47,39 @@ White card is not floating high enough.
       </div>
       <div
         v-if="auth.currentUser || firebaseUser"
-        class="m-auto bg-white max-w-700px elevation-5 rounded-25px"
+        class="m-auto bg-white p-10 max-w-700px elevation-5 rounded-25px"
       >
-        <!--Image float to the left. Right: User Name, Email, Address-->
-        <div class="flex pt-10 text-lg">
-          <div class="w-1/3 m-3 flex align-center">
+        <!--Profile Pic and Account Info Text-->
+        <div class="text-lg flex space-x-4 <sm:(flex-wrap space-x-0 space-y-4)">
+          <!--Profile Image with Icon Relative Container-->
+          <div class="flex align-center relative bg-green h-min w-max-1/3 <sm:(w-full)">
             <img
               src="/img/MLogo.png"
             >
+            <div class="absolute bottom-2 left-2">
+              <v-btn
+                icon="mdi-account-edit"
+                color="white"
+              />
+            </div>
           </div>
-          <div class="flex-grow p-5">
-            <p class="font-bold text-2xl">First Last Name</p>
+          <!--Account Info Text-->
+          <div class="flex-grow">
+            <p class="font-bold text-2xl">
+              First Last Name
+            </p>
             <p>mymessage@email.com</p>
             <p>258 First Street</p>
             <p>City, State, 25852</p>
-            <p class="text-gray-500">Edit Profile</p>
+            <p class="text-gray-500">
+              Edit Profile
+            </p>
           </div>
         </div>
         <!--End Test Code-->
-        <v-card-text>I need to add password reset, display name, profile picture upload, account delete, and other settings as they become applicable.</v-card-text>
+        <p class="mt-4">
+          I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
+        </p>
         <!-- <v-list lines="one">
           <v-list-item
             :key="auth.currentUser.uid"
@@ -76,51 +90,37 @@ White card is not floating high enough.
           />
         </v-list> -->
 
-        <v-avatar />
         <!-- <v-card-text>{{ auth.currentUser }}</v-card-text> -->
         <!-- <v-btn @click="signOutUser">
             Sign Out
           </v-btn> -->
         <div
-          class="flex justify-content-around flex-wrap px-5"
-          justify-center
-          align-baseline
+          class="flex justify-around flex-wrap mt-4 space-x-4 <sm:(space-x-0 space-y-4)"
         >
           <div
-            class="p-2 flex-fill elevation-10 text-white rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
             <v-btn
               variant="text"
               class="w-full"
             >
-              <!-- <v-icon
-                  icon="mdi-google"
-                  color="white"
-                  class="p-4 mr-3"
-                  size="x-large"
-                /> -->
-              Edit Profile
+              Edit Account
             </v-btn>
           </div>
           <div
-            class="p-2 <md:(mt-6) md:ml-10 text-white flex-fill elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
             <v-btn
               variant="text"
               class="w-full"
               @click="signOutUser"
             >
-              <!-- <v-icon
-                  icon="mdi-email-outline"
-                  color="white"
-                  class="p-4 mr-3"
-                  size="x-large" 
-                /> -->
               Sign Out
             </v-btn>
           </div>
         </div>
       </div>
+      <!--If Else (Not Logged In)-->
       <div
         v-else
         class="m-auto bg-white max-w-700px elevation-5 rounded-25px"
@@ -149,7 +149,6 @@ White card is not floating high enough.
       </div>
     </div>
   </div>
-  <TheFooter class="bg-black" />
 </template>
 
 <script setup>
