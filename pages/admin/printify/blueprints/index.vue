@@ -161,7 +161,7 @@
 
   const blueprints = ref()
   const loaded = ref(false)
-  let bpData = []
+  var bpData = []
 
   const store = useBlueprintDataStore()
 
@@ -191,7 +191,7 @@
     let storeDataCount = 0
     for (let i = 0; i < store.blueprintData.length; i++) {
       // for each blueprint in datastore, add it to the array
-      bpData[i] = store.blueprintData[i]
+      store.blueprintData[i] = bpData[i]
       storeDataCount++
     }
 

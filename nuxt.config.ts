@@ -1,6 +1,6 @@
 // // nuxt.config.ts
 // import { defineNuxtConfig } from 'nuxt'
-import WindiCSS from 'vite-plugin-windicss'
+// import WindiCSS from 'vite-plugin-windicss'
 
 export default defineNuxtConfig({
     runtimeConfig: {

@@ -1,6 +1,8 @@
 import { getQuery } from "h3"
 import { queryByCollection } from "../lib/firestore"
 
+//Need to enable querying by id!!!
+
 export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event)

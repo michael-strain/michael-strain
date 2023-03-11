@@ -11,6 +11,7 @@
     <v-btn>
       <NuxtLink to="/admin/product/create">Create Product</NuxtLink>
     </v-btn>
+    <v-btn><NuxtLink to="/admin/printify/images">Printify Images</NuxtLink></v-btn>
   </div>
 </template>
 

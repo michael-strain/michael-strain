@@ -50,8 +50,11 @@ export const add = async (col: string, document: Object) => {
   return docRef
 }
 
-export const del = async (col, id) => {
+export const del = async (col:string, id:string) => {
   const docRef = doc(firestoreDb, col, id)
   return await deleteDoc(docRef)
 }
 
+// export const update = async(col:string, id:string, document:Object)=>{
+//   return await firestoreDb.collection(col).doc(id).update(document)
+// }
