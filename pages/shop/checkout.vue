@@ -48,6 +48,15 @@
               {{ variant.title }}
             </p>
 
+            <div class="m-2">
+              <p class="text-xs">
+                Each Item: <span class="font-bold">{{ formatter.format(itemPrice(variant)/100) }}</span>
+              </p>
+              <p class="text-xs">
+                Ship Cost/Item: <span class="font-bold">{{ formatter.format(itemShippingPrice(variant)/100) }}</span>
+              </p>
+            </div>
+
             <div class="flex m-3 items-center <md:justify-center">
               <v-btn
                 icon
@@ -60,7 +69,6 @@
               <p class="text-bold mx-1 text-xl">
                 {{ variant.cartQty }}
               </p>
-
               <v-btn
                 icon
                 size="small"
@@ -80,11 +88,19 @@
             <p class="text-bold ml-3">Shipping - $XX.00</p> -->
           </div>
           <!--C3-->
-          <div class="bg-surface lg:w-1/3 text-center p-8 align-center">
-            <p>Item Cost<br>{{ formatter.format((itemPrice(variant) * variant.cartQty)/100)}}</p>
-            <!-- <divider class="p-5" /> -->
-            <p>Shipping<br>{{ formatter.format((itemShippingPrice(variant) * variant.cartQty)/100) }}</p>
-          <!-- <p class="font-bold">
+          <div class="bg-surface flex-column gap-10 justify-center p-4 flex lg:w-1/3 text-center">
+            <p class="">
+              <span class="font-bold">Items</span><br>{{ formatter.format((itemPrice(variant) * variant.cartQty)/100) }}
+            </p>
+            <p class="">
+              <span class="font-bold">Shipping</span><br>
+              {{ formatter.format((itemShippingPrice(variant) * variant.cartQty)/100) }}
+            </p>
+
+            <p class="font-bold">
+              Total <br>{{ formatter.format((itemPrice(variant) * variant.cartQty + itemShippingPrice(variant) * variant.cartQty)/100) }}
+            </p>
+            <!-- <p class="font-bold">
             Total $XX.00
           </p> -->
           </div>
@@ -103,7 +119,7 @@
       
       <!--Order Information-->
       <v-card
-        class="h-full bg-white text-wrap rounded-xl border flex shadow-xl"
+        class="h-full bg-white text-wrap rounded-xl border flex shadow-xl w-1/3 <md:w-full"
       >
         <v-card-title class="w-full pb-5 bg-surface ">
           <p                      
@@ -162,7 +178,7 @@
               id="address1"
               v-model="address1"
               type="text"
-              label="Street Address"
+              label="Shipping Address"
               placeholder="Street Address or P.O. Box"
               hide-details
               bg-color="background"
@@ -214,21 +230,124 @@
               transition="scale-transition"
             />
           </div>
-          <v-btn
-            size="large"
-            variant="flat"
-            color="primary-darken-1"
-            class="fill-height align-middle items-center h-full text-white mt-5"
-            @click="useAsBilling=!useAsBilling; updateBilling()"
+
+
+          <div
+            v-if="!useAsBilling"
+            class=""
           >
-            <div class="text-wrap text-md m-2">
-              <v-icon
-                :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
-                class="mr-3 text-wrap flex flex-wrap text-wrap"
-              />
-              Same as Billing Address
+            <v-card-title class="w-full pb-5 bg-surface ">
+              <p                      
+                :style="{fontFamily: 'Roboto Slab'}"
+                class="p-4 text-wrap text-center text-primary-darken-1 font-bold w-full text-2xl"
+              >
+                Billing Information
+              </p>
+            </v-card-title> 
+            <v-text-field
+              id="address1"
+              v-model="address1b"
+              type="text"
+              label="Street Address"
+              placeholder="Street Address or P.O. Box"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="address2"
+              v-model="address2b"
+              type="text"
+              label="Apt, suite, unit, ect."
+              placeholder="Apt, suite, unit, ect."
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="city"
+              v-model="cityb"
+              type="text"
+              label="City"
+              placeholder="City"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="region"
+              v-model="regionb"
+              type="text"
+              label="State"
+              placeholder="State"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="zip"
+              v-model="zipb"
+              type="text"
+              label="Zip Code"
+              placeholder="Zip Code"
+              hide-details
+              bg-color="background"
+            />
+            <v-text-field
+              id="country"
+              v-model="countryb"
+              :items="countries"
+              label="Country"
+              placeholder="Country"
+              hide-details
+              bg-color="background"
+              transition="scale-transition"
+            />
+          </div>
+
+          <p>Total: {{ clientCartTotal }}</p>
+
+          <!--Buttons-->
+          <div
+            class="flex mx-auto justify-center flex-wrap mt-1.5rem"
+          >
+            <div
+              class="p-2 text-white w-4/5"
+            >
+              <v-btn
+                size="large"
+                variant="flat"
+                block
+                color="primary-darken-1"
+                class="align-middle my-5px items-center fill-height text-white w-full"
+                @click="useAsBilling=!useAsBilling; updateBilling()"
+              >
+                <div class="text-wrap text-md m-2">
+                  <v-icon
+                    :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
+                    class="text-wrap flex flex-wrap text-wrap"
+                  />
+                  Billing Address Same as Shipping
+                </div>
+              </v-btn>
             </div>
-          </v-btn>
+            <div
+              class="p-2 text-white w-4/5"
+            >
+              <v-btn
+                size="large"
+                variant="flat"
+                block
+                color="primary-darken-1"
+                class="fill-height align-middle w-full my-5px items-center h-full text-white" 
+                @click="submitShippingInfo()"
+              >
+                <div class="text-wrap text-md m-2">
+                  <!-- <v-icon
+                    :icon="useAsBilling ? 'mdi-checkbox-outline':'mdi-checkbox-blank-outline'"
+                    class="mr-3 text-wrap flex flex-wrap text-wrap"
+                  /> -->
+                  Submit
+                </div>
+              </v-btn>
+            </div>
+          </div>
         </v-container>
       </v-card>
 
@@ -241,9 +360,38 @@
         </p>
       </v-card> -->
     </v-container>
-    <v-container v-else>
-      No items found in cart.
-      Let's Go Shopping!
+    <v-container
+      v-else
+      class="flex text-center align-center items-center justify-center"
+    >
+      <v-card
+        color="surface"
+        class="w-1/2 <lg:w-3/4 mt-10 h-2/3 "
+      >
+        <v-container class="fill-height text-center align-center justify-center">
+          <div class="">
+            <h3
+              class="font-bold lg:text-5xl text-4xl my-5"
+              :style="{fontFamily: 'Roboto Slab', textShadow: '0px 0px 3px purple'}"
+            >
+              Your cart is empty.
+            </h3>
+            <v-btn
+              size="large"
+              variant="flat"
+              color="primary-darken-1"
+              class="fill-height m-10"
+            >
+              <NuxtLink
+                to="/shop"
+                class="lg:text-2xl text-xl text-wrap m-5"
+              >
+                Visit the <b>shop</b> page.<br>Find something you love.
+              </NuxtLink>
+            </v-btn>
+          </div>
+        </v-container>
+      </v-card>
     </v-container>
     
     
@@ -256,7 +404,7 @@
         <v-card
           class="w-1/2 <lg:w-3/4"
         >
-          <div>
+          <div> my-5px
             <v-container class="fill-height text-center flex align-center justify-center">
               <div class="">
                 <h3
@@ -691,16 +839,22 @@
 
 <script setup>
 // Let's set our shit straight
-// Step 1 - Ensure cart data is present
-// Step 2 - Display cart data as an order summary
-// Step 3 - Collect payment and shipping information
-// Step 4 - Before we actually get payment confirmation, we are going to POST the order to printify (/v1/shops/{shop_id}/orders.json)
+    // Step 1 - Ensure cart data is present
+    // Step 2 - Display cart data as an order summary
+
+// Step 3 - Collect Shipping and Billing Info
+// Step 3 - Enable the submit button if data passes vaildation
+// Step 3 - On Shipping/Billing Info Submit, Display the Braintree Drop-In
+// Step 4 - Before we actually get payment confirmation, we are going to POST the order to DB with a PENDING status
 // Step 5 - Update the database with the order information, and associate the user with the order - not sure yet how this will be structured in firebase
-// Step 6 - Submit payment
-// Step 7 - If payment is successful, post order
-  // Step 7a - If payment is successful, update database with order information
+// Step 6 - Query printify to ensure that the ordered products can be fulfilled
+// Step 6 - Submit payment to braintree
+// Step 7 - If payment is successful, post order to printify printify (/v1/shops/{shop_id}/orders.json)
+  // Step 7a - If order is successful, update database with order information
 // Step 8 - If payment is not successful, display error message & allow user to try again with different payment information
   // Step 8a- Store payment information for automatic retry at a later date and time (Friday morning?), maybe with different payment gateway or something?
+// Step 9 - If Order prinfity call is not successful, alert an admin, we've got a problem.
+// Step 10 - If everything is successful, redirect user to the order confirmation page, and display all the relevant order detailsz
 
 
 
@@ -712,6 +866,13 @@ import { useUserDataStore } from '~/stores/userData'
 // import { range } from '@antfu/utils';
 
 const infoSubmitted = ref(false)
+//Need to disabled the submit button until all required info is filled out
+//Need to save the user's profile to the userDataStore
+//Need to allow the option for users to create an account with their order info (honestly, make an account either way, but only subscribe them to marketing emails if they check the box)
+
+const clientCartTotal = ref(0)
+clientCartTotal.value = 100 //Obviously temporary
+
 
 const firstName = ref('')
 const lastName = ref('')
@@ -736,6 +897,20 @@ const shipping = ref({
   city: city.value,
   zip: zip.value,
 })
+
+const countryb = ref('')
+const regionb = ref('')
+const address1b = ref('')
+const address2b = ref('')
+const cityb = ref('')
+const zipb = ref('')
+const itemsb = ref([
+  'Canada',
+  'Europe',
+  'United States',
+  'Panama',
+])
+
 
 // Form Options
 const months = ["1 - January","2 - February","3 - March","4 - April","5 - May","6 - June","7 - July","8 - August","9 - September","10 - October","11 - November","12 - December"]
@@ -766,20 +941,8 @@ function variantsInCart(item) {
 // const expyear = ref('')
 // const securitycode = ref('')
 
-const countryb = ref('')
-const regionb = ref('')
-const address1b = ref('')
-const address2b = ref('')
-const cityb = ref('')
-const zipb = ref('')
-const itemsb = ref([
-  'Canada',
-  'Europe',
-  'United States',
-  'Panama',
-])
 
-const useAsBilling = ref(false)
+const useAsBilling = ref(true)
 
 const updateBilling = function () {
   if (useAsBilling.value){
@@ -790,6 +953,7 @@ const updateBilling = function () {
     cityb.value = city.value
     zipb.value = zip.value
   }
+  console.log(address1b.value)
 }
 
 // const cart = useCartDataStore()
@@ -820,6 +984,7 @@ onMounted(async() => {
 })
 
 async function submitShippingInfo() {
+  updateBilling()
   const cart = useCartDataStore()
   const shipTotal = ref()
   const lineItems = ref([])
@@ -835,6 +1000,7 @@ async function submitShippingInfo() {
     "city": city.value,
     "zip": zip.value
   })
+  //Braintree, reveal yourself!
 }
 
 
