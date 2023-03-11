@@ -53,6 +53,7 @@ export default defineEventHandler(async (event) => {
     }
   }
 
+  //We still may or may not be struggling here to update our printify product with our calculated price (cost + cost*10% + 100cents)
 
   const updateProduct = await $fetch(opts.url, {
     method: 'PUT',
