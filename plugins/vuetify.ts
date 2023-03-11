@@ -29,23 +29,6 @@ const myCustomLightTheme = {
   }
 }
 
-
-//YELLOW AND GREEN
-// const myCustomLightTheme = {
-//   dark: false,
-//   colors: {
-//     background: '#FFFFFF',
-//     surface: '#fbfbd0',
-//     dimsurface: '#fff9c4',
-//     primary: '#cbc693',
-//     'primary-darken-1': '#bef67a',
-//     secondary: '#8bc34a',
-//     'secondary-darken-1': '#5a9216',
-//     button: '#ffc266',
-//     textfield: '#fdfde8',
-//   },
-// }
-
 //ORIGINAL
 // const myCustomLightTheme = {
 //   dark: false,
@@ -92,13 +75,6 @@ export default defineNuxtPlugin(nuxtApp => {
         myCustomDarkTheme
       }
     }
-    // defaults: {
-    //   // VCard: {
-    //   //   color: '',
-    //   //   VBtn: { variant: 'flat', color:'blue' },
-    //   // },
-    //   // VBtn: { variant: 'flat', color:'', size: 'large'},
-    // },
   });
 
   // Found this labeled as primary in an scss/sass file somewhere

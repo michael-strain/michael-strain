@@ -3,17 +3,14 @@
 <!--To Do
 Edit icon on profile image.
 Flex pic and list.
-Button height.
-Edit Profile, Delete Account, Sign Out links on bottom of gray div.
 Confirmation pop-ups for delete account and sign out.
-Try different images for sizing testing. 
 White card is not floating high enough.
 
 -->
 
 <template>
-  <div class="p-20 h-full <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
-    <div>
+  <div class="h-full bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
+    <div class="p-5rem pb-0 <sm:(p-1rem pt-5rem)">
       <!--Header-->
       <div class="position-relative max-w-50rem z-index-2 mx-auto bg-transparent">
         <NuxtLink to="/account">
@@ -48,7 +45,7 @@ White card is not floating high enough.
       </div>
       <div
         v-if="auth.currentUser || firebaseUser"
-        class="m-auto bg-white p-10 max-w-50rem elevation-5 rounded-25px"
+        class="m-auto bg-white p-10 pt-15 max-w-50rem elevation-5 rounded-25px"
       >
         <!--Profile Pic and Account Info Text-->
         <div class="flex space-x-1.5rem <sm:(flex-wrap space-x-0 space-y-1.5rem)">
@@ -136,9 +133,16 @@ White card is not floating high enough.
         </div>
       </div>
     </div>
+    
+
   </div>
-  <TheFooter class="bg-yellow" />
+  <TheFooter class="absolute bottom-0 <sm:static" />
 </template>
+
+
+
+
+
 
         <!-- <v-list lines="one">
           <v-list-item
