@@ -9,7 +9,7 @@ Make theme use override per page.
 -->
 
 <template>
-  <div class="h-screen p-20 <sm:p-5 bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
+  <div class="p-5rem pb-0 h-full <sm:(p-1rem pt-5rem) bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
     <!-- <TheHeader /> -->
     <!-- <v-card class="w-3/4 mx-auto">
       <p class="text-4xl text-center font-bold bg-blue-900 text-white p-11 mb-n16">
@@ -20,7 +20,6 @@ Make theme use override per page.
     <div class="">
       <div
         class="position-relative max-w-700px z-index-2 mx-auto bg-transparent"
-        variant=""
       >
         <p class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10">
           User Account
@@ -195,7 +194,9 @@ Make theme use override per page.
     </div>
   </div>
   <!-- <div class="h-100px bg-gradient-to-b from-indigo-400 to-indigo-900" /> -->
-  <TheFooter class="bg-black" />
+  <v-bottom-navigation class="h-auto">
+  <TheFooter class="" />
+  </v-bottom-navigation>
 </template>
 
 <script setup>
