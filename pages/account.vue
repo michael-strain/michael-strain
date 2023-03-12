@@ -1,8 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <!--To Do
-Edit icon on profile image.
-Flex pic and list.
 Confirmation pop-ups for delete account and sign out.
 White card is not floating high enough.
 
@@ -95,12 +93,53 @@ White card is not floating high enough.
           <div
             class="p-2 min-w-12rem text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
           >
+            <!-- @click="signOutUser" -->
+
             <v-btn
               variant="text"
               class="w-full"
-              @click="signOutUser"
             >
               Sign Out
+              <v-dialog
+                v-model="dialog"
+                activator="parent"
+                class=""
+              >
+                <!-- @click="dialog = false" -->
+                <div class="max-w-50rem mx-auto bg-background">
+                  <div class="text-center p-1rem text-3xl top w-full font-bold text-white bg-primary">
+                    Sign Out
+                  </div>
+                  <div class="text-center text-lg p-2rem">
+                    <!-- <p>
+                      Would you like to log out?
+                    </p>
+                    <br>
+                    <p class="text-justify">
+                      I wanted to text long justifying long text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <br> -->
+                    <p>
+                      Do you really want to to log out?
+                    </p>
+                  </div>
+                  <div class="text-center bg-gray-100 p-1rem flex-wrap flex gap-2rem justify-center">
+                    <v-btn
+                      variant="outlined"
+                      class="w-1/5"
+                    >
+                      Yes
+                    </v-btn>
+                    <!-- @click="isActive.value = false" -->
+                    <v-btn
+                      variant="outlined"
+                      class="w-1/5"
+                    >
+                      No
+                    </v-btn>
+                  </div>
+                </div>
+              </v-dialog>
             </v-btn>
           </div>
         </div>
@@ -133,8 +172,6 @@ White card is not floating high enough.
         </div>
       </div>
     </div>
-    
-
   </div>
   <TheFooter class="absolute bottom-0 <sm:static" />
 </template>
@@ -194,4 +231,14 @@ if(auth.currentUser!==null){
 
 
 }
+</script>
+
+<script>
+  export default {
+    data () {
+      return {
+        dialog: false,
+      }
+    },
+  }
 </script>
