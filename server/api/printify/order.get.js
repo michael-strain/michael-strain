@@ -1,0 +1,14 @@
+//This function should only retrieve 1 order, by ID, directly from printify
+//We should then update the order Object with any relevant info from our end, which may or may not involve more queries,
+//Then we should ensure that the order exists in our DB (and maybe we should update the DB order with any relevant changes, or maybe we hook into Printify events or something?)
+
+import { getQuery } from 'h3'
+
+export default defineEventHandler(async (event) => {
+  const query = getQuery(event)
+  if(query){
+    console.log(query)
+    return query
+  }
+  return {error: "I'm still under construction, sorry"}
+})

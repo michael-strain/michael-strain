@@ -1,3 +1,8 @@
+Thoughts 3/11/23
+----------------
+-I'm no longer using CoPilot
+-It could be cool to add something to the homepage or footer about doing CUSTOM PRODUCTS at no additional cost - just email us an image
+
 Thoughts 3/6/23
 ---------------
 -Put the braintree integration on the checkout page

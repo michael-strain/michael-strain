@@ -67,8 +67,9 @@
                       class="<md:(w-full py-6) md:(w-1/3 pt-2) text-center text-4xl font-semibold text-green-600"
                       size=""
                     >
-                      {{ formatter.format(((itemPrice(product.variants[product.variantNum]) + itemShippingPrice(product.variants[product.variantNum]))/100)) }}
+                      {{ formatter.format(((itemPrice(product.variants[product.variantNum]))/100)) }}
                     </p>
+                    <p>Shipping Cost: {{formatter.format(itemShippingPrice(product.variants[product.variantNum])/100)}}</p>
                     
                     <NuxtLink
                       to="/shop/checkout"
