@@ -25,19 +25,18 @@
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-import { ref } from 'vue'
 
 export const useUserDataStore = defineStore('userData', () => {
-  const userData = ref(useLocalStorage("userData", [
+  const userData = useLocalStorage("userData", [
     {
+      //We need to modify anything using "country" to use shippingInfo.country or billingInfo.country respectively
       country: "US",
       language: "English",
       shippingInfo: {},
       billingInfo: {},
-      paymentInfo: {},
       cartInfo: {},
       orderHistory: {},
-      wishlist: {},
+      // wishlist: {},
       // productReviews: {},
       // productRatings: {},
       // productTags: {},
@@ -48,10 +47,8 @@ export const useUserDataStore = defineStore('userData', () => {
       // productSearchSort: {},
       // productSearchPagination: {},
     }
-  ]))
-  return {
-    userData,
-  }
+  ])
+  return { userData }
 });
 
 if (import.meta.hot) {

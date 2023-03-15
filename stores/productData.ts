@@ -1,12 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-import { ref } from 'vue'
 
 export const useProductDataStore = defineStore('productData', () => {
-  const productData = ref(useLocalStorage("productData", []))
-  return {
-    productData,
-  }
+  const productData = useLocalStorage("productData", [])
+  return { productData }
 });
   // const products = computed(() => productData.value.products.data)},
   // const products = ref([])

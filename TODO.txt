@@ -1,3 +1,9 @@
+Priorities for 3/15/23
+----------------------
+-Fix our local storage to persist locallly - let's stop making unnecessary firebase calls, they are going to get expensive.  This might require some serious whole-site research and analysis.
+-Integrate braintree with our shop and start sending payments based on cart data with freshly pulled and calculated pricing from firebase, and send (test) orders to printify on success
+-Follow through on all the authentication to-do items (ensure good persistent logins, appropriate redirection and API scope, and we could even send our authentication data to google analytics through the Measurement API (then we could see who is doing what O_O), etc.)
+
 Thoughts 3/13/23
 ----------------
 We need to include security measures to protect ourselves from XSS attacks on fields like imageUploadURL's and user displayName and photoUrl fields

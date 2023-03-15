@@ -1,12 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-import { ref } from 'vue'
 
 export const useBlueprintDataStore = defineStore('blueprintData', () => {
-  const blueprintData = ref(useLocalStorage("blueprintData", [],))
-  return {
-    blueprintData,
-  }
+  const blueprintData = useLocalStorage("blueprintData", [])
+  return { blueprintData }
 });
 
 if (import.meta.hot) {
