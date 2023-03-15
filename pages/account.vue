@@ -7,43 +7,21 @@ White card is not floating high enough.
 -->
 
 <template>
-  <div class="h-full bg-gradient-to-b from-transparent via-transparent to-gray-600 bg-url('../img/purple-mushroom.jpg')">
-    <div class="p-5rem pb-0 <sm:(p-1rem pt-5rem)">
+  <div class="bgImg h-100">
+    <div class="bgImgCont">
       <!--Header-->
-      <div class="position-relative max-w-50rem z-index-2 mx-auto bg-transparent">
+      <div class="p-3rem">
         <NuxtLink to="/account">
-          <!-- <h3
-          class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10"
-          :style="{fontFamily: 'Roboto Slab', textShadow: '3px 3px rgba(52, 211, 153)'}"
-        > -->
           <p
-            class="text-4xl mx-8 text-center elevation-5 m-3 mb-n10 font-bold rounded-25px bg-gradient-to-b from-gray-600 to-gray-500 text-white p-10"
-          >
+            class="pageTitle"
+          > 
             User Account
           </p>
         </NuxtLink>
-        <NuxtLink
-          v-if="loadAdminLink"
-          to="/admin"
-        >
-          <p
-            class="text-center text-white"
-          >
-            Link for Admins
-          </p>
-        </NuxtLink>
-      <!-- <NuxtLink to="/braintree">
-        <h6
-          class="text-black justify-center text-center align-center font-bold text-xl mb-10"
-          :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
-        >
-          Braintree
-        </h6>
-      </NuxtLink> -->
       </div>
       <div
         v-if="auth.currentUser || firebaseUser"
-        class="m-auto bg-white p-10 pt-15 max-w-50rem elevation-5 rounded-25px"
+        class="shadow plainContainer p-2rem max-w-50rem rounded-25px"
       >
         <!--Profile Pic and Account Info Text-->
         <div class="flex space-x-1.5rem <sm:(flex-wrap space-x-0 space-y-1.5rem)">
@@ -60,16 +38,16 @@ White card is not floating high enough.
             </div>
           </div>
           <!--Account Info Text-->
-          <div class="flex-grow text-lg">
+          <div class="mx-auto text-lg text-center gap-3 flex flex-column justify-center">
             <p class="font-bold text-1.5rem">
               Name Placeholder
             </p>
             <p>mymessage@email.com</p>
-            <p>258 First Street</p>
-            <p>City, State, 25852</p>
-            <p class="text-gray-500">
+            <p>258 First Street, City, State, 25852</p>
+            <p>258-8520-8520</p>
+            <!-- <p class="plainBtn text-gray-500">
               Edit Profile
-            </p>
+            </p> -->
           </div>
         </div>
         <!--Paragraph-->
@@ -77,71 +55,47 @@ White card is not floating high enough.
           I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
         </p>
         <!--Buttons-->
-        <div
-          class="flex justify-center flex-wrap mt-1.5rem space-x-2rem <sm:(space-x-0 space-y-1.5rem)"
-        >
-          <div
-            class="p-2 min-w-12rem text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+        <div class="btnRow">  
+          <button
+            class="colorBtn"
+            @click="dialog = true"
           >
-            <v-btn
-              variant="text"
-              class="w-full"
-            >
-              Edit Account
-            </v-btn>
-          </div>
-          <div
-            class="p-2 min-w-12rem text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            Edit Account
+          </button>
+          <v-dialog
+            v-model="dialog"
+          />
+          <button
+            class="colorBtn"
+            @click="testdialog = true"
           >
-            <!-- @click="signOutUser" -->
-
-            <v-btn
-              variant="text"
-              class="w-full"
-            >
-              Sign Out
-              <v-dialog
-                v-model="dialog"
-                activator="parent"
-                class=""
-              >
-                <!-- @click="dialog = false" -->
-                <div class="max-w-50rem mx-auto bg-background">
-                  <div class="text-center p-1rem text-3xl top w-full font-bold text-white bg-primary">
-                    Sign Out
-                  </div>
-                  <div class="text-center text-lg p-2rem">
-                    <!-- <p>
-                      Would you like to log out?
-                    </p>
-                    <br>
-                    <p class="text-justify">
-                      I wanted to text long justifying long text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <br> -->
-                    <p>
-                      Do you really want to to log out?
-                    </p>
-                  </div>
-                  <div class="text-center bg-gray-100 p-1rem flex-wrap flex gap-2rem justify-center">
-                    <v-btn
-                      variant="outlined"
-                      class="w-1/5"
-                    >
-                      Yes
-                    </v-btn>
-                    <!-- @click="isActive.value = false" -->
-                    <v-btn
-                      variant="outlined"
-                      class="w-1/5"
-                    >
-                      No
-                    </v-btn>
-                  </div>
-                </div>
-              </v-dialog>
-            </v-btn>
-          </div>
+            Sign Out
+          </button>
+          <v-dialog
+            v-model="testdialog"
+          >
+            <div class="dialogContain">
+              <div class="containTitle">
+                Sign Out
+              </div>
+              <div class="containText">
+                <p>
+                  Are you sure you would like to sign out of your account?
+                </p>
+              </div>
+              <div class="btnRow">
+                <button @click="testdialog = false" class="plainBtn">
+                  No, Stay Logged In. 
+                </button>
+                <button
+                  class="plainBtn"
+                  @click="signOutUser"
+                >
+                  Yes, Log Out. 
+                </button>
+              </div>
+            </div>
+          </v-dialog>
         </div>
       </div>
       <!--If Else (Not Logged In)-->
@@ -172,8 +126,8 @@ White card is not floating high enough.
         </div>
       </div>
     </div>
-  </div>
-  <TheFooter class="absolute bottom-0 <sm:static" />
+  </div> <AFooter />
+  <!-- <TheFooter class="absolute bottom-0 <sm:static" /> -->
 </template>
 
 
@@ -181,20 +135,7 @@ White card is not floating high enough.
 
 
 
-        <!-- <v-list lines="one">
-          <v-list-item
-            :key="auth.currentUser.uid"
-            :title="auth.currentUser.displayName"
-            :subtitle="auth.currentUser.email"
-            :prepend-avatar="userPhotoUrl"
-            lazy-prepend-avatar="/img/MLogo.png"
-          />
-        </v-list> -->
-
-        <!-- <v-card-text>{{ auth.currentUser }}</v-card-text> -->
-        <!-- <v-btn @click="signOutUser">
-            Sign Out
-          </v-btn> -->
+       
 
 <script setup>
 import { async } from '@firebase/util';
@@ -237,8 +178,48 @@ if(auth.currentUser!==null){
   export default {
     data () {
       return {
+        peelog: false,
+        testdialog: false,
         dialog: false,
       }
     },
   }
 </script>
+
+
+<!-- <NuxtLink
+          v-if="loadAdminLink"
+          to="/admin"
+        >
+          <p
+            class="text-center pt-3px bg-red text-white"
+          >
+            Link for Admins
+          </p>
+        </NuxtLink> -->
+      <!-- <NuxtLink to="/braintree">
+        <h6
+          class="text-black justify-center text-center align-center font-bold text-xl mb-10"
+          :style="{fontFamily: 'Roboto Slab', textShadow: '1px 1px rgba(52, 211, 153)'}"
+        >
+          Braintree
+        </h6>
+      </NuxtLink> -->
+
+       <!-- <v-list lines="one">
+          <v-list-item
+            :key="auth.currentUser.uid"
+            :title="auth.currentUser.displayName"
+            :subtitle="auth.currentUser.email"
+            :prepend-avatar="userPhotoUrl"
+            lazy-prepend-avatar="/img/MLogo.png"
+          />
+        </v-list> -->
+
+        <!-- <v-card-text>{{ auth.currentUser }}</v-card-text> -->
+        <!-- <v-btn @click="signOutUser">
+            Sign Out
+          </v-btn> -->
+
+          <!--Old Button-->
+          <!-- @click="isActive.value = false" -->

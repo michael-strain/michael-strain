@@ -1,5 +1,29 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <div class="max-w-80rem mx-auto outline p-5 m-5">
+    <ATitle />
+    <v-divider class="p-5" />
+    <AColorBtn />
+    <v-divider class="p-5" />
+    <APlainBtn />
+    <v-divider class="p-5" />
+    <ADialog />
+    <v-divider class="p-5" />
+    <AContainer />
+    <v-divider class="p-5" />
+    <ABgImg />
+    <v-divider class="p-5" />
+    <AFooter />
+    <!--<AForm /> [Log In, Unsure on Component or CSS. Use Task Video]-->
+    <!--<ATestList /> [CSS the Lines]-->
+    <!--Form Component?-->
+  </div>
+
+
+
+
+
+<!--Colors-->
   <div
     v-for="c in Object.keys(vcolors)"
     :key="c"
@@ -7,27 +31,6 @@
   >
     <p>{{ c }}</p>
   </div>
-  <!-- <div class="bg-background">
-    background
-  </div>
-  <div class="bg-surface">
-    surface
-  </div>
-  <div class="bg-primary">
-    primary
-  </div>
-  <div class="bg-primary-darken-1">
-    primary-darken-1
-  </div>
-  <div class="bg-secondary">
-    secondary
-  </div>
-  <div class="bg-secondary-darken-1">
-    secondary-darken-1
-  </div>
-  <div class="bg-surface-darken-1">
-    surface-darken-1
-  </div> -->
 </template>
 
 <script setup>
