@@ -1,3 +1,8 @@
+Thoughts 3/13/23
+----------------
+We need to include security measures to protect ourselves from XSS attacks on fields like imageUploadURL's and user displayName and photoUrl fields
+
+
 Thoughts 3/11/23
 ----------------
 -I'm no longer using CoPilot
