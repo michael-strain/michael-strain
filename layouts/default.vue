@@ -61,7 +61,8 @@
         </v-card>
         <div class="flex-grow" />
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <v-btn :icon="pageTitle.includes('/shop') ? 'mdi-cart':'mdi-account'" @click="profileClick" />
+          <v-btn v-if="pageTitle.includes('/shop')" icon="mdi-cart" @click="cartClick" />
+          <v-btn icon="mdi-account" @click="profileClick" />
           <v-btn :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn icon="mdi-magnify" @click="searchClick" />
@@ -93,12 +94,12 @@
                   Blog
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="false" to="/account">
+              <NuxtLink v-if="user" to="/account">
                 <v-list-item link>
                   Account
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="false" to="/">
+              <NuxtLink to="/">
                 <v-list-item link @click="signOut" />
               </NuxtLink>
             </v-list>
@@ -125,6 +126,9 @@
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
+          <NuxtLink to="/shop">
+            <v-btn>Go Shopping!</v-btn>
+          </NuxtLink>
         </div>
         <div
           v-else
@@ -250,7 +254,7 @@
 </template>
 
 <script setup>
-  import { ref, reactive, computed } from 'vue'
+  import { ref, computed } from 'vue'
   import { useCartDataStore } from '~/stores/cartData'
   import { useProductDataStore } from '~/stores/productData'
   import { useUserDataStore } from '~/stores/userData'
@@ -278,7 +282,7 @@
   const cartProducts = ref([])
   // const cartProducts = ref()
   const loaded = ref(false)
-  const store = useProductDataStore()
+  // const store = useProductDataStore()
   const cart = useCartDataStore()
   const user = useUserDataStore()
 
@@ -337,7 +341,7 @@
     // See below for a suggested fix:
     // vue-3-composition-api-how-to-update-a-nested-object-in-a-ref
 
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     let otherVariants = false
 
     variant.cartQty--
@@ -391,9 +395,10 @@
       cartProducts.value = cart.cartData
     }
 
+    //I really don't want to update the whole Product Data store actually....
     //Just for fun, we patch the whole damn product store with everything the cart is doing
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
     
     // itemTotal()
     // shipTotal()
@@ -401,7 +406,7 @@
 
   function increaseCartItemQty(item, variant) {
 
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     variant.cartQty++
     item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
     cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
@@ -409,37 +414,31 @@
 
     // Do we need to do anything to the product store here?
     // May as well try :D
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
 
     // itemTotal()
     // shipTotal()
     
   }
 
-  function profileClick () {
-    if (pageTitle.value.includes("/shop")){
-      const cart = useCartDataStore()
-      // console.log(cart.cartData.length)
-      // const cart = useCartDataStore()
-      // console.log(cart)
-      // console.log("Cart button clicked: " + cart.cartData.length)
-      // // cartProducts.value = cart.cartData
-      if(cart.cartData.length>0 ){
-        cartProducts.value = cart.cartData
-        loaded.value = true
-      } else {
-        // cartProducts.value = cart.cartData
-        loaded.value = false
-      }
-      // If the page is shop, open the shopping cart drawer
-      drawer.value=!drawer.value
+  function cartClick() {
+    // const cart = useCartDataStore()
+    if(cart.cartData.length>0 ){
+      cartProducts.value = cart.cartData
+      loaded.value = true
     } else {
-      router.push('/account')
+      loaded.value = false
     }
+    drawer.value=!drawer.value
+  }
+
+  function profileClick () {
+    router.push('/account')
   }
 
   function themeClick () {
+    //really we could make a drop-down selection list of themes :P
     if (theme.value === 'myCustomLightTheme'){
       theme.value='myCustomDarkTheme'
       themeIcon.value = 'mdi-weather-night'
@@ -526,8 +525,8 @@
   // })
 
 const itemPrice = function(variant) {
-  const cart = useCartDataStore()
-  const user = useUserDataStore()
+  // const cart = useCartDataStore()
+  // const user = useUserDataStore()
   let sProfile = false
 
   // is this running correctly?
@@ -669,7 +668,7 @@ const itemPrice = function(variant) {
   }))
 
 const itemShippingPrice = function(variant) {
-  const user = useUserDataStore()
+  // const user = useUserDataStore()
   let sProfile = false
 
   // is this running correctly?
@@ -766,7 +765,7 @@ const itemShippingPrice = function(variant) {
 
 
   function removeVariant(item, variant) {
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     let otherVariants = false
 
     variant.cartQty = 0
@@ -797,8 +796,8 @@ const itemShippingPrice = function(variant) {
     }
 
     //Update the store to show updated inCart and cartQty values
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
 
     // itemTotal()
     // shipTotal()

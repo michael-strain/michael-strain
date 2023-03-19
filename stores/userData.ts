@@ -23,7 +23,7 @@
   // product search filters
 
 
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useUserDataStore = defineStore('userData', () => {
@@ -48,7 +48,7 @@ export const useUserDataStore = defineStore('userData', () => {
       // productSearchPagination: {},
     }
   ])
-  return { userData }
+  return { userData: skipHydrate(userData) }
 });
 
 if (import.meta.hot) {

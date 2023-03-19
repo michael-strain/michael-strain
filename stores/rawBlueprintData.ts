@@ -1,9 +1,9 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useRawBlueprintDataStore = defineStore('rawBlueprintData', () => {
   const rawBlueprintData = useLocalStorage("rawBlueprintData", [])
-  return { rawBlueprintData }
+  return { rawBlueprintData: skipHydrate(rawBlueprintData) }
 });
 
 if (import.meta.hot) {

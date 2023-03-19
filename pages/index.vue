@@ -211,6 +211,8 @@ Basically, you are looking at my toolbelt.</p>
     </v-card> -->
 </template>
 
+<!-- Wow, we don't even use a script on this page.  We may want to use one for things like auth and prefetching store data -->
+
 <style scoped>
 .btnc1:hover{
   color:blue;

@@ -1,5 +1,19 @@
+Priorities for 3/19
+-------------------
+-Track down all our firestore interactions and MINIMIZE READS by storing and using data locally whenever possible (except when creating a transaction)
+-Finish braintree integration - get our real order info generated with cart data onto our braintree sandbox transaction list
+-Get an admin order management created and allow the ability to add CS Case Notes, perform refunds, etc.
+-Need to read about re-hydrating the pinia stores.  Ideally i'd be able to push a product set a rehydrate flag - so when clients see the rehydrate flag they refetch only necessary updates...
+-https://pinia.vuejs.org/ssr/
+
+Thoughts 3/18/23
+----------------
+-At some point we need to add a customer-service level view of orders with a form for modifying permissible fields, submitting refunds/refund requests, pushing orders through their own workflow, adding CS case notes, etc.
+-Same kind of view of user info/order history would be good - being able to look up a user by email or phone or name would be nice
+
 Priorities for 3/15/23
 ----------------------
+-Analytics does not seem to be working properly
 -Fix our local storage to persist locallly - let's stop making unnecessary firebase calls, they are going to get expensive.  This might require some serious whole-site research and analysis.
 -Integrate braintree with our shop and start sending payments based on cart data with freshly pulled and calculated pricing from firebase, and send (test) orders to printify on success
 -Follow through on all the authentication to-do items (ensure good persistent logins, appropriate redirection and API scope, and we could even send our authentication data to google analytics through the Measurement API (then we could see who is doing what O_O), etc.)

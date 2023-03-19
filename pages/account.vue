@@ -55,6 +55,42 @@ White card is not floating high enough.
           I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
         </p>
         <!--Buttons-->
+        <!-- Temporary thing sorry for touching your stuff -->
+        <div
+          class="flex justify-center flex-wrap"
+        >
+          <div
+            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+          >
+            <NuxtLink to="/shop/orders?id=IWseAIanYa7S8Qaiflvx">
+              <v-btn
+                variant="text"
+                class="w-full"
+              >
+                Go to test order
+              </v-btn>
+            </NuxtLink>
+          </div>
+        </div>
+        <div
+          class="flex justify-center flex-wrap"
+        >
+          <div
+            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+          >
+            <NuxtLink to="/shop/orders">
+              <v-btn
+                variant="text"
+                class="w-full"
+              >
+                Go to Orders
+              </v-btn>
+            </NuxtLink>
+          </div>
+        </div>
+        <!--End of temporary shit, sorry again for touching stuff-->
+        
+        
         <div class="btnRow">  
           <button
             class="colorBtn"
@@ -103,6 +139,7 @@ White card is not floating high enough.
         v-else
         class="m-auto bg-white p-10 max-w-50rem elevation-5 rounded-25px"
       >
+        <!-- Push the login url to the router, then redirect back here after successful login -->
         <div class="pb-5 text-1.25rem text-center">
           <p class="text-gray-600 mt-10">
             You are not currently logged in.
@@ -141,6 +178,9 @@ White card is not floating high enough.
 import { async } from '@firebase/util';
 import { getAuth } from 'firebase/auth'
 import { useUserDataStore } from '~/stores/userData';
+
+//TODO
+//Setup updateProfile actions
 
 const auth = getAuth();
 const firebaseUser = useFirebaseUser()

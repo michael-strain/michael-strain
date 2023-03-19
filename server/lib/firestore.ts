@@ -28,19 +28,26 @@ export const queryByCollection = async (col:string, id?:string) => {
   return results
 }
 
-export const queryCollectionWhere = async (col:string, field:string, operator:WhereFilterOp, value:string) => {
-  const results = Array()
-  const q = query(collection(firestoreDb, col), where(field, operator, value))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach(doc => {
-    let docData = doc.data()
-    results.push(docData)
-  })
-  return results
+export const queryCollectionWhere = async (col:string, field:string, operator:WhereFilterOp, value:any) => {
+  try{
+    const results = Array()
+    const q = query(collection(firestoreDb, col), where(field, operator, value))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach(doc => {
+      let docId = doc.id
+      let docData = doc.data()
+      docData.id = docId
+      results.push(docData)
+    })
+    return results
+  } catch(e){
+    console.log("queryCollectionWhere Error: " + e)
+    return{e}
+  }
 }
 
-export const set = async (col:string, document:Object) => {
-  await setDoc(doc(collection(firestoreDb, col)),document)
+export const set = async (col:string, docId:string, updateVal:Object) => {
+  await setDoc(doc(collection(firestoreDb, col),docId), updateVal)
 }
 
 export const add = async (col: string, document: Object) => {

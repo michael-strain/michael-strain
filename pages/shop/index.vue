@@ -13,7 +13,7 @@
           class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
           :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
         >
-          Welcome to L.S.Dope. All of the art you see here was created by small, independent artists.
+          Welcome to L.S.Dope. All of the art you see was created by independent artists.  We hope you find something you love!
         </p>
         <div class="flex flex-wrap items-center align-center justify-center">
           <div 
@@ -152,7 +152,10 @@
   import { useProductDataStore } from '~/stores/productData';
   import { useCartDataStore } from '~/stores/cartData';
   import { useUserDataStore } from '~/stores/userData';
-  import { storeToRefs } from 'pinia'
+
+  const store = useProductDataStore()
+  const cart = useCartDataStore()
+  const user = useUserDataStore()
 
   const heart = ref((variant)=> {
     if (variant.cartQty>0){
@@ -168,10 +171,7 @@
   const loaded = ref(false)
 
   onMounted(async() => {
-    const store = useProductDataStore()
-    const cart = useCartDataStore()
-    const user = useUserDataStore()
-    
+    console.log("store.productData.length: " + store.productData.length)
     if(store.productData.length > 0){
       // console.log("Products already loaded")
       products.value = store.productData

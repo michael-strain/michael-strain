@@ -25,6 +25,9 @@ export default defineEventHandler(async (event) => {
   // var userData = null
   var totalCost = null
   var shippingInfo = null
+  var billingInfo = null
+  var userInfo = null
+  var orderId = null
   // var shippingCountry = null
 
   // var cartItems = {
@@ -61,12 +64,24 @@ export default defineEventHandler(async (event) => {
     //   } 
     // }
   }
-  if (body.cartItems){
-    cartItems = body.cartItems
+  if (body.cart){
+    cartItems = body.cart
   }
   if (body.shipping) {
     shippingInfo = body.shipping
     console.log(shippingInfo)
+  }
+  if (body.billing) {
+    billingInfo = body.billling 
+    console.log(billingInfo)
+  }
+  if (body.user) {
+    userInfo = body.user
+    console.log(userInfo)
+  }
+  if (body.orderId) {
+    orderId = body.orderId
+    console.log(orderId)
   }
 
   //We need to fetch our product data from the DB in order to calculate the price of each variant
@@ -75,19 +90,45 @@ export default defineEventHandler(async (event) => {
 
   console.log(await body)
 
-  //Time to put our data into the braintree transaction
 
-  const products = await $fetch('/api/queryItem?' + 'col=products' + '&field=id&operator===&value=' + cartItems.itemId , { method: 'GET' })
+  //I think we pass the price in already through the checkout page - but just to be safe
+  //CONFIRM THE CART TOTALCOST IS ACCURATE BASED ON A SERVER-SIDE QUERY
+  //Time to put our data into the braintree transaction
+  const products = await $fetch('/api/queryItem?' + 'col=products' + '&field=id' + '&operator===' + '&value=' + cartItems.itemId , { method: 'GET' })
+
+  var totalCost = 0
+  var totalShippingAmount = 0
+
+  var lineItems = []
+  var printifyLines = []
 
   for (let i = 0; i < products.length; i++) {
     for(let j = 0; j < products[i].variants.length; j++) {
       if(products[i].variants[j].id === cartItems.variantId[j]) {
         console.log("Found a match at j-index: " + j)
-        let thisItemPrice = itemPrice(products[i].variants[j], shippingInfo.country)
-        let thisShipCost = itemShippingPrice(products[i].variants[j], shippingInfo.country)
+        let thisItemPrice = itemPrice(products[i].variants[j], billingInfo.country)
+        let thisShipCost = itemShippingPrice(products[i].variants[j], billingInfo.country)
         let thisItemQty = cartItems.quantity[j]
+        
+        let lineItem = {
+          name: products[i].variants[j].title,
+          kind: "debit",
+          quantity: products[i].variants[j].cartQty,
+          unitAmount: itemPrice(products[i].variants[j], billingInfo.country) + itemShippingPrice(products[i].variants[j], billingInfo.country),
+          totalAmount: (itemPrice(products[i].variants[j], billingInfo.country) + itemShippingPrice(products[i].variants[j], billingInfo.country)) * products[i].variants[j].cartQty
+        }
+        let printifyLine = {
+          // product_id, variant_id, and quantity
+          product_id: products[i].id,
+          variant_id: products[i].variants[j].id,
+          quantity: products[i].variants[j].cartQty
+
+        }
+        lineItems.push(lineItem)
+        printifyLines.push(printifyLine)
         // console.log(thisItemQty)
         totalCost += ((thisItemPrice + thisShipCost) * thisItemQty)/100
+        totalShippingAmount += (thisShipCost * thisItemQty)/100
       }
     }
   }
@@ -142,8 +183,60 @@ export default defineEventHandler(async (event) => {
     amount: totalCost,
     paymentMethodNonce: nonce,
     // deviceData: deviceData,
+    //Do we need to do a billing country? and zip and stuff?
+    billing: {
+      countryCodeAlpha2: billingInfo.country,
+      firstName: userInfo.userData[0].firstName,
+      lastName: userInfo.userData[0].lastName,
+      streetAddress: billingInfo.address,
+      extendedAddress: billingInfo.address2,
+      locality: billingInfo.city,
+      region: billingInfo.region,
+      postalCode: billingInfo.zip
+    },
+    customer: {
+      id: userInfo.userData[0].uid,
+      email: userInfo.userData[0].email,
+      firstName: userInfo.userData[0].firstName,
+      lastName: userInfo.userData[0].lastName,
+      phone: userInfo.userData[0].phone,
+      //or you could theoretically use a customerId from the Braintree Vault
+    },
+    //customerId: 'ID from Braintree Vault used to charge existing customers'
+    // descriptor: { //'Not enabled on all braintree accounts by default - but could be cool to use!!!'
+    //   name: 'Business Name',
+    //   phone: '10-14 characters, ONLY #,-,(,),.',
+    //   url: '13 chars MAX'
+    // },
+    lineItems: lineItems, //249 max
     options: {
-      submitForSettlement: true
+      addBillingAddressToPaymentMethod: true,
+      submitForSettlement: true,
+      paypal:{
+        description: "Payment for your Dope Order - ID: " + orderId
+      },
+      storeInVault: true,
+      storeShippingAddressInVault: true,
+      // threeDSecure: {
+      //   required: true
+      // }
+      venmo:{
+        profileId:'@SICoLLC'
+      },
+      orderId: orderId,
+      shipping: {
+        countryCodeAlpha2: shippingInfo.country,
+        firstName: userInfo.userData[0].firstName,
+        lastName: userInfo.userData[0].lastName,
+        streetAddress: shippingInfo.address,
+        extendedAddress: shippingInfo.address2,
+        locality: shippingInfo.city,
+        region: shippingInfo.region,
+        postalCode: shippingInfo.zip
+      },
+      shippingAmount: totalShippingAmount,
+      //We need to build a transactionSource implementation and allow CS reps to manually enter recurring and unscheduled orders
+      // transactionSource: "moto" //initiated by the customer via the merchant by mail or telephone
 
       // This could come in handy
       // verifyCard:true,
@@ -151,9 +244,45 @@ export default defineEventHandler(async (event) => {
       // verificationAmount: '1.00',
     }
 
-  }, (err, results) => {
-    console.log(results)
+  }, (err, result) => {
+    console.log(result)
     console.log(err)
+
+    if (result.success){
+      const firebase = $fetch("/api/set?col=orders&docId="+orderId+"&status="+result.transaction.status, { method:"POST" }) //update our firebase order by id
+      if (result.transaction.status == "submitted_for_settlement"){
+        //if firebase success:
+        //our body should be the printify order POST body
+        const printifyOrder = {
+          //Printify POST data
+          external_id: orderId,
+          line_items: printifyLines, //this should just have a product_id, variant_id, and quantity
+          shipping_method: 1, //2 for express shipping
+          send_shipping_notification: true,
+          address_to: {
+            first_name: userInfo.userData[0].firstName,
+            last_name: userInfo.userData[0].lastName,
+            email: userInfo.userData[0].email,
+            phone: userInfo.userData[0].phone,
+            country: shippingInfo.country,
+            region: shippingInfo.region,
+            address1: shippingInfo.address1,
+            address2: shippingInfo.address2,
+            city: shippingInfo.city,
+            zip: shippingInfo.zip
+          }
+        }
+        const printify = $fetch('/api/printify/order', {method:"POST", body: printifyOrder}) //post our order to printify
+        console.log("Printify response:")
+        console.log(printify)
+
+      }
+
+      
+
+      return { success: true, result: result, firebaseResult: firebase, printifyResult: printify}
+    }
+
     // if (results.success) {
     //   console.log("Transaction results: " + results.transaction)
     //   // console.log(results)

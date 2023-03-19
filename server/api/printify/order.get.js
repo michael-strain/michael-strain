@@ -3,15 +3,17 @@
 //Then we should ensure that the order exists in our DB (and maybe we should update the DB order with any relevant changes, or maybe we hook into Printify events or something?)
 
 import { getQuery } from 'h3'
-import { config } from 'process'
 
 export default defineEventHandler(async (event) => {
 
   const query = getQuery(event)
   if(query){
     console.log(query)
-    return query
   }
+  else {
+    return { error: "No Order ID Provided" } //No id was passed
+  }
+  
   const runtimeConfig = useRuntimeConfig()
 
   const opts = {

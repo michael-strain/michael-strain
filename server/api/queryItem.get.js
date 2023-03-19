@@ -33,8 +33,8 @@ export default defineEventHandler(async (event) => {
     // not-in
 
     //Currently not using body, only using query, let's see if it works with all the weird stuff I'm passing
-
     const docs = await queryCollectionWhere(query.col, query.field, query.operator, query.value)
+    console.log("Searching " + query.col + " where " + query.field + " " + query.operator + " " + query.value)
     return docs
   } catch (error) {
     return { error: error.message }
