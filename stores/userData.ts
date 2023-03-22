@@ -27,15 +27,15 @@ import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useUserDataStore = defineStore('userData', () => {
-  const userData = useLocalStorage("userData", [
+  const userData = useLocalStorage("userData", 
     {
-      //We need to modify anything using "country" to use shippingInfo.country or billingInfo.country respectively
-      country: "US",
-      language: "English",
-      shippingInfo: {},
+      // language: "English", //Sorry, i'm not internationalizing this hard.  At least not yet.
+      shippingInfo: {
+        country: "US" //I guess we are defaulting to the US
+      },
       billingInfo: {},
       cartInfo: {},
-      orderHistory: {},
+      orderHistory: [{orderId:''}], //should be a list of complete order objects, preferably updated by webhooks from braintree and printify and stuff
       // wishlist: {},
       // productReviews: {},
       // productRatings: {},
@@ -47,7 +47,7 @@ export const useUserDataStore = defineStore('userData', () => {
       // productSearchSort: {},
       // productSearchPagination: {},
     }
-  ])
+  )
   return { userData: skipHydrate(userData) }
 });
 

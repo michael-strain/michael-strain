@@ -1,3 +1,8 @@
+Priorities for 3/20
+-------------------
+-Fix the storedShippingProfile nonsense - looks like we aren't setting shippableCountries properly either
+-We also need to update the shipping cost values in the cart when a user selects a different shipping country option
+
 Priorities for 3/19
 -------------------
 -Track down all our firestore interactions and MINIMIZE READS by storing and using data locally whenever possible (except when creating a transaction)

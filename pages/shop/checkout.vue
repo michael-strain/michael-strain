@@ -47,10 +47,10 @@
 
             <div class="m-2">
               <p class="text-xs">
-                Each Item: <span class="font-bold">{{ formatter.format((itemPrice(variant).itemCost * variant.cartQty)/100) }}</span>
+                Each Item: <span class="font-bold">{{ formatter.format((itemPrice(variant).itemCost)/100) }}</span>
               </p>
               <p class="text-xs">
-                Ship Cost/Item: <span class="font-bold">{{ formatter.format((itemPrice(variant).shipCost * variant.cartQty)/100) }}</span>
+                Ship Cost/Item: <span class="font-bold">{{ formatter.format((itemPrice(variant).shipCost)/100) }}</span>
               </p>
             </div>
 
@@ -120,10 +120,12 @@
         <v-container
           class=""
         >
-        <div>
-          <p>Item Total: {{ formatter.format(clientCartTotal/100) }}</p>
-        </div>
+          <div>
+            <p>Cart Total: {{ formatter.format(clientCartTotal/100) }}</p>
+          </div>
           <div v-if="!infoSubmitted">
+            <!-- Need a dropdown select thing for User's with multiple stored shipping info options -->
+            <!-- See storedShippingProfiles in setup script-->
             <div class="">
               <v-text-field
                 id="firstName"
@@ -219,16 +221,25 @@
               <!-- We should grab country options from our cart variants shipping profiles and only set items=countries to display what is available -->
               <!-- We also need to fire an event when this field is changed in order to update cart pricing using user selected country -->
               <!-- We should also update the user profile country on submit with whatever shipping country they select, so the store default shows their correct ship costs -->
+              <v-select 
+                v-model="shippingInfo.country"
+                :items="countryNames"
+                @update:model-value="setUserCountry"
+              />
+
+              <!-- OLD
               <v-select
                 id="country"
                 v-model="shippingInfo.country"
-                :items="countries"
+                :items="countryNames"
                 label="Country"
                 placeholder="Country"
                 hide-details
                 bg-color="background"
                 transition="scale-transition"
-              />
+                change
+                @update:model-value="getShippableCountries"
+              /> -->
             </div>
 
 
@@ -441,6 +452,7 @@ import { ref } from 'vue'
 import { useCartDataStore } from '~/stores/cartData';
 import { useProductDataStore } from '~/stores/productData'
 import { useUserDataStore } from '~/stores/userData'
+import { useOrderDataStore } from '~/stores/orderData'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 import dropin from 'braintree-web-drop-in'
 
@@ -451,9 +463,11 @@ import dropin from 'braintree-web-drop-in'
 
 //Global variables
   //Datastores
-const userStore = useUserDataStore() //Need to save the user's profile to the userDataStore
+const user = useUserDataStore() //Need to save the user's profile to the userDataStore
 const cart = useCartDataStore()
 const store = useProductDataStore()
+const orders = useOrderDataStore()
+
 
 //Firebase
 const auth = getAuth()
@@ -468,8 +482,7 @@ const cartVariants = ref([])
 const firebaseOrderId = ref()
 const loaded = ref(false)
 // const hover = ref(false)
-const countries = ref([])
-const billableCountries = ref([])
+const billableCountries = ref()
 const useAsBilling = ref(true)
 const submitButton = ref(null)
 const userInfo = ref({
@@ -496,31 +509,326 @@ const billingInfo = ref({
   zip: ''
 })
 
+
+const userCountry = ref()
+
+const countries = ref([
+  {code:"AF", name: "Afghanistan"},
+  {code:"AX", name: "Åland Islands"},
+  {code:"AL", name: "Albania"},
+  {code:"DZ", name: "Algeria"},
+  {code:"AS", name: "American Samoa"},
+  {code:"AD", name: "Andorra"},
+  {code:"AO", name: "Angola"},
+  {code:"AI", name: "Anguilla"},
+  {code:"AQ", name: "Antarctica"},
+  {code:"AG", name: "Antigua and Barbuda"},
+  {code:"AR", name: "Argentina"},
+  {code:"AM", name: "Armenia"},
+  {code:"AW", name: "Aruba"},
+  {code:"AU", name: "Australia"},
+  {code:"AT", name: "Austria"},
+  {code:"AZ", name: "Azerbaijan"},
+  {code:"BS", name: "Bahamas"},
+  {code:"BH", name: "Bahrain"},
+  {code:"BD", name: "Bangladesh"},
+  {code:"BB", name: "Barbados"},
+  {code:"BY", name: "Belarus"},
+  {code:"BE", name: "Belgium"},
+  {code:"BZ", name: "Belize"},
+  {code:"BJ", name: "Benin"},
+  {code:"BM", name: "Bermuda"},
+  {code:"BT", name: "Bhutan"},
+  {code:"BO", name: "Bolivia, Plurinational State of"},
+  {code:"BQ", name: "Bonaire, Sint Eustatius and Saba"},
+  {code:"BA", name: "Bosnia and Herzegovina"},
+  {code:"BW", name: "Botswana"},
+  {code:"BV", name: "Bouvet Island"},
+  {code:"BR", name: "Brazil"},
+  {code:"IO", name: "British Indian Ocean Territory"},
+  {code:"BN", name: "Brunei Darussalam"},
+  {code:"BG", name: "Bulgaria"},
+  {code:"BF", name: "Burkina Faso"},
+  {code:"BI", name: "Burundi"},
+  {code:"KH", name: "Cambodia"},
+  {code:"CM", name: "Cameroon"},
+  {code:"CA", name: "Canada"},
+  {code:"CV", name: "Cape Verde"},
+  {code:"KY", name: "Cayman Islands"},
+  {code:"CF", name: "Central African Republic"},
+  {code:"TD", name: "Chad"},
+  {code:"CL", name: "Chile"},
+  {code:"CN", name: "China"},
+  {code:"CX", name: "Christmas Island"},
+  {code:"CC", name: "Cocos (Keeling) Islands"},
+  {code:"CO", name: "Colombia"},
+  {code:"KM", name: "Comoros"},
+  {code:"CG", name: "Congo"},
+  {code:"CD", name: "Congo, the Democratic Republic of the"},
+  {code:"CK", name: "Cook Islands"},
+  {code:"CR", name: "Costa Rica"},
+  {code:"CI", name: "Côte d'Ivoire"},
+  {code:"HR", name: "Croatia"},
+  {code:"CU", name: "Cuba"},
+  {code:"CW", name: "Curaçao"},
+  {code:"CY", name: "Cyprus"},
+  {code:"CZ", name: "Czech Republic"},
+  {code:"DK", name: "Denmark"},
+  {code:"DJ", name: "Djibouti"},
+  {code:"DM", name: "Dominica"},
+  {code:"DO", name: "Dominican Republic"},
+  {code:"EC", name: "Ecuador"},
+  {code:"EG", name: "Egypt"},
+  {code:"SV", name: "El Salvador"},
+  {code:"GQ", name: "Equatorial Guinea"},
+  {code:"ER", name: "Eritrea"},
+  {code:"EE", name: "Estonia"},
+  {code:"ET", name: "Ethiopia"},
+  {code:"FK", name: "Falkland Islands (Malvinas)"},
+  {code:"FO", name: "Faroe Islands"},
+  {code:"FJ", name: "Fiji"},
+  {code:"FI", name: "Finland"},
+  {code:"FR", name: "France"},
+  {code:"GF", name: "French Guiana"},
+  {code:"PF", name: "French Polynesia"},
+  {code:"TF", name: "French Southern Territories"},
+  {code:"GA", name: "Gabon"},
+  {code:"GM", name: "Gambia"},
+  {code:"GE", name: "Georgia"},
+  {code:"DE", name: "Germany"},
+  {code:"GH", name: "Ghana"},
+  {code:"GI", name: "Gibraltar"},
+  {code:"GR", name: "Greece"},
+  {code:"GL", name: "Greenland"},
+  {code:"GD", name: "Grenada"},
+  {code:"GP", name: "Guadeloupe"},
+  {code:"GU", name: "Guam"},
+  {code:"GT", name: "Guatemala"},
+  {code:"GG", name: "Guernsey"},
+  {code:"GN", name: "Guinea"},
+  {code:"GW", name: "Guinea-Bissau"},
+  {code:"GY", name: "Guyana"},
+  {code:"HT", name: "Haiti"},
+  {code:"HM", name: "Heard Island and McDonald Islands"},
+  {code:"VA", name: "Holy See (Vatican City State)"},
+  {code:"HN", name: "Honduras"},
+  {code:"HK", name: "Hong Kong"},
+  {code:"HU", name: "Hungary"},
+  {code:"IS", name: "Iceland"},
+  {code:"IN", name: "India"},
+  {code:"ID", name: "Indonesia"},
+  {code:"IR", name: "Iran, Islamic Republic of"},
+  {code:"IQ", name: "Iraq"},
+  {code:"IE", name: "Ireland"},
+  {code:"IM", name: "Isle of Man"},
+  {code:"IL", name: "Israel"},
+  {code:"IT", name: "Italy"},
+  {code:"JM", name: "Jamaica"},
+  {code:"JP", name: "Japan"},
+  {code:"JE", name: "Jersey"},
+  {code:"JO", name: "Jordan"},
+  {code:"KZ", name: "Kazakhstan"},
+  {code:"KE", name: "Kenya"},
+  {code:"KI", name: "Kiribati"},
+  {code:"KP", name: "Korea, Democratic People's Republic of"},
+  {code:"KR", name: "Korea, Republic of"},
+  {code:"KW", name: "Kuwait"},
+  {code:"KG", name: "Kyrgyzstan"},
+  {code:"LA", name: "Lao People's Democratic Republic"},
+  {code:"LV", name: "Latvia"},
+  {code:"LB", name: "Lebanon"},
+  {code:"LS", name: "Lesotho"},
+  {code:"LR", name: "Liberia"},
+  {code:"LY", name: "Libya"},
+  {code:"LI", name: "Liechtenstein"},
+  {code:"LT", name: "Lithuania"},
+  {code:"LU", name: "Luxembourg"},
+  {code:"MO", name: "Macao"},
+  {code:"MK", name: "Macedonia, the Former Yugoslav Republic of"},
+  {code:"MG", name: "Madagascar"},
+  {code:"MW", name: "Malawi"},
+  {code:"MY", name: "Malaysia"},
+  {code:"MV", name: "Maldives"},
+  {code:"ML", name: "Mali"},
+  {code:"MT", name: "Malta"},
+  {code:"MH", name: "Marshall Islands"},
+  {code:"MQ", name: "Martinique"},
+  {code:"MR", name: "Mauritania"},
+  {code:"MU", name: "Mauritius"},
+  {code:"YT", name: "Mayotte"},
+  {code:"MX", name: "Mexico"},
+  {code:"FM", name: "Micronesia, Federated States of"},
+  {code:"MD", name: "Moldova, Republic of"},
+  {code:"MC", name: "Monaco"},
+  {code:"MN", name: "Mongolia"},
+  {code:"ME", name: "Montenegro"},
+  {code:"MS", name: "Montserrat"},
+  {code:"MA", name: "Morocco"},
+  {code:"MZ", name: "Mozambique"},
+  {code:"MM", name: "Myanmar"},
+  {code:"NA", name: "Namibia"},
+  {code:"NR", name: "Nauru"},
+  {code:"NP", name: "Nepal"},
+  {code:"NL", name: "Netherlands"},
+  {code:"NC", name: "New Caledonia"},
+  {code:"NZ", name: "New Zealand"},
+  {code:"NI", name: "Nicaragua"},
+  {code:"NE", name: "Niger"},
+  {code:"NG", name: "Nigeria"},
+  {code:"NU", name: "Niue"},
+  {code:"NF", name: "Norfolk Island"},
+  {code:"MP", name: "Northern Mariana Islands"},
+  {code:"NO", name: "Norway"},
+  {code:"OM", name: "Oman"},
+  {code:"PK", name: "Pakistan"},
+  {code:"PW", name: "Palau"},
+  {code:"PS", name: "Palestine, State of"},
+  {code:"PA", name: "Panama"},
+  {code:"PG", name: "Papua New Guinea"},
+  {code:"PY", name: "Paraguay"},
+  {code:"PE", name: "Peru"},
+  {code:"PH", name: "Philippines"},
+  {code:"PN", name: "Pitcairn"},
+  {code:"PL", name: "Poland"},
+  {code:"PT", name: "Portugal"},
+  {code:"PR", name: "Puerto Rico"},
+  {code:"QA", name: "Qatar"},
+  {code:"RE", name: "Réunion"},
+  {code:"RO", name: "Romania"},
+  {code:"RU", name: "Russian Federation"},
+  {code:"RW", name: "Rwanda"},
+  {code:"BL", name: "Saint Barthélemy"},
+  {code:"SH", name: "Saint Helena, Ascension and Tristan da Cunha"},
+  {code:"KN", name: "Saint Kitts and Nevis"},
+  {code:"LC", name: "Saint Lucia"},
+  {code:"MF", name: "Saint Martin (French part)"},
+  {code:"PM", name: "Saint Pierre and Miquelon"},
+  {code:"VC", name: "Saint Vincent and the Grenadines"},
+  {code:"WS", name: "Samoa"},
+  {code:"SM", name: "San Marino"},
+  {code:"ST", name: "Sao Tome and Principe"},
+  {code:"SA", name: "Saudi Arabia"},
+  {code:"SN", name: "Senegal"},
+  {code:"RS", name: "Serbia"},
+  {code:"SC", name: "Seychelles"},
+  {code:"SL", name: "Sierra Leone"},
+  {code:"SG", name: "Singapore"},
+  {code:"SX", name: "Sint Maarten (Dutch part)"},
+  {code:"SK", name: "Slovakia"},
+  {code:"SI", name: "Slovenia"},
+  {code:"SB", name: "Solomon Islands"},
+  {code:"SO", name: "Somalia"},
+  {code:"ZA", name: "South Africa"},
+  {code:"GS", name: "South Georgia and the South Sandwich Islands"},
+  {code:"SS", name: "South Sudan"},
+  {code:"ES", name: "Spain"},
+  {code:"LK", name: "Sri Lanka"},
+  {code:"SD", name: "Sudan"},
+  {code:"SR", name: "Suriname"},
+  {code:"SJ", name: "Svalbard and Jan Mayen"},
+  {code:"SZ", name: "Swaziland"},
+  {code:"SE", name: "Sweden"},
+  {code:"CH", name: "Switzerland"},
+  {code:"SY", name: "Syrian Arab Republic"},
+  {code:"TW", name: "Taiwan, Province of China"},
+  {code:"TJ", name: "Tajikistan"},
+  {code:"TZ", name: "Tanzania, United Republic of"},
+  {code:"TH", name: "Thailand"},
+  {code:"TL", name: "Timor-Leste"},
+  {code:"TG", name: "Togo"},
+  {code:"TK", name: "Tokelau"},
+  {code:"TO", name: "Tonga"},
+  {code:"TT", name: "Trinidad and Tobago"},
+  {code:"TN", name: "Tunisia"},
+  {code:"TR", name: "Turkey"},
+  {code:"TM", name: "Turkmenistan"},
+  {code:"TC", name: "Turks and Caicos Islands"},
+  {code:"TV", name: "Tuvalu"},
+  {code:"UG", name: "Uganda"},
+  {code:"UA", name: "Ukraine"},
+  {code:"AE", name: "United Arab Emirates"},
+  {code:"GB", name: "United Kingdom"},
+  {code:"US", name: "United States"},
+  {code:"UM", name: "United States Minor Outlying Islands"},
+  {code:"UY", name: "Uruguay"},
+  {code:"UZ", name: "Uzbekistan"},
+  {code:"VU", name: "Vanuatu"},
+  {code:"VE", name: "Venezuela, Bolivarian Republic of"},
+  {code:"VN", name: "Viet Nam"},
+  {code:"VG", name: "Virgin Islands, British"},
+  {code:"VI", name: "Virgin Islands, U.S."},
+  {code:"WF", name: "Wallis and Futuna"},
+  {code:"EH", name: "Western Sahara"},
+  {code:"YE", name: "Yemen"},
+  {code:"ZM", name: "Zambia"},
+  {code:"ZW", name: "Zimbabwe"}
+])
+
+// const countryCodes = ref([])
+const countryNames = ref([])
+
+
+const setUserCountry = () => {
+  for (let i=0; i<countries.value.length; i++){
+    let country=countries.value[i]
+    if (country.name == shippingInfo.value.country){
+      const countryCode = country.code
+      userCountry.value = shippingInfo.value.country
+      user.userData.shippingInfo.country = countryCode
+      clientCartTotal.value = getCartTotal()
+      
+      console.log("User Info Set.")
+      console.log("Country Name: " + shippingInfo.value.country)
+      console.log("Country Code: " + user.userData.shippingInfo.country)
+      break
+    }
+  }
+}
+
 onMounted(async() => {
   console.log(auth.uid)
   if(cart.cartData.length>0 ){
     cartProducts.value = cart.cartData
     updateCartRefs() //Is this working correctly?
+    //should i setusercountry all the way up here?
 
-    //If user info is present
-    if(userStore.userData[0]){
-      if(userStore.userData[0].userInfo){
-        userInfo.value = userStore.userData[0].userInfo
+    //If user info is present (need to do the same in reverse on shippingInfoSubmit)
+    if(user.userData){
+      if(user.userData.userInfo){
+        userInfo.value = user.userData.userInfo
       }
-      if(userStore.userData[0].shippingInfo){
-        shippingInfo.value = userStore.userData[0].shippingInfo
+      if(user.userData.shippingInfo){
+        shippingInfo.value = user.userData.shippingInfo
       }
-      if(userStore.userData[0].billingInfo){
-        billingInfo.value = userStore.userData[0].billingInfo
+      if(user.userData.billingInfo){
+        billingInfo.value = user.userData.billingInfo
       }
     }
 
     //Not correct yet, needs to show us ONLY countries that are available for ALL selected variants
-    countries.value = getShippableCountries()
+    // countries.value = getShippableCountries()
     billableCountries.value = countries.value //At least for now, I'm pretty sure we can map any possible printify countries with an appropriate braintree country counterpart, however we will need to be careful about orders being sent to "REST_OF_THE_WORLD" when the option is selected... need to ensure an appropriate billing country is still present, probably should do this by "watching" countries.value
 
+
+    //I think we need to do a similar thing as this but in reverse when we are doing setUserShippingInfo
+    countryNames.value = []
+    for (let i=0;i<countries.value.length;i++){
+      countryNames.value.push(countries.value[i].name)
+      let country = countries.value[i]
+      if(country.code==user.userData.shippingInfo.country){
+        shippingInfo.value.country = country.name
+      }
+    }
+    setUserCountry()
+
+    // console.log("Shippable Countries idk if we need this tho")
+    // console.log(getShippableCountries())
+
+
+
+
     //I think this is a good idea
-    clientCartTotal.value = await getCartTotal()
+    clientCartTotal.value = getCartTotal()
 
     loaded.value = true
     //Pre-populate our shipping and billing info fields
@@ -581,51 +889,50 @@ const updateBilling = () => {
 
 
 
-const getShippableCountries = () => {
-  var allCountries = []
-    for (let i=0; i<cartVariants.value.length; i++) {
-      let variant = cartVariants.value[i]
-      for (let j=0; j<variant.shippingProfile.length;j++) {
-        let sProfile = variant.shippingProfile[j]
-        for(let k=0; k<sProfile.countries.length; k++){
-          if(!allCountries.includes(sProfile.countries[k])){
-            allCountries.push(sProfile.countries[k])
-          }
-        }
-      }
-    }
-    console.log("allCountries: ")
-    console.log(allCountries)
+// const getShippableCountries = () => {
+//   var allCountries = []
+//     for (let i=0; i<cartVariants.value.length; i++) {
+//       let variant = cartVariants.value[i]
+//       for (let j=0; j<variant.shippingProfile.length;j++) {
+//         let sProfile = variant.shippingProfile[j]
+//         for(let k=0; k<sProfile.countries.length; k++){
+//           if(!allCountries.includes(sProfile.countries[k])){
+//             allCountries.push(sProfile.countries[k])
+//           }
+//         }
+//       }
+//     }
+//     console.log("allCountries: ")
+//     console.log(allCountries)
 
-    //Loop through allCountries and remove the country if it is not found on ANY variant
-    for (let i=0; i<allCountries.length; i++) {
-      let country = allCountries[i]
-      //allCountries now shows all unique countries that these variants can be shipped to
-      //now we need to get only the countries that universally are available in the selected country
-      for (let i=0; i<cartVariants.value.length; i++) {
-        let variant = cartVariants.value[i]
-        let foundCountry = false
-        for (let j=0; j<variant.shippingProfile.length;j++) {
-          let sProfile = variant.shippingProfile[j]
-          for(let k=0; k<sProfile.countries.length; k++){
-            if (sProfile.countries.includes(country)) {
-              foundCountry = true
-            }
-          }
-        }
-        if (!foundCountry){
-          // allCountries.remove(country)
-          let idx = allCountries.indexOf(country)
-          allCountries = allCountries.splice(idx, 1)
-          continue
-        }
-      }
-    }
+//     //Loop through allCountries and remove the country if it is not found on ANY variant
+//     for (let i=0; i<allCountries.length; i++) {
+//       let country = allCountries[i]
+//       //allCountries now shows all unique countries that these variants can be shipped to
+//       //now we need to get only the countries that universally are available in the selected country
+//       for (let i=0; i<cartVariants.value.length; i++) {
+//         let variant = cartVariants.value[i]
+//         let foundCountry = false
+//         for (let j=0; j<variant.shippingProfile.length;j++) {
+//           let sProfile = variant.shippingProfile[j]
+//           for(let k=0; k<sProfile.countries.length; k++){
+//             if (sProfile.countries.includes(country)) {
+//               foundCountry = true
+//             }
+//           }
+//           if (!foundCountry){
+//             // remove country
+//             let idx = allCountries.indexOf(country)
+//             allCountries = allCountries.splice(idx, 1)
+//           }
+//         }
+//       }
+//     }
 
-    console.log("Shippable Countries:")
-    console.log(allCountries)
-    return allCountries
-}
+//     console.log("Shippable Countries:")
+//     console.log(allCountries)
+//     return allCountries
+// }
 
 const updateCartRefs = () => {
   console.log("updateCartRefs: cartProducts.value:")
@@ -640,9 +947,18 @@ const updateCartRefs = () => {
 }
 
 const submitShippingInfo = async () => {
+  //This function is so fucked up right now, we need to break apart separate functions for readability
+  //step 1 - get user's submitted shippinginfo, userinfo, and billinginfo data
+  //step 2 - ensure accurate and updated pricing & shiping costs
+  //step 3 - create braintree dropin
+  //step 4 - (?) create pending firebase order
+  //step 5 - on braintree sale, update firebase with sale info, create printify order, update firebase order with printify info
+
+
+
   updateBilling() //This won't affect the billingInfo data unless the user has selected to use shippingInfo as billingInfo
 
-  userStore.userData[0].shippingInfo = shippingInfo.value
+  user.userData.shippingInfo = shippingInfo.value
 
   //If no products in cart
   if (cart.cartData.length<0) { 
@@ -665,41 +981,44 @@ const submitShippingInfo = async () => {
     return {error: billingValidation.error}
   }
 
-  console.log("I've saved our user's shippingInfo to the userDataStore, and validated shipping and billing info :D")
+  checkForShippingProfiles() //May as well run this here now just to set our storedShippingProfiles.value to the user's submitted shipping info
+
+
+  console.log("I've saved our user's shippingInfo to the userDataStore, and validated shipping and billing info, and set our storedShippingProfiles country value to whatever was input...untested though :D")
 
   //If user is logged in, and they added a new billing or shipping address, do a quick typo check so you can present "Did you mean?" suggestions
   //Otherwise, store the new billing/shipping info in firebase in the user collection
   console.log("Got auth")
 
   //Debug
-  const user = auth.currentUser //will return null if user is not logged in
-  try{
-    if(user){
-      const displayName = user.displayName
-      const email = user.email
-      const photoURL = user.photoURL
-      const emailVerified = user.emailVerified
-      const uid = user.uid
+  // const user = auth.currentUser //will return null if user is not logged in
+  // try{
+  //   if(user){
+  //     const displayName = user.displayName
+  //     const email = user.email
+  //     const photoURL = user.photoURL
+  //     const emailVerified = user.emailVerified
+  //     const uid = user.uid
 
-      user.providerData.forEach((profile) =>{
-        console.log("Provider: " + profile.providerId)
-        console.log("Provider-specific UID: " + profile.uid)
-        console.log("Name: " + profile.displayName)
-        console.log("Email: " + profile.email)
-        console.log("Photo URL: " + profile.photoURL)
-      })
+  //     user.providerData.forEach((profile) =>{
+  //       console.log("Provider: " + profile.providerId)
+  //       console.log("Provider-specific UID: " + profile.uid)
+  //       console.log("Name: " + profile.displayName)
+  //       console.log("Email: " + profile.email)
+  //       console.log("Photo URL: " + profile.photoURL)
+  //     })
     
-      //How do we add this info?  Can we store it with user data, or do we have to store it in firestore?
-      if (!user.shippingInfo.includes(shippingInfo.value)) {
-        //push the new shipping info to the user profile - not sure how to do this exactly with firebase auth
-        //I think we may actually have to store users in our db in order to save their info for them... maybe just keep it locally in the userDataStore and call it good enough?
-        console.log("I want to push info to auth, but I don't know how yet :'(")
-      }
-    }
-  } catch(e){
-    console.log(e)
-  }
-  console.log("Successfully finished playing with myself - auth stuff")
+  //     //How do we add this info?  Can we store it with user data, or do we have to store it in firestore?
+  //     if (!user.shippingInfo.includes(shippingInfo.value)) {
+  //       //push the new shipping info to the user profile - not sure how to do this exactly with firebase auth
+  //       //I think we may actually have to store users in our db in order to save their info for them... maybe just keep it locally in the userDataStore and call it good enough?
+  //       console.log("I want to push info to auth, but I don't know how yet :'(")
+  //     }
+  //   }
+  // } catch(e){
+  //   console.log(e)
+  // }
+  // console.log("Successfully finished playing with myself - auth stuff")
 
   //EXPERIMENTAL!
   // AND NOT FULLY INTEGRATED: still missing the ability to tie anonymous users to their accounts should they choose to create one.
@@ -724,7 +1043,7 @@ const submitShippingInfo = async () => {
         //User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         userInfo.value.uid = user.uid //kinda redundant i think, see below
-        userStore.userData[0].userInfo = userInfo.value //This needs to be set with a patch
+        user.userData.userInfo = userInfo.value //This needs to be set with a patch
         console.log("Set the userInfo.value.uid to our user.uid")
       }
     })
@@ -736,15 +1055,17 @@ const submitShippingInfo = async () => {
   //Time to query firebase to get accurate pricing info in order to build braintree
   
 
-  //Query firebase to get our cart total
-  clientCartTotal.value = await getCartTotal()
+  //Query firebase to get our cart total? now would be a better time for it I suppose
+  clientCartTotal.value = getCartTotal()
   console.log("I'm so excited to create a firebase order using our clientCartTotal now :D")
 
   //CREATE OUR PENDING ORDER (in Firebase)
   let lineItems = []
   let firebaseLineItems = [] //This array of objects, for each variant in cart, {product_id, variant_id, quantity}
-  for (let product in cartProducts.value) {
-    for (let variant in cartVariants.value) {
+  for (let i=0; i<cartProducts.value.length;i++) {
+    let product = cartProducts.value[i]
+    for (let j=0; j<cartVariants.value.length; j++) {
+      let variant = cartVariants.value[j]
       firebaseLineItems.push({
         product_id: variant.productId,
         variant_id: variant.id,
@@ -799,6 +1120,13 @@ const submitShippingInfo = async () => {
   //Needs errorHandling
 
   firebaseOrderId.value = firebasePost.id
+  console.log("Firebase Order ID: " + firebasePost.id)
+
+  let localOrder = orders.orderData
+  localOrder.push(firebasePost)
+
+  //Now let's add our firebaseOrder to our local orderStore
+  orders.$patch({orderData:localOrder})
 
   console.log("creating braintree nonce and payload")
 
@@ -867,6 +1195,9 @@ const submitShippingInfo = async () => {
         })
         console.log("I think we just submitted a sale through Braintree, then updated the firebase order, and finally submitted an order to printify :D :D :D")
         console.log(data)
+        if (data.length>0){
+          $router.push('/shop/orders?id=' + firebaseOrderId.value)
+        }
       }),
       instance.on('paymentMethodRequestable', (event) => {
         submitButton.value.removeAttribute('disabled')
@@ -922,40 +1253,55 @@ const validateBillingInfo = () => {
   }
 }
 
-const getCartTotal = async () => {
-
-  const cartIds = cartItemIds.value
-  console.log("getCartTotal: Fetching cart items from FirebaseDB")
-  console.log("HEY YOU!  Cart Item Ids: ")
-  console.log(cartItemIds.value)
-  const serverItems = await $fetch(`/api/queryItem?col=products&field=id&operator===&value=${cartIds}`, {method: 'GET'})
-  //Need to error handle this server call
-  if (serverItems.error){
-    console.log("serverItems failed :'('")
-    console.log(serverItems.error)
-    return {error: serverItems.error}
-  }
+const getCartTotal = () => {
 
   let totalPrice = 0
-  console.log("Server Items: ")
-  console.log(serverItems)
-  console.log("serverItems.length: " + serverItems.length)
 
-  for (let i=0; i<serverItems.length; i++) {
-    let sItem = serverItems[i]
-    if (cartItemIds.value.includes(sItem.id)) {
-      //This item is in the cart
-      for(let j=0; j<sItem.variants.length; j++) {
-        let variant = sItem.variants[j]
-        console.log("Total Price - itemPrice(variant).itemCost:" + itemPrice(variant).itemCost)
-        console.log("Total Price - itemPrice(variant).shipCost:" + itemPrice(variant).shipCost)
-        console.log("variant.cartQty:" + variant.cartQty)
-        totalPrice+= (itemPrice(variant).itemCost + itemPrice(variant).shipCost) * variant.cartQty
-        // totalPrice+= itemPrice(variant) * variant.cartQty //getItemCost(variant)
-        // totalPrice+= itemShippingPrice(variant) * variant.cartQty//getShippingCost(variant)
-      }
+  for(let i=0; i<cart.cartData.length;i++){
+    for(let j=0; j<cart.cartData[i].variants.length;j++) {
+      totalPrice+=itemPrice(cart.cartData[i].variants[j]).itemCost + itemPrice(cart.cartData[i].variants[j]).shipCost
     }
   }
+  // for (let i=0; i<cartVariants.value.length; i++) {
+  //   let variant = cartVariants.value[i]
+  //   totalPrice += variant.itemCost + variant.shipCost
+  // }
+
+  //We don't actually need to get this cart total from the server
+  //When we submit the sale to braintree, we can run the api call to update firebase and we can check the cart items against the serverside price, and freeze the transaction if pricing doesn't add up
+
+  // const cartIds = cartItemIds.value
+  // console.log("getCartTotal: Fetching cart items from FirebaseDB")
+  // console.log("HEY YOU!  Cart Item Ids: ")
+  // console.log(cartItemIds.value)
+  // const serverItems = await $fetch(`/api/queryItem?col=products&field=id&operator===&value=${cartIds}`, {method: 'GET'})
+  // //Need to error handle this server call
+  // if (serverItems.error){
+  //   console.log("serverItems failed :'('")
+  //   console.log(serverItems.error)
+  //   return {error: serverItems.error}
+  // }
+
+  // let totalPrice = 0
+  // console.log("Server Items: ")
+  // console.log(serverItems)
+  // console.log("serverItems.length: " + serverItems.length)
+
+  // for (let i=0; i<serverItems.length; i++) {
+  //   let sItem = serverItems[i]
+  //   if (cartItemIds.value.includes(sItem.id)) {
+  //     //This item is in the cart
+  //     for(let j=0; j<sItem.variants.length; j++) {
+  //       let variant = sItem.variants[j]
+  //       // console.log("Total Price - itemPrice(variant).itemCost:" + itemPrice(variant).itemCost)
+  //       // console.log("Total Price - itemPrice(variant).shipCost:" + itemPrice(variant).shipCost)
+  //       // console.log("variant.cartQty:" + variant.cartQty)
+  //       totalPrice+= (itemPrice(variant).totalPrice) * variant.cartQty
+  //       // totalPrice+= itemPrice(variant) * variant.cartQty //getItemCost(variant)
+  //       // totalPrice+= itemShippingPrice(variant) * variant.cartQty//getShippingCost(variant)
+  //     }
+  //   }
+  // }
   console.log("getCartTotal: Total price is ("+totalPrice+")")
   console.log(totalPrice)
   return totalPrice
@@ -1194,179 +1540,212 @@ function removeVariant(item, variant) {
   // shipTotal()
 }
 
-const itemPrice = (variant) => {
-  console.log("I'm going to get the itemPrice!")
+const storedShippingProfiles = ref([])
 
-  const storedShippingProfiles = []
-  try{
-    if (shippingInfo.value.length>0){
-      console.log("shippingInfo.value: " + shippingInfo.value)
-      storedShippingProfiles.push(shippingInfo.value.country)
+const checkForShippingProfiles = () => {
+  console.log("I'm checking for stored shipping countries to add to the storedShippingProfiles array")
+  if(storedShippingProfiles.value = []){
+    try{
+      if (shippingInfo.value.length>0){
+        console.log("shippingInfo.value.country was added to storedShippingProfiles")
+        storedShippingProfiles.value.push(shippingInfo.value.country)
+      }
+    } catch {
+      console.log("shippingInfo.value was not used in storedShippingProfiles")
     }
-  } catch (e){
-    console.log(e)
-  }
-  console.log("userStore: ")
-  console.log(userStore)
-  try {
-    if (userStore.userData[0].shippingInfo.country.length>0){
-      storeShippingProfiles.push(userStore.userData[0].shippingInfo.country)
+    try {
+      if (user.userData.shippingInfo.country.length>0){
+        console.log("user.userData.shippingInfo.country was added to storedShippingProfiles")
+        storedShippingProfiles.value.push(user.userData.shippingInfo.country)
+      }
+    } catch {
+      console.log("user.userData.shippingInfo.country was not used in storedShippingProfiles")
     }
-  } catch (e) {
-    console.log(e)
-  }
-  try {
-    if (userStore.userData[0].country.length>0){
-      console.log("userStore.userData[0]")
-      console.log(userStore.userData[0])
-      storedShippingProfiles.push(userStore.userData[0].country)
+
+    if (storedShippingProfiles.value.length==0){
+      storedShippingProfiles.value.push("REST_OF_THE_WORLD")
+      //or we should set it to US by default?  IDK...
+      console.log("Nothing better was found, setting shipping profile to REST_OF_THE_WORLD")
     }
-  } catch (e){
-    console.log(e)
   }
+  return storedShippingProfiles.value
+}
 
-  if (storedShippingProfiles.length==0){
-    storedShippingProfiles.push("REST_OF_THE_WORLD")
-    //or we could set it to US by default?  IDK...
-    console.log("Nothing better found, setting shipping profile to REST_OF_THE_WORLD")
-  }
-
-  console.log(storedShippingProfiles)
-
-  var sProfile
-
-  //how do i do it on default.vue (cart?)
-  //by looping through each shipping profile in the variant, and checking if it is equal to the relevant country
+//INDEX itemPrice
+const itemPrice = function(variant) {
+  let sProfile = false
   for (let i = 0; i < variant.shippingProfile.length ; i++) {
-    // console.log(variant.shippingProfile[i].countries)
-    // console.log(user.userData[0].country)
-
-    //going to try a for country in countries loo
     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
-
-      // //switch case instead maybe?
-      // //for this country - is this country our users? if so, set our shipping profile, calculate our item costs, break, and return our total item cost
-      // switch(variant.shippingProfile[i].countries[j]) {
-      //   case shippingInfo.value.country || userStore.user[0].shippingInfo.country || userStore.user[0].country:
-      //     //we are getting a user selected shipping profile
-      //   default:
-
-      // }
-
-
-      // console.log(variant.shippingProfile[i].countries[j])
-      if (variant.shippingProfile[i].countries[j] in storedShippingProfiles) {
-        //use the stored Shipping profile...right?
-
-        // if (variant.shippingProfile[i].countries[j]==)
+      if (variant.shippingProfile[i].countries[j] == user.userData.shippingInfo.country) {
         sProfile = variant.shippingProfile[i]
-        console.log(sProfile)
-        // variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
-        // variant.shipCost = Math.ceil(sProfile.additional_items.cost)
-        // cart.$patch(variant.id, {itemCost: variant.itemCost})
-        console.log("I am returning the variant's cost! :D")
-        console.log(Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100))
-        console.log("And shipcost :D")
-        console.log(Math.ceil(sProfile.additional_items.cost))
-        return {itemCost: Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100), shipCost: Math.ceil(sProfile.additional_items.cost)}
-        // console.log("Shipping Profile: " + sProfile)
+        variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+        variant.shipCost = Math.ceil(sProfile.additional_items.cost)
+        cart.$patch(variant.id, {itemCost: variant.itemCost, shipCost: variant.shipCost})
+        return {itemCost: variant.itemCost, shipCost: variant.shipCost}
       }
     }
   }
-
-  return { itemCost: variant.itemCost, shipCost: variant.shipCost }
-
-
-  // try{
-  //   try {
-  //     //Trying to find the cost based on the user's shipping country
-  //     console.log(shippingInfo.value.country)
-  //     console.log(variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country))
-  //     const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country)]
-  //     console.log("sProfile:")
-  //     console.log(sProfile)
-  //     console.log("shippingInfo.value.country firstitemcost:" + sProfile.first_item.cost)
-  //   } catch (e){
-  //     console.log(e)
-  //     try{
-  //       console.log("what")
-  //       console.log(userStore.user[0].shippingInfo.country)
-  //       const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(userStore.user[0].shippingInfo.country)]
-  //       console.log("userStore.user[0].shippingInfo.country firstitemcost:" + sProfile.first_item.cost)
-  //     } catch (e){
-  //       console.log(e)
-  //       try{
-  //         //Trying to find a "REST_OF_THE_WORLD country"
-  //         const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf("REST_OF_THE_WORLD")]
-  //         console.log("REST_OF_THE_WORLD firstitemcost: " + sProfile.first_item.cost)
-  //       } catch (e){
-  //         console.log(e)
-  //         const sProfile = variant.shippingProfile[0]
-  //         console.log("variant.shippingProfile[0] firstitemcost: " + sProfile.first_item.cost)
-  //         const cost = variant.cost
-  //         console.log(cost)
-  //         const shipCost = sProfile.first_item.cost
-  //         console.log(shipCost)
-  //         // const addCost = sProfile.additional_items.cost
-  //         const ourCost = (cost * .1) + 100
-  //         console.log(ourCost)
-          
-  //         //Don't use addcost here... i think
-  //         const total = Math.ceil(cost + shipCost + ourCost)
-  //         console.log(total)
-  //         return total
-  //       }
-  //     }
-  //   }
-  // } catch (e) {
-  //   console.log("I really fucked this up")
-  //   console.log(e)
-  //   return { error: e, msg: "No acceptable shipping profile was found.  Please go fuck yourself - or perhaps try a mail forwarding service?"}
-  // }
-
-  // const cost = variant.cost
-  // console.log(cost)
-  // const shipCost = sProfile.first_item.cost
-  // console.log(shipCost)
-  // // const addCost = sProfile.additional_items.cost
-  // const ourCost = (cost * .1) + 100
-  // console.log(ourCost)
-  
-  // //Don't use addcost here... i think
-  // const total = Math.ceil(cost + shipCost + ourCost)
-  // console.log(total)
-  // return total
-
-}
-
-const itemTotalPrice = async (variant) => {
-  //THIS SHOULD ONLY BE RUN ON VARIANTS PULLED DIRECTLY FROM FIREBASE - or maybe even printify honestly
-  //Get the shipping profile options of the variant
-  //Get cost info of the variant
-  //Should we charge tax?  Fuck no, taxation is theft
-  //Add in our share: *.1 + $1.00 (.05 being given as art comissions, 0.03 + 0.49 covers payment processing, don't know what our tech expenses will be like but fuck I hope we make a profit and soon...)
-  //Add them up (and multiply by cartQty?)
-
-  try{
-    try {
-      const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country)]
-      console.log(sProfile.first_item.cost)
-    } catch {
-      const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf("REST_OF_THE_WORLD")]
-      console.log(sProfile.first_item.cost)
+  console.log("sProfile: " + sProfile)
+  if (!sProfile) {
+    for (let i=0; variant.shippingProfile.length; i++) {
+      for (let j=0; variant.shippingProfile[i].countries.length; j++){
+        if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+          sProfile = variant.shippingProfile[i]
+          console.log("New sProfile!")
+          console.log(sProfile)
+          variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+          variant.shipCost = Math.ceil(sProfile.additional_items.cost)
+          cart.$patch(variant.id, {itemCost: variant.itemCost, shipCost: variant.shipCost})
+          return {itemCost: variant.itemCost, shipCost: variant.shipCost}
+        }
+      }
     }
-  } catch (e) {
-    return { error: e, msg: "No acceptable shipping profile was found.  Please go fuck yourself - or perhaps try a mail forwarding service?"}
   }
-
-  const cost = variant.cost
-  const shipCost = sProfile.first_item.cost
-  const addCost = sProfile.additional_items.cost
-  const ourCost = (cost * .1) + 100
-  
-  const total = cost + shipCost + addCost + ourCost
-  return total
+  return {itemCost: variant.itemCost, shipCost: variant.shipCost}
 }
+
+// const itemPrice = (variant) => {
+//   console.log("I'm going to get the itemPrice!")
+//   let sProfile = false
+//   for (let i = 0; i < variant.shippingProfile.length ; i++) {
+//     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
+//       if (variant.shippingProfile[i].countries[j] == user.userData.shippingInfo.country) {
+//         sProfile = variant.shippingProfile[i]
+//         let iCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+//         let sCost = Math.ceil(sProfile.additional_items.cost)
+//         // console.log(sProfile)
+//         variant.itemCost = iCost
+//         variant.shipCost = sCost
+//         // cart.$patch((cartData) => {
+//         //   cartData.variants[map((x)=>{return x.id}).indexOf(variant.id)] = variant
+//         // })
+//         //
+//         cart.$patch(variant.id, {itemCost: variant.itemCost, shipCost: variant.shipCost})
+//         console.log("I am returning the variant's cost! :D")
+//         // console.log(Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100))
+//         // console.log(Math.ceil(sProfile.additional_items.cost))
+//         return {itemCost: iCost, shipCost: sCost, totalCost: iCost+sCost}
+//         // console.log("Shipping Profile: " + sProfile)
+//       }
+//     }
+//   }
+//   if (!sProfile){
+//     for (let i=0; variant.shippingProfile.length; i++) {
+//       for (let j=0; variant.shippingProfile[i].countries.length; j++){
+//         if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+//           sProfile = variant.shippingProfile[i]
+//           let iCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+//           let sCost = Math.ceil(sProfile.additional_items.cost)
+//           // console.log(sProfile)
+//           variant.itemCost = iCost
+//           variant.shipCost = sCost
+//           // cart.$patch((cartData) => {
+//           //   cartData.variants[map((x)=>{return x.id}).indexOf(variant.id)] = variant
+//           // })
+//           //
+//           cart.$patch(variant.id, {itemCost: variant.itemCost, shipCost: variant.shipCost})
+//           console.log("I am returning the variant's cost! :D")
+//             // console.log("Shipping Profile: " + sProfile)
+//           return {itemCost: iCost, shipCost: sCost, totalCost: iCost+sCost}
+//         // console.log("Shipping Profile: " + sProfile)
+//         }
+//       }
+//     }
+//   }
+
+//   return { itemCost: variant.itemCost, shipCost: variant.shipCost, totalCost: variant.itemCost + variant.shipCost }
+
+
+//   // try{
+//   //   try {
+//   //     //Trying to find the cost based on the user's shipping country
+//   //     console.log(shippingInfo.value.country)
+//   //     console.log(variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country))
+//   //     const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country)]
+//   //     console.log("sProfile:")
+//   //     console.log(sProfile)
+//   //     console.log("shippingInfo.value.country firstitemcost:" + sProfile.first_item.cost)
+//   //   } catch (e){
+//   //     console.log(e)
+//   //     try{
+//   //       console.log("what")
+//   //       console.log(user.user[0].shippingInfo.country)
+//   //       const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(user.user[0].shippingInfo.country)]
+//   //       console.log("user.user[0].shippingInfo.country firstitemcost:" + sProfile.first_item.cost)
+//   //     } catch (e){
+//   //       console.log(e)
+//   //       try{
+//   //         //Trying to find a "REST_OF_THE_WORLD country"
+//   //         const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf("REST_OF_THE_WORLD")]
+//   //         console.log("REST_OF_THE_WORLD firstitemcost: " + sProfile.first_item.cost)
+//   //       } catch (e){
+//   //         console.log(e)
+//   //         const sProfile = variant.shippingProfile[0]
+//   //         console.log("variant.shippingProfile[0] firstitemcost: " + sProfile.first_item.cost)
+//   //         const cost = variant.cost
+//   //         console.log(cost)
+//   //         const shipCost = sProfile.first_item.cost
+//   //         console.log(shipCost)
+//   //         // const addCost = sProfile.additional_items.cost
+//   //         const ourCost = (cost * .1) + 100
+//   //         console.log(ourCost)
+          
+//   //         //Don't use addcost here... i think
+//   //         const total = Math.ceil(cost + shipCost + ourCost)
+//   //         console.log(total)
+//   //         return total
+//   //       }
+//   //     }
+//   //   }
+//   // } catch (e) {
+//   //   console.log("I really fucked this up")
+//   //   console.log(e)
+//   //   return { error: e, msg: "No acceptable shipping profile was found.  Please go fuck yourself - or perhaps try a mail forwarding service?"}
+//   // }
+
+//   // const cost = variant.cost
+//   // console.log(cost)
+//   // const shipCost = sProfile.first_item.cost
+//   // console.log(shipCost)
+//   // // const addCost = sProfile.additional_items.cost
+//   // const ourCost = (cost * .1) + 100
+//   // console.log(ourCost)
+  
+//   // //Don't use addcost here... i think
+//   // const total = Math.ceil(cost + shipCost + ourCost)
+//   // console.log(total)
+//   // return total
+
+// }
+
+// const itemTotalPrice = async (variant) => {
+//   //THIS SHOULD ONLY BE RUN ON VARIANTS PULLED DIRECTLY FROM FIREBASE - or maybe even printify honestly
+//   //Get the shipping profile options of the variant
+//   //Get cost info of the variant
+//   //Should we charge tax?  Fuck no, taxation is theft
+//   //Add in our share: *.1 + $1.00 (.05 being given as art comissions, 0.03 + 0.49 covers payment processing, don't know what our tech expenses will be like but fuck I hope we make a profit and soon...)
+//   //Add them up (and multiply by cartQty?)
+
+//   try{
+//     try {
+//       const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf(shippingInfo.value.country)]
+//       console.log(sProfile.first_item.cost)
+//     } catch {
+//       const sProfile = variant.shippingProfile[variant.shippingProfile.map((x)=>{return x.countries}).indexOf("REST_OF_THE_WORLD")]
+//       console.log(sProfile.first_item.cost)
+//     }
+//   } catch (e) {
+//     return { error: e, msg: "No acceptable shipping profile was found.  Please go fuck yourself - or perhaps try a mail forwarding service?"}
+//   }
+
+//   const cost = variant.cost
+//   const shipCost = sProfile.first_item.cost
+//   const addCost = sProfile.additional_items.cost
+//   const ourCost = (cost * .1) + 100
+  
+//   const total = cost + shipCost + addCost + ourCost
+//   return total
+// }
 
 // const itemShippingPrice = async (variant) => { 
 //   try {
@@ -1392,7 +1771,7 @@ const itemTotalPrice = async (variant) => {
 //   // console.log("Profiles: " + variant.shippingProfile[0])
 //   for (let i = 0; i < variant.shippingProfile.length ; i++) {
 //     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
-//       if (variant.shippingProfile[i].countries[j] == userStore.userData[0].country) {
+//       if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
 //         sProfile = variant.shippingProfile[i]
 //         variant.shipCost = sProfile.additional_items.cost
 //         // console.log("Shipping Profile: " + sProfile)
@@ -1429,12 +1808,11 @@ const itemTotalPrice = async (variant) => {
 //   for (let i = 0; i < variant.shippingProfile.length ; i++) {
 //     console.log(variant.shippingProfile[i])
 //     // console.log(variant.shippingProfile[i].countries)
-//     // console.log(user.userData[0].country)
 
 //     //going to try a for country in countries loo
 //     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
 //       console.log(variant.shippingProfile[i].countries[j])
-//       if (variant.shippingProfile[i].countries[j] == userStore.userData[0].shippingInfo.country) {
+//       if (variant.shippingProfile[i].countries[j] == user.userData[0].shippingInfo.country) {
 //         sProfile = variant.shippingProfile[i]
 //         variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
 //         cart.$patch(variant.id, {itemCost: variant.itemCost})
