@@ -35,11 +35,10 @@
 
     <v-main :class="pageTitle=='/' ? 'pt-0 mt-0':'pt-0 mt-0'">
       <v-app-bar :elevation="0" class="bg-transparent flex flex-grow w-full" :class="noHeaderPadding.includes(useRoute().path) ? 'py-0 my-0' : ''">
-        <v-card class="d-flex m-2 flex-shrink opacity-90">
+        <!-- <v-card class="d-flex m-2 flex-shrink opacity-90">
           <div v-if="false" class="my-1">
             <NuxtLink v-slot="{navigate}" to="/account" class="my-1">
               <v-avatar :tile="true" class="mx-2">
-                <!-- Use a user profile img as the src here, if profile img empty, use the mdi-icon -->
                 <v-img src="/img/MLogo.png" role="link" @click="navigate" />
               </v-avatar>
             </NuxtLink>
@@ -47,7 +46,7 @@
           <div v-else class="my-1">
             <NuxtLink v-slot="{navigate}" to="/" class="my-1">
               <v-avatar :tile="true" class="mx-2">
-                <v-img src="/img/MLogo.png" role="link" @click="navigate" />
+               <v-img src="/img/MLogo.png" role="link" @click="navigate" />
               </v-avatar>
             </NuxtLink>
           </div>
@@ -58,13 +57,14 @@
               </p>
             </v-toolbar-title>
           </NuxtLink>
-        </v-card>
+        </v-card> -->
         <div class="flex-grow" />
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <v-btn :icon="pageTitle.includes('/shop') ? 'mdi-cart':'mdi-account'" @click="profileClick" />
-          <v-btn :icon="themeIcon" @click="themeClick" />
+          <v-btn class="hidden-mobile" icon="mdi-home" />
+          <v-btn class="hidden-mobile" :icon="pageTitle.includes('/shop') ? 'mdi-cart':'mdi-account'" @click="profileClick" />
+          <v-btn class="hidden-mobile" :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
-          <v-btn icon="mdi-magnify" @click="searchClick" />
+          <v-btn class="hidden-mobile" icon="mdi-magnify" @click="searchClick" />
           <v-menu transition="slide-x-transition">
             <template #activator="{ props }">
               <v-btn
@@ -804,3 +804,11 @@ const itemShippingPrice = function(variant) {
     // shipTotal()
   }
 </script>
+
+<style>
+      @media (max-width: 350px) {
+        .hidden-mobile {
+          display: none;
+        }
+      }
+    </style>
