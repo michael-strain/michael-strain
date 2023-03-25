@@ -30,7 +30,9 @@ export default defineNuxtConfig({
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.min.css',
         '~/assets/fonts/Raleway/Raleway.css',
-        '~/assets/fonts/Roboto_Slab/Roboto_Slab.css'
+        '~/assets/fonts/Roboto_Slab/Roboto_Slab.css',
+        '~/assets/global.scss'
+
     ],
     build:{
         transpile:['vuetify'],
