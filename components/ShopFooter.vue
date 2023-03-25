@@ -27,7 +27,7 @@
         </NuxtLink>
       </div>
       <p class="text-xs text-wrap">
-        All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior consent.  All Rights Reserved.
+        All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent.<br>All Rights Reserved.
       </p>
     </div>
   </v-card>

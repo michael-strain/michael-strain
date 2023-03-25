@@ -60,8 +60,9 @@
         </v-card> -->
         <div class="flex-grow" />
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <v-btn class="hidden-mobile" icon="mdi-home" />
-          <v-btn class="hidden-mobile" :icon="pageTitle.includes('/shop') ? 'mdi-cart':'mdi-account'" @click="profileClick" />
+          <v-btn class="hidden-mobile" icon="mdi-home" /><!--Ash don't we need an @click function?-->
+          <v-btn v-if="pageTitle.includes('/shop')" class="hidden-mobile" icon="mdi-cart" @click="cartClick" />
+          <v-btn class="hidden-mobile" icon="mdi-account" @click="profileClick" />
           <v-btn class="hidden-mobile" :icon="themeIcon" @click="themeClick" />
           <!-- <v-btn icon="mdi-heart" @click="heartClick" /> -->
           <v-btn class="hidden-mobile" icon="mdi-magnify" @click="searchClick" />
@@ -93,12 +94,12 @@
                   Blog
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="false" to="/account">
+              <NuxtLink v-if="user" to="/account">
                 <v-list-item link>
                   Account
                 </v-list-item>
               </NuxtLink>
-              <NuxtLink v-if="false" to="/">
+              <NuxtLink to="/">
                 <v-list-item link @click="signOut" />
               </NuxtLink>
             </v-list>
@@ -125,6 +126,9 @@
           <p class="text-center pt-3 pb-3">
             Your cart is empty
           </p>
+          <NuxtLink to="/shop">
+            <v-btn>Go Shopping!</v-btn>
+          </NuxtLink>
         </div>
         <div
           v-else
@@ -250,7 +254,7 @@
 </template>
 
 <script setup>
-  import { ref, reactive, computed } from 'vue'
+  import { ref, computed } from 'vue'
   import { useCartDataStore } from '~/stores/cartData'
   import { useProductDataStore } from '~/stores/productData'
   import { useUserDataStore } from '~/stores/userData'
@@ -278,7 +282,7 @@
   const cartProducts = ref([])
   // const cartProducts = ref()
   const loaded = ref(false)
-  const store = useProductDataStore()
+  // const store = useProductDataStore()
   const cart = useCartDataStore()
   const user = useUserDataStore()
 
@@ -337,7 +341,7 @@
     // See below for a suggested fix:
     // vue-3-composition-api-how-to-update-a-nested-object-in-a-ref
 
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     let otherVariants = false
 
     variant.cartQty--
@@ -391,9 +395,10 @@
       cartProducts.value = cart.cartData
     }
 
+    //I really don't want to update the whole Product Data store actually....
     //Just for fun, we patch the whole damn product store with everything the cart is doing
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
     
     // itemTotal()
     // shipTotal()
@@ -401,7 +406,7 @@
 
   function increaseCartItemQty(item, variant) {
 
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     variant.cartQty++
     item.variants[item.variants.map((x)=>{return x.id}).indexOf(variant.id)] = variant
     cart.$patch(cart.cartData[cart.cartData.map((x)=>{return x.id}).indexOf(item.id)] = item)
@@ -409,37 +414,31 @@
 
     // Do we need to do anything to the product store here?
     // May as well try :D
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
 
     // itemTotal()
     // shipTotal()
     
   }
 
-  function profileClick () {
-    if (pageTitle.value.includes("/shop")){
-      const cart = useCartDataStore()
-      // console.log(cart.cartData.length)
-      // const cart = useCartDataStore()
-      // console.log(cart)
-      // console.log("Cart button clicked: " + cart.cartData.length)
-      // // cartProducts.value = cart.cartData
-      if(cart.cartData.length>0 ){
-        cartProducts.value = cart.cartData
-        loaded.value = true
-      } else {
-        // cartProducts.value = cart.cartData
-        loaded.value = false
-      }
-      // If the page is shop, open the shopping cart drawer
-      drawer.value=!drawer.value
+  function cartClick() {
+    // const cart = useCartDataStore()
+    if(cart.cartData.length>0 ){
+      cartProducts.value = cart.cartData
+      loaded.value = true
     } else {
-      router.push('/account')
+      loaded.value = false
     }
+    drawer.value=!drawer.value
+  }
+
+  function profileClick () {
+    router.push('/account')
   }
 
   function themeClick () {
+    //really we could make a drop-down selection list of themes :P
     if (theme.value === 'myCustomLightTheme'){
       theme.value='myCustomDarkTheme'
       themeIcon.value = 'mdi-weather-night'
@@ -525,11 +524,9 @@
   //   return price
   // })
 
-const itemPrice = function(variant) {
-  const cart = useCartDataStore()
-  const user = useUserDataStore()
+  const itemPrice = function(variant) {
+  
   let sProfile = false
-
   // is this running correctly?
   // console.log("Profiles: " + variant.shippingProfile[0])
   for (let i = 0; i < variant.shippingProfile.length ; i++) {
@@ -539,34 +536,91 @@ const itemPrice = function(variant) {
     //going to try a for country in countries loo
     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
       // console.log(variant.shippingProfile[i].countries[j])
-      if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
+      if (variant.shippingProfile[i].countries[j] == user.userData.shippingInfo.country) {
         sProfile = variant.shippingProfile[i]
         variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
         cart.$patch(variant.id, {itemCost: variant.itemCost})
         return variant.itemCost
         // console.log("Shipping Profile: " + sProfile)
       }
+      //else-if REST_OF_THE_WORLD is an option, and sProfile cost didn't get us a price
+
     }
   }
-  if ( !sProfile.first_item.cost || sProfile.first_item.cost<1) {
+  console.log("sProfile: " + sProfile)
+  if (!sProfile) {
     for (let i=0; variant.shippingProfile.length; i++) {
-      if (variant.shippingProfile[i].countries.includes("REST_OF_THE_WORLD")) {
-        sProfile = variant.shippingProfile[i]
-        variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
-        cart.$patch(variant.id, {itemCost: variant.itemCost})
-        return variant.itemCost
-        // console.log("Shipping Profile: " + sProfile)
+      for (let j=0; variant.shippingProfile[i].countries.length; j++){
+        if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+          sProfile = variant.shippingProfile[i]
+          console.log("New sProfile!")
+          console.log(sProfile)
+          variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+          cart.$patch(variant.id, {itemCost: variant.itemCost})
+          return variant.itemCost
+          // console.log("Shipping Profile: " + sProfile)
+        }
       }
     }
   }
   // console.log(sProfile)
-  variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
-  cart.$patch(variant.id, {itemCost: variant.itemCost})
+  // variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+  // cart.$patch(variant.id, {itemCost: variant.itemCost})
   return variant.itemCost
   //   let firstItemCost = variant.shippingProfile[].first_item.cost
   //   let additionalItemCost = variant.shippingProfile[].additional_items.cost
   // return variant.cost + 
 }
+
+// const itemPrice = function(variant) {
+//   if (variant.itemCost){
+//     return variant.itemCost
+//   }
+//   // const cart = useCartDataStore()
+//   // const user = useUserDataStore()
+//   let sProfile = false
+
+//   // is this running correctly?
+//   // console.log("Profiles: " + variant.shippingProfile[0])
+//   for (let i = 0; i < variant.shippingProfile.length ; i++) {
+//     // console.log(variant.shippingProfile[i].countries)
+//     // console.log(user.userData[0].country)
+
+//     //going to try a for country in countries loo
+//     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
+//       // console.log(variant.shippingProfile[i].countries[j])
+//       if (variant.shippingProfile[i].countries[j] == user.userData.shippingInfo.country) {
+//         sProfile = variant.shippingProfile[i]
+//         variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+//         cart.$patch(variant.id, {itemCost: variant.itemCost})
+//         return variant.itemCost
+//         // console.log("Shipping Profile: " + sProfile)
+//       }
+//       //else-if REST_OF_THE_WORLD is an option, and sProfile cost didn't get us a price
+
+//     }
+//   }
+//   if (!sProfile) {
+//     for (let i=0; variant.shippingProfile.length; i++) {
+//       for (let j=0; variant.shippingProfile[i].countries.length; j++){
+//         if (variant.shippingProfile[i].countries[j] == "REST_OF_THE_WORLD") {
+//           sProfile = variant.shippingProfile[i]
+//           variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+//           cart.$patch(variant.id, {itemCost: variant.itemCost})
+//           // console.log("Shipping Profile: " + sProfile)
+//           return variant.itemCost
+//         }
+//       }
+//     }
+//   }
+//   // console.log(sProfile)
+//   // variant.itemCost = Math.ceil(variant.cost + sProfile.first_item.cost + (variant.cost * 0.1) + 100)
+//   // cart.$patch(variant.id, {itemCost: variant.itemCost})
+//   return variant.itemCost
+//   //   let firstItemCost = variant.shippingProfile[].first_item.cost
+//   //   let additionalItemCost = variant.shippingProfile[].additional_items.cost
+//   // return variant.cost + 
+// }
 
 
 
@@ -669,14 +723,18 @@ const itemPrice = function(variant) {
   }))
 
 const itemShippingPrice = function(variant) {
-  const user = useUserDataStore()
+  if (variant.shipCost){
+    return variant.shipCost
+  }
+
+  // const user = useUserDataStore()
   let sProfile = false
 
   // is this running correctly?
   // console.log("Profiles: " + variant.shippingProfile[0])
   for (let i = 0; i < variant.shippingProfile.length ; i++) {
     for (let j = 0; j < variant.shippingProfile[i].countries.length; j++) {
-      if (variant.shippingProfile[i].countries[j] == user.userData[0].country) {
+      if (variant.shippingProfile[i].countries[j] == user.userData.shippingInfo.country) {
         sProfile = variant.shippingProfile[i]
         variant.shipCost = sProfile.additional_items.cost
         // console.log("Shipping Profile: " + sProfile)
@@ -697,7 +755,7 @@ const itemShippingPrice = function(variant) {
     }
   }
   // console.log(sProfile.first_item.cost)
-  return (variant.shipCost >0 ? variant.shipCost : 1000)
+  return (variant.shipCost>200 ? variant.shipCost : 1000)
 }
 
   // const shipTotal = ref(computed(() => {
@@ -766,7 +824,7 @@ const itemShippingPrice = function(variant) {
 
 
   function removeVariant(item, variant) {
-    const cart = useCartDataStore()
+    // const cart = useCartDataStore()
     let otherVariants = false
 
     variant.cartQty = 0
@@ -797,8 +855,8 @@ const itemShippingPrice = function(variant) {
     }
 
     //Update the store to show updated inCart and cartQty values
-    const store = useProductDataStore()
-    store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
+    // const store = useProductDataStore()
+    // store.$patch(store.productData[store.productData.map((x)=>{return x.id}).indexOf(item.id)] = item)
 
     // itemTotal()
     // shipTotal()

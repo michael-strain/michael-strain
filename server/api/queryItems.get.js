@@ -1,5 +1,7 @@
 // Fetch an item by its ID from the database
 
+//I THINK WE HAVE A MAX OF 10 ITEMS RETURNED BY THIS FUNCTION
+
 // Path: server/api/queryItem.get.ts
 
 
@@ -10,13 +12,11 @@
 // Use the queryCollectionWhere function to query a collection by a field
 // import { WhereFilterOp } from "@firebase/firestore"
 // import { contains } from "@firebase/util"
-import { getQuery, readBody } from "h3"
-import { queryCollectionWhere } from "../lib/firestore"
+import { getQuery } from "h3"
+import { queryCollectionWhereIn } from "../lib/firestore"
 
 export default defineEventHandler(async (event) => {
   try {
-
-    // const body = await readBody(event)
 
     const query = getQuery(event)
     //Query.operator should be of type WhereFilterOp:
@@ -32,18 +32,11 @@ export default defineEventHandler(async (event) => {
     // array-contains-any
     // not-in
 
-    //Currently not using body, only using query, let's see if it works with all the weird stuff I'm passing
-    // if (query.col){
-    const docs = await queryCollectionWhere(query.col, query.field, query.operator, query.value)
-    console.log("Searching " + query.col + " where " + query.field + " " + query.operator + " " + query.value)
-    // }
-    // else if (body.col){
-    //   const docs = await queryCollectionWhere(body.col, body.field, body.operator, body.value)
-    //   console.log("Searching " + body.col + " where " + body.field + " " + body.operator + " " + body.value)
-    // }
+    const docs = await queryCollectionWhereIn(query.col, query.field, query.value)
+    console.log("Searching " + query.col + " where " + query.field + " in " + query.value)
     
-    // console.log("docs: ")
-    // console.log(docs)
+    console.log("docs: ")
+    console.log(docs)
     return docs
   } catch (error) {
     return { error: error.message }

@@ -5,10 +5,28 @@
 import { getQuery } from 'h3'
 
 export default defineEventHandler(async (event) => {
+
   const query = getQuery(event)
   if(query){
     console.log(query)
-    return query
   }
-  return {error: "I'm still under construction, sorry"}
+  else {
+    return { error: "No Order ID Provided" } //No id was passed
+  }
+  
+  const runtimeConfig = useRuntimeConfig()
+
+  const opts = {
+    method: 'GET',
+    url: `https://api.printify.com/v1/shops/6483145/orders/${query.id}.json`,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': runtimeConfig.PRINTIFY_API_KEY
+    }
+  }
+
+  const result = await $fetch(opts.url, {method: 'GET', headers: opts.headers })
+
+  
+  return result
 })

@@ -5,7 +5,7 @@ export default defineEventHandler(async (event)=>{
   try{
     const query = getQuery(event);
     const body = await readBody(event);
-    const docRef = await add(query.col as string, body);
+    const docRef = await add(query.col, body);
     return { result: docRef };
   } catch (error) {
     console.log(error)

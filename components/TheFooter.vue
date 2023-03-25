@@ -6,8 +6,8 @@
     <NuxtLink class="text-white" to="/contact">
       Contact Us
     </NuxtLink>
-    <p class="">
-      All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior consent.<br>All Rights Reserved.
+    <p class="text-xs text-white text-wrap">
+      All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent.<br>All Rights Reserved.
     </p>
   </div>
 </template>

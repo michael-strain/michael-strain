@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import { getStorage, ref, uploadString, getDownloadURL, getMetadata } from "firebase/storage"
+// import { getStorage, ref, uploadString, getDownloadURL, getMetadata } from "firebase/storage"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserSessionPersistence, applyActionCode, checkActionCode, sendEmailVerification } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 
@@ -21,7 +21,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app)
+// const storage = getStorage(app)
 
 
 // Auth Functions
@@ -36,6 +36,8 @@ export const createUser = async (email, password) => {
     const errorCode = error.code;
     const errorMessage = error.message;
   });
+  //Need to figure out action code settings for proper handling
+  // await sendEmailVerification(auth.currentUser)
   return credentials;
 };
 
@@ -101,7 +103,6 @@ export const initUser = async () => {
 
     // firebaseUser.value = user
 
-    // @ts-ignore
     userCookie.value = user // ignore error because nuxt will serialize to json
 
     // $fetch("/api/auth", {
@@ -111,10 +112,10 @@ export const initUser = async () => {
   });
 };
 
-export const applyAuthEmailValidationCode = async (code) => {
-  const auth = getAuth()
-  const result = await auth.applyActionCode(auth, code)
-}
+// export const applyAuthEmailValidationCode = async (code) => {
+//   const auth = getAuth()
+//   const result = await auth.applyActionCode(auth, code)
+// }
 
 export const signOutUser = async () => {
   const auth = getAuth();
@@ -125,15 +126,15 @@ export const signOutUser = async () => {
 };
 
 //Firebase Storage Functions
-
-export const saveFile = async (fullPath, file) => {
-  const storageRef = ref(storage, fullPath)
-  const snapshot = await uploadString(storageRef, file, "data_url")
-  if(snapshot) {
-    const downloadUrl = await getDownloadURL(snapshot.ref)
-    const metadata = await getMetadata(storageRef)
-    return { snapshot, downloadUrl, metadata }
-  }
+//I think this works, it gets a file to google cloud storage, but I don't want it exposed right now
+// export const saveFile = async (fullPath, file) => {
+//   const storageRef = ref(storage, fullPath)
+//   const snapshot = await uploadString(storageRef, file, "data_url")
+//   if(snapshot) {
+//     const downloadUrl = await getDownloadURL(snapshot.ref)
+//     const metadata = await getMetadata(storageRef)
+//     return { snapshot, downloadUrl, metadata }
+//   }
 
   // // Theoretically we would be able to use an upload task to monitor progress, pause, resume, etc.
   // const uploadTask = uploadString(storageRef,file,"data_url")
@@ -171,23 +172,23 @@ export const saveFile = async (fullPath, file) => {
   //   const metadata = getMetadata(storageRef)
   //   return { uploadTask.snapshot.ref, downloadUrl, metadata }
   // })
-}
 
-export const uploadFile = async (file) => {
-  return await new Promise(function (resolve, reject) {
-    var reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = async (e) => {
-      const result = reader.result
-      const { snapshot, downloadUrl, metadata } = await saveFile("images/" + file.name, result)
-      if(snapshot){
-        resolve({ snapshot, downloadUrl, metadata })
-      } else {
-        reject()
-      }
-    }
-  })
-}
+//I think this works, it gets a file to google cloud storage, but I don't want it exposed right now
+// export const uploadFile = async (file) => {
+//   return await new Promise(function (resolve, reject) {
+//     var reader = new FileReader()
+//     reader.readAsDataURL(file)
+//     reader.onload = async (e) => {
+//       const result = reader.result
+//       const { snapshot, downloadUrl, metadata } = await saveFile("images/" + file.name, result)
+//       if(snapshot){
+//         resolve({ snapshot, downloadUrl, metadata })
+//       } else {
+//         reject()
+//       }
+//     }
+//   })
+// }
 
 // // Copilot made this, it might be useful later
 // export const getFiles = async (path) => {

@@ -1,12 +1,21 @@
-//Admins should be able to get all orders, and they should be filterable and paginated and all that good data management best practice shit
-
-import { getQuery } from 'h3'
+//Need to incorporate pagination (page and limit query events)
+//We can also implement status-based filtering
 
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
-  if(query){
-    console.log(query)
-    return query
+
+  const runtimeConfig = useRuntimeConfig()
+
+  const opts = {
+    method: 'GET',
+    url: `https://api.printify.com/v1/shops/6483145/orders.json`,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': runtimeConfig.PRINTIFY_API_KEY,
+    }
   }
-  return {error: "I'm still under construction, sorry"}
+
+  const result = await $fetch(opts.url, {method: 'GET', headers: opts.headers })
+
+  
+  return result
 })

@@ -23,21 +23,20 @@
   // product search filters
 
 
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-import { ref } from 'vue'
 
 export const useUserDataStore = defineStore('userData', () => {
-  const userData = ref(useLocalStorage("userData", [
+  const userData = useLocalStorage("userData", 
     {
-      country: "US",
-      language: "English",
-      shippingInfo: {},
+      // language: "English", //Sorry, i'm not internationalizing this hard.  At least not yet.
+      shippingInfo: {
+        country: "US" //I guess we are defaulting to the US
+      },
       billingInfo: {},
-      paymentInfo: {},
       cartInfo: {},
-      orderHistory: {},
-      wishlist: {},
+      // orderHistory: [{orderId:''}], //should be a list of complete order objects, preferably updated by webhooks from braintree and printify and stuff
+      // wishlist: {},
       // productReviews: {},
       // productRatings: {},
       // productTags: {},
@@ -47,11 +46,10 @@ export const useUserDataStore = defineStore('userData', () => {
       // productSearchFilters: {},
       // productSearchSort: {},
       // productSearchPagination: {},
+      userInfo: {inVault: false}
     }
-  ]))
-  return {
-    userData,
-  }
+  )
+  return { userData: skipHydrate(userData) }
 });
 
 if (import.meta.hot) {

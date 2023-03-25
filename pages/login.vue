@@ -163,6 +163,10 @@ import { ref } from 'vue'
 import 'firebase/auth';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
+const route = useRoute()
+const fromRoute = route.redirectedFrom
+
+
 async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -181,6 +185,12 @@ async function loginWithGoogle() {
       const firebaseUser = useFirebaseUser()
       firebaseUser.value = user
       auth.currentUser = user
+      const router = useRouter();
+      if(fromRoute) {
+        router.back()
+      } else {
+        router.push('/account')
+      }
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -221,12 +231,16 @@ async function registerUser(email,password) {
   const user = await createUser(email, password)
 
   const auth = getAuth()
-  sendEmailVerification(auth.currentUser)
+  sendEmailVerification(auth.currentUser ) //We should potentially be setting an actionCodeURL here in order to complete the validation process... I think
 
   console.log("User Created:")
   console.log(user)
   const router = useRouter();
-  router.push('/account')
+  if(fromRoute){
+    router.push(fromRoute)
+  } else{
+    router.push('/account')
+  }
 }
 
 // import { firebaseui } from 'firebaseui';

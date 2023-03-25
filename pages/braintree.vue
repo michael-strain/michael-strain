@@ -36,19 +36,19 @@ const totalCost = ref(0)
 // import 'braintree-web-drop-in'
 onMounted(async () => {
 
-//TEMPORARY
-const shipping = ref({
-  firstName: 'Test',
-  lastName: 'User',
-  email: 'test@user.com',
-  phone: '888-555-2222',
-  country: 'US',
-  region: 'FL',
-  address1: '123 Kickass Rd',
-  address2: '',
-  city: 'Miami',
-  zip: '33101',
-})
+  //TEMPORARY
+  // const shipping = ref({
+  //   firstName: 'Test',
+  //   lastName: 'User',
+  //   email: 'test@user.com',
+  //   phone: '888-555-2222',
+  //   country: 'US',
+  //   region: 'FL',
+  //   address1: '123 Kickass Rd',
+  //   address2: '',
+  //   city: 'Miami',
+  //   zip: '33101',
+  // })
 
   var payload = {
     nonce: nonce,
@@ -130,10 +130,9 @@ const shipping = ref({
   dropin.create({
     authorization: await $fetch('/api/payment/braintree/token', { method: 'GET' }),
     container: '#dropin-container',
-    // selector: '#dropin-container',
     paypal: {
       flow: 'vault',
-      amount: totalCost,
+      amount: totalCost.value,
       currency: 'USD'
     }
   },async (createErr, instance) => {
