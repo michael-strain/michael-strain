@@ -130,7 +130,7 @@
 
 
 <script setup>
-import { async } from '@firebase/util';
+// import { useRouter }
 import { getAuth } from 'firebase/auth'
 import { useUserDataStore } from '~/stores/userData';
 import PreviousOrder from '~~/components/PreviousOrder.vue';
@@ -436,8 +436,11 @@ const loadAdminLink = ref(false)
 const userPhotoUrl = ref()
 
 onMounted(async () => {
+  const router = useRouter()
   if (auth.currentUser) {
     userPhotoUrl.value = auth.currentUser.photoURL
+  } else {
+    router.push('/login')
   }
   if(!user.userData.shippingInfo.country.length>0){
     //No User Country Found, defaulting to the US
@@ -457,7 +460,8 @@ onMounted(async () => {
 })
 
 
-if(auth.currentUser!==null){
+
+if(auth.currentUser!=null){
   const displayName = auth.currentUser.displayName
   const email = auth.currentUser.email
   const emailVerified = auth.currentUser.emailVerified

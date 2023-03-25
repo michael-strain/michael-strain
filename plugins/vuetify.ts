@@ -26,7 +26,7 @@ const myCustomLightTheme = {
     secondary: '#bef67a', //ONLY THIS WORKS???
     'secondary-darken-1': '#8bc34a',
     error: '#FB8C00',
-    bgimage: 'https://thumbs.dreamstime.com/b/white-gray-marble-texture-background-detail-structure-high-resolution-abstract-luxurious-seamless-tile-stone-floor-white-134268077.jpg',
+    // bgimage: 'https://thumbs.dreamstime.com/b/white-gray-marble-texture-background-detail-structure-high-resolution-abstract-luxurious-seamless-tile-stone-floor-white-134268077.jpg',
 
   },
   // variables: {
