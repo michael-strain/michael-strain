@@ -1184,10 +1184,12 @@ const submitShippingInfo = async () => {
   firebaseOrderId.value = firebasePost.result._key.path.segments[1]
   console.log("Firebase Order ID: " + firebasePost.result._key.path.segments[1])
 
-  let localOrder = orders.orderData
-  localOrder.push(firebasePost)
+  //Now we can push the firebaseOrder data to our localOrders
 
-  //Now let's add our firebaseOrder to our local orderStore
+  let localOrder = orders.orderData
+  localOrder.push(firebaseOrder)
+
+  // //Now let's add our firebaseOrder to our local orderStore
   orders.$patch({orderData:localOrder})
 
   console.log("Creating braintree dropin")
@@ -1250,7 +1252,8 @@ const submitShippingInfo = async () => {
           shipping: shippingInfo.value,
           billing: billingInfo.value,
           user: userInfo.value,
-          orderId: firebaseOrderId.value
+          orderId: firebaseOrderId.value,
+          firebaseOrder: firebaseOrder
         }
 
 

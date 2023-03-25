@@ -27,6 +27,7 @@ export default defineEventHandler(async(event) => {
   var billingInfo
   var userInfo
   var orderId
+  var firebaseOrder
 
   // var cartItems = {
   //   itemId: [],
@@ -58,6 +59,9 @@ export default defineEventHandler(async(event) => {
   if (body.orderId) {
     orderId = body.orderId
     // console.log(orderId)
+  }
+  if (body.firebaseOrder){
+    firebaseOrder = body.firebaseOrder
   }
 
   // console.log(body)
@@ -508,11 +512,10 @@ export default defineEventHandler(async(event) => {
       // null                   
 
     if (result.success){
-      const firebaseBody = {
-        paymentStatus:result.transaction.status,
-        status:result.success?'PAID':'PAYMENT_ISSUE',
-        paymentDate: result.success?new Date():'Not Paid'
-      }
+      let firebaseBody = firebaseOrder
+      firebaseBody.paymentStatus = result.transaction.status,
+      firebaseBody.status = result.success?'PAID':'PAYMENT_ISSUE',
+      firebaseBody.paymentDate = result.success?new Date():'Not Paid'
       const firebase = await $fetch("/api/set?col=orders&docId="+orderId, { method:"POST", body: firebaseBody }) //update our firebase order by id
       //our body should be the printify order POST body
       if (firebase.success){
@@ -540,11 +543,11 @@ export default defineEventHandler(async(event) => {
         console.log(printify)
 
         //don't know what to put because I don't know what printify is gonna return
-        const firebaseUpdateBody = {
-          paymentStatus:result.transaction.status,
-          status: "Ordered - or whatever printify result says",
-          paymentDate: result.success?new Date():'Not Paid'
-        }
+        let firebaseUpdateBody = firebaseBody
+        firebaseUpdateBody.paymentStatus = result.transaction.status;
+        firebaseUpdateBody.status = "Ordered - or whatever printify result says";
+        firebaseUpdateBody.paymentDate = result.success?new Date():'Not Paid';
+        
         const firebaseUpdate = await $fetch("/api/set?col=orders&docId="+orderId, { method:"POST", body: firebaseUpdateBody }) //update our firebase order by id
 
         console.log("Firebase Update: ")

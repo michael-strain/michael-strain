@@ -34,9 +34,10 @@ export const queryCollectionWhere = async (col:string, field:string, operator:Wh
     const q = query(collection(firestoreDb, col), where(field, operator, value))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach(doc => {
-      let docId = doc.id
+      let docId = doc.id ? doc.id : null
       let docData = doc.data()
       docData.id = docId
+      console.log(docData)
       results.push(docData)
     })
     return results
@@ -65,8 +66,8 @@ export const queryCollectionWhereIn = async (col:string, field:string, value:any
 }
 
 export const set = async (col:string, docId:string, updateVal:Object) => {
-  const docRef = await setDoc(doc(collection(firestoreDb, col),docId), updateVal)
-  return docRef
+  await setDoc(doc(collection(firestoreDb, col),docId), updateVal)
+  return
 }
 
 export const add = async (col: string, document: Object) => {
