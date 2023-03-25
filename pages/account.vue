@@ -1,212 +1,139 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <!--To Do
-Confirmation pop-ups for delete account and sign out.
-White card is not floating high enough.
-
+  a. Why are section headers not styling.
+  a. Go to shop button style.
+  h. Autofill user information.
+  m. Automatic redirect to login page with if/else.
+  m. Show/hide order history.
 -->
 
 <template>
   <div class="bgImg h-100">
     <div class="bgImgCont">
-      <!--Header-->
-      <div class="p-3rem">
-        <NuxtLink to="/account">
-          <p
-            class="pageTitle"
-          > 
-            User Account
-          </p>
-        </NuxtLink>
-      </div>
-      <div
-        v-if="auth.currentUser || firebaseUser"
-        class="shadow plainContainer p-2rem max-w-50rem rounded-25px"
-      >
-        <!--Profile Pic and Account Info Text-->
-        <div class="flex space-x-1.5rem <sm:(flex-wrap space-x-0 space-y-1.5rem)">
-          <!--Profile Image with Icon Relative Container-->
-          <div class="flex align-center relative bg-green w-max-1/3 <sm:(w-full)">
-            <img
-              src="/img/MLogo.png"
-            >
-            <div class="absolute bottom-2 left-2">
-              <v-btn
-                icon="mdi-account-edit"
-                color="white"
-              />
-            </div>
-          </div>
-          <!--Account Info Text-->
-          <div class="mx-auto text-lg text-center gap-3 flex flex-column justify-center">
-            <p class="font-bold text-1.5rem">
-              Name Placeholder
-            </p>
-            <p>mymessage@email.com</p>
-            <p>258 First Street, City, State, 25852</p>
-            <p>258-8520-8520</p>
-            <!-- <p class="plainBtn text-gray-500">
-              Edit Profile
-            </p> -->
-          </div>
-        </div>
-        <!--Paragraph-->
-        <p class="my-1rem">
-          I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
-        </p>
-        <!--Buttons-->
-        <!-- Temporary thing sorry for touching your stuff -->
+      <div class="content">
         <div
-          class="flex justify-center flex-wrap"
+          v-if="auth.currentUser || firebaseUser"
         >
-          <div
-            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
-          >
-            <NuxtLink to="/shop/orders?id=IWseAIanYa7S8Qaiflvx">
-              <v-btn
-                variant="text"
-                class="w-full"
-              >
-                Go to test order
-              </v-btn>
-            </NuxtLink>
-          </div>
-        </div>
-        <div
-          class="flex justify-center flex-wrap"
-        >
-          <div
-            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
-          >
-            <NuxtLink to="/shop/orders">
-              <v-btn
-                variant="text"
-                class="w-full"
-              >
-                Go to Orders
-              </v-btn>
-            </NuxtLink>
-          </div>
-        </div>
-
-        <v-select 
-          v-model="userCountry"
-          :items="countryNames"
-          @update:model-value="setUserCountry"
-        />
-
-
-        <!-- Old -->
-        <!-- <v-select
-          id="country"
-          v-model="userCountry"
-          :items="countryNames"
-          label="Country"
-          placeholder="Country"
-          hide-details
-          bg-color="background"
-          @update:model-value="setUserCountry"
-        /> -->
-        <!-- <vue-country-select
-          v-model:model="userCountry"
-          class="vue-country-select"
-          name="country-select"
-          language="en-US"
-          searchable="true"
-        /> -->
-        <!--End of temporary shit, sorry again for touching stuff-->
-        
-        
-        <div class="btnRow">  
-          <button
-            class="colorBtn"
-            @click="dialog = true"
-          >
-            Edit Account
-          </button>
-          <v-dialog
-            v-model="dialog"
-          />
-          <button
-            class="colorBtn"
-            @click="testdialog = true"
-          >
-            Sign Out
-          </button>
-          <v-dialog
-            v-model="testdialog"
-          >
-            <div class="dialogContain">
-              <div class="containTitle">
-                Sign Out
-              </div>
-              <div class="containText">
-                <p>
-                  Are you sure you would like to sign out of your account?
-                </p>
-              </div>
+          <section>
+            <h2 class="sectionTitle">
+              Account Information
+            </h2>
+            <div class="information shadow w-100">
+              <p>
+                Name: Name Placeholder
+              </p>
+              <p>Email: mymessage@email.com</p>
+              <p>Phone Number: 258-8520-8520</p>
+              <p>Shipping Address: 258 First Street, City, State, 25852</p>
+              <p>Billing Address: 654 Second Street, City, State, 74125</p>
               <div class="btnRow">
+                <NuxtLink to="/login">
+                  <button class="plainBtn">
+                    Edit Account
+                  </button>
+                </NuxtLink>
                 <button
                   class="plainBtn"
-                  @click="testdialog = false"
+                  @click="testdialog = true"
                 >
-                  No, Stay Logged In. 
+                  Sign Out
                 </button>
-                <button
-                  class="plainBtn"
-                  @click="signOutUser"
+          
+                <v-dialog
+                  v-model="testdialog"
                 >
-                  Yes, Log Out. 
-                </button>
+                  <div class="dialogContain">
+                    <div class="containTitle">
+                      A Dialog Pop Up
+                    </div>
+                    <div class="">
+                      <p>
+                        Are you sure you would like to sign out of your account?
+                      </p>
+                    </div>
+                    <div class="btnRow">
+                      <button
+                        class="plainBtn"
+                        @click="testdialog = false"
+                      >
+                        No, Stay Logged In. 
+                      </button>
+                      <button
+                        class="plainBtn"
+                        @click="signOutUser"
+                      >
+                        Yes, Log Out. 
+                      </button>
+                    </div>
+                  </div>
+                </v-dialog>
               </div>
             </div>
-          </v-dialog>
-        </div>
-      </div>
-      <!--If Else (Not Logged In)-->
-      <div
-        v-else
-        class="m-auto bg-white p-10 max-w-50rem elevation-5 rounded-25px"
-      >
-        <!-- Push the login url to the router, then redirect back here after successful login -->
-        <div class="pb-5 text-1.25rem text-center">
-          <p class="text-gray-600 mt-10">
-            You are not currently logged in.
-          </p>
-        </div>
-        <div
-          class="flex justify-center flex-wrap"
-        >
+          </section>
+          <section>
+            <h2 class="sectionTitle">
+              Previous Orders
+            </h2>
+            <div class="information w-100">
+              <p>There is no previous order history to report. Let's change that.</p>
+              <div class="btnRow">
+                <button class="plainBtn">
+                  Go to Shop
+                </button>
+              </div>
+              <PreviousOrder />
+              <PreviousOrder />
+            </div>
+          </section>
+
+          <!--Just gonna put this here, sorry I know it might not be pretty-->
           <div
-            class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            class="flex justify-center flex-wrap"
           >
-            <NuxtLink to="/login">
-              <v-btn
-                variant="text"
-                class="w-full"
-              >
-                Login
-              </v-btn>
-            </NuxtLink>
+            <div
+              class="p-2 text-white elevation-10 rounded-20px bg-gradient-to-b from-gray-400 to-gray-500 hover:from-yellow-200 hover:via-orange-300 hover:to-red-400"
+            >
+              <NuxtLink to="/shop/orders">
+                <v-btn
+                  variant="text"
+                  class="w-full"
+                >
+                  Go to Orders
+                </v-btn>
+              </NuxtLink>
+            </div>
           </div>
+
+          <v-select 
+            v-model="userCountry"
+            :items="countryNames"
+            @update:model-value="setUserCountry"
+          />
+        </div>
+        <!--If Else (Not Logged In)-->
+        <div
+          v-else
+        >
+          <button
+            class="plainContainer"
+            @click="redirectMe()"
+          >
+            Redirect Me
+          </button>
         </div>
       </div>
     </div>
-  </div> <AFooter />
-  <!-- <TheFooter class="absolute bottom-0 <sm:static" /> -->
+  </div>
+  <AFooter />
 </template>
 
-
-
-
-
-
-       
 
 <script setup>
 import { async } from '@firebase/util';
 import { getAuth } from 'firebase/auth'
 import { useUserDataStore } from '~/stores/userData';
+import PreviousOrder from '~~/components/PreviousOrder.vue';
 
 //TODO
 //Setup updateProfile actions
@@ -561,21 +488,36 @@ if(auth.currentUser!==null){
     loadAdminLink.value = 'true'
   }
 
-
 }
 </script>
 
+       
+
 <script>
   export default {
-    data () {
-      return {
-        peelog: false,
-        testdialog: false,
-        dialog: false,
-      }
+    components: { PreviousOrder },
+    data() {
+        return {
+            peelog: false,
+            testdialog: false,
+            dialog: false,
+        };
     },
-  }
+    methods: {
+        redirectMe() {
+            this.$router.push("/login");
+        },
+    }
+}
 </script>
+
+<style>
+.textField {
+  outline: auto;
+  outline-color: lightgray;
+}
+
+</style>
 
 
 <!-- <NuxtLink
@@ -614,3 +556,94 @@ if(auth.currentUser!==null){
 
           <!--Old Button-->
           <!-- @click="isActive.value = false" -->
+
+
+
+
+
+          <!--Old Code-->
+          <!-- <div class="bgImg h-100">
+            <div class="bgImgCont">
+              <div class="p-3rem">
+                <NuxtLink to="/account">
+                  <p
+                    class="pageTitle"
+                  > 
+                    User Account
+                  </p>
+                </NuxtLink>
+              </div>
+              <div
+                v-if="auth.currentUser || firebaseUser"
+                class="shadow plainContainer p-2rem max-w-50rem rounded-25px"
+              >
+                <div class="flex space-x-1.5rem <sm:(flex-wrap space-x-0 space-y-1.5rem)">
+                  <div class="flex align-center relative bg-green w-max-1/3 <sm:(w-full)">
+                    <img
+                      src="/img/MLogo.png"
+                    >
+                    <div class="absolute bottom-2 left-2">
+                      <v-btn
+                        icon="mdi-account-edit"
+                        color="white"
+                      />
+                    </div>
+                  </div>
+                  <div class="mx-auto text-lg text-center gap-3 flex flex-column justify-center">
+                    <p class="font-bold text-1.5rem">
+                      Name Placeholder
+                    </p>
+                    <p>mymessage@email.com</p>
+                    <p>258 First Street, City, State, 25852</p>
+                    <p>258-8520-8520</p>
+                  </div>
+                </div>
+                <p class="my-1rem">
+                  I need to add previous orders, password reset, display name, profile picture upload, account delete, and other settings as they become applicable.
+                </p>
+                <div class="btnRow">  
+                  <button
+                    class="colorBtn"
+                    @click="dialog = true"
+                  >
+                    Edit Account
+                  </button>
+                  <v-dialog
+                    v-model="dialog"
+                  />
+                  <button
+                    class="colorBtn"
+                    @click="testdialog = true"
+                  >
+                    Sign Out
+                  </button>
+                  <v-dialog
+                    v-model="testdialog"
+                  >
+                    <div class="dialogContain">
+                      <div class="containTitle">
+                        Sign Out
+                      </div>
+                      <div class="containText">
+                        <p>
+                          Are you sure you would like to sign out of your account?
+                        </p>
+                      </div>
+                      <div class="btnRow">
+                        <button
+                          class="plainBtn"
+                          @click="testdialog = false"
+                        >
+                          No, Stay Logged In. 
+                        </button>
+                        <button
+                          class="plainBtn"
+                          @click="signOutUser"
+                        >
+                          Yes, Log Out. 
+                        </button>
+                      </div>
+                    </div>
+                  </v-dialog>
+                </div>
+              </div> -->

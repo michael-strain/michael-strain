@@ -3,15 +3,15 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-createVuetify({
-  defaults: {
-    VCard: {
-      color: 'button',
-      VBtn: { variant: 'flat', color:'blue' }
-    },
-    VBtn: { variant: 'flat', color:'red' }
-  }
-})
+// createVuetify({
+//   defaults: {
+//     VCard: {
+//       color: 'button',
+//       VBtn: { variant: 'flat', color:'blue' }
+//     },
+//     VBtn: { variant: 'flat', color:'red' }
+//   }
+// })
 
 //Purple theme
 const myCustomLightTheme = {
@@ -25,8 +25,13 @@ const myCustomLightTheme = {
     'primary-darken-1': '#4C1973',
     secondary: '#bef67a', //ONLY THIS WORKS???
     'secondary-darken-1': '#8bc34a',
-    error: '#FB8C00'
-  }
+    error: '#FB8C00',
+    bgimage: 'https://thumbs.dreamstime.com/b/white-gray-marble-texture-background-detail-structure-high-resolution-abstract-luxurious-seamless-tile-stone-floor-white-134268077.jpg',
+
+  },
+  // variables: {
+  //   bgimage: 'https://thumbs.dreamstime.com/b/white-gray-marble-texture-background-detail-structure-high-resolution-abstract-luxurious-seamless-tile-stone-floor-white-134268077.jpg',
+  // }
 }
 
 //ORIGINAL
@@ -60,7 +65,7 @@ const myCustomDarkTheme = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
-    custcard: '#252525'
+    custcard: '#252525',
   }
 }
 
@@ -73,7 +78,7 @@ export default defineNuxtPlugin(nuxtApp => {
       themes: {
         myCustomLightTheme,
         myCustomDarkTheme
-      }
+      },
     }
   });
 

@@ -22,7 +22,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.5; 
+  opacity: 0.7; 
   background: whitesmoke url("https://picsum.photos/id/24/4855/1803") center center/cover no-repeat;
   padding: 1rem;
   border:1px solid lightgray;
