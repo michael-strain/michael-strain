@@ -60,7 +60,7 @@
         </v-card> -->
         <div class="flex-grow" />
         <v-card class="d-flex float-right flex-shrink opacity-80">
-          <v-btn class="hidden-mobile" icon="mdi-home" /><!--Ash don't we need an @click function?-->
+          <v-btn class="hidden-mobile" icon="mdi-home" @click="$router.push('/')" /><!--Ash don't we need an @click function?-->
           <v-btn v-if="pageTitle.includes('/shop')" class="hidden-mobile" icon="mdi-cart" @click="cartClick" />
           <v-btn class="hidden-mobile" icon="mdi-account" @click="profileClick" />
           <v-btn class="hidden-mobile" :icon="themeIcon" @click="themeClick" />

@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     webVitals: {
         // provider: '', // auto detectd
         debug: true,
-        disabled: false,
+        disabled: true,
         ga: { id: 'G-XT0ME3PLNS' }
     },
     vite:{
