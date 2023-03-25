@@ -1,26 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<template>
-  <!-- <div class="lavapage">
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-    <div class="lavablob" />
-  </div>
-
-  <h2 class="lavatext">
-    LSDope
-  </h2> -->
-  <ALava />
+<template class="relative">
+  <!-- <p class="flex p-25">
+    LSDope Top
+  </p> -->
+  <ALava class="alava" />
+  <!-- <p class="flex p-25">
+    LSDope Bottom
+  </p> -->
 </template>
+
+<style>
+.alava {
+  
+}
+</style>
