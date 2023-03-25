@@ -514,7 +514,7 @@ onMounted(async () => {
   }
   if(!user.userData.shippingInfo.country.length>0){
     //No User Country Found, defaulting to the US
-    user.$patch({userData: [{shippingInfo:{country:"US"}}]})
+    user.$patch({userData: {shippingInfo:{country:"US"}}})
     userCountry.value = "United States"
   }
 
@@ -538,6 +538,24 @@ if(auth.currentUser!==null){
   const isAnonymous = auth.currentUser.isAnonymous
   const uid = auth.currentUser.uid
   const providerData = auth.currentUser.providerData
+
+  user.$patch(
+    { 
+      userData: 
+      { 
+        userInfo:
+        {
+          displayName:displayName,
+          email:email,
+          emailVerified:emailVerified,
+          photoURL:photoURL,
+          isAnonymous:isAnonymous,
+          uid:uid
+          //I hope our firstName, lastName, and phone variables passed from the checkout form aren't lost when users visit the account page :(
+        }
+      }
+    }
+  )
 
   if (auth.currentUser.uid=="TkEKGIw1RNT8DfNFyK88eQtJBwl1" || auth.currentUser.uid=="MluMazy3zhVrub2QWoJDy4dJFvn2") {
     loadAdminLink.value = 'true'

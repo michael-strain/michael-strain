@@ -1,3 +1,7 @@
+Thoughts 3/23/13
+----------------
+-Gift order option (change shipping name without affecting user defaults and stuff I guess?)
+
 Priorities for 3/20
 -------------------
 -Fix the storedShippingProfile nonsense - looks like we aren't setting shippableCountries properly either

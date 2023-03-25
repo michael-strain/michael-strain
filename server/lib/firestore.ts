@@ -46,13 +46,32 @@ export const queryCollectionWhere = async (col:string, field:string, operator:Wh
   }
 }
 
+export const queryCollectionWhereIn = async (col:string, field:string, value:any[]) => {
+  try{
+    const results = Array()
+    const q = query(collection(firestoreDb, col), where(field, "in", [value]))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach(doc => {
+      let docId = doc.id
+      let docData = doc.data()
+      docData.id = docId
+      results.push(docData)
+    })
+    return results
+  } catch(e){
+    console.log("queryCollectionWhere Error: " + e)
+    return{e}
+  }
+}
+
 export const set = async (col:string, docId:string, updateVal:Object) => {
-  await setDoc(doc(collection(firestoreDb, col),docId), updateVal)
+  const docRef = await setDoc(doc(collection(firestoreDb, col),docId), updateVal)
+  return docRef
 }
 
 export const add = async (col: string, document: Object) => {
   // @ts-ignore
-  const colRef = await collection(firestoreDb, col)
+  const colRef = collection(firestoreDb, col)
   const docRef = await addDoc(colRef, document)
   return docRef
 }

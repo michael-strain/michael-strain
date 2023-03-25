@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-
-
+<!-- URGENT TODO
+This page seems to reload the whole damn vue application on load for some reason -->
 <template>
   <div
     class="bg-image img-opacity-40 bg-repeat"

@@ -106,7 +106,6 @@
       <!--Order Information-->
       <!-- We should probably do a v-if somewhere around here so we can display our braintree dropin on submit -->
       <v-card
-        v-if="!infoSubmitted"
         class="h-full bg-white text-wrap rounded-xl border flex shadow-xl w-1/3 <md:w-full"
       >
         <v-card-title class="w-full pb-5 bg-surface ">
@@ -121,7 +120,9 @@
           class=""
         >
           <div>
-            <p>Cart Total: {{ formatter.format(clientCartTotal/100) }}</p>
+            <p class="text-center font-bold">
+              Cart Total: {{ formatter.format(clientCartTotal/100) }}
+            </p>
           </div>
           <div v-if="!infoSubmitted">
             <!-- Need a dropdown select thing for User's with multiple stored shipping info options -->
@@ -313,12 +314,24 @@
               />
             </div>
           </div>
+          <div v-else>
+            <!-- Braintree Dropin (for accepting payments)-->
+            <div id="dropin-container" />
+            <button
+              id="submit-button"
+              ref="submitButton"
+              class="bg-primary-darken-1 fill-height align-middle w-full py-5 items-center h-full text-white" 
+            >
+              Submit
+            </button>
+          </div>
 
 
-          <p>Total: {{ clientCartTotal }}</p>
+          <!-- <p>Total: {{ clientCartTotal }}</p> -->
 
-          <!--Buttons-->
+          <!--Buttons Before Shipping Info Submitted-->
           <div
+            v-if="!infoSubmitted"
             class="flex mx-auto justify-center flex-wrap mt-1.5rem"
           >
             <div
@@ -358,16 +371,6 @@
               </v-btn>
             </div>
           </div>
-        </v-container>
-        <v-container v-if="infoSubmitted">
-          <!-- Braintree Dropin (for accepting payments)-->
-          <div id="dropin-container" />
-          <button
-            id="submit-button"
-            ref="submitButton"
-          >
-            Pay
-          </button>
         </v-container>
       </v-card>
     </v-container>
@@ -456,6 +459,7 @@ import { useOrderDataStore } from '~/stores/orderData'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 import dropin from 'braintree-web-drop-in'
 
+
 //TODO
 //We may want to see if we can incorporate a getAuth() updateProfile() thing going on here to update the user (or anonymous user) profile with their most current information
 //Need to allow the option for users to create an account with their order info (honestly, make an account either way, but only subscribe them to marketing emails if they check the box)
@@ -467,10 +471,10 @@ const user = useUserDataStore() //Need to save the user's profile to the userDat
 const cart = useCartDataStore()
 const store = useProductDataStore()
 const orders = useOrderDataStore()
-
-
 //Firebase
-const auth = getAuth()
+const auth = getAuth();
+const authUser = useFirebaseUser()
+// authUser.value = auth.currentUser.uid
 
 //Refs - // Need to go through these and make sure we can't just locally initialize them within functions
 const infoSubmitted = ref(false)
@@ -508,8 +512,9 @@ const billingInfo = ref({
   city: '',
   zip: ''
 })
-
-
+var nonce
+var payload
+let authCall
 const userCountry = ref()
 
 const countries = ref([
@@ -771,22 +776,34 @@ const countryNames = ref([])
 const setUserCountry = () => {
   for (let i=0; i<countries.value.length; i++){
     let country=countries.value[i]
+    if(country.name==billingInfo.value.country){
+      user.userData.billingInfo.country = country.code
+      console.log("User Billing Country set")
+      console.log("Country Name: " + billingInfo.value.country)
+      console.log("Country Code: " + user.userData.billingInfo.country)
+    }
+
     if (country.name == shippingInfo.value.country){
       const countryCode = country.code
       userCountry.value = shippingInfo.value.country
       user.userData.shippingInfo.country = countryCode
       clientCartTotal.value = getCartTotal()
       
-      console.log("User Info Set.")
+      console.log("User Shipping Country Set.")
       console.log("Country Name: " + shippingInfo.value.country)
       console.log("Country Code: " + user.userData.shippingInfo.country)
-      break
     }
   }
 }
 
 onMounted(async() => {
-  console.log(auth.uid)
+  if(auth.currentUser){
+    console.log(auth.currentUser.uid)
+    authUser.value = auth.currentUser.uid
+  } else{
+    authUser.value = user.userData.userInfo.uid
+  }
+
   if(cart.cartData.length>0 ){
     cartProducts.value = cart.cartData
     updateCartRefs() //Is this working correctly?
@@ -818,6 +835,9 @@ onMounted(async() => {
       if(country.code==user.userData.shippingInfo.country){
         shippingInfo.value.country = country.name
       }
+      if(country.code==user.userData.billingInfo.country){
+        billingInfo.value.country = country.name
+      }
     }
     setUserCountry()
 
@@ -838,6 +858,39 @@ onMounted(async() => {
     // cartProducts.value = cart.cartData
     loaded.value = false
   }
+  updateBilling()
+  payload = {
+    nonce: nonce,
+    type: 'CreditCard',
+    details: {
+      lastTwo: '11',
+      cardType: 'Visa'
+    },
+    description: 'ending in 11',
+    binData: {
+      commercial: 'Unknown',
+      countryOfIssuance: 'USA',
+      debit: 'Unknown',
+      durbinRegulated: 'Unknown',
+      healthcare: 'Unknown',
+      payroll: 'Unknown',
+      prepaid: 'Unknown',
+      productId: 'Unknown'
+    },
+    threeDSecureInfo: {
+      liabilityShiftPossible: false,
+      liabilityShifted: false,
+      status: 'not_eligible'
+    },
+    // deviceData: deviceData, //Does this work? No, it's resulting in an error: invalidKeysError: These keys are invalid: deviceData[VERSION]
+    // cart: cart.cartData.length>0 ? cart.cartData : null,
+    cart: cart.cartData,
+    shipping: shippingInfo.value,
+    billing: billingInfo.value,
+    user: userInfo.value,
+    orderId: firebaseOrderId.value
+  }
+  authCall = await $fetch('/api/payment/braintree/token', { method: 'GET' })
 })
 
 //This might not be working properly
@@ -954,14 +1007,17 @@ const submitShippingInfo = async () => {
   //step 4 - (?) create pending firebase order
   //step 5 - on braintree sale, update firebase with sale info, create printify order, update firebase order with printify info
 
-
-
   updateBilling() //This won't affect the billingInfo data unless the user has selected to use shippingInfo as billingInfo
 
+  // user=useUserDataStore() //do we need to do this?
+
   user.userData.shippingInfo = shippingInfo.value
+  user.userData.userInfo = userInfo.value
+  user.userData.billingInfo = billingInfo.value
+
 
   //If no products in cart
-  if (cart.cartData.length<0) { 
+  if (cart.cartData.length<=0) { 
     //return an error or redirect to the shop page
     //shouldn't be possible to access this button if there are no items in cart, but may as well protect it anyway...right?
     return { error: "Cart is empty" }
@@ -969,17 +1025,17 @@ const submitShippingInfo = async () => {
 
   //Validate shipping info - future improvements could be made by calling an address validation API of some kind
   const shippingValidation = validateShippingInfo()
-  if (shippingValidation.error) { 
-    console.log(shippingValidation.error)
-    return { error: shippingValidation.error}
-  }
+  // if (shippingValidation.error!=undefined) { 
+  //   console.log(shippingValidation.error)
+  //   return { error: shippingValidation.error}
+  // }
 
   //Validate billing info
   const billingValidation = validateBillingInfo()
-  if (billingValidation.error) { 
-    console.log(billingValidation.error)
-    return {error: billingValidation.error}
-  }
+  // if (billingValidation.error) { 
+  //   console.log(billingValidation.error!=undefined)
+  //   return {error: billingValidation.error}
+  // }
 
   checkForShippingProfiles() //May as well run this here now just to set our storedShippingProfiles.value to the user's submitted shipping info
 
@@ -988,7 +1044,42 @@ const submitShippingInfo = async () => {
 
   //If user is logged in, and they added a new billing or shipping address, do a quick typo check so you can present "Did you mean?" suggestions
   //Otherwise, store the new billing/shipping info in firebase in the user collection
+
+  //EXPERIMENTAL!
+  // AND NOT FULLY INTEGRATED: still missing the ability to tie anonymous users to their accounts should they choose to create one.
+  // If user is not logged in, use their info to create an unverified account, and store their info anyway.  If they ever choose to create an account, just switch the unverified flag and let them set a password using email verification
+  if(!authUser.value||authUser.value==null){
+    console.log("No user found")
+    //https://firebase.google.com/docs/auth/web/anonymous-auth
+
+    // const auth = getAuth()//should be getAuth(app) and app = initializeApp(firebaseConfig) i think
+    // console.log("Got a... blank... auth?")
+    signInAnonymously(auth).then(() => {
+      // Signed in anonymously
+      console.log("Signed in anonymously :D")
+      userInfo.value.uid = auth.user.uid
+      console.log(userInfo.value.uid)
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.log("Error (" + errorCode + ") - " + errorMessage )
+    })
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     //User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     userInfo.value.uid = user.uid //kinda redundant i think, see below
+    //     user.userData.userInfo = userInfo.value //This needs to be set with a patch
+    //     console.log("Set the userInfo.value.uid to our user.uid")
+    //   }
+    // })
+  }
+
+  userInfo.value.uid = authUser.value
+  
   console.log("Got auth")
+  console.log(authUser.value)
 
   //Debug
   // const user = auth.currentUser //will return null if user is not logged in
@@ -1020,37 +1111,8 @@ const submitShippingInfo = async () => {
   // }
   // console.log("Successfully finished playing with myself - auth stuff")
 
-  //EXPERIMENTAL!
-  // AND NOT FULLY INTEGRATED: still missing the ability to tie anonymous users to their accounts should they choose to create one.
-  // If user is not logged in, use their info to create an unverified account, and store their info anyway.  If they ever choose to create an account, just switch the unverified flag and let them set a password using email verification
-  if(!$auth.user){
-    console.log("No user found")
-    //https://firebase.google.com/docs/auth/web/anonymous-auth
-
-    const auth = getAuth()//should be getAuth(app) and app = initializeApp(firebaseConfig) i think
-    console.log("Got a... blank... auth?")
-    signInAnonymously(auth).then(() => {
-      // Signed in anonymously
-      console.log("Signed in anonymously :D")
-    })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log("Error (" + errorCode + ") - " + errorMessage )
-    })
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        userInfo.value.uid = user.uid //kinda redundant i think, see below
-        user.userData.userInfo = userInfo.value //This needs to be set with a patch
-        console.log("Set the userInfo.value.uid to our user.uid")
-      }
-    })
-  }
-
-  userInfo.value.uid = auth.user.uid
-  console.log("Set userInfo.value.uid to auth.user.uid... idk if it was a good idea to do that here, but i did")
+  
+  // console.log("Set userInfo.value.uid to auth.user.uid... idk if it was a good idea to do that here, but i did")
 
   //Time to query firebase to get accurate pricing info in order to build braintree
   
@@ -1064,12 +1126,12 @@ const submitShippingInfo = async () => {
   let firebaseLineItems = [] //This array of objects, for each variant in cart, {product_id, variant_id, quantity}
   for (let i=0; i<cartProducts.value.length;i++) {
     let product = cartProducts.value[i]
-    for (let j=0; j<cartVariants.value.length; j++) {
-      let variant = cartVariants.value[j]
+    for (let j=0; j<product.variants.length; j++) {
+      let variant = product.variants[j]
       firebaseLineItems.push({
-        product_id: variant.productId,
+        product_id: product.id,
         variant_id: variant.id,
-        quantity: cartVariants.value.cartQty,
+        quantity: variant.cartQty,
         price: itemPrice(variant).itemCost,
         shippingPrice: itemPrice(variant).shipCost
       })
@@ -1095,7 +1157,7 @@ const submitShippingInfo = async () => {
     userInfo: userInfo.value,
     shippingInfo: shippingInfo.value,
     billingInfo: billingInfo.value,
-    orderCreateDate: Date.now(),
+    orderCreateDate: new Date(),
     lineItems: firebaseLineItems,
     customerServiceMessageLog: [],
     paymentDate: 'Unpaid',
@@ -1116,11 +1178,11 @@ const submitShippingInfo = async () => {
   const firebasePost = await $fetch('/api/add?col=orders', {method: 'POST', body:firebaseOrder})
 
   console.log("firebasePost Result:")
-  console.log(firebasePost)
+  console.log(firebasePost.result)
   //Needs errorHandling
 
-  firebaseOrderId.value = firebasePost.id
-  console.log("Firebase Order ID: " + firebasePost.id)
+  firebaseOrderId.value = firebasePost.result._key.path.segments[1]
+  console.log("Firebase Order ID: " + firebasePost.result._key.path.segments[1])
 
   let localOrder = orders.orderData
   localOrder.push(firebasePost)
@@ -1128,50 +1190,15 @@ const submitShippingInfo = async () => {
   //Now let's add our firebaseOrder to our local orderStore
   orders.$patch({orderData:localOrder})
 
-  console.log("creating braintree nonce and payload")
-
-  var nonce
-  //Braintree stuff
-  var payload = {
-    nonce: nonce,
-    type: 'CreditCard',
-    details: {
-      lastTwo: '11',
-      cardType: 'Visa'
-    },
-    description: 'ending in 11',
-    binData: {
-      commercial: 'Unknown',
-      countryOfIssuance: 'USA',
-      debit: 'Unknown',
-      durbinRegulated: 'Unknown',
-      healthcare: 'Unknown',
-      payroll: 'Unknown',
-      prepaid: 'Unknown',
-      productId: 'Unknown'
-    },
-    threeDSecureInfo: {
-      liabilityShiftPossible: false,
-      liabilityShifted: false,
-      status: 'not_eligible'
-    },
-    // deviceData: deviceData, //Does this work? No, it's resulting in an error: invalidKeysError: These keys are invalid: deviceData[VERSION]
-    // cart: cart.cartData.length>0 ? cart.cartData : null,
-    cart: cart.cartData,
-    shipping: shippingInfo.value,
-    billing: billingInfo.value,
-    user: userInfo.value,
-    orderId: firebaseOrderId.value
-  }
-
-
   console.log("Creating braintree dropin")
-
+  
+  infoSubmitted.value = true
+  
   ////Braintree, create yourself!...?
+  
   dropin.create({
-    authorization: await $fetch('/api/payment/braintree/token', { method: 'GET' }),
+    authorization: await authCall,
     container: '#dropin-container',
-    // selector: '#dropin-container',
     paypal: {
       flow: 'vault',
       amount: clientCartTotal.value,
@@ -1180,6 +1207,7 @@ const submitShippingInfo = async () => {
   },async (createErr, instance) => {
     if (createErr) {
       console.log('Create Error', createErr)
+      //update firebase order with the payment issue
       return
     }
     submitButton.value.addEventListener('click', async () => {
@@ -1189,13 +1217,55 @@ const submitShippingInfo = async () => {
         nonce = event.nonce
         payload.nonce = nonce
 
+        //RIGHT HERE
+        //We need to make sure our FirebaseOrderID is passed through payload as orderId
+        //I'm just doing this by re-establishing the whole damn payload.
+
+        payload = {
+          nonce: nonce,
+          type: 'CreditCard',
+          // details: {
+          //   lastTwo: '11',
+          //   cardType: 'Visa'
+          // },
+          // description: 'ending in 11',
+          // binData: {
+          //   commercial: 'Unknown',
+          //   countryOfIssuance: 'USA',
+          //   debit: 'Unknown',
+          //   durbinRegulated: 'Unknown',
+          //   healthcare: 'Unknown',
+          //   payroll: 'Unknown',
+          //   prepaid: 'Unknown',
+          //   productId: 'Unknown'
+          // },
+          // threeDSecureInfo: {
+          //   liabilityShiftPossible: false,
+          //   liabilityShifted: false,
+          //   status: 'not_eligible'
+          // },
+          // // deviceData: deviceData, //Does this work? No, it's resulting in an error: invalidKeysError: These keys are invalid: deviceData[VERSION]
+          // // cart: cart.cartData.length>0 ? cart.cartData : null,
+          cart: cart.cartData,
+          shipping: shippingInfo.value,
+          billing: billingInfo.value,
+          user: userInfo.value,
+          orderId: firebaseOrderId.value
+        }
+
+
         const data = await $fetch('/api/payment/braintree/sale', {
           method: 'POST',
           body: payload
         })
         console.log("I think we just submitted a sale through Braintree, then updated the firebase order, and finally submitted an order to printify :D :D :D")
         console.log(data)
+
         if (data.length>0){
+          //save our updated "userInfo.value.inVault" bool
+          userInfo.value.inVault = true
+          //update firebase order with response data
+          firebaseOrder.value.status = data.status
           $router.push('/shop/orders?id=' + firebaseOrderId.value)
         }
       }),
@@ -1208,17 +1278,6 @@ const submitShippingInfo = async () => {
       instance.on('paymentOptionSelected', (event) => {
         console.log("Payment Option Selected: " + event)
       }),
-      // instance.on('paymentMethodReceived', (event) => {
-      //   console.log("Event Nonce: " + event.nonce)
-      //   nonce = event.nonce
-      //   payload.nonce = nonce
-      //   console.log("none: " + nonce)
-      //   console.log("payload: " + payload)
-      //   const data = $fetch('/api/payment/braintree', {
-      //     method: 'POST',
-      //     body: JSON.stringify(payload)
-      //   })
-      // }),
       instance.on('error', (event) => {
         console.log("Instance Error: " + event)
       }),
@@ -1229,17 +1288,15 @@ const submitShippingInfo = async () => {
     })
   })
 
-  //When this process is all complete
-  infoSubmitted.value = true
 }
 
 const validateShippingInfo = () => {
-  if (shippingInfo.value.address1.length<0) {
+  if (shippingInfo.value.address1.length<=0) {
     //throw an error
     console.log("Shipping validation error!")
     return { error: "Shipping Address Cannot Be Empty" }
   }
-  if (shippingInfo.value.region.length<0){
+  if (shippingInfo.value.region.length<=0){
     console.log("Shipping validation error!")
     return { error: "State/Region Cannot Be Empty"}
   }
@@ -1247,7 +1304,7 @@ const validateShippingInfo = () => {
 }
 
 const validateBillingInfo = () => {
-  if (billingInfo.value.address1.length<0) {
+  if (billingInfo.value.address1.length<=0) {
     console.log("Billing validation error!")
     return { error: "Billing Address Cannot Be Empty" }
   }
@@ -1259,7 +1316,7 @@ const getCartTotal = () => {
 
   for(let i=0; i<cart.cartData.length;i++){
     for(let j=0; j<cart.cartData[i].variants.length;j++) {
-      totalPrice+=itemPrice(cart.cartData[i].variants[j]).itemCost + itemPrice(cart.cartData[i].variants[j]).shipCost
+      totalPrice += (itemPrice(cart.cartData[i].variants[j]).itemCost + itemPrice(cart.cartData[i].variants[j]).shipCost) * cart.cartData[i].variants[j].cartQty
     }
   }
   // for (let i=0; i<cartVariants.value.length; i++) {

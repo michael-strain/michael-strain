@@ -1,5 +1,6 @@
 import braintree from 'braintree'
 import { getQuery, readBody } from 'h3'
+// import { ref } from 'vue'
 
 
   // Need to post the nonce from the client as body
@@ -9,7 +10,7 @@ import { getQuery, readBody } from 'h3'
   // Need to post the shipping address from the client as body (cart data should be in the device data)
 
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async(event) => {
 
   //Merchant ID
   const merchantId = 'dwt5hs5tpmvyy2vy'
@@ -18,17 +19,14 @@ export default defineEventHandler(async (event) => {
   //Private Key
   const privateKey = 'eb0903e8dbaaa945d611a39a62af6139'
 
-  var nonce = null
-  var deviceData = null
-  var cart = null
-  var cartItems = null
-  // var userData = null
-  var totalCost = null
-  var shippingInfo = null
-  var billingInfo = null
-  var userInfo = null
-  var orderId = null
-  // var shippingCountry = null
+  var nonce
+  var deviceData
+  var cart
+  var cartItems
+  var shippingInfo
+  var billingInfo
+  var userInfo
+  var orderId
 
   // var cartItems = {
   //   itemId: [],
@@ -44,94 +42,110 @@ export default defineEventHandler(async (event) => {
   if (body.deviceData) {
     deviceData = body.deviceData
   }
-  if (body.cart) {
-    cart = body.cart
-    // for (let i = 0; i < cart.length; i++) {
-    //   cartItems.itemId.push(cart[i].id)
-    //   for (let j=0; j < cart[i].variants.length; j++) {
-    //     // let cartItem = {
-    //     //   itemId: cart[i].id,
-    //     //   variantId: cart[i].variants[j].id,
-    //     //   quantity: cart[i].variants[j].quantity
-    //     // }
-    //     cartItems.variantId.push(cart[i].variants[j].id)
-    //     cartItems.quantity.push(cart[i].variants[j].quantity)  // Are we sure this isn't cartQty here?
-
-    //     //Create an array of all the variants of all items in cart in order to query the database for the price of each variant
-    //     //See shop page for example of getting itemprice and shipcost for each variant
-    //     //Multiply item cost and ship cost by quantity
-    //     // totalAmount += //not based on cart, fetch it separately from our server or DB
-    //   } 
-    // }
-  }
   if (body.cart){
     cartItems = body.cart
   }
   if (body.shipping) {
     shippingInfo = body.shipping
-    console.log(shippingInfo)
+    // console.log(shippingInfo)
   }
   if (body.billing) {
-    billingInfo = body.billling 
-    console.log(billingInfo)
+    billingInfo = body.billing 
   }
   if (body.user) {
     userInfo = body.user
-    console.log(userInfo)
   }
   if (body.orderId) {
     orderId = body.orderId
-    console.log(orderId)
+    // console.log(orderId)
   }
+
+  // console.log(body)
+
+  let cartItemIds = []
+  let cartVariantIds = []
+  let cartVariants = [{}]
+  for (let i = 0; i<cartItems.length;i++){
+    cartItemIds.push(await cartItems[i].id)
+    for (let j = 0; j<cartItems[i].variants.length; j++){
+      if(cartItems[i].variants[j].inCart){
+        cartVariantIds.push(await cartItems[i].variants[j].id)
+        cartVariants.push({
+          id: cartItems[i].variants[j].id,
+          cartQty: cartItems[i].variants[j].cartQty
+        })
+      }
+    }
+  }
+  console.log(cartItemIds)
 
   //We need to fetch our product data from the DB in order to calculate the price of each variant
   //Can we do some kind of query to get all the variants in the cart?
   // const cartItems = $fetch('/api/shop/cart?' + uid ? 'uid=' + uid: 'test', { method: 'GET' })
 
-  console.log(await body)
+  // console.log(await body)
 
 
-  //I think we pass the price in already through the checkout page - but just to be safe
-  //CONFIRM THE CART TOTALCOST IS ACCURATE BASED ON A SERVER-SIDE QUERY
+  //CONFIRM THE CART TOTALCOST IS ACCURATE BASED ON SERVER-SIDE QUERIES
   //Time to put our data into the braintree transaction
-  const products = await $fetch('/api/queryItem?' + 'col=products' + '&field=id' + '&operator===' + '&value=' + cartItems.itemId , { method: 'GET' })
 
-  var totalCost = 0
-  var totalShippingAmount = 0
+  let products = []
+  for (let i=0; i< cartItemIds.length;i++){
+    let product = await $fetch('/api/queryItem?col=products&field=id&operator===&value='+cartItemIds[i], {method: 'GET'})
+    products.push(await product[0]) //or we could do all our processing within one loop here?
+  }
 
-  var lineItems = []
-  var printifyLines = []
+  console.log(products)
+
+  let totalCost = 0
+  let totalShippingAmount = 0
+
+  let lineItems = []
+  let printifyLines = []
 
   for (let i = 0; i < products.length; i++) {
     for(let j = 0; j < products[i].variants.length; j++) {
-      if(products[i].variants[j].id === cartItems.variantId[j]) {
-        console.log("Found a match at j-index: " + j)
-        let thisItemPrice = itemPrice(products[i].variants[j], billingInfo.country)
-        let thisShipCost = itemShippingPrice(products[i].variants[j], billingInfo.country)
-        let thisItemQty = cartItems.quantity[j]
+      let variant = products[i].variants[j]
+      if(cartVariantIds.includes(variant.id)){
+        console.log("variant.id in cartVariantIds: " + variant.id)
+        let thisItemPrice = Number(itemPrice(variant, shippingInfo.country))
+        let thisShipCost = Number(itemShippingPrice(variant, shippingInfo.country))
+        let thisItemQty = Number(cartVariants[cartVariants.map((x)=>{return x.id}).indexOf(variant.id)].cartQty)
+
+        console.log('thisItemPrice: ' + thisItemPrice)
+        console.log("thisShipCost: " + thisShipCost)
+        console.log("thisItemQty: " + thisItemQty)
+
+        totalCost += (thisItemPrice + thisShipCost) * thisItemQty
+        totalShippingAmount += thisShipCost * thisItemQty
         
         let lineItem = {
           name: products[i].variants[j].title,
           kind: "debit",
-          quantity: products[i].variants[j].cartQty,
-          unitAmount: itemPrice(products[i].variants[j], billingInfo.country) + itemShippingPrice(products[i].variants[j], billingInfo.country),
-          totalAmount: (itemPrice(products[i].variants[j], billingInfo.country) + itemShippingPrice(products[i].variants[j], billingInfo.country)) * products[i].variants[j].cartQty
+          quantity: thisItemQty,
+          unitAmount: thisItemPrice + thisShipCost,
+          totalAmount: (thisItemPrice + thisShipCost) * thisItemQty
         }
         let printifyLine = {
           // product_id, variant_id, and quantity
           product_id: products[i].id,
-          variant_id: products[i].variants[j].id,
-          quantity: products[i].variants[j].cartQty
+          variant_id: variant.id,
+          quantity: thisItemQty
 
         }
         lineItems.push(lineItem)
         printifyLines.push(printifyLine)
         // console.log(thisItemQty)
-        totalCost += ((thisItemPrice + thisShipCost) * thisItemQty)/100
-        totalShippingAmount += (thisShipCost * thisItemQty)/100
+        
       }
     }
   }
+
+  totalCost = Math.ceil(totalCost)/100
+  totalShippingAmount = Math.ceil(totalShippingAmount)/100
+
+  console.log("totalCost: " + totalCost)
+  console.log("totalShippingAmount: " + totalShippingAmount)
 
   // Use cart data to determine pricing
   // Use our shipping data to determine shipping cost of each item
@@ -165,43 +179,60 @@ export default defineEventHandler(async (event) => {
   //   }
 
   // Create a Braintree Gateway
-  const gateway = await new braintree.BraintreeGateway({
+  const gateway = new braintree.BraintreeGateway({
     environment: braintree.Environment.Sandbox,
     merchantId: merchantId,
     publicKey: publicKey,
     privateKey: privateKey
   })
-
   // To create a transaction:
   // You must include an amount
   // and, either a paymentMethodNonce, a paymentMethodToken, or a customerId.
   // Passing a customerId is equivalent to passing the paymentMethodToken of the customer's default payment method.
 
   console.log("Creating a transaction for amt: " + totalCost)
+  let customer = {}
+  if(!userInfo.inVault){
+    customer = {
+      id: userInfo.uid,
+      email: userInfo.email,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      phone: userInfo.phone,
+      //or you could theoretically use a customerId from the Braintree Vault
+    }
+  }
   // Create a transaction
-  await gateway.transaction.sale({
+  gateway.transaction.sale({
     amount: totalCost,
     paymentMethodNonce: nonce,
     // deviceData: deviceData,
     //Do we need to do a billing country? and zip and stuff?
     billing: {
       countryCodeAlpha2: billingInfo.country,
-      firstName: userInfo.userData[0].firstName,
-      lastName: userInfo.userData[0].lastName,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
       streetAddress: billingInfo.address,
       extendedAddress: billingInfo.address2,
       locality: billingInfo.city,
       region: billingInfo.region,
       postalCode: billingInfo.zip
     },
-    customer: {
-      id: userInfo.userData[0].uid,
-      email: userInfo.userData[0].email,
-      firstName: userInfo.userData[0].firstName,
-      lastName: userInfo.userData[0].lastName,
-      phone: userInfo.userData[0].phone,
-      //or you could theoretically use a customerId from the Braintree Vault
+    // customer: customer? customer: null,
+    orderId: orderId,
+    shipping: {
+      countryCodeAlpha2: shippingInfo.country,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      streetAddress: shippingInfo.address1,
+      extendedAddress: shippingInfo.address2,
+      locality: shippingInfo.city,
+      region: shippingInfo.region,
+      postalCode: shippingInfo.zip
     },
+    shippingAmount: totalShippingAmount,
+    customerId: userInfo.inVault ? userInfo.uid : null,
+    customer: !userInfo.inVault ? customer : null,
     //customerId: 'ID from Braintree Vault used to charge existing customers'
     // descriptor: { //'Not enabled on all braintree accounts by default - but could be cool to use!!!'
     //   name: 'Business Name',
@@ -223,18 +254,6 @@ export default defineEventHandler(async (event) => {
       venmo:{
         profileId:'@SICoLLC'
       },
-      orderId: orderId,
-      shipping: {
-        countryCodeAlpha2: shippingInfo.country,
-        firstName: userInfo.userData[0].firstName,
-        lastName: userInfo.userData[0].lastName,
-        streetAddress: shippingInfo.address,
-        extendedAddress: shippingInfo.address2,
-        locality: shippingInfo.city,
-        region: shippingInfo.region,
-        postalCode: shippingInfo.zip
-      },
-      shippingAmount: totalShippingAmount,
       //We need to build a transactionSource implementation and allow CS reps to manually enter recurring and unscheduled orders
       // transactionSource: "moto" //initiated by the customer via the merchant by mail or telephone
 
@@ -244,15 +263,259 @@ export default defineEventHandler(async (event) => {
       // verificationAmount: '1.00',
     }
 
-  }, (err, result) => {
+  }, async (err, result) => {
     console.log(result)
-    console.log(err)
+    if (!result.success){
+      console.log(err)
+    }
+
+    //Example Result :D
+      // {                                                                     16:48:06
+      //   transaction: Transaction {
+      //     id: 'g0vkwmkv',
+      //     status: 'submitted_for_settlement',
+      //     type: 'sale',
+      //     currencyIsoCode: 'USD',
+      //     amount: '63.00',
+      //     amountRequested: '63.00',
+      //     merchantAccountId: 'straininvestmentscompanyllc',
+      //     subMerchantAccountId: null,
+      //     masterMerchantAccountId: null,
+      //     orderId: 'cFak6SRxl3YqXzn5IWl3',
+      //     createdAt: '2023-03-24T21:48:04Z',
+      //     updatedAt: '2023-03-24T21:48:06Z',
+      //     customer: {
+      //       id: 'TkEKGIw1RNT8DfNFyK88eQtJBwl1',
+      //       firstName: 'Testfirst',
+      //       lastName: 'Testlast',
+      //       company: null,
+      //       email: 'michael.v.strain@gmail.com',
+      //       website: null,
+      //       phone: '8885552222',
+      //       fax: null,
+      //       globalId: 'Y3VzdG9tZXJfVGtFS0dJdzFSTlQ4RGZORnlLODhlUXRKQndsMQ'
+      //     },
+      //     billing: {
+      //       id: '3r',
+      //       firstName: 'Testfirst',
+      //       lastName: 'Testlast',
+      //       company: null,
+      //       streetAddress: null,
+      //       extendedAddress: '101',
+      //       locality: 'Test City',
+      //       region: 'TX',
+      //       postalCode: '10101',
+      //       countryName: 'United States of America',
+      //       countryCodeAlpha2: 'US',
+      //       countryCodeAlpha3: 'USA',
+      //       countryCodeNumeric: '840'
+      //     },
+      //     refundId: null,
+      //     refundIds: [],
+      //     refundedTransactionId: null,
+      //     partialSettlementTransactionIds: [],
+      //     authorizedTransactionId: null,
+      //     settlementBatchId: null,
+      //     shipping: {
+      //       id: null,
+      //       firstName: 'Testfirst',
+      //       lastName: 'Testlast',
+      //       company: null,
+      //       streetAddress: null,
+      //       extendedAddress: '101',
+      //       locality: 'Test City',
+      //       region: 'TX',
+      //       postalCode: '10101',
+      //       countryName: 'United States of America',
+      //       countryCodeAlpha2: 'US',
+      //       countryCodeAlpha3: 'USA',
+      //       countryCodeNumeric: '840'
+      //     },
+      //     customFields: '',
+      //     accountFundingTransaction: false,
+      //     avsErrorResponseCode: null,
+      //     avsPostalCodeResponseCode: 'M',
+      //     avsStreetAddressResponseCode: 'I',
+      //     cvvResponseCode: 'I',
+      //     gatewayRejectionReason: null,
+      //     processorAuthorizationCode: '7KBPWX',
+      //     processorResponseCode: '1000',
+      //     processorResponseText: 'Approved',
+      //     additionalProcessorResponse: null,
+      //     voiceReferralNumber: null,
+      //     purchaseOrderNumber: null,
+      //     taxAmount: null,
+      //     taxExempt: false,
+      //     scaExemptionRequested: null,
+      //     processedWithNetworkToken: false,
+      //     creditCard: CreditCard {
+      //       token: '1p5zyxf9',
+      //       bin: '411111',
+      //       last4: '1111',
+      //       cardType: 'Visa',
+      //       expirationMonth: '01',
+      //       expirationYear: '2027',
+      //       customerLocation: 'US',
+      //       cardholderName: null,
+      //       imageUrl: 'https://assets.braintreegateway.com/payment_method_logo/visa.png?environment=sandbox',
+      //       isNetworkTokenized: false,
+      //       prepaid: 'Unknown',
+      //       healthcare: 'Unknown',
+      //       debit: 'Unknown',
+      //       durbinRegulated: 'Unknown',
+      //       commercial: 'Unknown',
+      //       payroll: 'Unknown',
+      //       issuingBank: 'Unknown',
+      //       countryOfIssuance: 'Unknown',
+      //       productId: 'Unknown',
+      //       globalId: 'cGF5bWVudG1ldGhvZF9jY18xcDV6eXhmOQ',
+      //       graphQLId: 'cGF5bWVudG1ldGhvZF9jY18xcDV6eXhmOQ',
+      //       accountType: 'credit',
+      //       uniqueNumberIdentifier: 'a5ce3887f78624b663c124394db6321a',
+      //       venmoSdk: false,
+      //       accountBalance: null,
+      //       maskedNumber: '411111******1111',
+      //       expirationDate: '01/2027'
+      //     },
+      //     statusHistory: [ [Object], [Object] ],
+      //     planId: null,
+      //     subscriptionId: null,
+      //     subscription: { billingPeriodEndDate: null, billingPeriodStartDate: null },
+      //     addOns: [],
+      //     discounts: [],
+      //     descriptor: { name: null, phone: null, url: null },
+      //     recurring: false,
+      //     channel: null,
+      //     serviceFeeAmount: null,
+      //     escrowStatus: null,
+      //     disbursementDetails: DisbursementDetails {
+      //       disbursementDate: null,
+      //       settlementAmount: null,
+      //       settlementCurrencyIsoCode: null,
+      //       settlementCurrencyExchangeRate: null,
+      //       settlementBaseCurrencyExchangeRate: null,
+      //       fundsHeld: null,
+      //       success: null
+      //     },
+      //     disputes: [],
+      //     achReturnResponses: [],
+      //     authorizationAdjustments: [],
+      //     paymentInstrumentType: 'credit_card',
+      //     processorSettlementResponseCode: '',
+      //     processorSettlementResponseText: '',
+      //     networkResponseCode: 'XX',
+      //     networkResponseText: 'sample network response text',
+      //     threeDSecureInfo: null,
+      //     shipsFromPostalCode: null,
+      //     shippingAmount: '12.36',
+      //     discountAmount: null,
+      //     networkTransactionId: '020230324214805',
+      //     processorResponseType: 'approved',
+      //     authorizationExpiresAt: '2023-03-31T21:48:05Z',
+      //     retryIds: [],
+      //     retriedTransactionId: null,
+      //     refundGlobalIds: [],
+      //     partialSettlementTransactionGlobalIds: [],
+      //     refundedTransactionGlobalId: null,
+      //     authorizedTransactionGlobalId: null,
+      //     globalId: 'dHJhbnNhY3Rpb25fZzB2a3dta3Y',
+      //     graphQLId: 'dHJhbnNhY3Rpb25fZzB2a3dta3Y',
+      //     retryGlobalIds: [],
+      //     retriedTransactionGlobalId: null,
+      //     retrievalReferenceNumber: '1234567',
+      //     achReturnCode: null,
+      //     installmentCount: null,
+      //     installments: [],
+      //     refundedInstallments: [],
+      //     responseEmvData: null,
+      //     acquirerReferenceNumber: null,
+      //     merchantIdentificationNumber: '123456789012',
+      //     terminalIdentificationNumber: '00000001',
+      //     merchantName: 'DESCRIPTORNAME',
+      //     merchantAddress: {
+      //       streetAddress: '',
+      //       locality: 'Braintree',
+      //       region: 'MA',
+      //       postalCode: '02184',
+      //       phone: '5555555555'
+      //     },
+      //     pinVerified: false,
+      //     debitNetwork: null,
+      //     processingMode: null,
+      //     paymentReceipt: {
+      //       id: 'g0vkwmkv',
+      //       globalId: 'dHJhbnNhY3Rpb25fZzB2a3dta3Y',
+      //       amount: '63.00',
+      //       currencyIsoCode: 'USD',
+      //       processorResponseCode: '1000',
+      //       processorResponseText: 'Approved',
+      //       processorAuthorizationCode: '7KBPWX',
+      //       merchantName: 'DESCRIPTORNAME',
+      //       merchantAddress: [Object],
+      //       merchantIdentificationNumber: '123456789012',
+      //       terminalIdentificationNumber: '00000001',
+      //       type: 'sale',
+      //       pinVerified: false,
+      //       processingMode: null,
+      //       networkIdentificationCode: null,
+      //       cardType: 'Visa',
+      //       cardLast4: '1111',
+      //       accountBalance: null
+      //     },
+      //     paypalAccount: PayPalAccount {},
+      //     paypalHereDetails: PayPalHereDetails {},
+      //     localPayment: LocalPayment {},
+      //     applePayCard: ApplePayCard {},
+      //     androidPayCard: AndroidPayCard {},
+      //     visaCheckoutCard: VisaCheckoutCard {},
+      //     samsungPayCard: SamsungPayCard {},
+      //     [Symbol()]: BraintreeGateway {
+      //       config: [Config],
+      //       graphQLClient: [GraphQLClient],
+      //       http: [Http],
+      //       addOn: [AddOnGateway],
+      //       address: [AddressGateway],
+      //       clientToken: [ClientTokenGateway],
+      //       creditCard: [CreditCardGateway],
+      //       creditCardVerification: [CreditCardVerificationGateway],
+      //       customer: [CustomerGateway],
+      //       disbursement: [DisbursementGateway],
+      //       discount: [DiscountGateway],
+      //       dispute: [DisputeGateway],
+      //       documentUpload: [DocumentUploadGateway],
+      //       exchangeRateQuote: [ExchangeRateQuoteGateway],
+      //       merchantAccount: [MerchantAccountGateway],
+      //       merchant: [MerchantGateway],
+      //       oauth: [OAuthGateway],
+      //       paymentMethod: [PaymentMethodGateway],
+      //       paymentMethodNonce: [PaymentMethodNonceGateway],
+      //       paypalAccount: [PayPalAccountGateway],
+      //       plan: [PlanGateway],
+      //       sepaDirectDebitAccount: [SepaDirectDebitAccountGateway],
+      //       settlementBatchSummary: [SettlementBatchSummaryGateway],
+      //       subscription: [SubscriptionGateway],
+      //       testing: [TestingGateway],
+      //       transaction: [TransactionGateway],
+      //       transactionLineItem: [TransactionLineItemGateway],
+      //       usBankAccount: [UsBankAccountGateway],
+      //       usBankAccountVerification: [UsBankAccountVerificationGateway],
+      //       webhookNotification: [WebhookNotificationGateway],
+      //       webhookTesting: [WebhookTestingGateway]
+      //     }
+      //   },
+      //   success: true
+      // }
+      // null                   
 
     if (result.success){
-      const firebase = $fetch("/api/set?col=orders&docId="+orderId+"&status="+result.transaction.status, { method:"POST" }) //update our firebase order by id
-      if (result.transaction.status == "submitted_for_settlement"){
-        //if firebase success:
-        //our body should be the printify order POST body
+      const firebaseBody = {
+        paymentStatus:result.transaction.status,
+        status:result.success?'PAID':'PAYMENT_ISSUE',
+        paymentDate: result.success?new Date():'Not Paid'
+      }
+      const firebase = await $fetch("/api/set?col=orders&docId="+orderId, { method:"POST", body: firebaseBody }) //update our firebase order by id
+      //our body should be the printify order POST body
+      if (firebase.success){
         const printifyOrder = {
           //Printify POST data
           external_id: orderId,
@@ -260,10 +523,10 @@ export default defineEventHandler(async (event) => {
           shipping_method: 1, //2 for express shipping
           send_shipping_notification: true,
           address_to: {
-            first_name: userInfo.userData[0].firstName,
-            last_name: userInfo.userData[0].lastName,
-            email: userInfo.userData[0].email,
-            phone: userInfo.userData[0].phone,
+            first_name: userInfo.firstName,
+            last_name: userInfo.lastName,
+            email: userInfo.email,
+            phone: userInfo.phone,
             country: shippingInfo.country,
             region: shippingInfo.region,
             address1: shippingInfo.address1,
@@ -272,15 +535,49 @@ export default defineEventHandler(async (event) => {
             zip: shippingInfo.zip
           }
         }
-        const printify = $fetch('/api/printify/order', {method:"POST", body: printifyOrder}) //post our order to printify
+        const printify = await $fetch('/api/printify/order', {method:"POST", body: printifyOrder}) //post our order to printify
         console.log("Printify response:")
         console.log(printify)
 
-      }
+        //don't know what to put because I don't know what printify is gonna return
+        const firebaseUpdateBody = {
+          paymentStatus:result.transaction.status,
+          status: "Ordered - or whatever printify result says",
+          paymentDate: result.success?new Date():'Not Paid'
+        }
+        const firebaseUpdate = await $fetch("/api/set?col=orders&docId="+orderId, { method:"POST", body: firebaseUpdateBody }) //update our firebase order by id
 
-      
-
-      return { success: true, result: result, firebaseResult: firebase, printifyResult: printify}
+        console.log("Firebase Update: ")
+        console.log(firebaseUpdate)
+        return { success: true, result: result, firebaseResult: firebase, printifyResult: printify, firebaseUpdateResult: firebaseUpdate}
+      } //there shouldn't be an else - if our firebase call fails the user must have network disconnected or something
+      //I guess we should still probably pop an error up that says - hey, something went wrong, check your network and try again or reach out to CS and we can process your order?
+    } else {
+      //ERROR HANDLING: 
+      console.log(err)
+      //Example Error:
+      // ErrorResponse {                                                       16:02:50
+      //   errors: ValidationErrorsCollection {
+      //     validationErrors: {},
+      //     errorCollections: { transaction: [ValidationErrorsCollection] }
+      //   },
+      //   params: {
+      //     transaction: {
+      //       amount: '62.62',
+      //       paymentMethodNonce: 'tokencc_bc_zqdvtd_h53y8r_bdjdp7_8mcm5z_yf4',
+      //       billing: [Object],
+      //       customer: [Object],
+      //       orderId: 'h1JNf5AcKyAhec1EYAEY',
+      //       shipping: [Object],
+      //       shippingAmount: '12.36',
+      //       lineItems: [Array],
+      //       options: [Object],
+      //       type: 'sale'
+      //     }
+      //   },
+      //   message: 'Customer ID has already been taken.',
+      //   success: false
+      // }
     }
 
     // if (results.success) {
@@ -301,109 +598,6 @@ export default defineEventHandler(async (event) => {
     // console.log(results.verification.processorResponseText) // "Do Not Honor"
   })
 })
-
-
-
-
-
-
-//OLD
-
-// import braintree from 'braintree'
-// import { getQuery, readBody } from 'h3'
-// import { getAuth } from 'firebase/auth'
-
-// export default defineEventHandler(async (event) => {
-
-//   //Merchant ID
-//   const merchantId = 'dwt5hs5tpmvyy2vy'
-//   //Public Key
-//   const publicKey = 'p6c57mpq53sxvc88'
-//   //Private Key
-//   const privateKey = 'eb0903e8dbaaa945d611a39a62af6139'
-
-//   let nonce = null
-//   let deviceData = null
-//   let cart = null
-//   let shippingCountry = null
-
-//   const auth = getAuth();
-//   const uid = auth.currentUser.uid ? auth.currentUser.uid : 'test'
-//   const clientAuthorization = $fetch('/api/payment/braintree/clientToken?' + uid ? 'uid=' + uid: 'test', { method: 'GET' })
-//   console.log(clientAuthorization)
-
-
-//   const body = await readBody(event)
-//   console.log(body)
-//   if (body.nonce) {
-//     nonce = body.nonce
-//   }
-//   if (body.deviceData) {
-//     deviceData = body.deviceData
-//   }
-//   if (body.cart) {
-//     cart = body.cart
-//   } else {
-//     return {
-//       status: 400,
-//       body: 'No cart data'
-//     }
-//   }
-//   if (body.shippingCountry) {
-//     shippingCountry = body.shippingCountry
-//   } else {
-//     return {
-//       status: 400,
-//       body: 'No shipping country'
-//     }
-//   }
-
-//   //Get device data from client
-//   const deviceDataFromClient = deviceData
-
-//   // Use cart data to determine pricing and shipping
-
-
-//   // Need to post the nonce from the client as body
-//   // Need to get cart data from the client
-//   // Need to build our pricing and shipping data in order to set the transaction amount without depending on any info from the client (except what is in their cart) to prevent tampering
-//   // Need to post the device data from the client as body (cart data should be in the device data)
-//   // Need to post the shipping address from the client as body (cart data should be in the device data)
-
-//   // // Create a Braintree Gateway
-//   // const gateway = new braintree.BraintreeGateway({
-//   //   environment: braintree.Environment.Sandbox,
-//   //   merchantId: merchantId,
-//   //   publicKey: publicKey,
-//   //   privateKey: privateKey
-//   // })
-
-//   const gateway = new braintree.connect({
-//     environment: braintree.Environment.Sandbox,
-//     merchantId: merchantId,
-//     publicKey: publicKey,
-//     privateKey: privateKey
-//   })
-
-//   // const clientToken = nonce
-
-//   // Create a transaction
-//   gateway.transaction.sale({
-//     amount: '10.00',
-//     paymentMethodNonce: nonce,
-//     deviceData: deviceDataFromClient,
-//     options: {
-//       submitForSettlement: true
-//     }
-
-//   }, (err, result) => {
-//     if (err) {
-//       console.log(err)
-//       return
-//     }
-//     console.log(result)
-//   })
-// })
 
 const itemShippingPrice = function(variant, shippingCountry) {
   let sProfile = false
@@ -438,8 +632,6 @@ const itemShippingPrice = function(variant, shippingCountry) {
 
 // const itemPrice = computed((variant) => {
 const itemPrice = function(variant, shippingCountry) {
-  // const cart = useCartDataStore()
-  // const user = useUserDataStore()
   let sProfile = false
   var itemCost
 
@@ -467,6 +659,4 @@ const itemPrice = function(variant, shippingCountry) {
       }
     }
   }
-  // console.log("Item Cost: " + itemCost)
-  // return itemCost // Profit margin is 10% of cost + $1.00
-}//)
+}

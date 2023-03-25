@@ -35,7 +35,7 @@ export const useUserDataStore = defineStore('userData', () => {
       },
       billingInfo: {},
       cartInfo: {},
-      orderHistory: [{orderId:''}], //should be a list of complete order objects, preferably updated by webhooks from braintree and printify and stuff
+      // orderHistory: [{orderId:''}], //should be a list of complete order objects, preferably updated by webhooks from braintree and printify and stuff
       // wishlist: {},
       // productReviews: {},
       // productRatings: {},
@@ -46,6 +46,7 @@ export const useUserDataStore = defineStore('userData', () => {
       // productSearchFilters: {},
       // productSearchSort: {},
       // productSearchPagination: {},
+      userInfo: {inVault: false}
     }
   )
   return { userData: skipHydrate(userData) }
