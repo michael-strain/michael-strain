@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5 flex-col flex gap-5">
+  <div class="">
     <v-text-field
       id="address1"
       v-model="address1"
@@ -7,7 +7,6 @@
       label="Shipping Address"
       placeholder="Street Address or P.O. Box"
       hide-details
-      class="shadow textField"
     />
     <v-text-field
       id="address2"
@@ -16,7 +15,6 @@
       label="Apt, suite, unit, ect."
       placeholder="Apt, suite, unit, ect."
       hide-details
-      class="shadow textField"
     />
     <v-text-field
       id="city"
@@ -25,7 +23,6 @@
       label="City"
       placeholder="City"
       hide-details
-      class="shadow textField"
     />
     <v-text-field
       id="region"
@@ -34,7 +31,6 @@
       label="State"
       placeholder="State"
       hide-details
-      class="shadow textField"
     />
     <v-text-field
       id="zip"
@@ -43,7 +39,6 @@
       label="Zip Code"
       placeholder="Zip Code"
       hide-details
-      class="shadow textField"
     />
     <v-text-field
       id="country"
@@ -52,7 +47,6 @@
       label="Country"
       placeholder="Country"
       hide-details
-      class="shadow textField"
       transition="scale-transition"
     />
   </div>

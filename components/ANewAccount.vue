@@ -1,25 +1,46 @@
-<template>
+<template> 
   <!-- Register New User with Email and Password -->
-  <div class="information overlord w-full">
-    <div class="formcont">
-      <div class="flex-col flex gap-2rem">
-        <input
-          v-model="first"
-          placeholder="First name"
-        >
-        <input
-          v-model="last"
-          placeholder="Last name"
-        >
-        <input
-          v-model="email"
-          placeholder="Email"
-        >
-        <input
-          v-model="password"
-          placeholder="Password"
-        >
-        <!-- <input
+  <div class="">
+    <div class="textfields">
+      <v-text-field
+        label="Test"
+        placeholder="Test"
+        hide-details
+      />
+      <v-text-field
+        id="firstname"
+        v-model="text"
+        label="First Name"
+        placeholder="First Name"
+        hide-details
+      />
+      <v-text-field
+        id="lastname"
+        v-model="text"
+        label="Last Name"
+        placeholder="Last Name"
+        hide-details
+        class=""
+      />
+      <v-text-field
+        id="email"
+        v-model="email"
+        label="Email Address"
+        placeholder="Email Address"
+        hide-details
+        class="text-field"
+      />
+           
+      <v-text-field
+        id="password"
+        v-model="password"
+        label="Password"
+        placeholder="Password"
+        hide-details
+        class="text-field"
+      />
+    </div>
+    <!-- <input
           v-model="password"
           label="Password"
           placeholder="Enter your password"
@@ -31,41 +52,36 @@
           counter
           @click:append="show = !show"
         > -->
-      </div>
-      <div class="">
-        <v-checkbox
-          v-model="terms"
-          label="I agree to the terms and conditions of creating this account."
-          class="checkbox"
-          @click="terms=!terms"
-        />
-        <div class="btnRow">
-          <button
-            class=""
-            @click="showUserRegistration=!showUserRegistration"
-          >
-            I Have An Account
-          </button>
-          <!-- @click="signInUser(loginEmail, loginPassword)"
+    <v-checkbox
+      v-model="terms"
+      label="I agree to the terms and conditions of creating this account."
+      class="btnlink"
+      @click="terms=!terms"
+    />
+    <div class="btnRow">
+      <button
+        v-if="terms"
+        class="underline-animation"
+        color="success"
+        variant="outlined"
+        @click="registerUser(email, password)"
+      >
+        Complete Registration
+      </button>
+      <button
+        v-else
+        disabled
+        class="disabled"
+      >
+        Complete Registration
+      </button>
+      <button
+        @click="showUserRegistration=!showUserRegistration"
+      >
+        Log In With Existing Account
+      </button>
+      <!-- @click="signInUser(loginEmail, loginPassword)"
               @keyup.enter="signInUser(loginEmail, loginPassword)" -->
-          <button
-            v-if="terms"
-            class=""
-            color="success"
-            variant="outlined"
-            @click="registerUser(email, password)"
-          >
-            Complete Registration
-          </button>
-          <button
-            v-else
-            disabled
-            class=""
-          >
-            Complete Registration
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -145,19 +161,12 @@ async function registerUser(email,password) {
 </script>
 
 <style>
-
-/* .formheader {
-  font-weight: 800;
-  font-size: 2.5rem;
-  text-align: right;
-   background: -webkit-linear-gradient(-86deg, #EEF85B 5%, #7AEC8D 53%, #09E5C3 91%);
-  -webkit-background-clip: text;
-  -webkit-text-stroke: 6px transparent;  
-  color: #ffffff;
-  text-shadow: 4px 4px 4px rgb(var(--v-theme-surface-variant));
-} */
+ @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
 :root {
+  --secondary-color: #03e9f4;
+  --secondary-color-light: #95faff;
+  --disabled-color: #5a5a5a;
   --color-form-bg: #e7e7e7;
   --color-form-input-bg: #f2f2f2;
   --color-form-button: #dadada;
@@ -165,15 +174,128 @@ async function registerUser(email,password) {
   --color-form-highlight: #FFF;
   --color-form-button-text: #333232;
 }
+@keyframes underline {
+  to {
+    width: 
+    50% 100%,
+    100% 0%;
+  }
+}
 
-.overlord {
-  div.formcont {
-    /* background-color:var(--color-form-bg); */
-    /* box-shadow: 14px 14px 20px var(--color-form-shadow); */
-    /* box-shadow: -14px -14px 20px white; */
+/* TEXT FIELDS  */
+.darkdiv {
+  position: relative;
+}
+.darkdiv::before {
+  content: ''; 
+  background: black;
+  opacity: 90%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% auto;
+  z-index: -1;
+}
+.textfields {
+  gap:2rem;
+  display: flex;
+  flex-direction: column;
+  
+}
+/* .text-field {
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid var(--secondary-color);
+  outline: none;
+  background: gray;
+} */
+/* .textfields:hover {
+  color: var(--secondary-color);
+} */
+
+/* LINKS  */
+.btnlink {
+  color: var(--secondary-color)
+
+}
+.btnlink:hover {
+  text-decoration: underline;
+}
+
+/* BUTTON  */
+.btnstyle {
+  text-transform: uppercase;
+  padding: .75rem;
+  display: inline-block;
+  color: var(--secondary-color);
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: .75s;
+}
+.btnstyle:hover {
+  background: var(--secondary-color);
+  color: black;
+  box-shadow: 0 0 5px var(--secondary-color),
+              0 0 25px var(--secondary-color),
+              0 0 75px var(--secondary-color);
+  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
+.btnstyle:focus {
+  background: var( --secondary-color-light);
+  color: black;
+  box-shadow: 0 0 5px var( --secondary-color-light),
+              0 0 25px var( --secondary-color-light),
+              0 0 75px var( --secondary-color-light);
+  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
+.disabled, .disabled:hover {
+  color:var(--disabled-color);
+}
+.disabled:hover {
+  color:var(--disabled-color);
+  background: var(--disabled-color);
+  color: black;
+  box-shadow: 0 0 5px var(--disabled-color),
+              0 0 25px var(--disabled-color),
+              0 0 75px var(--disabled-color);
+  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
+
+/* ANIMATION  */
+.underline-animation:after {
+	content: '';
+	display: block;
+	margin: auto;
+	animation: underline 4s infinite;
+}
+
+@keyframes underline {
+  0% { width: 0%; height: 2px; background-color: var(--secondary-color);}
+  100% {width: 100%; height: 2px; background-color: transparent;}
+  /* 100% { width: 0%; height: 2px; background-color: var(--secondary-color);} */
+}
+
+/* .overlord {
+  :root {
+  --color-form-bg: #e7e7e7;
+  --color-form-input-bg: #f2f2f2;
+  --color-form-button: #dadada;
+  --color-form-shadow: #5a5a5a;
+  --color-form-highlight: #FFF;
+  --color-form-button-text: #333232;
+} */
+/* .formcont {
     border-radius: 25px;
     padding: 2rem;
-    background: rgba(255,255,255, .3);
+    background: rgba(0,0,0 .65);
+    font-family: 'Raleway', sans-serif;
+} */
+  /* div.formcont {
+    border-radius: 25px;
+    padding: 2rem;
+    background: rgba(255,255,255, .65);
     position: relative;
     border-left: 1px solid rgba(255,255,255,.5);
     border-top: 1px solid rgba(255,255,255,.5);
@@ -181,9 +303,9 @@ async function registerUser(email,password) {
     border-bottom: 1px solid var(--color-form-shadow);
     
   }
-  div.formcont::before {
-    content: '';
-    /* background-image: linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%); */
+  div.formcont::before { 
+    content: ''; 
+    background-image: linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%);
     background: var(--background-image-dark);
     top: -10px;
     left: -10px;
@@ -200,16 +322,14 @@ async function registerUser(email,password) {
     filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     z-index:-1;
-}
+} 
 
   input {
     box-shadow:  inset 2px 2px 5px var(--color-form-shadow), inset -5px -5px 10px var(--color-form-highlight);
-    /* text-shadow: 1px 1px 0 var(--color-form-highlight); */
     padding: .75rem;
     background-color:var(--color-form-input-bg);
     width: 100%;
     border-radius: 10px;
-    /* box-sizing: border-box; */
     transition: all 0.2s ease-in-out;
     appearance: none;
     -webkit-appearance: none;
@@ -233,8 +353,6 @@ async function registerUser(email,password) {
     padding: .75rem;
     border-top: 1px solid var(--color-form-highlight);
     border-left: 1px solid var(--color-form-highlight);
-    /* border-left: 3px solid rgba(255,255,255,0.5);
-    border-top: 3px solid rgba(255,255,255,0.5); */
   }
 
   button:hover {
@@ -249,21 +367,7 @@ async function registerUser(email,password) {
   .checkbox {
     font-weight: 600;
   }
-}
-
-
-
-
-.glassform {
-  background-color:var(--color-form-bg);
-  box-shadow: 14px 14px 20px var(--color-form-shadow), -6px -6px 15px var(--color-form-highlight);
-  box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
-  border-radius: 20px;
-  background: rgba(255,255,255,0.3);
-  display: flex;
-  border-left: 1px solid rgba(255,255,255,0.5);
-  border-top: 1px solid rgba(255,255,255,0.5);
-}
+} */
 
 
 

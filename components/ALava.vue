@@ -12,10 +12,15 @@
           <div class="blob glowradial" />
           <div class="blob glowradial" />
           <div class="blob glowradial top" />
+          <div class="absolute bottom-0 text-center text-wrap justify-center text-white z-10 mx-auto w-full">
+            <p class="text-sm">
+              Michael-Strain © {{ new Date().getFullYear() }} 
+              All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent. All Rights Reserved.
+            </p>
+          </div>
           <div class="blob glowradial bottom" />
         </div>
       </div>
-
       <svg
         class="neg"
         xmlns="http://www.w3.org/2000/svg"
@@ -47,9 +52,10 @@
 
 <style>
 .first {
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   /* background-color:#090a0f; */
-  background: radial-gradient(ellipse at bottom, rgb(51, 53, 27), rgba(9, 10, 15, 1)); 
+  background: radial-gradient(ellipse at bottom, rgb(51, 53, 27), rgb(0, 0, 0)); 
 }
 /* @keyframes mymove {
   0% {background-color: #ff006e;}
@@ -62,7 +68,7 @@
 .neg{
   height: 100vh;
   width: 100vw;
-  background: radial-gradient(at bottom, transparent 15%, black);
+  background: radial-gradient(at bottom, transparent 50%, black);
   position: absolute;
   top:0;
   left:0;
@@ -70,14 +76,11 @@
 .glowradial::before {
   content: "";
   border-radius: 100%;
-  /* background-image: radial-gradient(
-    rgb(199, 71, 71),pink 99%); */
-  background-image: radial-gradient(
-      #d4ff00, #ff0055);
-    position: absolute;
-    filter:blur(22px);
-    opacity: 90%;
-    inset: -10px;
+  background-image: radial-gradient(#daff21, #ff2828 );
+  position: absolute;
+  filter:blur(15px);
+  opacity: 90%;
+  inset: 0px;
 }
 .lava{
   filter: url("#goo");
@@ -235,8 +238,6 @@
      transform: translatey(-300%);
   }
 }
-
-
 @keyframes wobble {
   50% {
    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
