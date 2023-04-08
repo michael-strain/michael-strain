@@ -61,7 +61,7 @@
     <div class="btnRow">
       <button
         v-if="terms"
-        class="underline-animation"
+        class="underline-animation btnstyle"
         color="success"
         variant="outlined"
         @click="registerUser(email, password)"
@@ -71,11 +71,13 @@
       <button
         v-else
         disabled
-        class="disabled"
+        class="disabled btnstyle"
       >
         Complete Registration
       </button>
       <button
+        class="btnstyle"
+        variant="text"
         @click="showUserRegistration=!showUserRegistration"
       >
         Log In With Existing Account
@@ -161,49 +163,19 @@ async function registerUser(email,password) {
 </script>
 
 <style>
- @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+ @import url('https://fonts.googleapis.com2?family=Raleway:wght@400;700&display=swap');
 
-:root {
-  --secondary-color: #03e9f4;
+/* :root { */
+  /* --secondary-color: #03e9f4;
   --secondary-color-light: #95faff;
-  --disabled-color: #5a5a5a;
   --color-form-bg: #e7e7e7;
   --color-form-input-bg: #f2f2f2;
   --color-form-button: #dadada;
   --color-form-shadow: #5a5a5a;
   --color-form-highlight: #FFF;
-  --color-form-button-text: #333232;
-}
-@keyframes underline {
-  to {
-    width: 
-    50% 100%,
-    100% 0%;
-  }
-}
+  --color-form-button-text: #333232;*/
+/* }  */
 
-/* TEXT FIELDS  */
-.darkdiv {
-  position: relative;
-}
-.darkdiv::before {
-  content: ''; 
-  background: black;
-  opacity: 90%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 100% auto;
-  z-index: -1;
-}
-.textfields {
-  gap:2rem;
-  display: flex;
-  flex-direction: column;
-  
-}
 /* .text-field {
   font-weight: bold;
   border: none;
@@ -215,67 +187,6 @@ async function registerUser(email,password) {
   color: var(--secondary-color);
 } */
 
-/* LINKS  */
-.btnlink {
-  color: var(--secondary-color)
-
-}
-.btnlink:hover {
-  text-decoration: underline;
-}
-
-/* BUTTON  */
-.btnstyle {
-  text-transform: uppercase;
-  padding: .75rem;
-  display: inline-block;
-  color: var(--secondary-color);
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: .75s;
-}
-.btnstyle:hover {
-  background: var(--secondary-color);
-  color: black;
-  box-shadow: 0 0 5px var(--secondary-color),
-              0 0 25px var(--secondary-color),
-              0 0 75px var(--secondary-color);
-  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
-}
-.btnstyle:focus {
-  background: var( --secondary-color-light);
-  color: black;
-  box-shadow: 0 0 5px var( --secondary-color-light),
-              0 0 25px var( --secondary-color-light),
-              0 0 75px var( --secondary-color-light);
-  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
-}
-.disabled, .disabled:hover {
-  color:var(--disabled-color);
-}
-.disabled:hover {
-  color:var(--disabled-color);
-  background: var(--disabled-color);
-  color: black;
-  box-shadow: 0 0 5px var(--disabled-color),
-              0 0 25px var(--disabled-color),
-              0 0 75px var(--disabled-color);
-  -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
-}
-
-/* ANIMATION  */
-.underline-animation:after {
-	content: '';
-	display: block;
-	margin: auto;
-	animation: underline 4s infinite;
-}
-
-@keyframes underline {
-  0% { width: 0%; height: 2px; background-color: var(--secondary-color);}
-  100% {width: 100%; height: 2px; background-color: transparent;}
-  /* 100% { width: 0%; height: 2px; background-color: var(--secondary-color);} */
-}
 
 /* .overlord {
   :root {

@@ -13,7 +13,7 @@
           <div class="blob glowradial" />
           <div class="blob glowradial top" />
           <div class="absolute bottom-0 text-center text-wrap justify-center text-white z-10 mx-auto w-full">
-            <p class="text-sm">
+            <p class="text-sm text-black">
               Michael-Strain © {{ new Date().getFullYear() }} 
               All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent. All Rights Reserved.
             </p>
@@ -76,7 +76,7 @@
 .glowradial::before {
   content: "";
   border-radius: 100%;
-  background-image: radial-gradient(#daff21, #ff2828 );
+  background-image: radial-gradient(rgb(var(--v-theme-secondary-lighten-1)), rgb(var(--v-theme-primary-darken-1)));
   position: absolute;
   filter:blur(15px);
   opacity: 90%;
