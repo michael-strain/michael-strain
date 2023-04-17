@@ -1,28 +1,30 @@
 <template>
-  <v-layout>
-    <v-navigation-drawer
-      class="bg-secondary-darken-1"
-      permanent
-    >
-      <v-list nav>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
+  <!-- <v-layout> -->
+  <v-navigation-drawer
+    class="bg-secondary"
+    permanent
+    expand-on-hover
+    rail
+  >
+    <v-list nav>
+      <v-list-item
+        v-for="(item, index) in items"
+        :key="index"
+      >
+        <v-btn
+          block
+          variant="text"
+          class="bg-primary"
+          :theme="item.theme"
+          @click="themeClick(item.theme)"
         >
-          <v-btn
-            block
-            variant="text"
-            class="bg-primary"
-            :theme="item.theme"
-            @click="themeClick(item.theme)"
-          >
-            {{ item.title }}
-          </v-btn>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </v-layout>
-</template>
+          {{ item.title }}
+        </v-btn>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+  <!-- </v-layout> -->
+</template> 
 
 <script setup>
   import { useTheme } from 'vuetify'
@@ -39,4 +41,7 @@
   function themeClick (themeName) {
     theme.global.name.value = themeName
   }
+  const vcolors = theme.global.current.value.colors
+  console.log(Object.keys(vcolors))
+    
 </script>

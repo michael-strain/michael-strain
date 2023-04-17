@@ -16,8 +16,9 @@ const myLavaTheme = {
 const myPastelTheme = {
   dark: false,
   colors:{
-    primary: '#e15c4f', //dark
+    primary: '#e15c4f', //red
     secondary: '#fcffcd', //light
+    background: '#FFEFEF',
   }
 }
 
@@ -36,122 +37,79 @@ const myBluePinkTheme = {
   }
 }
 
+const myCustomLightTheme = {
+  dark: false,
+  colors: {
+    background: '#e2e8f0',
+    surface: '#FFFFFF',
+    primary: '#6200EE',
+    'primary-darken-1': '#3700B3',
+    secondary: '#03DAC6',
+    'secondary-darken-1': '#018786',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+    // custcard: '#e2e8f0'
+  },
+}
+
+const myPurpleTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    background: '#FFF8F8',
+    whitebg: 'ffffff',
+    surface: '#FFF3F3',
+    'surface-darken-1': '#F0F0F0',
+    'surface-normal-1': '#FFECEE',
+    primary: '#A683B1',
+    'primary-darken-1': '#4C1973',
+    secondary: '#bef67a', //ONLY THIS WORKS???
+    'secondary-darken-1': '#8bc34a',
+    error: '#B00020',
+    something: '#c60000',
+  },
+}
+
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
     components,
     directives,
     theme: {
-      defaultTheme: 'myPastelTheme',
+      defaultTheme: 'myPurpleTheme',
       variations: {
-        colors: ['primary', 'secondary'],
-        lighten: 1,
-        darken: 2,
+        colors: ['primary', 'secondary', 'surface',],
+        lighten: 3,
+        darken: 3,
       },
       themes: {
         myPastelTheme,
         myGreenYellowTheme,
         myBluePinkTheme,
         myLavaTheme,
+        myCustomLightTheme,
+        myPurpleTheme,
       }
-    }
+    },
+    defaults: {
+          VCardtitle: {color:'primary'},
+          VCard: {
+            color: 'whitebg',
+            elevation: '2',
+            rounded: '0',
+            // VBtn: { variant: 'tile', color:'secondary' }
+          },
+          // VBtn: { color:'primary-darken-3' },
+          VToolbar: { 
+            color:'surface',
+            VBtn: {color:'primary-darken-2'},
+            elevation: '2',
+          },
+          // VTabs: {
+          //   color: 'primary-darken-1', 
+          // },
+        }
   });
 
   nuxtApp.vueApp.use(vuetify);
 })
-
-// export default createVuetify({
-//   theme: {
-//     defaultTheme: 'myPastelTheme',
-//     variations: {
-//       colors: ['primary', 'secondary'],
-//       lighten: 1,
-//       darken: 2,
-//     },
-//     themes: {
-//       myPastelTheme,
-//       myGreenYellowTheme,
-//       myBluePinkTheme,
-//     }
-//   }
-// })
-
-//ORG EXPORT
-// export default defineNuxtPlugin(nuxtApp => {
-//   const vuetify = createVuetify({
-//     components,
-//     directives,
-//     theme: {
-//       defaultTheme: 'myCustomLightTheme',
-//       themes: {
-//         myCustomLightTheme,
-//         myCustomDarkTheme,
-//         myTestTheme,
-//       },
-//     }
-//   });
-
-//   nuxtApp.vueApp.use(vuetify);
-// })
-
-// createVuetify({
-//   defaults: {
-//     VCard: {
-//       color: 'button',
-//       VBtn: { variant: 'flat', color:'blue' }
-//     },
-//     VBtn: { variant: 'flat', color:'red' }
-//   }
-// })
-
-
-//Purple theme
-// const myCustomLightTheme: ThemeDefinition = {
-//   dark: false,
-//   colors: {
-//     background: '#FFFFFF',
-//     surface: '#FFECEE',
-//     'surface-darken-1': '#F0F0F0',
-//     'surface-normal-1': '#FFECEE',
-//     primary: '#A683B1',
-//     'primary-darken-1': '#4C1973',
-//     secondary: '#bef67a', //ONLY THIS WORKS???
-//     'secondary-darken-1': '#8bc34a',
-//     error: '#FB8C00',
-//     something: '#c60000',
-//   },
-// }
-
-//ORIGINAL
-// const myCustomLightTheme = {
-//   dark: false,
-//   colors: {
-//     background: '#FFFFFF',
-//     surface: '#cbd5e1',
-//     primary: '#6200EE',
-//     'primary-darken-1': '#3700B3',
-//     secondary: '#03DAC6',
-//     'secondary-darken-1': '#018786',
-//     error: '#B00020',
-//     info: '#2196F3',
-//     success: '#4CAF50',
-//     warning: '#FB8C00',
-//     custcard: '#e2e8f0'
-//   },
-// }
-
-// const myCustomDarkTheme = {
-//   dark: true,
-//   colors:{
-    // background: '#505050',
-    // surface: '#151515',
-    // primary: '#70FF70',
-    // 'primary-darken-1': '#3700B3',
-    // secondary: '#03DAC6',
-    // 'secondary-darken-1': '#018786',
-    // error: '#B00020',
-    // info: '#2196F3',
-    // success: '#4CAF50',
-    // warning: '#FB8C00',
-    // custcard: '#252525',
-//   }
-// }

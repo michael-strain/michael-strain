@@ -2,119 +2,121 @@
 <!-- URGENT TODO
 This page seems to reload the whole damn vue application on load for some reason -->
 <template>
-  <div
-    class="bg-image img-opacity-40 bg-repeat"
-    style="background-image: url('../img/purple-mushroom.jpg')"
-  >
-    <div class="">
+  <v-layout>
+    <Sidebar />
+    <div
+      class="bg-image img-opacity-40 bg-repeat"
+      style="background-image: url('../img/purple-mushroom.jpg')"
+    >
       <div class="">
-        <ShopHeader />
-        <p
-          class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
-          :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
-        >
-          Welcome to L.S.Dope. All of the art you see was created by independent artists.  We hope you find something you love!
-        </p>
-        <div class="flex flex-wrap items-center align-center justify-center">
-          <div 
-            v-if="loaded"
-            class="flex flex-wrap items-center align-center justify-center w-full"
+        <div class="">
+          <ShopHeader />
+          <p
+            class="text-white p-5 flex flex-wrap justify-center text-center align-center text-2xl"
+            :style="{fontFamily: 'Roboto Slab', textShadow: '2px 3px 0px purple, 0px 0px 6px black'}"
           >
-            <div
-              v-for="(item, product) in products"
-              :key="product"
-              class="flex items-center align-center justify-center"
+            Welcome to L.S.Dope. All of the art you see was created by independent artists.  We hope you find something you love!
+          </p>
+          <div class="flex flex-wrap items-center align-center justify-center">
+            <div 
+              v-if="loaded"
+              class="flex flex-wrap items-center align-center justify-center w-full"
             >
-              <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-450px">
-                <div class="static h-0">
-                  <v-btn
-                    rounded
-                    class="absolute top-5 left-40 z-50"
-                    transition="fade-transition"
-                    @click="heartClick(item, item.variants[item.variantNum])"
-                  >
-                    <p
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="p-1 text-xl"
+              <div
+                v-for="(item, product) in products"
+                :key="product"
+                class="flex items-center align-center justify-center"
+              >
+                <v-card class="w-80 text-wrap rounded-xl border flex m-5 p-2 h-450px">
+                  <div class="static h-0">
+                    <v-btn
+                      rounded
+                      class="absolute top-5 left-40 z-50"
+                      transition="fade-transition"
+                      @click="heartClick(item, item.variants[item.variantNum])"
                     >
-                      <!-- class="p-2 text-xl float-right " -->
-                      <!-- Ashley wants to surprise our customers with added shipping.
+                      <p
+                        :style="{fontFamily: 'Roboto Slab'}"
+                        class="p-1 text-xl"
+                      >
+                        <!-- class="p-2 text-xl float-right " -->
+                        <!-- Ashley wants to surprise our customers with added shipping.
                       {{ formatter.format((itemPrice(item.variants[item.variantNum])+itemShippingPrice(item.variants[item.variantNum]))/100) }}
                       -->
-                      {{ formatter.format((itemPrice(item.variants[item.variantNum]))/100) }}
-                      <v-icon
-                        :icon="heart(item.variants[item.variantNum])"
-                      />
-                    </p>
+                        {{ formatter.format((itemPrice(item.variants[item.variantNum]))/100) }}
+                        <v-icon
+                          :icon="heart(item.variants[item.variantNum])"
+                        />
+                      </p>
                     <!-- <p>
                       + {{ formatter.format(itemShippingPrice(item.variants[item.variantNum])/100) }} Shipping
                     </p> -->
-                  </v-btn>
-                </div>
-                <v-carousel
-                  height="320"
-                  show-arrows="hover"
-                  color="primary-darken-1"
-                  hide-delimiter-background
-                  delimiter-icon="mdi-circle-slice-8"
-                  class="pt-0 mt-0"
-                >
-                  <NuxtLink to="">
-                    <v-carousel-item
-                      v-for="(img, i) in item.images"
-                      :key="i"
-                      :src="img.src"
-                      :lazy-src="img.src"
-                      :alt="img.alt"
-                    />
-                  </NuxtLink>
-                </v-carousel>
+                    </v-btn>
+                  </div>
+                  <v-carousel
+                    height="320"
+                    show-arrows="hover"
+                    color="primary-darken-1"
+                    hide-delimiter-background
+                    delimiter-icon="mdi-circle-slice-8"
+                    class="pt-0 mt-0"
+                  >
+                    <NuxtLink to="">
+                      <v-carousel-item
+                        v-for="(img, i) in item.images"
+                        :key="i"
+                        :src="img.src"
+                        :lazy-src="img.src"
+                        :alt="img.alt"
+                      />
+                    </NuxtLink>
+                  </v-carousel>
               
-                <div class="h-100 justify-center text-center align-center">
-                  <NuxtLink :to="'/shop/product/'+item.id">
-                    <v-card-title class="text-wrap max-width-full ">
+                  <div class="h-100 justify-center text-center align-center">
+                    <NuxtLink :to="'/shop/product/'+item.id">
+                      <v-card-title class="text-wrap max-width-full ">
+                        <p
+                          :style="{fontFamily: 'Roboto Slab'}"
+                          class="text-2xl"
+                        >
+                          {{ item.title }}
+                        </p>
+                      </v-card-title>
+                    </NuxtLink>
+                    <v-card-subtitle class="pb-3 max-width-full">
                       <p
                         :style="{fontFamily: 'Roboto Slab'}"
-                        class="text-2xl"
+                        class="text-xl text-center "
                       >
-                        {{ item.title }}
+                        <v-btn
+                          v-if="item.variants.length>1"
+                          variant="text"
+                          icon
+                          @click="leftVariantArrow(item)"
+                        >
+                          <v-icon icon="mdi-chevron-left" />
+                        </v-btn>
+                        {{ item.variants[item.variantNum].title }}
+                        <v-btn
+                          v-if="item.variants.length>1"
+                          icon
+                          variant="text"
+                          @click="rightVariantArrow(item)"
+                        >
+                          <v-icon icon="mdi-chevron-right" />
+                        </v-btn>
                       </p>
-                    </v-card-title>
-                  </NuxtLink>
-                  <v-card-subtitle class="pb-3 max-width-full">
-                    <p
-                      :style="{fontFamily: 'Roboto Slab'}"
-                      class="text-xl text-center "
-                    >
-                      <v-btn
-                        v-if="item.variants.length>1"
-                        variant="text"
-                        icon
-                        @click="leftVariantArrow(item)"
-                      >
-                        <v-icon icon="mdi-chevron-left" />
-                      </v-btn>
-                      {{ item.variants[item.variantNum].title }}
-                      <v-btn
-                        v-if="item.variants.length>1"
-                        icon
-                        variant="text"
-                        @click="rightVariantArrow(item)"
-                      >
-                        <v-icon icon="mdi-chevron-right" />
-                      </v-btn>
-                    </p>
-                  </v-card-subtitle>
-                </div>
+                    </v-card-subtitle>
+                  </div>
               
               
-              <!-- <v-btn
+                  <!-- <v-btn
                     icon
                     transition="fade-transition"
                     @click="heartClick(item, item.variants[item.variantNum])"
                   >
                     <v-icon :icon="heartIcon(item)" /> -->
-              <!-- <v-icon
+                  <!-- <v-icon
                       v-if="item.qty>0"
                       icon="mdi-cards-heart"
                     />
@@ -122,8 +124,8 @@ This page seems to reload the whole damn vue application on load for some reason
                       v-else
                       icon="mdi-cards-heart-outline"
                     /> -->
-              <!-- </v-btn> -->
-              <!-- </v-card-actions> -->
+                  <!-- </v-btn> -->
+                  <!-- </v-card-actions> -->
 
               
                 <!-- Old method -->
@@ -133,14 +135,15 @@ This page seems to reload the whole damn vue application on load for some reason
                   class="h-64 mx-auto"
                 >
               </NuxtLink> -->
-              </v-card>
+                </v-card>
+              </div> 
             </div> 
-          </div> 
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <ShopFooter />
+    <ShopFooter />
+  </v-layout>
 </template>
 
 
