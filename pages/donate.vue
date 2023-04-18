@@ -3,9 +3,6 @@
 <template>
   <v-layout>
     <ToggleTheme />
-    <!-- class="bgimg"
-      style="background-image: url('https://cdn.discordapp.com/attachments/1093246211080855603/1095795440697479168/nyxofkhaos_flowers_watercolor_blended_background_seamless_paste_b8dac948-c69f-44d6-adb6-68f876bab4b3.png')"
-     -->
     <v-navigation-drawer
       permanent
       elevation="10"
@@ -97,8 +94,6 @@
 
     <!--SHOP-->
     <v-main>
-      <!-- class="bgimg"
-      style="background-image: url('https://cdn.discordapp.com/attachments/1093246211080855603/1095784937115889764/nyxofkhaos_plants_cottagecore_style._watercolor_sketch_seamless_3a6906a3-79f1-4be8-816b-08fc1c471caa.png')" -->
       <div>
         <v-card-title class="text-center justify-center py-6">
           <h1 class="font-weight-bold text-h2">
@@ -135,10 +130,9 @@
                     :elevation="isHovering ? '10' : '4'"
                   >
                     <v-img
-                      height="250px"
                       cover
                       src="https://cdn.discordapp.com/attachments/1093246211080855603/1095783007316619314/nyxofkhaos_white_mug_with_watercolor_mushrooms_on_it._product_i_fe8254c4-e7f3-457d-8e2a-acf1af3cc178.png"
-                      class="bg-white"
+                      class="bg-white h-250px"
                     >
                       <v-btn
                         :color="isHovering ? 'primary' : 'secondary-lighten-1'"

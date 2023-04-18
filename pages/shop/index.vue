@@ -3,7 +3,6 @@
 This page seems to reload the whole damn vue application on load for some reason -->
 <template>
   <v-layout>
-    <Sidebar />
     <div
       class="bg-image img-opacity-40 bg-repeat"
       style="background-image: url('../img/purple-mushroom.jpg')"
