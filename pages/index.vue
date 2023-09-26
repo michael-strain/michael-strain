@@ -11,76 +11,87 @@
       </div>
       <div class="">
         <section>
-          <h2>Create an Account</h2>
+          <h2>Form New Account </h2>
           <div class="information darkdiv">
-            <ANewAccount />
+            <FormNewAccount />
           </div>
         </section>
         <section>
-          <h2>Log In</h2>
+          <h2>Form Log In</h2>
           <div class="information darkdiv">
-            <div class="textfields">
-              <v-text-field
-                id="email"
-                v-model="email"
-                label="Email Address"
-                placeholder="Email Address"
-                hide-details
-                class=""
-              />
-           
-              <v-text-field
-                id="password"
-                v-model="password"
-                label="Password"
-                placeholder="Password"
-                hide-details
-                class=""
-              />
-            </div>
-            <div class="justify-space-between flex -my-2rem pt-2">
-              <button
-                class="btnlink"
-              >
-                Create New Account
-              </button>
-              <button class="btnlink">
-                Forgot Password
-              </button>
-            </div>
-
-            <div class="btnRow">
-              <button
-                class="btnstyle"
-                @click="loginWithGoogle"
-              >
-                Sign In with Google
-              </button>
-              <button
-                class="btnstyle"
-                @click="signInUser(loginEmail, loginPassword)"
-                @keyup.enter="signInUser(loginEmail, loginPassword)"
-              >
-                Sign In with Email
-              </button>
-            </div>
-          </div>
-        </section>
-        <section class="">
-          <h2 class="newtext">
-            Create New Account
-          </h2>
-          <div class="information darkdiv">
-            <ANewAccount />
+            <FormLogIn />
           </div>
         </section>
 
         <section class="">
           <h2 class="">
-            Colors :D
+            Form Address
           </h2>
           <div class="information darkdiv">
-            <p>p</p>
+            <FormAddress />
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            Form Payment
+          </h2>
+          <div class="information darkdiv">
+            <FormPayment />
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            Chips Selection
+          </h2>
+          <div class="information darkdiv">
+            <ChipSelection />
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            Form Trip Planner
+          </h2>
+          <div class="information darkdiv">
+            <FormTripPlanner />
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            Weather Panel
+          </h2>
+          <div class="information darkdiv">
+            <WeatherPanel />
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            h2
+          </h2>
+          <div class="information">
+            <p>component</p>
+          </div>
+        </section>
+        
+        <section class="">
+          <h2 class="">
+            h2
+          </h2>
+          <div class="information">
+            <p>component</p>
+          </div>
+        </section>
+        
+        <section class="">
+          <h2 class="">
+            h2
+          </h2>
+          <div class="information">
+            <p>component</p>
           </div>
         </section>
       </div>

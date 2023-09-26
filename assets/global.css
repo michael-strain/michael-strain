@@ -16,6 +16,13 @@ section, h2, .information {
   padding: 2.5rem;
 }
 
+h3 {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 500;
+  overflow-wrap: normal;
+  word-break: normal;
+}
 /* .bgimg {
   background: var(--background-image-dark);
 } */

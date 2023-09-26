@@ -1,5 +1,6 @@
 <template>
-  <div class="">
+  <div class="textfields">
+    <h3>Enter Your Address</h3>
     <v-text-field
       id="address1"
       v-model="address1"
@@ -16,38 +17,47 @@
       placeholder="Apt, suite, unit, ect."
       hide-details
     />
-    <v-text-field
-      id="city"
-      v-model="city"
-      type="text"
-      label="City"
-      placeholder="City"
-      hide-details
-    />
-    <v-text-field
-      id="region"
-      v-model="region"
-      type="text"
-      label="State"
-      placeholder="State"
-      hide-details
-    />
-    <v-text-field
-      id="zip"
-      v-model="zip"
-      type="text"
-      label="Zip Code"
-      placeholder="Zip Code"
-      hide-details
-    />
-    <v-text-field
-      id="country"
-      v-model="country"
-      :items="countries"
-      label="Country"
-      placeholder="Country"
-      hide-details
-      transition="scale-transition"
-    />
+    <div class="flex gap-7 <sm:flex-col">
+      <v-text-field
+        id="city"
+        v-model="city"
+        type="text"
+        label="City"
+        placeholder="City"
+        hide-details
+      />
+      <v-text-field
+        id="region"
+        v-model="region"
+        type="text"
+        label="State"
+        placeholder="State"
+        hide-details
+      />
+    </div>
+    <div class="flex gap-7 <sm:flex-col">
+      <v-text-field
+        id="zip"
+        v-model="zip"
+        type="text"
+        label="Zip Code"
+        placeholder="Zip Code"
+        hide-details
+      />
+      <v-text-field
+        id="country"
+        v-model="country"
+        :items="countries"
+        label="Country"
+        placeholder="Country"
+        hide-details
+      />
+    </div>
+    <button
+      class="btnstyle"
+      variant="text"
+    >
+      Update Address
+    </button>
   </div>
 </template>
