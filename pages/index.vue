@@ -1,15 +1,32 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <!-- <NuxtLayout :name="layout" /> -->
+  <NuxtLayout :name="layout" />
   <div class="flex overflow-auto h-screen justify-center">
     <!-- <ToggleTheme /> -->
     <div class="fadein">
       <div class="">
         <p class="pagetitle textstroke">
-          LSDope
+          Cool Shit Bro
         </p>
       </div>
       <div class="">
+        <section class="">
+          <h2 class="">
+            File List
+          </h2>
+          <div class="information darkdiv">
+            <MyFiles />
+          </div>
+        </section>
+        
+        <section class="">
+          <h2 class="">
+            Inbox
+          </h2>
+          <div class="information darkdiv">
+            <Inbox />
+          </div>
+        </section>
         <section>
           <h2>Form New Account </h2>
           <div class="information darkdiv">
@@ -68,14 +85,7 @@
           </div>
         </section>
 
-        <section class="">
-          <h2 class="">
-            h2
-          </h2>
-          <div class="information">
-            <p>component</p>
-          </div>
-        </section>
+        
         
         <section class="">
           <h2 class="">
@@ -86,6 +96,24 @@
           </div>
         </section>
         
+        <section class="">
+          <h2 class="">
+            h2
+          </h2>
+          <div class="information">
+            <p>component</p>
+          </div>
+        </section>
+
+        <section class="">
+          <h2 class="">
+            h2
+          </h2>
+          <div class="information">
+            <p>component</p>
+          </div>
+        </section>
+
         <section class="">
           <h2 class="">
             h2

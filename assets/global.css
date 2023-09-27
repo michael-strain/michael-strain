@@ -23,6 +23,18 @@ h3 {
   overflow-wrap: normal;
   word-break: normal;
 }
+
+.listheader {
+  font-size: 1.25em;
+  font-weight: 500;
+  padding-left: 20px;
+}
+
+.toolbarheader {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+
 /* .bgimg {
   background: var(--background-image-dark);
 } */

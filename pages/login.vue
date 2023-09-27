@@ -105,9 +105,6 @@
           >
             <div class="">
               <section class="">
-                <h2 class="">
-                  V-Else
-                </h2>
                 
                 <div class="information darkdiv w-full">
                   <div class="textfields">

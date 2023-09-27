@@ -1,56 +1,38 @@
 <template>
-  <p>p</p>
-  <!-- <v-card
-    max-width="400"
-    class="mx-auto"
-  >
-    <v-container class="pa-1">
-      <v-item-group
-        v-model="selection"
-        multiple
-      >
-        <v-row>
-          <v-col
-            v-for="(item, i) in items"
-            :key="i"
-            cols="12"
-            md="6"
-          >
-            <v-item v-slot="{ isSelected, toggle }">
-              <v-img
-                :src="`https://cdn.vuetifyjs.com/images/${item.src}`"
-                cover
-                class="text-right pa-2"
-                @click="toggle"
-              >
-                <v-btn :icon="isSelected ? 'mdi-heart' : 'mdi-heart-outline'"></v-btn>
-              </v-img>
-            </v-item>
-          </v-col>
-        </v-row>
-      </v-item-group>
-    </v-container>
-  </v-card> -->
-</template>
+  <v-card>
+    <v-tabs
+      v-model="tab"
+      bg-color="primary"
+      align-tabs="center"
+      height="80px"
+    >
+      <v-tab value="one">Photography</v-tab>
+      <v-tab value="two">Hand-Drawn</v-tab>
+      <v-tab value="three">Favorites</v-tab>
+    </v-tabs>
 
+    <v-card-text>
+      <v-window v-model="tab">
+        <v-window-item value="one">
+          <ImageGrid category="photography" />
+        </v-window-item>
+
+        <v-window-item value="two">
+          <ImageGrid category="handDrawn"/>
+        </v-window-item>
+
+        <v-window-item value="three">
+          <ImageGrid category="favorites"/>
+        </v-window-item>
+      </v-window>
+    </v-card-text>
+  </v-card>
+</template>
 <script>
   export default {
     data: () => ({
-      items: [
-        {
-          src: 'backgrounds/bg.jpg',
-        },
-        {
-          src: 'backgrounds/md.jpg',
-        },
-        {
-          src: 'backgrounds/bg-2.jpg',
-        },
-        {
-          src: 'backgrounds/md2.jpg',
-        },
-      ],
-      selection: [],
+      tab: null,
     }),
+    
   }
 </script>

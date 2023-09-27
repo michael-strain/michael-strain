@@ -10,7 +10,7 @@
       <p CLASS="">
         THIS IS A TEST
       </p>
-      <ANewAccount />
+      <!-- <ANewAccount /> -->
     </div>
   </div>
 </template>

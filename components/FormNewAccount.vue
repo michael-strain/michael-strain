@@ -80,7 +80,7 @@ const terms = ref(false)
 </script>
 
 <style>
- @import url('https://fonts.googleapis.com2?family=Raleway:wght@400;700&display=swap');
+ /* @import url('https://fonts.googleapis.com2?family=Raleway:wght@400;700&display=swap'); */
 
 /* :root { */
   /* --secondary-color: #03e9f4;
