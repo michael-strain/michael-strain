@@ -19,24 +19,26 @@
           <v-btn
             variant="text"
             icon="mdi-magnify"
-          />
-          <v-tooltip
-            text="Search Emails"
-            location="start"
-            activator="parent"
-          />
+          >
+            <v-tooltip
+              text="Search Files"
+              location="start"
+              activator="parent"
+            />
+          </v-btn>
         </div>
         <!--New Email Btn-->
         <div>
           <v-btn
             variant="text"
             icon="mdi-upload"
-          />
-          <v-tooltip
-            text="Upload New Files"
-            location="start"
-            activator="parent"
-          />
+          >
+            <v-tooltip
+              text="Upload New Files"
+              location="start"
+              activator="parent"
+            />
+          </v-btn>
         </div>
       </v-toolbar>
       <!--Lists-->
@@ -60,17 +62,19 @@
           </template>
 
           <template #append>
-            <v-btn
-              color="grey-lighten-1"
-              icon="mdi-information"
-              variant="text"
-            />
-            <v-tooltip
-              activator="parent"
-              location="start"
-            >
-              Additional Information
-            </v-tooltip>
+            <div>
+              <v-btn
+                color="grey-lighten-1"
+                icon="mdi-information"
+                variant="text"
+              />
+              <v-tooltip
+                activator="parent"
+                location="start"
+              >
+                Additional Information
+              </v-tooltip>
+            </div>
           </template>
         </v-list-item>
 

@@ -1,5 +1,6 @@
 <template class="relative">
-  <ALava class="abs" />
+  <!-- <ALava class="abs" /> -->
+  <p>This is disabled for now</p>
 </template>
 
 <style>

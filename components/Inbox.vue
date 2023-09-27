@@ -7,33 +7,86 @@
           Inbox
         </p>
       </v-toolbar-title>
+
       <!--Search Btn-->
-      
-      <!-- <div>
-        <v-btn
-          variant="text"
-          icon="mdi-magnify"
-        />
-        <v-tooltip
-          text="Search Emails"
-          location="start"
-          activator="parent"
-        />
-      </div> -->
+      <div>
+        <v-btn>
+          Search
+          <v-tooltip
+            activator="parent"
+            location="start"
+            open-on-hover
+          >
+            Search
+          </v-tooltip>
+        </v-btn>
+        <v-btn>
+          Sun
+          <v-tooltip
+            activator="parent"
+            location="start"
+            open-on-hover
+          >
+            Sun
+          </v-tooltip>
+        </v-btn>
+        <v-btn>
+          Admin
+          <v-tooltip
+            activator="parent"
+            location="start"
+            open-on-hover
+          >
+            Admin
+          </v-tooltip>
+        </v-btn>
+      </div>
+
+
+      <v-tooltip
+        location="top"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            icon
+            v-bind="props"
+          >
+            <v-icon color="grey-lighten-1">
+              mdi-flower
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>flower</span>
+      </v-tooltip>
       
 
       <!--New Email Btn-->
+      <v-tooltip
+        location="top"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            icon
+            v-bind="props"
+          >
+            <v-icon color="grey-lighten-1">
+              mdi-cart
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Tooltip</span>
+      </v-tooltip>
       <!-- <div>
-        <v-btn
-          variant="text"
-          icon="mdi-plus"
-        />
-        <v-tooltip
-          text="Write New Email"
-          location="start"
-          activator="parent"
-        />
-      </div> -->
+      <v-btn>
+              New
+              <v-tooltip
+                activator="parent"
+                location="start"
+                open-on-hover
+              >
+                Write New Email
+              </v-tooltip>
+            </v-btn></div> -->
     </v-toolbar>
 
     <!--Today List-->
