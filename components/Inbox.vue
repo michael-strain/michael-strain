@@ -8,7 +8,8 @@
         </p>
       </v-toolbar-title>
       <!--Search Btn-->
-      <div>
+      
+      <!-- <div>
         <v-btn
           variant="text"
           icon="mdi-magnify"
@@ -18,11 +19,11 @@
           location="start"
           activator="parent"
         />
-      </div>
+      </div> -->
       
 
       <!--New Email Btn-->
-      <div>
+      <!-- <div>
         <v-btn
           variant="text"
           icon="mdi-plus"
@@ -32,7 +33,7 @@
           location="start"
           activator="parent"
         />
-      </div>
+      </div> -->
     </v-toolbar>
 
     <!--Today List-->
@@ -147,19 +148,4 @@ const earlier = ref([
     subtitle: 'Message'
   },
 ])
-
-  // onMounted(async()=>{
-  //   if(props.category=="photography"){
-  //     items.value = [{src:'backgrounds/bg.jpg'}]
-  //     console.log("I'm on the photography category")
-  //   }
-  //   if(props.category=="handDrawn"){
-  //     items.value = [{src:'backgrounds/md.jpg'}]
-  //     console.log("I'm on the handDrawn category")
-  //   }
-  //   if(props.category=="favorites"){
-  //     items.value = [{src:'backgrounds/md2.jpg'}]
-  //     console.log("I'm on the favorites category")
-  //   }
-  // })
 </script>

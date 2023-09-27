@@ -148,19 +148,4 @@ const folders = ref([
   ],
   )
 
-
-  // onMounted(async()=>{
-  //   if(props.category=="photography"){
-  //     items.value = [{src:'backgrounds/bg.jpg'}]
-  //     console.log("I'm on the photography category")
-  //   }
-  //   if(props.category=="handDrawn"){
-  //     items.value = [{src:'backgrounds/md.jpg'}]
-  //     console.log("I'm on the handDrawn category")
-  //   }
-  //   if(props.category=="favorites"){
-  //     items.value = [{src:'backgrounds/md2.jpg'}]
-  //     console.log("I'm on the favorites category")
-  //   }
-  // })
 </script>

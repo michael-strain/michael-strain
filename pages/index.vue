@@ -9,7 +9,7 @@
           Cool Shit Bro
         </p>
       </div>
-      <div class="">
+      <div class="">        
         <section class="">
           <h2 class="">
             File List
@@ -18,7 +18,7 @@
             <MyFiles />
           </div>
         </section>
-        
+
         <section class="">
           <h2 class="">
             Inbox
@@ -85,7 +85,14 @@
           </div>
         </section>
 
-        
+        <section class="">
+          <h2 class="">
+            Previous Order
+          </h2>
+          <div class="information darkdiv">
+            <PreviousOrder />
+          </div>
+        </section>
         
         <section class="">
           <h2 class="">

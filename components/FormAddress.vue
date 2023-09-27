@@ -2,16 +2,12 @@
   <div class="textfields">
     <h3>Enter Your Address</h3>
     <v-text-field
-      id="address1"
-      v-model="address1"
       type="text"
       label="Shipping Address"
       placeholder="Street Address or P.O. Box"
       hide-details
     />
     <v-text-field
-      id="address2"
-      v-model="address2"
       type="text"
       label="Apt, suite, unit, ect."
       placeholder="Apt, suite, unit, ect."
@@ -19,16 +15,12 @@
     />
     <div class="flex gap-7 <sm:flex-col">
       <v-text-field
-        id="city"
-        v-model="city"
         type="text"
         label="City"
         placeholder="City"
         hide-details
       />
       <v-text-field
-        id="region"
-        v-model="region"
         type="text"
         label="State"
         placeholder="State"
@@ -37,20 +29,15 @@
     </div>
     <div class="flex gap-7 <sm:flex-col">
       <v-text-field
-        id="zip"
-        v-model="zip"
         type="text"
         label="Zip Code"
         placeholder="Zip Code"
         hide-details
       />
-      <v-text-field
-        id="country"
-        v-model="country"
-        :items="countries"
+      <v-autocomplete
         label="Country"
         placeholder="Country"
-        hide-details
+        :items="['Australia', 'Barbados', 'Chile', 'Denmark', 'Ecuador', 'France']"
       />
     </div>
     <button

@@ -48,15 +48,11 @@
   </div>
 </template>
 
-<script>
-  export default {
-    data: () => ({
-      trip: {
-        name: '',
-        location: null,
-        start: null,
-        end: null,
-      },
-    }),
-  }
+<script setup>
+  const trip= ref({
+    name: '',
+    location: null,
+    start: null,
+    end: null,
+  })
 </script>

@@ -1,20 +1,10 @@
 <template>
   <div>
-    <!-- <v-toolbar
-      flat
-      color="deep-purple-accent-4"
-      dark
-    >
-      <v-btn icon>
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-      <v-toolbar-title>Filter results</v-toolbar-title>
-    </v-toolbar> -->
     <div class="textfields">
       <div>
         <h3>
           Amenities
-        </h3>
+        </h3> 
 
         <v-chip-group
           v-model="amenities"

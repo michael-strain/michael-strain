@@ -4,23 +4,17 @@
     <div class="textfields">
       <h3>Create A New Account</h3>
       <v-text-field
-        id="firstname"
-        v-model="text"
         label="First Name"
         placeholder="First Name"
         hide-details
       />
       <v-text-field
-        id="lastname"
-        v-model="text"
         label="Last Name"
         placeholder="Last Name"
         hide-details
         class=""
       />
       <v-text-field
-        id="email"
-        v-model="email"
         label="Email Address"
         placeholder="Email Address"
         hide-details
@@ -28,8 +22,6 @@
       />
            
       <v-text-field
-        id="password"
-        v-model="password"
         label="Password"
         placeholder="Password"
         hide-details
@@ -69,13 +61,6 @@
 </template>
 
 <script setup>
-
-// import { firebase } from '@firebase/app';
-import { ref } from 'vue'
-import 'firebase/auth';
-
-const email = ref('')
-const password = ref('')
 const terms = ref(false)
 </script>
 
