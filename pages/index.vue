@@ -6,11 +6,11 @@
     <div class="fadein">
       <div class="">
         <p class="pagetitle textstroke">
-          Cool Shit Bro
+          Cool Shit Co.
         </p>
       </div>
       <div class=""> 
-        <section class="">
+        <!-- <section class="">
           <h2 class="">
             Tool Tips
           </h2>
@@ -21,11 +21,11 @@
               <v-tooltip
                 activator="parent"
                 location="start"
+                open-on-hover
               >
                 Start
               </v-tooltip>
             </v-btn>
-            
             <p>Props Activator</p>
             <v-tooltip
               location="top"
@@ -44,7 +44,7 @@
             </v-tooltip>
             <p>p</p>
           </div>
-        </section>
+        </section> -->
 
         <section class="">
           <h2 class="">
@@ -60,7 +60,7 @@
             Inbox
           </h2>
           <div class="information darkdiv">
-            <!-- <Inbox /> -->
+            <Inbox />
           </div>
         </section>
         <!-- <section>
@@ -179,8 +179,7 @@
   // import { ref } from 'vue'
   import "@/assets/global.css"
   import { useTheme } from 'vuetify'
-  
-  
+
   const theme = useTheme()
   // const layout = "lava-layout"; 
   //theme.global.name.value = theme.global.current.value

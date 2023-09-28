@@ -15,31 +15,15 @@
         </v-toolbar-title>
 
         <!--Search Btn-->
-        <div>
           <v-btn
             variant="text"
             icon="mdi-magnify"
-          >
-            <v-tooltip
-              text="Search Files"
-              location="start"
-              activator="parent"
-            />
-          </v-btn>
-        </div>
+          />
         <!--New Email Btn-->
-        <div>
           <v-btn
             variant="text"
             icon="mdi-upload"
-          >
-            <v-tooltip
-              text="Upload New Files"
-              location="start"
-              activator="parent"
-            />
-          </v-btn>
-        </div>
+          />
       </v-toolbar>
       <!--Lists-->
       <v-list lines="two">
