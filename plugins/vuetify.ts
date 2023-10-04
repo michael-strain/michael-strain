@@ -94,17 +94,20 @@ export default defineNuxtPlugin(nuxtApp => {
     defaults: {
           VCardtitle: {color:'primary'},
           VCard: {
-            color: 'whitebg',
+            color: '',
             elevation: '2',
             rounded: '0',
-            // VBtn: { variant: 'tile', color:'secondary' }
+            // VBtn: { variant: 'tonal', color:'primary' }
           },
           // VBtn: { color:'primary-darken-3' },
           VToolbar: { 
-            color:'surface',
+            // color:'surface',
             VBtn: {color:'primary-darken-2'},
             elevation: '2',
           },
+          VList: {
+            background: 'secondary',
+          }
           // VTabs: {
           //   color: 'primary-darken-1', 
           // },

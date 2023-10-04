@@ -10,41 +10,14 @@
         </p>
       </div>
       <div class=""> 
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
-            Tool Tips
+            Chat Messages
           </h2>
           <div class="information darkdiv">
-            <p>Parent Activator</p>
-            <v-btn>
-              Start
-              <v-tooltip
-                activator="parent"
-                location="start"
-                open-on-hover
-              >
-                Start
-              </v-tooltip>
-            </v-btn>
-            <p>Props Activator</p>
-            <v-tooltip
-              location="top"
-            >
-              <template #activator="{ props }">
-                <v-btn
-                  icon
-                  v-bind="props"
-                >
-                  <v-icon color="grey-lighten-1">
-                    mdi-cart
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span>Cart</span>
-            </v-tooltip>
-            <p>p</p>
+            <ChatMessages />
           </div>
-        </section> -->
+        </section>
 
         <section class="">
           <h2 class="">
@@ -76,7 +49,7 @@
           </div>
         </section> -->
 
-        <!--THIS IS WHAT BREAKS TOOL TIPS-->
+        <!--THIS BREAKS TOOLTIPS-->
         <!-- <section class="">
           <h2 class="">
             Form Address
@@ -104,7 +77,7 @@
           </div>
         </section> -->
 
-        <!--THIS BREAKS TOOL TIPS-->
+        <!--THIS BREAKS TOOLTIPS-->
         <!-- <section class="">
           <h2 class="">
             Form Trip Planner
