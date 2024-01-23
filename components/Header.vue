@@ -8,10 +8,10 @@
   </NuxtLink>
   <v-container class="align-center align-items-center align-content-center">
     <v-row class="w-full p-5">
-      <v-col cols="20" sm="4"><NuxtLink to="/blog"><v-btn variant="block">Blog</v-btn></NuxtLink></v-col>
-      <v-col cols="20" sm="4"><NuxtLink to="/contact"><v-btn variant="block">Contact</v-btn></NuxtLink></v-col>
-      <v-col cols="20" sm="4"><NuxtLink to="/donate"><v-btn variant="block">Donate</v-btn></NuxtLink></v-col>
-      <v-col cols="20" sm="4"><NuxtLink to="/invest"><v-btn variant="block">Invest</v-btn></NuxtLink></v-col>
+      <v-col><NuxtLink to="/blog"><v-btn variant="block">Blog</v-btn></NuxtLink></v-col>
+      <v-col><NuxtLink to="/contact"><v-btn variant="block">Contact</v-btn></NuxtLink></v-col>
+      <v-col><NuxtLink to="/donate"><v-btn variant="block">Donate</v-btn></NuxtLink></v-col>
+      <v-col><NuxtLink to="/invest"><v-btn variant="block">Invest</v-btn></NuxtLink></v-col>
     </v-row>
   </v-container>
 </template>
