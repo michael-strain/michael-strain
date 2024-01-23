@@ -28,11 +28,6 @@
     </v-card-text>
   </v-card>
 </template>
-<script>
-  export default {
-    data: () => ({
-      tab: null,
-    }),
-    
-  }
+<script setup>
+const tab = ref()
 </script>

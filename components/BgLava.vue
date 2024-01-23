@@ -1,71 +1,60 @@
-<template class="">
-  <div class="first">
-    <div class="second">
-      <div class="lamp">
-        <div class="lava">
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial" />
-          <div class="blob glowradial top" />
-          <div class="absolute bottom-0 text-center text-wrap justify-center text-white z-10 mx-auto w-full">
-            <p class="text-sm text-black">
-              Michael-Strain © {{ new Date().getFullYear() }} 
-              All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent. All Rights Reserved.
-            </p>
-          </div>
-          <div class="blob glowradial bottom" />
-        </div>
-      </div>
-      <svg
-        class="neg"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-      >
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-              result="goo"
-            />
-            <feBlend
-              in="SourceGraphic"
-              in2="goo"
-            />
-          </filter>
-        </defs>
-      </svg>
+<template>
+  <div class="lava_viewport lava_gradient_TopRadial">
+    <div class="lava_filter">
+      <div class="blob lava_blob-Left glowradial" />
+      <div class="blob lava_blob-Center glowradial" />
+      <div class="blob lava_blob-Right glowradial" />
+      <div class="blob glowradial lava_blob-Top" />
+      <div class="blob glowradial lava_blob-Bottom" />
     </div>
+    <svg
+      class="lava_gradient_BottomRadial"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+    >
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur
+            in="SourceGraphic"
+            stdDeviation="10"
+            result="blur"
+          />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            result="goo"
+          />
+          <feBlend
+            in="SourceGraphic"
+            in2="goo"
+          />
+        </filter>
+      </defs>
+    </svg>
   </div>
 </template>
 
-<style>
-.first {
+<style scoped>
+
+.lava_gradient_TopRadial {
   height: 100vh;
   width: 100vw;
   /* background-color:#090a0f; */
-  background: radial-gradient(ellipse at bottom, rgb(51, 53, 27), rgb(0, 0, 0)); 
+  background: radial-gradient(ellipse at bottom, rgb(var(--v-theme-primary-darken-3)), rgb(0, 0, 0)); 
 }
-/* @keyframes mymove {
-  0% {background-color: #ff006e;}
-  50% {background-color: #8338ec;}
-  100% {background-color: #3A86FF;}
-}  */
-.second {
-  background: transparent;
+
+.lava_viewport{
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top:0px;
+  bottom: 0px;
+  left:0px;
+  right: 0px;
 }
-.neg{
+
+.lava_gradient_BottomRadial{
   height: 100vh;
   width: 100vw;
   background: radial-gradient(at bottom, transparent 50%, black);
@@ -73,16 +62,18 @@
   top:0;
   left:0;
 }
+
 .glowradial::before {
   content: "";
   border-radius: 100%;
-  background-image: radial-gradient(rgb(var(--v-theme-secondary-lighten-1)), rgb(var(--v-theme-primary-darken-1)));
+  background-image: radial-gradient(rgb(var(--v-theme-primary-lighten-2)), rgb(var(--v-theme-primary)));
   position: absolute;
   filter:blur(15px);
   opacity: 90%;
   inset: 0px;
 }
-.lava{
+
+.lava_filter{
   filter: url("#goo");
   position:absolute;
   height:100%;
@@ -94,156 +85,74 @@
 
 .blob{
   border-radius: 45%;
-  /* animation: mymove 15s infinite alternate; */
-  /* background: #C86BFA; */
   position:absolute;
+  will-change: transform;
 }
 
-.blob.top{
+.lava_blob-Top{
   border-radius: 50%;
   width: 100%;
   height: 8%;
-  top: -4%;
+  top: -5%;
   left:0;
   position: absolute;
-  animation: mymove 15s infinite alternate;
-
 }
-.blob.bottom{
+
+.lava_blob-Bottom{
   border-radius: 50%;
   width: 100%;
   height: 10%;
   bottom: -30px;
   margin:auto;
-  animation: mymove 15s infinite alternate;
 }
-.blob:nth-child(1){
-  width: 200px;
-  height: 200px;
+
+.lava_blob-Left{
+  width: 245px;
+  height: 245px;
+  bottom:-10%;
+  left: 22%;
+  animation: blob-one ease-in-out 38s infinite;
+}
+
+.lava_blob-Center{
+  width: 385px;
+  height: 395px;
+  bottom:-55%;
   left: 35%;
-  bottom:-15%;
- 
-  animation: mymove 15s infinite alternate, wobble 4s ease-in-out alternate infinite, blob-one ease-in-out 20s infinite;
+  animation: blob-two ease-in-out 28s infinite;
 }
-.blob:nth-child(2){
-  width: 330px;
-  height: 330px;
-  right: 24%;
-  bottom:-65%;
-  
-  animation: mymove 15s infinite alternate, wobble 5s ease-in-out alternate infinite, blob-two ease-in-out 28s infinite;
+
+.lava_blob-Right{
+  width: 185px;
+  height: 195px;
+  bottom:0%;
+  left: 58%;
+  animation: blob-three ease-in-out 30s infinite;
 }
-.blob:nth-child(3){
-  width: 150px;
-  height: 150px;
-  bottom:-15%;
-  left: 30%;
-  
-  animation: mymove 15s infinite alternate, wobble 6s ease-in-out alternate infinite, blob-three ease-in-out 16s infinite;
-}
-.blob:nth-child(4){
-  width: 235px;
-  height: 235px;
-  bottom:-19%;
-  left: 30%;
-  
-  animation: mymove 15s infinite alternate, wobble 7s ease-in-out alternate infinite, blob-four ease-in-out 16s infinite;
-}
-.blob:nth-child(4){
-  width: 235px;
-  height: 235px;
-  bottom:-19%;
-  left: 20%;
-  animation: mymove 15s infinite alternate, wobble 8s ease-in-out alternate infinite, blob-four ease-in-out 25s infinite;
-}
-.blob:nth-child(5){
-   width: 55px;
-  height: 55px;
-  bottom:-25%;
-  left: 34%;
-  
-  animation: mymove 15s infinite alternate, wobble 9s ease-in-out alternate infinite, blob-five ease-in-out 32s infinite;
-}
-.blob:nth-child(6){
-  width: 150px;
-  height: 100px;
-  bottom:-85%;
-  right: 34%;
-  
-  animation: mymove 15s infinite alternate, wobble 10s ease-in-out alternate infinite,  blob-six ease-in-out 12s infinite;
-}
-.blob:nth-child(7){
-  width: 435px;
-  height: 435px;
-  bottom:-50%;
-  right: 40%;
-  
-  animation: mymove 15s infinite alternate, wobble 11s ease-in-out alternate infinite, blob-seven ease-in-out 42s infinite;
-}
+
+/* Verticle Movement */
 @keyframes blob-one{
-  0%, 100%{
-    transform: translatey(10%);
-  }
   50%{
-    transform: translatey(-500%);
+    transform: translateY(150%);
+  }
+  0%, 100%{
+    transform: translateY(-400%);
   }
 }
-
 @keyframes blob-two{
-  0%, 100%{
-    transform: translatey(0);
-  }
   50%{
-    transform: translatey(-420%);
+    transform: translateY(0);
+  }
+  0%, 100%{
+     transform: translateY(-300%);
   }
 }
-
 @keyframes blob-three{
-  0%, 100%{
-    transform: translatey(0);
-  }
   50%{
-    transform: translatey(-305%);
+    transform: translateY(300%);
   }
-}
-@keyframes blob-four{
   0%, 100%{
-    transform: translatey(10%);
-  }
-  50%{
-    transform: translatey(-500%);
-  }
-}
-@keyframes blob-five{
-  0%, 100%{
-    transform: translatey(0);
-  }
-  50%{
-     transform: translatey(-700%);
-  }
-}
-@keyframes blob-six{
-  0%, 100%{
-    transform: translatey(0);
-  }
-  50%{
-     transform: translatey(-700%);
-  }
-}
-@keyframes blob-seven{
-  0%, 100%{
-    transform: translatey(100%);
-  }
-  50%{
-     transform: translatey(-300%);
-  }
-}
-@keyframes wobble {
-  50% {
-   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-  }
-  100% {
-   border-radius: 38% 52% 75% 36% / 50% 40% 50% 60%;
+     transform: translateY(-500%);
   }
 }
 

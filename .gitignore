@@ -4,6 +4,7 @@ node_modules
 .nitro
 .cache
 .output
-.netlify
+.firebase
+.env
 dist
-# .env
+package-lock.json
