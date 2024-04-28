@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <v-card height="600px">
+    <v-card>
       <!--Toolbar-->
       <v-toolbar
         density="compact"

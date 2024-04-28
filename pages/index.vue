@@ -1,20 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <!-- <NuxtLayout :name="layout" /> -->
-  <div class="flex overflow-auto h-screen justify-center">
+  <div class="">
     <!-- <ToggleTheme /> -->
     <div class="fadein">
-      <div class="">
+      <!-- <div class="">
         <p class="pagetitle textstroke">
           Cool Shit Co.
         </p>
-      </div>
-      <div class=""> 
+      </div> -->
+      <div class="grid grid-cols-3 gap-10 p-10 bg-secondary-lighten-3 <lg:grid-cols-2 <sm:grid-cols-1"> 
         <section class="">
           <h2 class="">
             Chat Messages
           </h2>
-          <div class="information darkdiv">
+          <div class="baseoutline">
             <ChatMessages />
           </div>
         </section>
@@ -23,7 +23,7 @@
           <h2 class="">
             File List
           </h2>
-          <div class="information darkdiv">
+          <div class="baseoutline">
             <MyFiles />
           </div>
         </section>
@@ -32,66 +32,67 @@
           <h2 class="">
             Inbox
           </h2>
-          <div class="information darkdiv">
+          <div class="baseoutline">
             <Inbox />
           </div>
         </section>
-        <!-- <section>
+        <section>
           <h2>Form New Account </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <FormNewAccount />
           </div>
         </section>
+
         <section>
           <h2>Form Log In</h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <FormLogIn />
           </div>
-        </section> -->
+        </section>
 
         <!--THIS BREAKS TOOLTIPS-->
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
             Form Address
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <FormAddress />
           </div>
-        </section> -->
+        </section>
 
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
             Form Payment
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <FormPayment />
           </div>
-        </section> -->
+        </section>
 
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
             Chips Selection
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <ChipSelection />
           </div>
-        </section> -->
+        </section>
 
         <!--THIS BREAKS TOOLTIPS-->
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
             Form Trip Planner
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <FormTripPlanner />
           </div>
-        </section> -->
+        </section>
 
-        <!-- <section class="">
+        <section class="">
           <h2 class="">
             Weather Panel
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <WeatherPanel />
           </div>
         </section>
@@ -100,17 +101,17 @@
           <h2 class="">
             Previous Order
           </h2>
-          <div class="information darkdiv">
+          <div class="basediv">
             <PreviousOrder />
           </div>
         </section>
         
         <section class="">
           <h2 class="">
-            h2
+            Color Picker
           </h2>
-          <div class="information">
-            <p>component</p>
+          <div class="basediv">
+            <ColorPicker />
           </div>
         </section>
         
@@ -118,7 +119,7 @@
           <h2 class="">
             h2
           </h2>
-          <div class="information">
+          <div class="basediv">
             <p>component</p>
           </div>
         </section>
@@ -127,7 +128,7 @@
           <h2 class="">
             h2
           </h2>
-          <div class="information">
+          <div class="basediv">
             <p>component</p>
           </div>
         </section>
@@ -136,10 +137,10 @@
           <h2 class="">
             h2
           </h2>
-          <div class="information">
+          <div class="basediv">
             <p>component</p>
           </div>
-        </section> -->
+        </section>
       </div>
     </div>
   </div>
@@ -202,7 +203,7 @@
   <h2 class="">
     Colors :D
   </h2>
-  <div class="information w-full">
+  <div class="basediv w-full">
     <div
       v-for="c in Object.keys(vcolors)"
       :key="c"
