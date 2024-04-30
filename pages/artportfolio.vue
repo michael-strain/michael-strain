@@ -29,5 +29,5 @@
   </v-card>
 </template>
 <script setup>
-const tab = ref()
+const tab= ref()
 </script>
