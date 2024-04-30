@@ -1,34 +1,23 @@
 <template>
-  <v-card class="">
-    <div
-      justify="center"
-      class="text-center m-5 h-auto"
-    >
-      <strong>© L.S.Dope - Strain Investment Co.</strong>
-      <br>
-      <div class="mb-1">
-        <NuxtLink
-          to="/shop/faqs"
-          class=""
-        >
-          Contact Us
-        </NuxtLink>
-        <NuxtLink
-          to="/shop/faqs"
-          class="p-5"
-        >
-          Frequently Asked Questions
-        </NuxtLink>
-        <NuxtLink
-          to="/"
-          class=""
-        >
-          Website Developer
-        </NuxtLink>
-      </div>
-      <p class="text-xs text-wrap">
-        All content is owned solely by Michael Strain and/or his companies, and shall not be used or reproduced without prior written consent.<br>All Rights Reserved.
-      </p>
+  <div
+    class="text-center m-5 mx-auto text-sm flex flex-col gap-1 z-0"
+  >
+    <strong>Michael-Strain - © Strain Investment Co. LLC</strong>
+    <div class="text-sm flex justify-center gap-8">
+      <NuxtLink
+        to="/contact"
+        class=""
+      >
+        Contact Us
+      </NuxtLink>
+      <NuxtLink
+        to="/shop/faqs"
+      >
+        Frequently Asked Questions
+      </NuxtLink>
     </div>
-  </v-card>
+    <p class="text-xs text-wrap">
+      All content is owned solely by Michael Strain, and shall not be used or reproduced without prior written consent. All Rights Reserved.
+    </p>
+  </div>
 </template>

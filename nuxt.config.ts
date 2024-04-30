@@ -1,65 +1,81 @@
-// // nuxt.config.ts
-// import { defineNuxtConfig } from 'nuxt'
-// import WindiCSS from 'vite-plugin-windicss'
+import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+    nitro:{
+        preset:'firebase',
+        firebase:{
+            nodeVersion: '20',
+            gen:2,
+            httpsOptions:{
+                region: 'us-central1'
+            }
+        },
+        compressPublicAssets: true,
+    },
+    app:{
+        head:{
+            charset:'utf-8',
+            viewport:'width=device-width, initial-scale=1',
+            link: [
+                {rel:'preconnect', href:'https://googletagmanager.com', crossorigin:''}, //gtag
+                {rel:'dns-prefetch', href:'https://fonts.gstatic.com'},
+                // {rel:'dns-prefetch', href:'https://m.stripe.network'},
+            ]
+        }
+    },
+    devtools:{enabled:false},
     runtimeConfig: {
-        FIREBASE_API_KEY: 'AIzaSyDv2dJDwn9QNmkNiqB-INMD9EklS-B-Lfk',
-        PRINTIFY_API_KEY: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImE2MGI5ZWEyYzRhODliM2VmYWIzNThhNWIyOTE3ZDc5MDNiYjM2NDdmZjIzYTM5NWM4YjM3OGViYzZjMWIwOTNlOTdiOGYxZGM3YWZhZTg3IiwiaWF0IjoxNjczMDUyOTAzLjQ3NTY0MiwibmJmIjoxNjczMDUyOTAzLjQ3NTY0NSwiZXhwIjoxNzA0NTg4OTAzLjQ0ODc0NCwic3ViIjoiMTEzMDIzOTkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIl19.AH6QPYSJpX5z7YyO8dW5nTpS_CrorLN3gJDJ_k8v58waX1cBIkQCD5qTPE8hLLFFDr61lNgvUPpcCDXd0-Q',
+        GOOGLE_APPLICATION_CREDENTIALS:process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        SITE_DOMAIN: process.env.SITE_DOMAIN,
+        public:{
+            // STRIPE_PUBLIC_KEY: process.env.NODE_ENV==="development" ? "pk_test_Ks0hhsz15BuwjmJ50MBRqKOk" : process.env.STRIPE_PUBLIC_KEY,
+            WTFAMI: process.env.NODE_ENV==="development" ? "DEV" : process.env.WTFAMI,
+        },
+        private:{
+            // STRIPE_SECRET_KEY: process.env.NODE_ENV==="development" ? "sk_test_TWFt8bOX2Lj37qnSZJXL8a73" : process.env.STRIPE_SECRET_KEY
+        }
+
     },
     modules:[
+        ['nuxt-gtag',{
+            id: 'G-T92C2EE8PR',
+            disabled:process.env.NODE_ENV=="development"?true:false
+        }],
         'nuxt-windicss',
-        '@pinia/nuxt',
-        '@pinia-plugin-persistedstate/nuxt',
-        // '@nuxt/content',
-        '@nuxtjs/web-vitals',
-        '@vueuse/nuxt',
-        // TODO - Activate and integrate with Algolia
-        // ['@nuxtjs/algolia',{
-        //     apiKey: process.env.ALGOLIA_API_KEY,
-        //     applicationId: process.env.ALGOLIA_APP_ID
-        // }]
+        // ['@unlok-co/nuxt-stripe',{
+        //     server:{
+        //         key:process.env.STRIPE_SECRET_KEY,
+        //         options:{
+        //             apiVersion:'2023-10-16',
+        //         }
+        //     },
+        //     client:{
+        //         key:process.env.STRIPE_PUBLIC_KEY,
+        //         options:{}
+        //     }
+        // }],
+        ['nuxt-simple-robots',{disallow: ['/admin','/admin/*','/api/*']}],
+        ['nuxt-delay-hydration',{debug:process.env.NODE_ENV==='development',mode:'mount'}], //mount or init seem like the right options to test
+        '@nuxtjs/device',
+        'vuetify-nuxt-module',
     ],
-    // piniaPersistedstate:{
-    //     cookieOptions: {
-    //         sameSite: 'strict',
-    //     },
-    //     storage: 'localStorage'
-    // },
+
     css:[
-        'vuetify/lib/styles/main.sass',
-        '@mdi/font/css/materialdesignicons.min.css',
         '~/assets/fonts/Raleway/Raleway.css',
         '~/assets/fonts/Roboto_Slab/Roboto_Slab.css',
-        '~/assets/global.scss'
-
     ],
-    build:{
-        transpile:['vuetify'],
+    routeRules:{
+        //Need to change this to make the whole site SSG
+        '/':{
+            prerender: true,
+            swr: 120,
+            cache: {
+                staleMaxAge: 120
+            }
+        },
     },
-    // routes:{
-    //     '/':{ prerender: true },
-    //     '/*':{ cors: true },
-    // },
-    webVitals: {
-        // provider: '', // auto detectd
-        debug: true,
-        disabled: true,
-        ga: { id: 'G-XT0ME3PLNS' }
-    },
-    vite:{
-        // define:{
-        //     'process.env.DEBUG':true,
-        // },
-        // plugins:[
-        //     WindiCSS() //not sure this should exist
-        // ]
-        // css:{
-        //     preprocessorOptions: {
-        //         scss: {
-        //           additionalData: '@use "@/assets/_colors.scss" as *;'
-        //         }
-        //     }
-        // }
-    },
+    sourcemap: {
+        server: true,
+        client: true
+    }
 })

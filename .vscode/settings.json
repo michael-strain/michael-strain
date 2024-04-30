@@ -1,5 +1,6 @@
 {
     "git.autofetch": true,
     "editor.tabSize": 2,
-    "window.zoomLevel": 0
+    "window.zoomLevel": -1,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

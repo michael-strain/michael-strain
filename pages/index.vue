@@ -1,215 +1,66 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <!-- <NuxtLayout :name="layout" /> -->
-  <div class="">
-    <!-- <ToggleTheme /> -->
-    <div class="fadein">
-      <!-- <div class="">
-        <p class="pagetitle textstroke">
-          Cool Shit Co.
-        </p>
-      </div> -->
-      <div class="grid grid-cols-3 gap-10 p-10 bg-secondary-lighten-3 <lg:grid-cols-2 <sm:grid-cols-1"> 
-        <section class="">
-          <h2 class="">
-            Chat Messages
-          </h2>
-          <div class="baseoutline">
-            <ChatMessages />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            File List
-          </h2>
-          <div class="baseoutline">
-            <MyFiles />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            Inbox
-          </h2>
-          <div class="baseoutline">
-            <Inbox />
-          </div>
-        </section>
-        <section>
-          <h2>Form New Account </h2>
-          <div class="basediv">
-            <FormNewAccount />
-          </div>
-        </section>
-
-        <section>
-          <h2>Form Log In</h2>
-          <div class="basediv">
-            <FormLogIn />
-          </div>
-        </section>
-
-        <!--THIS BREAKS TOOLTIPS-->
-        <section class="">
-          <h2 class="">
-            Form Address
-          </h2>
-          <div class="basediv">
-            <FormAddress />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            Form Payment
-          </h2>
-          <div class="basediv">
-            <FormPayment />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            Chips Selection
-          </h2>
-          <div class="basediv">
-            <ChipSelection />
-          </div>
-        </section>
-
-        <!--THIS BREAKS TOOLTIPS-->
-        <section class="">
-          <h2 class="">
-            Form Trip Planner
-          </h2>
-          <div class="basediv">
-            <FormTripPlanner />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            Weather Panel
-          </h2>
-          <div class="basediv">
-            <WeatherPanel />
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            Previous Order
-          </h2>
-          <div class="basediv">
-            <PreviousOrder />
-          </div>
-        </section>
-        
-        <section class="">
-          <h2 class="">
-            Color Picker
-          </h2>
-          <div class="basediv">
-            <ColorPicker />
-          </div>
-        </section>
-        
-        <section class="">
-          <h2 class="">
-            h2
-          </h2>
-          <div class="basediv">
-            <p>component</p>
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            h2
-          </h2>
-          <div class="basediv">
-            <p>component</p>
-          </div>
-        </section>
-
-        <section class="">
-          <h2 class="">
-            h2
-          </h2>
-          <div class="basediv">
-            <p>component</p>
-          </div>
-        </section>
-      </div>
-    </div>
+  <div>
+    <v-layout>
+      <v-main>
+        <v-img src="/img/bright-red-unusual-flower.jpg" height="250px" />
+        <v-container class="my-10 mx-20">
+          <v-card-title>Services</v-card-title>
+          <p>Looking for an eCommerce Platform that outperforms Amazon on PageSpeed Insights?</p>
+          <v-btn>
+            <a href="https://lsdope.com">I built one.</a>
+          </v-btn>
+          <v-btn>
+            <NuxtLink to="/seller-application">Apply For Your Own</NuxtLink>
+          </v-btn>
+          <v-divider />
+          <p>Looking for a dev team?</p>
+          <v-btn>
+            <NuxtLink to="/project-proposal">Send A Proposal</NuxtLink>
+          </v-btn>
+          <v-divider />
+          <p>Investing in startups, sustainable real estate, or various other projects I feel like taking on?</p>
+          <v-btn>
+            <NuxtLink to="/invest">Reveal Opportunities</NuxtLink>
+          </v-btn>
+          <v-divider />
+          <p>Feeling charitable?  Appreciative of something I did?  Just like throwing money around?</p>
+          <v-btn>
+            <NuxtLink to="/donate">Donate</NuxtLink>
+          </v-btn>
+        </v-container>
+        <v-card class="my-10 mx-20">
+          <v-card-title>Social Stuff</v-card-title>
+          <p>Read the blog, which includes both personal and professional articles.</p><br>
+          <v-btn>
+            <NuxtLink to="/blog">Blog</NuxtLink>
+          </v-btn>
+          <v-divider />
+          <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ" class="flex-auto">
+            <v-btn class="m-1 bg-white flex">
+              <v-icon icon="mdi-youtube" class="m-2" />Watch YouTube
+            </v-btn>
+          </a>
+          <v-divider />
+          <v-btn>Github</v-btn>
+          <v-divider />
+          <v-btn>Mastodon</v-btn>
+          <p>Anything else...?Google or Google Developer profile?</p><br>
+        </v-card>
+      </v-main>
+    </v-layout>
   </div>
 </template>
 
 <script setup>
-  //Need to setup vcolors by pulling them from the current vuetify theme object's colors object
-  //Do I need to import the vuetify file here?
-  //how do I get the name of the active vuetify theme object so I can pull it's colors object?
-  // import { ref } from 'vue'
-  import "@/assets/global.css"
-  import { useTheme } from 'vuetify'
-
-  const theme = useTheme()
-  // const layout = "lava-layout"; 
-  //theme.global.name.value = theme.global.current.value
-
-  
-  const vcolors = theme.global.current.value.colors
-  // console.log(Object.keys(vcolors))
-  // vcolors = theme.value.colors
-
-// Rain JS Test 
-
-
+  useServerSeoMeta({
+    title:'Michael Strain',
+    ogTitle:'The Personal Website of Michael Strain',
+    description:'An Entrepreneur with Atypical Priorities and a Diverse Background and Vast Passions.',
+    ogDescription:'This guy is going places.  I mean he already has gone places, seriously.  Did you read about him on Forbes yet?  I\'m compelled to make an early-stage investment in his next project!',
+    ogImage:'img/mountain-coffeefarm.jpg',
+    twitterCard:'summary_large_image',
+    ogType:'website',
+    ogUrl:'https://michael-strain.com'
+  })
 </script>
-
-<style>
-/* 
-.maintitle {
-  transition: all 1s;
-  -webkit-text-stroke: 4px rgba(var(--v-theme-on-secondary));
-  font-variation-settings: "wght" 900, "ital" 1;
-  font-size: 8rem;
-  text-align: center;
-  color: transparent;
-  font-family: "Meta", sans-serif;
-  text-shadow: 0px 0px 0px black,
-    8px 8px 3px blue,
-    13px 13px 3px darkblue,
-    20px 20px 5px black,
-    -1px -1px 5px black,
-    -1px -1px 5px black;
-  cursor: pointer;
-} */
- /* 8px 0px 3px #E6B723,
-    15px 0px 3px #FF2828,
-    20px 0px 5px black,
-    0px 0px 20px black; */
-
-/* .maintitle:hover {
-  font-variation-settings: "wght" 100, "ital" 0;
-  text-shadow:  0px 0px 0px black;
-  -webkit-text-stroke: 4px blue;
-} */
-
-</style>
-
-<!-- <section class="">
-  <h2 class="">
-    Colors :D
-  </h2>
-  <div class="basediv w-full">
-    <div
-      v-for="c in Object.keys(vcolors)"
-      :key="c"
-      :class="'bg-' + c"
-    >
-      <p>{{ c }}</p>
-    </div>
-  </div>
-</section> -->

@@ -169,11 +169,6 @@
           <v-icon icon="mdi-chat-question" class="m-2" />Frequently Asked Questions
         </v-btn>
       </NuxtLink>
-      <a href="https://www.youtube.com/channel/UCXo9qETIsM-oNybayMhivPQ" class="flex-auto">
-        <v-btn class="m-1 bg-white flex">
-          <v-icon icon="mdi-youtube" class="m-2" />Watch Our Journey
-        </v-btn>
-      </a>
     </div>
   </div>
   <!-- <v-container>
@@ -205,8 +200,6 @@ Basically, you are looking at my toolbelt.</p>
       </div>
     </v-card> -->
 </template>
-
-<!-- Wow, we don't even use a script on this page.  We may want to use one for things like auth and prefetching store data -->
 
 <style scoped>
 .btnc1:hover{
