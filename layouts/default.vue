@@ -17,14 +17,13 @@
         </div>
       </template>
     </v-app-bar>
-    <ClientOnly>
-      <v-navigation-drawer
-        v-model="themedrawer"
-        temporary
-      >
-        <ToggleTheme />
-      </v-navigation-drawer>
-    </ClientOnly>
+
+    <v-navigation-drawer
+      v-model="themedrawer"
+      temporary
+    >
+      <ToggleTheme />
+    </v-navigation-drawer>
     
     <v-main order="0" class="z-10">
       <Header class="z-10" />
@@ -36,7 +35,6 @@
 
 <script setup>
   const themeIcon = ref('mdi-weather-sunny')
-  const wishdrawer = ref(null)
   const themedrawer = ref(null)
 </script>
 

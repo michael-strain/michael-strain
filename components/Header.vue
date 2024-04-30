@@ -1,17 +1,17 @@
 <template>
   <NuxtLink to="/">
     <p
-      class="header_sitetitle text-8xl pb-3 <md:(text-7xl)"
+      class="header_sitetitle text-5xl pb-2"
     >
       Michael-Strain
     </p>
   </NuxtLink>
-  <v-container class="align-center align-items-center align-content-center">
-    <v-row class="w-full p-5">
-      <v-col><NuxtLink to="/blog"><v-btn variant="block">Blog</v-btn></NuxtLink></v-col>
-      <v-col><NuxtLink to="/contact"><v-btn variant="block">Contact</v-btn></NuxtLink></v-col>
-      <v-col><NuxtLink to="/donate"><v-btn variant="block">Donate</v-btn></NuxtLink></v-col>
-      <v-col><NuxtLink to="/invest"><v-btn variant="block">Invest</v-btn></NuxtLink></v-col>
+  <v-container>
+    <v-row class="w-full flex justify-center mx-auto gap-2">
+      <NuxtLink to="/blog"><v-btn variant="plain">Blog</v-btn></NuxtLink>
+      <NuxtLink to="/donate"><v-btn variant="plain">Donate</v-btn></NuxtLink>
+      <NuxtLink to="/invest"><v-btn variant="plain">Invest</v-btn></NuxtLink>
+      <NuxtLink to="/contact"><v-btn variant="plain">Contact</v-btn></NuxtLink>
     </v-row>
   </v-container>
 </template>
@@ -25,10 +25,10 @@
   /* font-size: 92px; */
   color: rgb(var(--v-theme-primary-darken-1));
   /* color: #f1ebe5; */
-  -webkit-text-stroke: 1px white;
-  text-shadow: 0 5px 9px rgb(var(--v-theme-primary-lighten-2)), -2px -2px 2px #fff, 0px 0px 3px rgb(var(--v-theme-primary));
+  -webkit-text-stroke: 0.1px white;
+  text-shadow: 0 0.5px 0px rgb(var(--v-theme-primary-lighten-2)), -2px -2px 2px #fff, 0px 0px 3px rgb(var(--v-theme-primary));
   font-weight: bold;
-  letter-spacing: -4px;
+  /* letter-spacing: -2px; */
   text-align: center;
   /* background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%); */
   /* position: absolute; */
