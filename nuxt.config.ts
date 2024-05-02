@@ -27,55 +27,77 @@ export default defineNuxtConfig({
     runtimeConfig: {
         GOOGLE_APPLICATION_CREDENTIALS:process.env.GOOGLE_APPLICATION_CREDENTIALS,
         SITE_DOMAIN: process.env.SITE_DOMAIN,
+        STRIPE_SECRET_KEY: process.env.NODE_ENV==="development" ? "sk_test_TWFt8bOX2Lj37qnSZJXL8a73" : process.env.STRIPE_SECRET_KEY,
+        BREVO_KEY: process.env.BREVO_KEY,
         public:{
-            // STRIPE_PUBLIC_KEY: process.env.NODE_ENV==="development" ? "pk_test_Ks0hhsz15BuwjmJ50MBRqKOk" : process.env.STRIPE_PUBLIC_KEY,
+            STRIPE_PUBLIC_KEY: process.env.NODE_ENV==="development" ? "pk_test_Ks0hhsz15BuwjmJ50MBRqKOk" : process.env.STRIPE_PUBLIC_KEY,
             WTFAMI: process.env.NODE_ENV==="development" ? "DEV" : process.env.WTFAMI,
         },
-        private:{
-            // STRIPE_SECRET_KEY: process.env.NODE_ENV==="development" ? "sk_test_TWFt8bOX2Lj37qnSZJXL8a73" : process.env.STRIPE_SECRET_KEY
-        }
-
     },
     modules:[
-        ['nuxt-gtag',{
-            id: 'G-T92C2EE8PR',
-            disabled:process.env.NODE_ENV=="development"?true:false
+        ['nuxt-vuefire',{
+            auth: {
+                enabled: true,
+                sessionCookie: true
+            },
+            // appCheck: {
+            //     debug: process.env.NODE_ENV !== 'production',
+            //     isTokenAutoRefreshEnabled: true,
+            //     provider: 'ReCaptchaV3',
+            //     // Find the instructions in the Firebase documentation, link above
+            //     key: '6LedeDgpAAAAAKvcjuEuaZzbUikw5j6XyiQemNYz'
+            // },
+            config: JSON.parse(String(process.env.FIREBASE_CONFIG)),
         }],
-        'nuxt-windicss',
-        // ['@unlok-co/nuxt-stripe',{
-        //     server:{
-        //         key:process.env.STRIPE_SECRET_KEY,
-        //         options:{
-        //             apiVersion:'2023-10-16',
-        //         }
-        //     },
-        //     client:{
-        //         key:process.env.STRIPE_PUBLIC_KEY,
-        //         options:{}
-        //     }
+        //Don't have the id just yet
+        // ['nuxt-gtag',{
+        //     id: '',
+        //     disabled:process.env.NODE_ENV=="development"?true:false
         // }],
-        ['nuxt-simple-robots',{disallow: ['/admin','/admin/*','/api/*']}],
-        ['nuxt-delay-hydration',{debug:process.env.NODE_ENV==='development',mode:'mount'}], //mount or init seem like the right options to test
+        // 'nuxt-windicss',
+        ['@unlok-co/nuxt-stripe',{
+            server:{
+                key:process.env.STRIPE_SECRET_KEY,
+                options:{
+                    apiVersion:'2023-10-16',
+                }
+            },
+            client:{
+                key:process.env.STRIPE_PUBLIC_KEY,
+                options:{}
+            }
+        }],
+        // ['nuxt-simple-robots',{disallow: ['/admin','/admin/*','/api/*']}],
         '@nuxtjs/device',
         'vuetify-nuxt-module',
+        '@nuxtjs/tailwindcss'
     ],
 
     css:[
         '~/assets/fonts/Raleway/Raleway.css',
         '~/assets/fonts/Roboto_Slab/Roboto_Slab.css',
     ],
-    routeRules:{
-        //Need to change this to make the whole site SSG
-        '/':{
-            prerender: true,
-            swr: 120,
-            cache: {
-                staleMaxAge: 120
-            }
-        },
-    },
+    // routeRules:{
+    //     //Need to change this to make the whole site SSG
+    //     '/':{
+    //         prerender: true,
+    //         swr: 120,
+    //         cache: {
+    //             staleMaxAge: 120
+    //         }
+    //     },
+    // },
     sourcemap: {
         server: true,
         client: true
+    },
+    vite:{
+        build:{
+            sourcemap:true,
+            manifest:true,
+        },
+        optimizeDeps:{
+            include:['lodash-es','@stripe/stripe-js']
+        },
     }
 })
