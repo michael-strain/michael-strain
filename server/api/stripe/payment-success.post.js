@@ -5,6 +5,12 @@ import { getRequestHeaders, readBody, readRawBody } from 'h3'
 
 //ORIGINAL FROM LSDOPE
 //NOT AT ALL UPDATED TO WORK WITH MICHAEL-STRAIN
+//Probably need to add a metadata DOMAIN field to specify whether or not the payment was for an lsdope order or a michael-strain order
+
+//Michael-Strain payments should be either
+//-donations
+//-winning bids for my time
+//-or invoice payment type things I guess
 
 export default defineEventHandler(async(event) => {
   //Need to authenticate requests to ensure they are coming ONLY from stripe
@@ -15,13 +21,9 @@ export default defineEventHandler(async(event) => {
     initializeApp()
   }
   
-  const headers = await getRequestHeaders(event)
-  const sig = headers['stripe-signature'];
-  // console.log(sig)
-
-  const hookSecret = useRuntimeConfig().public.WTFAMI=="DEV" ? "whsec_e965f4b75ebed3d661c42009cc96cd8c9607b198582f614af2d75ad0a89b4bd3" : "whsec_4hn3kbbB2U2FZ8aUa5RvnbjtPOCvFyFS"
-
-  // const temphook = "whsec_e965f4b75ebed3d661c42009cc96cd8c9607b198582f614af2d75ad0a89b4bd3"
+  const headers = getRequestHeaders(event)
+  const sig = headers['stripe-signature']
+  const hookSecret = useRuntimeConfig().public.WTFAMI=="DEV" ? "whsec_e965f4b75ebed3d661c42009cc96cd8c9607b198582f614af2d75ad0a89b4bd3" : "whsec_4hn3kbbB2U2FZ8aUa5RvnbjtPOCvFyFS";
   const stripe = await useServerStripe(event)
 
   const body = await readBody(event)
@@ -33,15 +35,13 @@ export default defineEventHandler(async(event) => {
     // console.log("Stripe Signature Invalid.")
     return { error: "Invalid Stripe Signature"}
   }
-  // console.log(stripeEvent)
-  // }
+  
+  const domain = body.data.object.metadata.domain
+  if(!domain || domain!="michael-strain"){
+    return //not for us, yay for one of our other domains tho!
+  }
 
   
-  //Required fields:
-  // const userId = body.uid
-  // const args = body.email ? {email:body.email, metadata:{uid: userId}} : { metadata:{uid: userId }}
-
-  //Need to get orderId from body and use it to update order doc in firestore
   const orderId = body.data.object.metadata.orderId
 
   if(!orderId){
