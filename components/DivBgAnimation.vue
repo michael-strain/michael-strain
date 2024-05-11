@@ -1,29 +1,19 @@
 <template>
-  <v-app>
-    <!-- <ul class="circles bg-pink">
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-      <li />
-    </ul> -->
-    <slot />   
-  </v-app>
+  <ul class="circles">
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+    <li />
+  </ul>
 </template>
 
 <style scoped>
-.p {
-  padding-left: 120px;
-  padding-right: 120px;
-  padding-top: 25px;
-  padding-bottom: 50px;
-}
-
 .circles{
     position: fixed;
     top: 0;
@@ -31,7 +21,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 5;
+    z-index: 1;
 }
   .circles li{
     position: absolute;

@@ -12,6 +12,12 @@ export default defineNuxtConfig({
         },
         compressPublicAssets: true,
     },
+    postcss:{
+        plugins:{
+            tailwindcss:{},
+            autoprefixer:{},
+        }
+    },
     app:{
         head:{
             charset:'utf-8',
@@ -41,7 +47,7 @@ export default defineNuxtConfig({
             id: 'G-T92C2EE8PR',
             disabled:process.env.NODE_ENV=="development"?true:false
         }],
-        'nuxt-windicss',
+        '@pinia/nuxt',
         // ['@unlok-co/nuxt-stripe',{
         //     server:{
         //         key:process.env.STRIPE_SECRET_KEY,
@@ -63,6 +69,7 @@ export default defineNuxtConfig({
     css:[
         '~/assets/fonts/Raleway/Raleway.css',
         '~/assets/fonts/Roboto_Slab/Roboto_Slab.css',
+        '~/assets/css/main.css'
     ],
     routeRules:{
         //Need to change this to make the whole site SSG

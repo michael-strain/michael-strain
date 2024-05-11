@@ -1,21 +1,8 @@
 <template>
-  <div
-    class="text-center m-5 mx-auto text-sm flex flex-col gap-1 z-0"
-  >
-    <strong>Michael-Strain - © Strain Investment Co. LLC</strong>
-    <div class="text-sm flex justify-center gap-8">
-      <NuxtLink
-        to="/contact"
-        class=""
-      >
-        Contact Us
-      </NuxtLink>
-      <NuxtLink
-        to="/shop/faqs"
-      >
-        Frequently Asked Questions
-      </NuxtLink>
-    </div>
+  <div class="bg-black w-100 z-[6] text-center py-3">
+    <p class="pb-1">
+      © Strain Investment Co. LLC
+    </p>
     <p class="text-xs text-wrap">
       All content is owned solely by Michael Strain, and shall not be used or reproduced without prior written consent. All Rights Reserved.
     </p>
