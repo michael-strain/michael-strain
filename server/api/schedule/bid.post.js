@@ -9,5 +9,5 @@ export default defineEventHandler(async(event)=>{
   //need to validate authentication of the token passed
   //idk... if charge authorized correctly, append bid to bidHistory, set new bid amt, set current bidder uid, etc?
   //Need to do this as a transaction i think, so we can get current bid and ensure the proposed bid is greater than current + bidIncrement
-
+  return
 })
