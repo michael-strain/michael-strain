@@ -208,8 +208,9 @@ definePageMeta({
   opacity: 100%;
 }
 
+/* bg-base-200 */
 .third {
-  @apply w-full md:w-1/3 p-5 bg-base-200 flex flex-col flex-grow flex-shrink rounded-lg;
+  @apply w-full md:w-1/3 p-5 flex flex-col flex-grow flex-shrink rounded-lg;
   transform-origin: 0 0;
   transform: translateY(200px);
   opacity: 0;

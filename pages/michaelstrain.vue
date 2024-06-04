@@ -69,9 +69,9 @@
               </p>
             </div>
           </div>
-          <div class="w-full p-5 hidden md:(flex w-1/2)">
+          <!-- <div class="w-full p-5 hidden md:(flex w-1/2)">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
-          </div>
+          </div> -->
         </div>
       </v-card>
     </v-container>

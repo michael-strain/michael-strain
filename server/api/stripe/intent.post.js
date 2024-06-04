@@ -3,7 +3,7 @@ import { getApp, initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldPath } from 'firebase-admin/firestore'
 // import Stripe from 'stripe';
 import { useServerStripe } from '#stripe/server'
-import * as auth from 'firebase-admin/auth'
+// import * as auth from 'firebase-admin/auth'
 import { getHeaders } from 'h3'
 
 //ORIGINAL VERSION FROM LSDOPE
@@ -31,7 +31,8 @@ export default defineEventHandler(async(event)=>{
 
   const headers = getHeaders(event)
   const token = headers.token
-  const verify = await auth.getAuth().verifyIdToken(token)
+  //PAUSING AUTH
+  // const verify = await auth.getAuth().verifyIdToken(token)
   
   var cartItems = []
   for(let i=0; i<cart.length;i++){
@@ -78,14 +79,16 @@ export default defineEventHandler(async(event)=>{
     // confirm: true,
     // return_url:'https://lsdope.com/shop/orders/'+orderId
   }
+
+  //PAUSING AUTH
   //get user doc from user collection
-  const userDocRef = db.collection('users').doc(verify.uid)
-  const data = await userDocRef.get()
-  if(data.exists){
-    paymentIntentArgs.customer = data.get('userInfo.stripeCustomerId')
-    //this should always be found, because we should make a stripeCustomerId everytime we make a new user
-    paymentIntentArgs.setup_future_usage = "on_session" //If a customer is not present in the checkout flow, use off_session (manual charge type thing?)
-  }
+  // const userDocRef = db.collection('users').doc(verify.uid)
+  // const data = await userDocRef.get()
+  // if(data.exists){
+  //   paymentIntentArgs.customer = data.get('userInfo.stripeCustomerId')
+  //   //this should always be found, because we should make a stripeCustomerId everytime we make a new user
+  //   paymentIntentArgs.setup_future_usage = "on_session" //If a customer is not present in the checkout flow, use off_session (manual charge type thing?)
+  // }
 
   const paymentIntent = await stripe.paymentIntents.create(paymentIntentArgs);
   const orderDocRef = db.collection('orders').doc(orderId)
