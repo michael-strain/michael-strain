@@ -2,38 +2,27 @@
 @tailwind components; 
 @tailwind utilities; 
 
-/* text-base-content  */
-
-
 
 @layer components {
 h1 {
-    @apply w-full my-2 text-5xl font-bold
-  }
-  .padding {
-  @apply lg:px-[120px] md:px-[60px] sm:px-6;
-  } 
-.card {
-  @apply bg-opacity-[90%] p-5 mx-5 md:mx-auto md:w-4/5 lg:w-3/4 shadow-md bg-base-100 text-base-content card-bordered text-center;
+  @apply w-full my-2 text-5xl font-bold
 }
-/* bg-opacity-[97%]  */
+.padding {
+@apply lg:px-[120px] md:px-[60px] sm:px-6;
+} 
 .twocolinputs {
   @apply sm:grid sm:grid-cols-2 gap-x-5;
 }
 }
-.btn {
-  @apply hover:font-bold;
-}
 .snackbar {
   @apply p-5 bg-neutral text-neutral-content z-[5] fixed bottom-5 right-5 text-wrap;
 }
-.vbtn {
+/* .vbtn {
   @apply btn p-0 m-0; 
-  /* on v-btn: capitalize p-0 w-full font-bold */
 }
 .vbtn * {
   @apply capitalize w-full font-bold m-0;
   padding: 0px !important;
-}
+} */
 
 html { overflow-y: auto }

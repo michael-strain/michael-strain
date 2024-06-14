@@ -3,6 +3,10 @@
 <template>
   <Header />
 
+  <!-- <section class="bg-white pt-[120px] pb-[70px]">
+    <SevenDayCalendar />
+  </section> -->
+
   <section class="bg-black flex flex-col content-end lg:pt-[85px]">
     <div class="md:h-1/4 h-16" />
     <div class="padding w-full mb-n8 z-[2]">
