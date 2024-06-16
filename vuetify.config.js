@@ -83,16 +83,9 @@ export default defineVuetifyConfiguration({
     },
   },
   defaults: {
-    VCard: {
-      rounded:'0',
-      elevation: '4',
-      // background:'black',
-      // width: '800px',
-      VBtn: { color:'primary', rounded:'0' }
-    },
-    VSelect: {
-      variant: 'solo', color:'primary',
-    },
+    // VSelect: {
+    //   variant: 'solo', color:'primary',
+    // },
     VTextField: {
       variant: 'solo', color:'primary',
     },

@@ -1,0 +1,28 @@
+@tailwind base; 
+@tailwind components; 
+@tailwind utilities; 
+
+
+@layer components {
+h1 {
+  @apply w-full my-2 text-5xl font-bold
+}
+.padding {
+@apply lg:px-[120px] md:px-[60px] sm:px-6;
+} 
+.twocolinputs {
+  @apply sm:grid sm:grid-cols-2 gap-x-5;
+}
+}
+.snackbar {
+  @apply p-5 bg-neutral text-neutral-content z-[5] fixed bottom-5 right-5 text-wrap;
+}
+/* .vbtn {
+  @apply btn p-0 m-0; 
+}
+.vbtn * {
+  @apply capitalize w-full font-bold m-0;
+  padding: 0px !important;
+} */
+
+html { overflow-y: auto }

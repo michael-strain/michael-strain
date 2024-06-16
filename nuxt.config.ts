@@ -12,6 +12,12 @@ export default defineNuxtConfig({
         },
         compressPublicAssets: true,
     },
+    postcss:{
+        plugins:{
+            tailwindcss:{},
+            autoprefixer:{},
+        }
+    },
     app:{
         head:{
             charset:'utf-8',
@@ -80,6 +86,7 @@ export default defineNuxtConfig({
     css:[
         '~/assets/fonts/Raleway/Raleway.css',
         '~/assets/fonts/Roboto_Slab/Roboto_Slab.css',
+        '~/assets/css/main.css'
     ],
     // routeRules:{
     //     //Need to change this to make the whole site SSG
