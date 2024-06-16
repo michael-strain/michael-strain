@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /auctions/{auction} {
+      allow read; //anyone can view public auction details
+      //Only the server should be creating auctions at this time
+      //Fields:
+      //bidder (uid)
+      //currentBid (in cents)
+      //intentId (right? so we can charge on end?)
+      //bidDate
+      //endDate
+      //incrementAmt (in cents)
+      //bidHistory (subcollection -> bidder, bid, date, intentId)
+      match /private/{doc} {
+        allow read: if(hasAccessToRole('admin'));
+      }
+    }
+  }
+}
+
+function hasAccessToRole(role){
+  return (role in request.auth.token.roles);
+}

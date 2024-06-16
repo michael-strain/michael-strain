@@ -64,9 +64,9 @@
               </p>
             </v-card>
           </div>
-          <div class="w-1/2 p-2">
+          <!-- <div class="w-1/2 p-2">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
-          </div>
+          </div> -->
         </div>
       </NuxtLink>
     </v-card>
@@ -89,9 +89,9 @@
               </p>
             </v-card>
           </div>
-          <div class="w-1/2 p-2">
+          <!-- <div class="w-1/2 p-2">
             <img src="~/assets/img/brugmansia.svg" class="contain w-full" style="{ contain }">
-          </div>
+          </div> -->
         </div>
       </NuxtLink>
     </v-card>

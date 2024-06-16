@@ -75,9 +75,16 @@
 </template>
 
 <script setup>
-// definePageMeta({
-//   layout: 'default'
-// })
+  useServerSeoMeta({
+    title:'Michael Strain',
+    ogTitle:'The Personal Website of Michael Strain',
+    description:'A Man with Good Priorities, a Diverse Background, Vast Passions, and a Bright Future.',
+    ogDescription:'This guy is going places.  I mean he already has gone places, seriously.  Did you read about him on Forbes yet?  I\'m compelled to make an early-stage investment in his next project!',
+    ogImage:'img/mountain-coffeefarm.jpg',
+    twitterCard:'summary_large_image',
+    ogType:'website',
+    ogUrl:'https://michael-strain.com'
+  })
 </script>
 
 <style scoped>
