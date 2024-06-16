@@ -34,3 +34,7 @@
 // Failure of me to attend will be rescheduled if possible, or otherwise refunded.
 
 // If a charge is not successfully captured for a winning bid, we should fallback to the runner-up bid.
+
+export default defineEventHandler(async(event)=>{
+  return
+})

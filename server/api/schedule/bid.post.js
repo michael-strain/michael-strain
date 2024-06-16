@@ -1,7 +1,7 @@
-import { getApp, initializeApp } from 'firebase-admin/app'
-import { getFirestore, FieldPath } from 'firebase-admin/firestore'
-import * as auth from 'firebase-admin/auth'
-import { getHeaders } from 'h3'
+// import { getApp, initializeApp } from 'firebase-admin/app'
+// import { getFirestore, FieldPath } from 'firebase-admin/firestore'
+// import * as auth from 'firebase-admin/auth'
+// import { getHeaders } from 'h3'
 
 
 export default defineEventHandler(async(event)=>{

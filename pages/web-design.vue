@@ -12,7 +12,7 @@
       Website<br>Design<br>Expeditious<br>Beautiful
     </p>
     <p class="text-2xl mt-2">
-      One company to handle design, creation, and functionality for any business.
+      One company to handle web design, creation, and functionality for any business.
     </p>
   </div>
   <!--Thirds-->
@@ -185,9 +185,19 @@
 </template>
 
 <script setup>
-definePageMeta({
-  layout: 'blank'
-})
+  definePageMeta({
+    layout: 'blank'
+  })
+  useServerSeoMeta({
+    title:'Michael Strain',
+    ogTitle:'The Personal Website of Michael Strain',
+    description:'A Man with Good Priorities, a Diverse Background, Vast Passions, and a Bright Future.',
+    ogDescription:'This guy is going places.  I mean he already has gone places, seriously.  Did you read about him on Forbes yet?  I\'m compelled to make an early-stage investment in his next project!',
+    ogImage:'img/mountain-coffeefarm.jpg',
+    twitterCard:'summary_large_image',
+    ogType:'website',
+    ogUrl:'https://michael-strain.com'
+  })
 </script>
 
 <style scoped>
