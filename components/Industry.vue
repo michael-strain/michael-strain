@@ -7,7 +7,7 @@
     <!-- <div class="w-full mb-4">
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
       </div> -->
-    <div class="wrapper justify-center flex gap-8 w-full sm:flex-row flex-col">
+    <div ref="industries" :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row flex-col':'justify-center flex gap-8 w-full sm:flex-row flex-col'">
       <div class="w-1/5 scale">
         <img
           src="/favicon.png"
@@ -24,7 +24,7 @@
       </div>
     </div>
     <br>
-    <div class="wrapper justify-center flex gap-8 w-full sm:flex-row-reverse flex-col">
+    <div :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row-reverse flex-col':'justify-center flex gap-8 w-full sm:flex-row-reverse flex-col'">
       <div class="w-1/5 scale">
         <img
           src="/favicon.png"
@@ -43,8 +43,36 @@
   </div>
 </template>
 
+<script setup>
+//We are going to use dynamic classes and an Intersection Observer to transform and set opacity now
+const industries  = ref(null)
+const isVisible = ref(false)
+const showIndustries = (entries, observer) => {
+  console.log("Scroll area entered?")
+  entries.forEach((entry) => {
+    if(entry.isIntersecting){
+      console.log("yes")
+      isVisible.value = true
+    }
+  })
+}
+
+onMounted(async()=>{
+  let options = {
+    // root: scrollArea.value,
+    rootMargin: "0px",
+    threshold: 0.1,
+  };
+
+  let observer = new IntersectionObserver(showIndustries, options);
+  if(industries.value){
+    observer.observe(industries.value)
+  }
+})
+</script>
+
 <style scoped>
-.wrapper2:is(:hover, :focus) .wrapper .scale {
+.wrapper2 .wrapper .scale {
   transform: scale(1);
   opacity: 100%;
   transition-duration: 1s;
@@ -72,7 +100,7 @@
   transform: translateX(-1500px);
 }
 
-.wrapper2:is(:hover, :focus) .wrapper .fade {
+.wrapper2 .wrapper .fade {
   transform: translateX(0);
   opacity: 100%;
 }
