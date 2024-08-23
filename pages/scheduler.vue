@@ -10,8 +10,8 @@
 <script setup>
 //Do we need an openSlot lookup type thing?
 //I think we should useCollection on all the active auctions
-import { useCollection } from 'vuefire'
-const auctions = useCollection('auctions')
+// import { useCollection } from 'vuefire'
+// const auctions = useCollection('auctions')
 
 const submitIntent = async () => {
   //Need stripe stuff right?

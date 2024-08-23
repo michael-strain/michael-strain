@@ -4,7 +4,7 @@ import { getFirestore, FieldPath } from 'firebase-admin/firestore'
 // import Stripe from 'stripe';
 import { useServerStripe } from '#stripe/server'
 // import * as auth from 'firebase-admin/auth'
-import { getHeaders } from 'h3'
+// import { getHeaders } from 'h3'
 
 //ORIGINAL VERSION FROM LSDOPE
 //NOT AT ALL MODIFIED TO WORK WITH MICHAEL-STRAIN YET
@@ -29,8 +29,8 @@ export default defineEventHandler(async(event)=>{
   const orderId = body.orderId
   // console.log(orderId)
 
-  const headers = getHeaders(event)
-  const token = headers.token
+  // const headers = getHeaders(event)
+  // const token = headers.token
   //PAUSING AUTH
   // const verify = await auth.getAuth().verifyIdToken(token)
   
