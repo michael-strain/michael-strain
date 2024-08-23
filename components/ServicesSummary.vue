@@ -1,9 +1,9 @@
 <template>
-  <div class="mx-auto flex flex-wrap">
+  <div ref="scrollArea" class="mx-auto flex flex-wrap">
     <h1 class="text-center mb-8">
       Services
     </h1>
-    <div class="wrapper flex md:gap-10 gap-8 md:flex-row flex-col">
+    <div ref="services" :class="isVisible ? 'wrapper flex md:gap-10 gap-8 md:flex-row flex-col' : 'third flex md:gap-10 gap-8 md:flex-row flex-col' ">
       <div class="delay1 third">
         <p class="w-full text-gray-600 text-xs md:text-sm">
           Design
@@ -41,8 +41,37 @@
   </div>
 </template>
 
+<script setup>
+//We are going to use dynamic classes and an Intersection Observer to transform and set opacity now
+const scrollArea = ref(null)
+const services  = ref(null)
+const isVisible = ref(false)
+const showServices = (entries, observer) => {
+  console.log("Scroll area entered?")
+  entries.forEach((entry) => {
+    if(entry.isIntersecting){
+      console.log("yes")
+      isVisible.value = true
+    }
+  })
+}
+
+onMounted(async()=>{
+  let options = {
+    // root: scrollArea.value,
+    rootMargin: "0px",
+    threshold: 0.1,
+  };
+
+  let observer = new IntersectionObserver(showServices, options);
+  if(services.value){
+    observer.observe(services.value)
+  }
+})
+</script>
+
 <style scoped>
-.wrapper:is(:hover, :focus) .third {
+.wrapper .third {
   transform: translateY(0);
   opacity: 100%;
 }
