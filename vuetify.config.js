@@ -33,7 +33,7 @@ const myPurpleTheme = {
 const myAggressiveTheme = {
   colors: {
     background: '#000000',
-    whitebg: '000000',
+    whitebg: '#000000',
     surface: '#000000',
     'surface-darken-1': '#F0F0F0',
     'surface-normal-1': '#FFECEE',
@@ -59,7 +59,7 @@ const myNeutralTheme = {
 
 export default defineVuetifyConfiguration({
   theme: {
-    defaultTheme: 'myAggressiveTheme',
+    defaultTheme: 'myPurpleTheme',
     variations: {
       colors: ['primary', 'secondary', 'surface',],
       lighten: 3,
