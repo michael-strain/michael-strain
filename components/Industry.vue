@@ -7,7 +7,10 @@
     <!-- <div class="w-full mb-4">
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
       </div> -->
-    <div ref="industries" :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row flex-col':'justify-center flex gap-8 w-full sm:flex-row flex-col'">
+    <div
+      ref="industries"
+      :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row flex-col':'justify-center flex gap-8 w-full sm:flex-row flex-col'"
+    >
       <div class="w-1/5 scale">
         <img
           src="/favicon.png"
@@ -15,14 +18,15 @@
         >
       </div>
       <div class="w-3/5 fade faderight">
-        <p class="text-4xl  font-bold py-6">
-          Ecommerce/Inventory/Data Analysis
+        <p class="text-4xl font-bold">
+          Ecommerce
         </p>
         <p class="text-gray-600 mb-8">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
+          Nyx Knacks
         </p>
       </div>
     </div>
+    <br>
     <br>
     <div :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row-reverse flex-col':'justify-center flex gap-8 w-full sm:flex-row-reverse flex-col'">
       <div class="w-1/5 scale">
@@ -32,10 +36,31 @@
         >
       </div>
       <div class="w-3/5 fade text-right fadeleft">
-        <p class="text-4xl  font-bold py-6">
+        <p class="text-4xl  font-bold">
           Subscriptions/Admins/Brand Redesign
         </p>
         <p class="mb-8">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
+        </p>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div
+      ref="industries"
+      :class="isVisible ? 'wrapper justify-center flex gap-8 w-full sm:flex-row flex-col':'justify-center flex gap-8 w-full sm:flex-row flex-col'"
+    >
+      <div class="w-1/5 scale">
+        <img
+          src="/favicon.png"
+          class=""
+        >
+      </div>
+      <div class="w-3/5 fade faderight">
+        <p class="text-4xl font-bold">
+          Inventory/Data Analysis
+        </p>
+        <p class="text-gray-600 mb-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
         </p>
       </div>

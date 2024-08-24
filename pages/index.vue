@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-
   <!--
 
     New Gameplan:
@@ -15,25 +14,23 @@
 
   -->
 
-  <Header />
-
   <!--
   
     1st Chunk:
     -Advertise the Existing SICo Stores
 
   -->
-  <div class="h-[100%] flex">
+  <!-- <div class="h-[100%] flex">
     <div class="w-[50%]">
       <NuxtLink to="https://lsdope.com">
-        <!-- TODO: <MiniLavaComponent> -->
+        TODO: <MiniLavaComponent>
           <button class="btn">
             <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">BUY SOMETHING ON LSDOPE.COM</p>
           </button>
-        <!-- </MiniLava> -->
+        </MiniLava>
       </NuxtLink>
     </div>
-    <div class="w-[50%]"><!--Automatically cycling through themes for our button/backgrounds/fonts would be a nice touch-->
+    <div class="w-[50%]">Automatically cycling through themes for our button/backgrounds/fonts would be a nice touch
       <NuxtLink to="https://nyxknacks.com">
         <img src="/public/grayscale_background.jpg" class="opacity-40">
         <button class="btn">
@@ -41,7 +38,7 @@
         </button>
       </NuxtLink>
     </div>
-  </div>
+  </div> -->
 
   <!--
   
@@ -51,13 +48,13 @@
     *Terms and Conditions apply all rights reserved of course
 
   -->
-  <div class="">
+  <!-- <div class="">
     <h1>Apply for your own eCommerce domain*</h1>
     <NuxtLink to="/seller-application">
       <v-btn>Apply for a Domain</v-btn>
     </NuxtLink>
     <p>*<NuxtLink to="/legal/seller-terms">Terms and Conditions</NuxtLink> Apply, All Rights Reserved</p>
-  </div>
+  </div> -->
 
   <!--
   
@@ -65,32 +62,6 @@
     -Become a seller/fulfiller on one of our domains
   
   -->
-
-  <div class="h-[100%] flex">
-    <div class="w-[50%]">
-      <NuxtLink to="https://lsdope.com">
-        <!-- TODO: <MiniLavaComponent> -->
-          <button class="btn">
-            <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">Become a Seller</p>
-          </button>
-          <button class="btn">
-            <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">Become a Fulfiller</p>
-          </button>
-        <!-- </MiniLava> -->
-      </NuxtLink>
-    </div>
-    <div class="w-[50%]"><!--Automatically cycling through themes for our button/backgrounds/fonts would be a nice touch-->
-      <NuxtLink to="https://nyxknacks.com">
-        <img src="/public/grayscale_background.jpg" class="opacity-40">
-        <button class="btn">
-          <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">Become a Seller</p>
-        </button>
-        <button class="btn">
-            <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">Become a Fulfliler</p>
-          </button>
-      </NuxtLink>
-    </div>
-  </div>
 
   <!--ASHLEY CODE BELOW-->
   <!--Using this as chunk four because it's excellent and will age well-->
@@ -102,8 +73,33 @@
   <!-- <section class="bg-white pt-[120px] pb-[70px]">
     <SevenDayCalendar />
   </section> -->
-
-  <section class="bg-black flex flex-col content-end lg:pt-[85px]">
+  <div class="flex justify-space-between text-center bg-black fixed z-[5] top-0 w-full">
+    <p class="uppercase p-4 text-2xl font-bold">
+      Michael Strain
+    </p>
+    <div class="flex justify-space-between">
+      <div class="flex gap-2 p-4 align-center">
+        <v-icon icon="mdi-email" />
+        <p class="">
+          michael.v.strain@email.com
+        </p>
+      <!-- <p class="text-gray-500">email</p> -->
+      </div>
+      <div class="flex gap-2 p-4 align-center">
+        <v-icon icon="mdi-phone" />
+        <p>239.413.6517</p>
+      <!-- <p class="">phone</p> -->
+      </div>
+      <div class="flex gap-2 p-4 align-center">
+        <v-icon icon="mdi-download" />
+        <p class="link">
+          Download Resume
+        </p>
+      <!-- <p class="">resume</p> -->
+      </div>
+    </div>
+  </div>
+  <section class="bg-black flex flex-col content-end lg:pt-[100px]">
     <div class="md:h-1/4 h-16" />
     <div class="padding w-full mb-n8 z-[2]">
       <p class="text-xl md:text-8xl font-bold">
@@ -156,17 +152,33 @@
       </svg>
     </div>
   </section>
-  
-  <section class="padding bg-white">
+  <br>
+  <br>
+  <section class="padding">
+    <ExperienceTimeline />
+  </section>
+  <br>
+  <div class="divider" />
+  <section class="padding">
+    <Skills />
+  </section>
+  <br>
+  <div class="divider" />
+  <section class="padding">
+    <World />
+  </section>
+  <br>
+  <!-- <div class="divider" />
+  <section class="padding">
     <ServicesSummary />
   </section>
-  
-  <section class="padding bg-white">
+  <br> -->
+  <!-- <div class="divider" />
+  <section class="padding">
     <Industry />
-  </section>
-
-  <ContactMainPage />
-  
+  </section> -->
+  <!-- <br>
+  <ContactMainPage /> -->
   <Footer />
 
   <!-- 
@@ -180,9 +192,9 @@
 </template>
 
 <script setup>
-  definePageMeta({
-    layout: 'blank'
-  })
+  // definePageMeta({
+  //   layout: 'blank'
+  // })
   useServerSeoMeta({
     title:'Michael Strain',
     ogTitle:'The Personal Website of Michael Strain',
