@@ -1,6 +1,23 @@
 <template>
+  <div class="grid grid-cols-3 place-content-stretch text-center bg-black">
+    <div class="flex flex-col gap-2 p-4 align-center">
+      <v-icon icon="mdi-email" />
+      <p class="text-xl">michael.v.strain@email.com</p>
+      <!-- <p class="text-gray-500">email</p> -->
+    </div>
+    <div class="flex flex-col gap-2 p-4 align-center">
+      <v-icon icon="mdi-phone" />
+      <p>239.413.6517</p>
+      <!-- <p class="">phone</p> -->
+    </div>
+    <div class="flex flex-col gap-2 p-4 align-center">
+      <v-icon icon="mdi-download" />
+      <p class="link">Download Resume</p>
+      <!-- <p class="">resume</p> -->
+    </div>
+  </div>
   <div class="bg-black w-100 z-[6] text-center py-3">
-    <p class="pb-1">
+    <p class="text-xs">
       © Strain Investment Co. LLC
     </p>
     <p class="text-xs text-wrap">

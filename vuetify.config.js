@@ -47,19 +47,18 @@ const myAggressiveTheme = {
 
 const myNeutralTheme = {
   colors: {
-    background: '#FFEAD8',
-    whitebg: 'ffffff',
-    surface: '#FFFAD8',
+    background: '#FFFFFF',
+    surface: '#FFFFFF',
     // primary: '#CE8168',
-    primary: '#D98997',
-    secondary: '#CD9868',
+    secondary: '#D98997',
+    primary: '#CD9868',
     error: '#B00020',
   },
 }
 
 export default defineVuetifyConfiguration({
   theme: {
-    defaultTheme: 'myAggressiveTheme',
+    defaultTheme: 'myNeutralTheme',
     variations: {
       colors: ['primary', 'secondary', 'surface',],
       lighten: 3,
