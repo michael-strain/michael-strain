@@ -1,7 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flex gap-4">
-    <img src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png">
+  <div class="flex lg:flex-row flex-col gap-4">
+    <!-- <img class="" src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"> -->
+    <v-img
+      aspect-ratio="1"
+      src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"
+      class="w-full lg:w-1/2"
+    />
+    <!-- <v-img
+      src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"
+      aspect-ratio="1"
+    /> -->
     <div>
       <h2 class="w-full text-4xl font-bold text-center">
         World

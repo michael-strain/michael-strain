@@ -3,7 +3,7 @@
     Skills
   </h2>
   <br>
-  <div class="grid grid-cols-2 gap-y-8 gap-x-14">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-14">
     <div>
       <p class="uppercase text-2xl">
         Languages
