@@ -164,7 +164,7 @@
   </section>
   <br>
   <div class="divider" />
-  <section class="padding">
+  <section class="padding worldWrapper h-80">
     <World />
   </section>
   <br>
