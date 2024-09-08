@@ -1,97 +1,24 @@
 <template>
-  This will be a 3D rendering page
-  Hopefully with a globe and coordinate markers and labels and stuff
-
-  <div class="w-100 h-100">
-    <TresCanvas
-      v-bind="gl"
-      style="height:100%;width:100%;"
-      render-mode="on-demand"
-    >
-      <!-- <TresPerspectiveCamera
-        :args="[45,innerWidth/innerHeight,1,2000]"
-        failIfMajorPerformanceCaveat="true"
-      /> -->
-      <TresPerspectiveCamera :args="[50, 1, 0.1, 2000]" />
-      <!-- <TresCSS2DRenderer /> -->
-      <!-- <CSS2DRenderer /> -->
-      <OrbitControls
-        :enable-pan="false"
-        :min-distance="15"
-        :max-distance="50"
-        :enable-damping="true"
-        :auto-rotate="autoRotate"
-        :auto-rotate-speed="0.5"
-      />
-      <Sky :elevation="0.8"/>
-      <Stars :size="0.5" />
-      <Suspense>
-        <Ocean :position="[0,-10,0]" />
-      </Suspense>
-
-
-    <Suspense>
-      <Sphere :args="[1,1,1]">
-        <TresShaderMaterial 
-          :ref="shader"
-          :vertex-shader="vertexShader" :fragment-shader="fragmentShader"
-          :uniforms="uniforms"
-        />
-        <!-- <TresMeshStandardMaterial :map="texture" /> -->
-        <!--<TresMaterial
-          :size="0.1"
-          :vertexColors="true"-->
-      </Sphere>
-    </Suspense>
-    
-
-    
-  
-
-    <TresMesh
-      @pointer-enter="(event) => dodecaEnter()"
-      @pointer-leave="(event) => dodecaLeave()"
-    >
-      <Dodecahedron :args="[rad,1]" :color="theme.current.value.colors.primary">
-        <TresMeshNormalMaterial :wireframe="true" :color="theme.current.value.colors.primary" />
-        <Html
-          center
-          transform
-          :distance-factor="4"
-          :scale="[10, 10, 10]"
-        >
-          <button :onclick="()=>dodecaButton()" class="bg-white dark:bg-dark text-xs p-1 rounded">
-            I'm a Dodecahedron 📦
-          </button>
-          <div v-if="showMe" class="w-full text-align-center">
-            This is what our OG code shows for marker labels:
-            <div id="markerLabel" class="bg-primary w-[230px] h-[48px] p-2">
-              <button :onclick="()=>showMe=false" id="closeButton" class="absolute p-0 m-0  ">X</button>
-              <div class="text" id="idNum"></div>
-              <div class="text" id="magnitude"></div>
-              <div class="text" id="coordinates"></div>
-            </div>
-          </div>
-        </Html>
-        <Sparkles
-          v-if="showSparkles"
-          :sequence-alpha="[[0., 0.], [0.6, 1.0], [0.7, 0.0], [1.0, 1.0]]"
-          :sequence-color="['yellow', 'white', 'orange', 'red', 'black']"
-          :sequence-offset="[[0.7, [0, 0, 0]], [0.75, [0, 0.1, 0]], [1.0, [0, 0.5, 0]]]"
-          :sequence-size="[[0.0, 0.0], [0.7, 1.0]]"
-          :sequence-surface-distance="[[0.0, 0.0], [0.7, 1.0]]"
-          :lifetime-sec="5.0"
-          :size="4"
-          :surface-distance="2.0"
-          :mix-color="1.0"
-        />
-      </Dodecahedron>
-      
-      <!-- <TresIcosahedronGeometry :args="[rad,1]" />
-      <TresMeshBasicMaterial :color="theme.current.value.colors.primary" :wireframe="true"/> -->
-    </TresMesh>
-
-  </TresCanvas>
+  <div class="flex lg:flex-row flex-col gap-4">
+    <!-- <img class="" src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"> -->
+    <v-img
+      aspect-ratio="1"
+      src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"
+      class="w-full lg:w-1/2"
+    />
+    <!-- <v-img
+      src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"
+      aspect-ratio="1"
+    /> -->
+    <div>
+      <h2 class="w-full text-4xl font-bold text-center">
+        World
+      </h2>
+      <br>
+      <p class="text-justify">
+        Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.<br><br>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.<br><br>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.
+      </p>
+    </div>
   </div>
 </template>
 

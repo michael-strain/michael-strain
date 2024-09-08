@@ -1,16 +1,16 @@
 <template>
-  <div class="grid grid-cols-3 place-content-stretch text-center bg-black">
-    <div class="flex flex-col gap-2 p-4 align-center">
+  <div class="grid grid-cols-1 sm:grid-cols-3 place-content-stretch text-center bg-black">
+    <div class="flex md:flex-col gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-email" />
       <p class="text-xl">michael.v.strain@email.com</p>
       <!-- <p class="text-gray-500">email</p> -->
     </div>
-    <div class="flex flex-col gap-2 p-4 align-center">
+    <div class="flex md:flex-col gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-phone" />
       <p>239.413.6517</p>
       <!-- <p class="">phone</p> -->
     </div>
-    <div class="flex flex-col gap-2 p-4 align-center">
+    <div class="flex md:flex-col gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-download" />
       <p class="link">Download Resume</p>
       <!-- <p class="">resume</p> -->

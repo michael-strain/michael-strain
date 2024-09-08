@@ -83,19 +83,16 @@
         <p class="">
           michael.v.strain@email.com
         </p>
-      <!-- <p class="text-gray-500">email</p> -->
       </div>
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-phone" />
         <p>239.413.6517</p>
-      <!-- <p class="">phone</p> -->
       </div>
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-download" />
         <p class="link">
           Download Resume
         </p>
-      <!-- <p class="">resume</p> -->
       </div>
     </div>
   </div>

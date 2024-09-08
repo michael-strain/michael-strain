@@ -8,7 +8,7 @@ h1 {
   @apply w-full my-2 text-5xl font-bold
 }
 .padding {
-@apply lg:px-[120px] md:px-[60px] sm:px-6;
+@apply md:px-[80px] px-6;
 } 
 .twocolinputs {
   @apply sm:grid sm:grid-cols-2 gap-x-5;
