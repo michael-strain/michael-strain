@@ -4,6 +4,7 @@
       Professional Experience
     </h2>
     <br>
+    
     <v-timeline
       side="end"
       align="start"
@@ -15,7 +16,7 @@
       >
         <template #opposite>
           <p class="uppercase text-gray-500">
-            2021 - Present
+            2020 - Present
           </p>
         </template>
         <div class="">
@@ -23,12 +24,9 @@
             President
           </p>
           <p class="text-gray-500">
-            Strain Investment Company
+            Strain Investment Company LLC
           </p>
-          <!-- <p class="text-gray-500">
-            2021 - Present
-          </p> -->
-          <p class="text-justify pt-2">This is an umbrella, under which I’ve done real estate development and construction management, property management (including the ownership and operation of a small landscaping company), manufacturing and fulfillment, ecommerce, and full-stack latest-gen web development.</p>
+          <p class="text-justify pt-2">As President, I oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, manufacturing, fulfillment, and full-stack web development.</p>
         </div>
         <br>
       </v-timeline-item>
@@ -48,7 +46,7 @@
           <p class="text-gray-500">
             Aramark
           </p>
-          <p class="text-justify pt-2">This Fortune 500 company really opened my eyes to how inefficient big companies can be.  I saved them over $3M annually within my first year of employment by automating the majority of my responsibilities, as well as the tasks of my own, and numerous other departments including billing, collections, analytics, etc. </p>
+          <p class="text-justify pt-2">At Aramark, I significantly improved operational efficiency by automating key processes, which resulted in an estimated $3M in annual savings. I streamlined tasks across billing, collections, and analytics, enhancing overall departmental performance and reducing manual workloads.</p>
         </div>
         <br>
       </v-timeline-item>
@@ -58,20 +56,66 @@
       >
         <template #opposite>
           <p class="uppercase text-gray-500">
-            2014 - 2020
+            2014 - 2018
           </p>
         </template>
         <div class="">
           <p class="font-bold text-2xl">
-            Sr Technical Administrator
+            Sr. Technical Administrator
           </p>
           <p class="text-gray-500">
-            MI6 / Utah Gun Exchange
+            MI6 & Utah Gun Exchange
           </p>
-          <p class="text-justify pt-2">This is where I mastered data analytics and reporting, software and web development, project management, marketing, warehouse operations, inventory management, strategic financial planning and risk management, public relations, social media management, internal and external call center operations and management, and much more.  I was responsible for a team of 3 employees, and reported directly to the owners of the company.  At the peak of my time here, we managed to bring in $2M in revenue per month selling nutraceuticals.</p>
+          <p class="text-justify pt-2">I honed my skills in data analytics, software and web development, project management, and strategic financial planning. I managed a team of three, directly reported to the company's owners, and played a key role in achieving $2M in monthly revenue from nutraceutical sales.</p>
+        </div>
+        <br>
+      </v-timeline-item>
+      <v-timeline-item
+        dot-color="primary"
+        size="small"
+      >
+        <template #opposite>
+          <p class="uppercase text-gray-500">
+            2013 - 2014
+          </p>
+        </template>
+        <div class="">
+          <p class="font-bold text-2xl">
+            Temporary Worker
+          </p>
+          <p class="text-gray-500">
+            Express Employment Professionals
+          </p>
+          <p class="text-justify pt-2">At Express Employment Professionals, I gained hands-on experience across a range of industries and roles. I worked in production roles, including manufacturing laundry detergent, buckets, and pill bottles, and performing metalwork such as recycling and refurbishment. Additionally, I developed technical skills such as welding and ultimately secured a long-term office position, showcasing my adaptability and commitment to delivering high-quality work.</p>
+        </div>
+        <br>
+      </v-timeline-item>
+
+
+      <v-timeline-item
+        dot-color="primary"
+        size="small"
+      >
+        <template #opposite>
+          <p class="uppercase text-gray-500">
+            2012 - 2016
+          </p>
+        </template>
+        <div class="">
+          <p class="font-bold text-2xl">
+            E4 - Paralegal Specialist
+          </p>
+          <p class="text-gray-500">
+            US Army Reserves
+          </p>
+          <p class="text-justify pt-2">During my time in the military, I gained valuable experience in HR and organizational skills, contributing to my professional development. Basic training provided a strong foundation in discipline and teamwork.</p>
         </div>
         <br>
       </v-timeline-item>
     </v-timeline>
+
+
+
+
   </div>
 </template>

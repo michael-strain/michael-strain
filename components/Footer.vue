@@ -1,8 +1,9 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-3 place-content-stretch text-center bg-black">
     <div class="flex md:flex-col gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-email" />
-      <p class="text-xl">michael.v.strain@email.com</p>
+      <p class="text-xl">michael.v.strain@gmail.com</p>
       <!-- <p class="text-gray-500">email</p> -->
     </div>
     <div class="flex md:flex-col gap-2 p-2 sm:p-4 justify-center align-center">

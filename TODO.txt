@@ -1,6 +1,6 @@
 Clean Slate baby
 
--Finish merge on old laptop (Make sure all code from old laptop is pushed)
+-Categorize skills in Skills component, and determine when to use stars vs percent bars
 -Make the globe show a globe
 -If possible, put points over relevant locations that we can click and scroll to an anchor with
 -Make the resume spectacular, showcase experiences but also talk about goals and ambitions

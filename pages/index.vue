@@ -1,78 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-  <!--
-
-    New Gameplan:
-    -Advertise our 2 eCommerce Domains and the fact that more are coming soon
-    -Allow users to apply for their own eCommerce domain
-    -Become a seller or fulfiller on one of our domains (I think each marketplace must be applied to individually, you can't have just one seller/fulfiller account for both lsdope & nyxknacks)
-    -Request a bid for a web development project
-    -Auction an hour of my time for consultation (likely broken into 2 30min portions, first for questions, then some time for me to think/research, then 30 min for answers)
-    -Invest in one of the Strain Investment Company LLC subsidiaries
-    -Show a timeline of our personal and professional highlights
-
-  -->
-
-  <!--
-  
-    1st Chunk:
-    -Advertise the Existing SICo Stores
-
-  -->
-  <!-- <div class="h-[100%] flex">
-    <div class="w-[50%]">
-      <NuxtLink to="https://lsdope.com">
-        TODO: <MiniLavaComponent>
-          <button class="btn">
-            <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">BUY SOMETHING ON LSDOPE.COM</p>
-          </button>
-        </MiniLava>
-      </NuxtLink>
-    </div>
-    <div class="w-[50%]">Automatically cycling through themes for our button/backgrounds/fonts would be a nice touch
-      <NuxtLink to="https://nyxknacks.com">
-        <img src="/public/grayscale_background.jpg" class="opacity-40">
-        <button class="btn">
-          <p class="text-6xl header_sitetitle drop-shadow-lg text-secondary">BUY SOMETHING ON NYXKNACKS.COM</p>
-        </button>
-      </NuxtLink>
-    </div>
-  </div> -->
-
-  <!--
-  
-    2nd Chunk:
-    -Apply for your own eCommerce domain*
-
-    *Terms and Conditions apply all rights reserved of course
-
-  -->
-  <!-- <div class="">
-    <h1>Apply for your own eCommerce domain*</h1>
-    <NuxtLink to="/seller-application">
-      <v-btn>Apply for a Domain</v-btn>
-    </NuxtLink>
-    <p>*<NuxtLink to="/legal/seller-terms">Terms and Conditions</NuxtLink> Apply, All Rights Reserved</p>
-  </div> -->
-
-  <!--
-  
-    3rd Chunk:
-    -Become a seller/fulfiller on one of our domains
-  
-  -->
-
-  <!--ASHLEY CODE BELOW-->
-  <!--Using this as chunk four because it's excellent and will age well-->
-  <!--Left Large Title
-  Bottom SICO sticky on scroll w contact
-  Animated examples and with titles ex. ecommerce, admin, subscription, chat/inbox, personal profiles
-  Contact form  -->
-
-  <!-- <section class="bg-white pt-[120px] pb-[70px]">
-    <SevenDayCalendar />
-  </section> -->
   <div class="flex justify-space-between text-center bg-black fixed z-[5] top-0 w-full">
     <p class="uppercase p-4 text-2xl font-bold">
       Michael Strain
@@ -81,7 +9,7 @@
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-email" />
         <p class="">
-          michael.v.strain@email.com
+          michael.v.strain@gmail.com
         </p>
       </div>
       <div class="flex gap-2 p-4 align-center">
@@ -100,12 +28,15 @@
     <div class="md:h-1/4 h-16" />
     <div class="padding w-full mb-n8 z-[2]">
       <p class="text-xl md:text-8xl font-bold">
-        Website<br>Design<br>Expeditious<br>Beautiful
+        Reshape<br>the<br>World<br>
       </p>
-      <p class="text-2xl mt-2">
-        One company to handle design, creation, and functionality for any business.
+      <p class="text-2xl mt-2 text-secondary">
+        Driving Ambitious Solutions for a Sustainable Future
       </p>
     </div>
+    <!-- <div class="absolute top-0 h-[450px] w-full">
+      <World />
+    </div> -->
     <div class="bg-black">
       <svg
         viewBox="0 0 1428 174"
@@ -161,8 +92,28 @@
   </section>
   <br>
   <div class="divider" />
-  <section class="padding worldWrapper h-80">
-    <World />
+  <section class="padding">
+    <Projects />
+  </section>
+  <br>
+  <div class="divider" />
+  <section class="padding">
+    <Goals />
+    <Hobbies />
+  </section>
+  <br>
+  <div class="divider" />
+  <section class="padding">
+    <div class="flex lg:flex-row flex-col gap-4 relative">
+      <div class="static top-0 w-1/2">
+        <World />
+      </div>
+      <div class="w-1/2">
+        <section class="padding">
+          <ExperienceTimeline />
+        </section>
+      </div>
+    </div>
   </section>
   <br>
   <!-- <div class="divider" />
