@@ -1,15 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/attribute-hyphenation -->
 <template>
-  <!-- FOV: {{ fov }}
-  Aspect: {{ aspect }}
-  Near: {{ near }}
-  Far: {{ far }}
-  Zoom: {{ zoom }}  -->
-  <!-- <v-img
-    aspect-ratio="1"
-    src="https://images.vexels.com/media/users/3/130718/isolated/preview/9368407454443561ac004d20786d4b43-grid-on-globe-icon.png"
-    class="w-full lg:w-1/2"-->
+  <!-- A less functional world for the topbar on the home page-->
   <TresCanvas
     v-bind="gl"
     render-mode="on-demand"
@@ -30,12 +22,9 @@
     />
     <TresDirectionalLight
       :position="[-1,1,-1.5]"
-      :color="0xFD5E53"
+      :color="0xfea7a1"
       :intensity="1.8"
     />
-    <!-- <TresDirectionalLightHelper :args="[light,1.5]" /> -->
-    <!-- <TresCSS2DRenderer /> -->
-    <!-- <CSS2DRenderer /> -->
     <OrbitControls
       :enable-pan="false"
       :min-distance="8.5"
@@ -52,11 +41,9 @@
 
 
     <Suspense>
-      <!-- <UseTexture v-slot="{ textures }" map="http://127.0.0.1:3000/img/earth/Earth_Color.jpg"> -->
       <Sphere
         :args="[rad]"
-        @pointer-enter="() => dodecaEnter()"
-        @pointer-leave="() => dodecaLeave()"
+        :rotation="[-0.5,-2.4,-1.0]"
       >
         <TresMeshStandardMaterial
           :map="pbrTexture"
@@ -65,149 +52,16 @@
           :aoMapIntensity="0.2"
           :displacementScale="0.3"
         />
-        <!-- <Html
-            center
-            transform
-            :distance-factor="4"
-            :scale="[10, 10, 10]"
-          >
-            <button
-              :onclick="()=>dodecaButton()"
-              class="bg-white dark:bg-dark text-xs p-1 rounded"
-            >
-              I'm a Dodecahedron 📦
-            </button>
-            <div
-              v-if="showMe"
-              class="w-full text-align-center"
-            >
-              This is what our OG code shows for marker labels:
-              <div
-                id="markerLabel"
-                class="bg-primary w-[230px] h-[48px] p-2"
-              >
-                <button
-                  id="closeButton"
-                  :onclick="()=>showMe=false"
-                  class="absolute p-0 m-0  "
-                >
-                  X
-                </button>
-                <div
-                  id="idNum"
-                  class="text"
-                />
-                <div
-                  id="magnitude"
-                  class="text"
-                />
-                <div
-                  id="coordinates"
-                  class="text"
-                />
-              </div>
-            </div>
-          </Html>
-          <Sparkles
-            v-if="showSparkles"
-            :sequence-alpha="[[0., 0.], [0.6, 1.0], [0.7, 0.0], [1.0, 1.0]]"
-            :sequence-color="['yellow', 'white', 'orange', 'red', 'black']"
-            :sequence-offset="[[0.7, [0, 0, 0]], [0.75, [0, 0.1, 0]], [1.0, [0, 0.5, 0]]]"
-            :sequence-size="[[0.0, 0.0], [0.7, 1.0]]"
-            :sequence-surface-distance="[[0.0, 0.0], [0.7, 1.0]]"
-            :lifetime-sec="5.0"
-            :size="4"
-            :surface-distance="2.0"
-            :mix-color="1.0"
-          /> -->
       </Sphere>
-      <!-- </UseTexture> -->
     </Suspense>
-
-  
-
-  
-
-
-    <!-- <Suspense>
-        <TresMesh>
-          <Dodecahedron
-            :args="[rad,1]"
-            :color="theme.current.value.colors.primary"
-          >
-            <TresMeshNormalMaterial
-              :wireframe="true"
-              :color="theme.current.value.colors.primary"
-            />
-            <Html
-              center
-              transform
-              :distance-factor="4"
-              :scale="[10, 10, 10]"
-            >
-              <button
-                :onclick="()=>dodecaButton()"
-                class="bg-white dark:bg-dark text-xs p-1 rounded"
-              >
-                I'm a Dodecahedron 📦
-              </button>
-              <div
-                v-if="showMe"
-                class="w-full text-align-center"
-              >
-                This is what our OG code shows for marker labels:
-                <div
-                  id="markerLabel"
-                  class="bg-primary w-[230px] h-[48px] p-2"
-                >
-                  <button
-                    id="closeButton"
-                    :onclick="()=>showMe=false"
-                    class="absolute p-0 m-0  "
-                  >
-                    X
-                  </button>
-                  <div
-                    id="idNum"
-                    class="text"
-                  />
-                  <div
-                    id="magnitude"
-                    class="text"
-                  />
-                  <div
-                    id="coordinates"
-                    class="text"
-                  />
-                </div>
-              </div>
-            </Html>
-            <Sparkles
-              v-if="showSparkles"
-              :sequence-alpha="[[0., 0.], [0.6, 1.0], [0.7, 0.0], [1.0, 1.0]]"
-              :sequence-color="['yellow', 'white', 'orange', 'red', 'black']"
-              :sequence-offset="[[0.7, [0, 0, 0]], [0.75, [0, 0.1, 0]], [1.0, [0, 0.5, 0]]]"
-              :sequence-size="[[0.0, 0.0], [0.7, 1.0]]"
-              :sequence-surface-distance="[[0.0, 0.0], [0.7, 1.0]]"
-              :lifetime-sec="5.0"
-              :size="4"
-              :surface-distance="2.0"
-              :mix-color="1.0"
-            />
-          </Dodecahedron>
-      </TresMesh>
-      </Suspense> -->
   </TresCanvas>
 </template>
 
 <script setup>
 import { useTheme } from 'vuetify'
-// import { extend } from '@tresjs/core'
-// import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer'
-// import { OrbitControls } from 'three/addons/controls/OrbitControls'
-import { OrbitControls, Sky, Ocean, Stars, Html } from '@tresjs/cientos'
+import { OrbitControls, Sky, Ocean, Stars } from '@tresjs/cientos'
 import { useTexture, TresCanvas } from '@tresjs/core'
-import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
+import { BasicShadowMap, SRGBColorSpace } from 'three'
 
 
 
@@ -230,7 +84,7 @@ const autoRotate = ref(true)
 
 const rad = ref(6)
 
-const fov = ref(100)
+const fov = ref(80)
 const aspect = ref(1)
 const near = ref(0.1)
 const far = ref(2000)

@@ -2,6 +2,7 @@
 
 <template>
   <div class="flex justify-space-between text-center bg-black fixed z-[5] top-0 w-full">
+    <!--I wish I could render TopWorld in this black background area...-->
     <p class="uppercase p-4 text-2xl font-bold">
       Michael Strain
     </p>
@@ -34,9 +35,9 @@
         Driving Ambitious Solutions for a Sustainable Future
       </p>
     </div>
-    <!-- <div class="absolute top-0 h-[450px] w-full">
-      <World />
-    </div> -->
+    <div class="absolute top-0 h-[450px] w-full">
+      <TopWorld />
+    </div>
     <div class="bg-black">
       <svg
         viewBox="0 0 1428 174"
@@ -82,11 +83,8 @@
   </section>
   <br>
   <br>
-  <section class="padding">
-    <ExperienceTimeline />
-  </section>
-  <br>
-  <div class="divider" />
+  <!-- All these are going to be used, but are currently unfinished-->
+  <!-- <div class="divider" />
   <section class="padding">
     <Skills />
   </section>
@@ -101,8 +99,7 @@
     <Goals />
     <Hobbies />
   </section>
-  <br>
-  <div class="divider" />
+  <br> -->
   <section class="padding">
     <div class="flex lg:flex-row flex-col gap-4 relative">
       <div class="static top-0 w-1/2">
