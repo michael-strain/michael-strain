@@ -94,7 +94,10 @@
     <v-btn @click="navigateTo('/offer')">Submit Offer</v-btn>
     <v-btn @click="navigateTo('/contact')">Contact Me</v-btn>
 
-    COUNTDOWN to Bid Increment Increase: {{ countdownTimer }}
+
+    <br>
+    <br>
+    Time Remaining Until Next Bid Increment Increase: {{ countdown }}
 
   </section>
   <!-- All these are going to be used, but are currently unfinished-->
@@ -163,12 +166,25 @@
 <script setup>
 
   import { useDocument, useFirestore } from 'vuefire'
-  import { doc } from 'firebase/firestore'
+  import { doc, Timestamp } from 'firebase/firestore'
+  import { formatDistanceToNow } from "date-fns"
 
   const docRef = doc(useFirestore(),'auctions/mysoul')
-  const auction = useDocument(docRef)
+  const {data:auction, pending,error} = useDocument(docRef)
 
-  const countdownTimer = ref()
+  const countdown = ref()
+
+  onMounted(async()=>{
+    if(!pending.value&&!error.value && auction.value){
+      const incrementDate = auction.value.nextIncrementDate
+      const result = formatDistanceToNow(
+        new Date(incrementDate.toDate().toString()),
+        {includeSeconds: true}
+      )
+      countdown.value = result
+    }
+  })
+  
 
   //Our backend should be responsible for actually incrementing the bidIncrement
   //But the goal is to increment our bidIncrement at set intervals by set amts until I get hired
