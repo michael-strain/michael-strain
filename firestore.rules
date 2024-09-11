@@ -6,12 +6,16 @@ service cloud.firestore {
       //Only the server should be creating auctions at this time
       //Fields:
       //bidder (uid)
+      //currentTopBidder (org name)
       //currentBid (in cents)
       //intentId (right? so we can charge on end?)
       //bidDate
       //endDate
-      //incrementAmt (in cents)
-      //bidHistory (subcollection -> bidder, bid, date, intentId)
+      //bidIncrement (in cents)
+      match /bids/{bid} {
+        allow create;
+        //need to allow update if bidder = auth.uid
+      } // (subcollection -> bidder, bid, date, intentId)
       match /private/{doc} {
         allow read: if(hasAccessToRole('admin'));
       }

@@ -12,7 +12,6 @@ export default defineNuxtConfig({
       },
       compressPublicAssets: true,
   },
-
   postcss:{
       plugins:{
           tailwindcss:{},
@@ -47,20 +46,20 @@ export default defineNuxtConfig({
 
   modules:[
       //We don't need vuefire/firestore/auth for this site...
-      // ['nuxt-vuefire',{
-      //     auth: {
-      //         enabled: false,
-      //         // sessionCookie: true
-      //     },
-      //     // appCheck: {
-      //     //     debug: process.env.NODE_ENV !== 'production',
-      //     //     isTokenAutoRefreshEnabled: true,
-      //     //     provider: 'ReCaptchaV3',
-      //     //     // Find the instructions in the Firebase documentation, link above
-      //     //     key: '6LedeDgpAAAAAKvcjuEuaZzbUikw5j6XyiQemNYz'
-      //     // },
-      //     config: JSON.parse(String(process.env.FIREBASE_CONFIG)),
-      // }],
+      ['nuxt-vuefire',{
+          auth: {
+              enabled: false,
+              // sessionCookie: true
+          },
+          // appCheck: {
+          //     debug: process.env.NODE_ENV !== 'production',
+          //     isTokenAutoRefreshEnabled: true,
+          //     provider: 'ReCaptchaV3',
+          //     // Find the instructions in the Firebase documentation, link above
+          //     key: '6LedeDgpAAAAAKvcjuEuaZzbUikw5j6XyiQemNYz'
+          // },
+          config: JSON.parse(String(process.env.FIREBASE_CONFIG)),
+      }],
       //Don't have the id just yet
       // ['nuxt-gtag',{
       //     id: '',

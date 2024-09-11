@@ -263,6 +263,10 @@
                 :percentage="90"
               />
               <SkillProgress
+                name="DevOps & Project Management"
+                :percentage="85"
+              />
+              <SkillProgress
                 name="Administration/Management"
                 :percentage="75"
               />

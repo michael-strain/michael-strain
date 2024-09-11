@@ -2,7 +2,7 @@
 
 <template>
   <div class="flex justify-space-between text-center bg-black fixed z-[5] top-0 w-full">
-    <!--I wish I could render TopWorld in this black background area...-->
+    <!-- Header -->
     <p class="uppercase p-4 text-2xl font-bold">
       Michael Strain
     </p>
@@ -40,6 +40,18 @@
   </section>
   <br>
   <br>
+
+  <!-- In Progress -->
+  <section class="padding">
+    Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}
+    Current Highest Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}
+
+    <v-btn @click="navigateTo('/offer')">Submit Offer</v-btn>
+    <v-btn @click="navigateTo('/contact')">Contact Me</v-btn>
+
+    COUNTDOWN to Bid Increment Increase: {{ countdownTimer }}
+
+  </section>
   <!-- All these are going to be used, but are currently unfinished-->
   <div class="divider" />
   <section class="padding">
@@ -86,6 +98,11 @@
   </section> -->
   <!-- <br>
   <ContactMainPage /> -->
+  <div class="divider" />
+  <section class="padding">
+    <v-btn>Submit OfferLetter</v-btn>
+    <v-btn>Contact Me</v-btn>
+  </section>
   <Footer />
 
   <!-- 
@@ -99,6 +116,20 @@
 </template>
 
 <script setup>
+
+  import { useDocument, useFirestore } from 'vuefire'
+  import { doc } from 'firebase/firestore'
+
+  const docRef = doc(useFirestore(),'auctions/mysoul')
+  const auction = useDocument(docRef)
+
+  const countdownTimer = ref()
+
+  //Our backend should be responsible for actually incrementing the bidIncrement
+  //But the goal is to increment our bidIncrement at set intervals by set amts until I get hired
+  //I'm thinking that my bidIncrement should start at 1k and increase by 1k every week until we get to 70k (about 4 weeks unless there are bids), then increase the increment to 5k until we get to 100k (6 weeks no bids), then we increment by 10k...
+
+  
   // definePageMeta({
   //   layout: 'blank'
   // })
