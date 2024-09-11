@@ -24,7 +24,7 @@
     "nuxt-simple-robots": "^3.1.10",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.3",
-    "vuetify": "^3.5.1",
+    "vuetify": "^3.7.1",
     "vuetify-nuxt-module": "^0.10.2"
   },
   "dependencies": {
