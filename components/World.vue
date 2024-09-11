@@ -24,7 +24,7 @@
       :zoom="zoom"
       :position="[-30,0,0]"
     />
-    <TresAmbientLight
+    <!-- <TresAmbientLight
       :color="0xFAD6A5"
       :intensity="0.4"
     />
@@ -32,7 +32,7 @@
       :position="[-1,1,-1.5]"
       :color="0xFD5E53"
       :intensity="1.8"
-    />
+    /> -->
     <!-- <TresDirectionalLightHelper :args="[light,1.5]" /> -->
     <!-- <TresCSS2DRenderer /> -->
     <!-- <CSS2DRenderer /> -->
@@ -58,12 +58,18 @@
         @pointer-enter="() => dodecaEnter()"
         @pointer-leave="() => dodecaLeave()"
       >
-        <TresMeshStandardMaterial
+        <!-- <TresMeshStandardMaterial
           :map="pbrTexture"
           :displacementMap="dTexture"
+          :displacementScale="0.3"
+          :bumpMap="dTexture"
+          :bumpScale="0.3"
           :aoMap="aTexture"
           :aoMapIntensity="0.2"
-          :displacementScale="0.3"
+        /> -->
+
+        <TresMeshMatcapMaterial
+          :map="pbrTexture"
         />
         <!-- <Html
             center
@@ -560,21 +566,26 @@ const dodecaButton = () => {
 
 
 const pbrTexture = ref()
-const dTexture = ref()
-const aTexture = ref()
+// const dTexture = ref()
+// const aTexture = ref()
 
 onMounted(async()=>{
-  const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthmap4k.jpg'])
-  const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthbump4k.jpg'])
-  const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthspec4k.jpg'])
+  // const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthmap4k.jpg'])
+  // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthbump4k.jpg'])
+  // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthspec4k.jpg'])
+
+  const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
+  // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/gebco_08_rev_elev_21600x10800.png'])
+  // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/landmask4K.png'])
+
 
   // txtr.minFilter = LinearFilter
   // dTx.minFilter = LinearFilter
   // aTx.minFilter = LinearFilter
 
   pbrTexture.value = txtr
-  dTexture.value = dTx
-  aTexture.value = aTx
+  // dTexture.value = dTx
+  // aTexture.value = aTx
 
 })
 

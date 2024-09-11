@@ -1,9 +1,9 @@
-Clean Slate baby
+TODO
+////
 
 -Categorize skills in Skills component, and determine when to use stars vs percent bars
--Make the globe show a globe
--If possible, put points over relevant locations that we can click and scroll to an anchor with
--Make the resume spectacular, showcase experiences but also talk about goals and ambitions
+-Make the functional world, functional
+  -Add gps coords and graphics and click and scroll anchor events on the points located at the coords
 -Focus on calls to action.  Get people to send inquiries, offer letters, contracts, or whatever else, to me through the site via an uploader/contact form
 
 

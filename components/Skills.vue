@@ -1,565 +1,413 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <h2 class="w-full text-4xl font-bold text-center">
-    Skills
-  </h2>
-  <br>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-14">
-    <div>
-      <p class="uppercase text-2xl">
-        Operating Systems
-      </p> *I'm highly proficient in all of them, these are my feelings.
+  <div class="container mx-auto px-4 py-8">
+    <h2 class="w-full text-4xl font-bold text-center mb-8">
+      Skills
+    </h2>
+    
 
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="2"
-          readonly 
-        />
-        <p class="text-xl">Windows 11</p>
-      </span>
+    <!-- Tech Stuff -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Operating Systems -->
+      <div>
+        <h3 class="uppercase text-2xl font-semibold mb-4">
+          Operating Systems
+        </h3>
+        <div class="space-y-4">
+          <SkillRating
+            name="Windows 11"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows 10"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows 8.1"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows 7"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows Vista"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows XP"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows 2000"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows 95"
+            :rating="5"
+          />
+          <SkillRating
+            name="Windows NT (This is as far as I go)"
+            :rating="3"
+          />
+          <SkillRating
+            name="Haven't used macOS since (Big Sur)"
+            :rating="5"
+          />
+          <SkillRating
+            name="Ubuntu (My favorite)"
+            :rating="5"
+          />
+          <SkillRating
+            name="All Other Linux Distros"
+            :rating="3"
+          />
+          <SkillRating
+            name="Any Other Obscure OS"
+            :rating="2"
+          />
+        </div>
+      </div>
 
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="2"
-          readonly 
-        />
-        <p class="text-xl">Windows 10</p>
-      </span>
+      <!-- Languages -->
+      <div>
+        <h3 class="uppercase text-2xl font-semibold mb-4">
+          Languages
+        </h3>
+        <div class="space-y-4">
+          <SkillProgress
+            name="JavaScript"
+            :percentage="90"
+          />
+          <SkillProgress
+            name="SQL"
+            :percentage="75"
+          />
+          <SkillProgress
+            name="Python"
+            :percentage="85"
+          />
+          <SkillProgress
+            name="VBA"
+            :percentage="95"
+          />
+          <SkillProgress
+            name="Go"
+            :percentage="5"
+          />
+          <SkillProgress
+            name="GDScript"
+            :percentage="85"
+          />
+        </div>
+      </div>
 
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="3"
-          readonly 
-        />
-        <p class="text-xl">Windows 95</p>
-      </span>
+      <!-- Back End -->
+      <div>
+        <h3 class="uppercase text-2xl font-semibold mb-4">
+          Back End
+        </h3>
+        <div class="space-y-4">
+          <SkillProgress
+            name="Cloud Architecture"
+            :percentage="95"
+          />
+          <SkillProgress
+            name="NoSQL Database Architecture"
+            :percentage="90"
+          />
+          <SkillProgress
+            name="Cloud File Storage"
+            :percentage="80"
+          />
+          <SkillProgress
+            name="Authentication & Access Control"
+            :percentage="99"
+          />
+          <SkillProgress
+            name="Analytics & Reporting"
+            :percentage="98"
+          />
+          <SkillProgress
+            name="Photo/Audio/Video Editing & Processing"
+            :percentage="55"
+          />
+        </div>
+      </div>
 
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="3"
-          readonly 
-        />
-        <p class="text-xl">macOS (Last version I tried was Big Sur)</p>
-      </span>
+      <!-- The Stack -->
+      <div>
+        <h3 class="uppercase text-2xl font-semibold mb-4">
+          The Stack
+        </h3>
+        <div class="space-y-4">
+          <SkillRating
+            name="Nuxt 3"
+            :rating="5"
+          />
+          <SkillRating
+            name="Vue 3"
+            :rating="4"
+          />
+          <SkillRating
+            name="Node JS / JavaScript"
+            :rating="4.5"
+          />
+          <SkillRating
+            name="Vuetify"
+            :rating="4"
+          />
+          <SkillRating
+            name="Tailwind"
+            :rating="4"
+          />
+          <SkillRating
+            name="DaisyUI"
+            :rating="4"
+          />
+          <SkillRating
+            name="Firebase"
+            :rating="5"
+          />
+        </div>
+      </div>
 
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="4"
-          readonly 
-        />
-        <p class="text-xl">Ubuntu</p>
-      </span>
-
-
-      
-      <p class="uppercase text-2xl">
-        Languages
-      </p>
-      <span class="flex justify-space-between"><p>JavaScript</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>SQL</p> <p class="text-gray-500">75%</p></span>
-      <v-progress-linear
-        model-value="75"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Python</p> <p class="text-gray-500">85%</p></span>
-      <v-progress-linear
-        model-value="85"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>VBA</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Go</p> <p class="text-gray-500">5%</p></span>
-      <v-progress-linear
-        model-value="5"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>GDScript</p> <p class="text-gray-500">85%</p></span>
-      <v-progress-linear
-        model-value="85"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Anything you need.  I'm flexible.</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Applications -->
+      <div>
+        <h3 class="uppercase text-2xl font-semibold mb-4">
+          Applications
+        </h3>
+        <div class="space-y-4">
+          <SkillRating
+            name="Visual Studio Code"
+            :rating="5"
+          />
+          <SkillRating
+            name="Git"
+            :rating="5"
+          />
+          <SkillRating
+            name="Google Cloud Platform"
+            :rating="5"
+          />
+          <SkillRating
+            name="Google Suite (Sheets, Slides, Docs, Scripts, Etc.)"
+            :rating="5"
+          />
+          <SkillRating
+            name="Google Analytics & Data Studio"
+            :rating="5"
+          />
+          <SkillRating
+            name="Brevo"
+            :rating="5"
+          />
+          <SkillRating
+            name="Printify"
+            :rating="5"
+          />
+          <SkillRating
+            name="Shippo"
+            :rating="5"
+          />
+          <SkillRating
+            name="Facebook Ads"
+            :rating="4"
+          />
+          <SkillRating
+            name="YouTube Creator Studio"
+            :rating="4"
+          />
+          <SkillRating
+            name="Godot"
+            :rating="5"
+          />
+        </div>
+      </div>
     </div>
-    <div>
-      <p class="uppercase text-2xl">
-        Back End
-      </p>
 
-      <span class="flex justify-space-between"><p>Cloud Architecture</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>NoSQL Database Architecture</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Cloud File Storage</p> <p class="text-gray-500">80%</p></span>
-      <v-progress-linear
-        model-value="80"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Authentication & Access Control</p> <p class="text-gray-500">99%</p></span>
-      <v-progress-linear
-        model-value="99"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Analytics & Reporting</p> <p class="text-gray-500">98%</p></span>
-      <v-progress-linear
-        model-value="98"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Photo/Audio/Video Editing & Processing</p> <p class="text-gray-500">55%</p></span>
-      <v-progress-linear
-        model-value="55"
-        color="primary"
-        class="mb-4"
-      />
-    </div>
-
-    <div class="flex flex-col gap-2">     
-      <p class="uppercase text-2xl">
-        The Stack
-      </p>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="5"
-          readonly 
+    <!-- Non Tech Stuff -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <!-- Construction Skills -->
+      <div>
+        <p class="uppercase text-2xl">
+          Construction Skills
+        </p>
+        <SkillProgress
+          name="Carpentry"
+          :percentage="85"
         />
-        <p class="text-xl">Nuxt 3</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="5"
-          readonly 
+        <SkillProgress
+          name="Framing"
+          :percentage="85"
         />
-        <p class="text-xl">Vue 3</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="5"
-          readonly 
+        <SkillProgress
+          name="Drywall"
+          :percentage="60"
         />
-        <p class="text-xl">Node JS / Javascript</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="4"
-          readonly 
+        <SkillProgress
+          name="Electrical"
+          :percentage="60"
         />
-        <p class="text-xl">Vuetify</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="4.5"
-          readonly 
+        <SkillProgress
+          name="Plumbing"
+          :percentage="60"
         />
-        <p class="text-xl">Tailwind</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="5"
-          readonly 
+        <SkillProgress
+          name="Roofing"
+          :percentage="60"
         />
-        <p class="text-xl">DaisyUI</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="5"
-          readonly 
+        <SkillProgress
+          name="Flooring"
+          :percentage="90"
         />
-        <p class="text-xl">Git</p>
-      </span>
-      <span class="flex gap-4 align-center">
-        <v-rating
-          length="5"
-          :style="{fontSize:'22px'}"
-          size="35"
-          color="primary"
-          model-value="10"
-          readonly 
+        <SkillProgress
+          name="Decks"
+          :percentage="60"
         />
-        <p class="text-xl">Google Cloud Platform</p>
-      </span>
-    </div>
-    <div>
-      <p class="uppercase text-2xl">
-        Applications
-      </p>
-      <span class="flex justify-space-between"><p>Visual Studio Code</p> <p class="text-gray-500">85%</p></span>
-      <v-progress-linear
-        model-value="85"
-        color="primary"
-        class="mb-4"
-      />
+        <SkillProgress
+          name="Outbuildings"
+          :percentage="60"
+        />
+        <SkillProgress
+          name="Masonry"
+          :percentage="60"
+        />
+        <SkillProgress
+          name="Concrete"
+          :percentage="60"
+        />
+        <SkillProgress
+          name="Painting"
+          :percentage="80"
+        />
+        <SkillProgress
+          name="Handyman Services"
+          :percentage="85"
+        />
+      </div>
 
-      <span class="flex justify-space-between"><p>Firebase</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Agricultural and Environmental Skills -->
+      <div>
+        <p class="uppercase text-2xl">
+          Agricultural & Environmental Skills
+        </p>
+        <SkillProgress
+          name="Horticulture"
+          :percentage="90"
+        />
+        <SkillProgress
+          name="Livestock Management"
+          :percentage="65"
+        />
+        <SkillProgress
+          name="Butchery & Processing"
+          :percentage="50"
+        />
+        <SkillProgress
+          name="Fishery Management"
+          :percentage="10"
+        />
+        <SkillProgress
+          name="Solar Power Generation"
+          :percentage="60"
+        />
+        <SkillProgress
+          name="Wind Power Generation"
+          :percentage="30"
+        />
+        <SkillProgress
+          name="Hydro Power Generation"
+          :percentage="10"
+        />
+        <SkillProgress
+          name="Biofuel Power Generation"
+          :percentage="10"
+        />
+        <SkillProgress
+          name="Cistern Water Collection & Purification"
+          :percentage="15"
+        />
+      </div>
 
-      <span class="flex justify-space-between"><p>Github</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Professional Skills -->
+      <div>
+        <p class="uppercase text-2xl">
+          Professional Skills
+        </p>
+        <SkillProgress
+          name="Customer Service & IT"
+          :percentage="90"
+        />
+        <SkillProgress
+          name="Administration/Management"
+          :percentage="75"
+        />
+        <SkillProgress
+          name="Budgeting & Financial Planning"
+          :percentage="95"
+        />
+        <SkillProgress
+          name="Contract Writing & Review"
+          :percentage="75"
+        />
+      </div>
 
-      <span class="flex justify-space-between"><p>Google Suite (Docs, Sheets, Scripts, Slides, Etc.)</p> <p class="text-gray-500">99%</p></span>
-      <v-progress-linear
-        model-value="99"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Language Skills -->
+      <div>
+        <p class="uppercase text-2xl">
+          Language Skills
+        </p>
+        <SkillProgress
+          name="Spanish"
+          :percentage="35"
+        />
+        <SkillProgress
+          name="Japanese"
+          :percentage="3"
+        />
+      </div>
 
-      <span class="flex justify-space-between"><p>Google Analytics, Data Studio, Ad Manager, Business Manager, Etc.</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Personal Skills -->
+      <div>
+        <p class="uppercase text-2xl">
+          Personal Skills
+        </p>
+        <SkillProgress
+          name="Strength"
+          :percentage="70"
+        />
+        <SkillProgress
+          name="Dexterity"
+          :percentage="70"
+        />
+        <SkillProgress
+          name="Constitution"
+          :percentage="80"
+        />
+        <SkillProgress
+          name="Intelligence"
+          :percentage="90"
+        />
+        <SkillProgress
+          name="Wisdom"
+          :percentage="80"
+        />
+        <SkillProgress
+          name="Charisma"
+          :percentage="30"
+        />
+      </div>
 
-      <span class="flex justify-space-between"><p>Google Suite (Docs, Sheets, Scripts, Slides, Etc.)</p> <p class="text-gray-500">99%</p></span>
-      <v-progress-linear
-        model-value="99"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Brevo</p> <p class="text-gray-500">96%</p></span>
-      <v-progress-linear
-        model-value="96"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Printify</p> <p class="text-gray-500">99%</p></span>
-      <v-progress-linear
-        model-value="99"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Shippo</p> <p class="text-gray-500">80%</p></span>
-      <v-progress-linear
-        model-value="80"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Facebook (Ads)</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>YouTube (Creator Studio)</p> <p class="text-gray-500">70%</p></span>
-      <v-progress-linear
-        model-value="70"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Godot</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>GIMP</p> <p class="text-gray-500">70%</p></span>
-      <v-progress-linear
-        model-value="70"
-        color="primary"
-        class="mb-4"
-      />
-    </div>
-    <div>
-      <p class="uppercase text-2xl">
-        Still need to add everything
-        Might need categorized skill tabs...
-        Tech / Construction / Agriculture
-      </p>
-      <span class="flex justify-space-between"><p>Carpentry</p> <p class="text-gray-500">85%</p></span>
-      <v-progress-linear
-        model-value="85"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Framing</p> <p class="text-gray-500">85%</p></span>
-      <v-progress-linear
-        model-value="85"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Drywall</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Electrical</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Plumbing</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Roofing</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Flooring</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Decks</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Outbuildings</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Masonry</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Concrete</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Painting</p> <p class="text-gray-500">80%</p></span>
-      <v-progress-linear
-        model-value="80"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Horticulture</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Livestock Management</p> <p class="text-gray-500">65%</p></span>
-      <v-progress-linear
-        model-value="65"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Butchery & Processing</p> <p class="text-gray-500">50%</p></span>
-      <v-progress-linear
-        model-value="50"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Fishery Management</p> <p class="text-gray-500">10%</p></span>
-      <v-progress-linear
-        model-value="10"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Solar Power Generation</p> <p class="text-gray-500">60%</p></span>
-      <v-progress-linear
-        model-value="60"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Wind Power Generation</p> <p class="text-gray-500">30%</p></span>
-      <v-progress-linear
-        model-value="30"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Hydro Power Generation</p> <p class="text-gray-500">10%</p></span>
-      <v-progress-linear
-        model-value="10"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Biofuel Power Generation</p> <p class="text-gray-500">10%</p></span>
-      <v-progress-linear
-        model-value="10"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Cistern Water Collection & Purification</p> <p class="text-gray-500">15%</p></span>
-      <v-progress-linear
-        model-value="15"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Handyman Services</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Customer Service & IT</p> <p class="text-gray-500">90%</p></span>
-      <v-progress-linear
-        model-value="90"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Administration/Management</p> <p class="text-gray-500">75%</p></span>
-      <v-progress-linear
-        model-value="75"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Budgeting & Financial Planning</p> <p class="text-gray-500">95%</p></span>
-      <v-progress-linear
-        model-value="95"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Contract Writing & Review</p> <p class="text-gray-500">75%</p></span>
-      <v-progress-linear
-        model-value="75"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Spanish</p> <p class="text-gray-500">35%</p></span>
-      <v-progress-linear
-        model-value="35"
-        color="primary"
-        class="mb-4"
-      />
-
-      <span class="flex justify-space-between"><p>Charisma</p> <p class="text-gray-500">50%</p></span>
-      <v-progress-linear
-        model-value="50"
-        color="primary"
-        class="mb-4"
-      />
+      <!-- Secret Skills -->
+      <div class="hidden">
+        <p class="uppercase text-2xl">
+          Secret Skills
+        </p>
+        <p>Well obviously I'm not going to tell just anyone all of my skills!</p><!--Need to make this component like a see more style drop out panel-->
+        <p>I've been alive long enough to have picked up a thing or two, and I've learned to keep a dozen cards up my sleeve in case I ever need them.</p>
+        <p>Who knows, if you are around me long enough you may unlock one of these, and if you do, do not disclose.</p>
+      </div>
     </div>
   </div>
 </template>

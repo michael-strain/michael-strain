@@ -27,7 +27,7 @@
   </div>
   <section class="bg-black flex flex-col content-end lg:pt-[100px]">
     <div class="md:h-1/4 h-16" />
-    <div class="padding w-full mb-n8 z-[2]">
+    <div class="padding w-full mb-n8 z-[2]"><!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
       <p class="text-xl md:text-8xl font-bold">
         Reshape<br>the<br>World<br>
       </p>
@@ -84,12 +84,12 @@
   <br>
   <br>
   <!-- All these are going to be used, but are currently unfinished-->
-  <!-- <div class="divider" />
+  <div class="divider" />
   <section class="padding">
     <Skills />
   </section>
   <br>
-  <div class="divider" />
+  <!-- <div class="divider" />
   <section class="padding">
     <Projects />
   </section>
