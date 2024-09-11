@@ -356,6 +356,10 @@
           :percentage="75"
         />
         <SkillProgress
+          name="DevOps & Project Management"
+          :percentage="85"
+        />
+        <SkillProgress
           name="Budgeting & Financial Planning"
           :percentage="95"
         />

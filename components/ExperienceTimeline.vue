@@ -112,6 +112,31 @@
         </div>
         <br>
       </v-timeline-item>
+
+      <v-timeline-item
+        dot-color="primary"
+        size="small"
+      >
+        <template #opposite>
+          <p class="uppercase text-gray-500">
+            Way Back
+          </p>
+        </template>
+        <div class="">
+          <p class="font-bold text-2xl">
+            In My Youth
+          </p>
+          <p class="text-gray-500">
+            Early Experiences
+          </p>
+          <p class="text-justify pt-2">Gained hands-on experience in various fields including fast-food service, childcare, lawncare, and customer service within a call center.
+Contributed to the development of escape rooms, showcasing creativity and teamwork.
+Actively involved in Boy Scouts and participated in numerous school, church, and extracurricular activities, demonstrating leadership and commitment.
+Adapted to diverse cultural environments through multiple relocations across the country, enhancing flexibility and cross-cultural communication.
+Engaged in a variety of unique opportunities, fostering a broad skill set and a proactive approach to new challenges.</p>
+        </div>
+        <br>
+      </v-timeline-item>
     </v-timeline>
 
 
