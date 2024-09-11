@@ -99,7 +99,12 @@
     <Goals />
     <Hobbies />
   </section>
-  <br> -->
+  <br> 
+  <div class="divider" />
+  <section class="padding">
+    <Socials /> Youtube, Facebook, Mastodon, Github, etc
+  </section>
+  -->
   <section class="padding">
     <div class="flex lg:flex-row flex-col gap-4 relative">
       <div class="static top-0 w-1/2">

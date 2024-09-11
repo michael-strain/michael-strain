@@ -12,7 +12,7 @@
     class="w-full lg:w-1/2"-->
   <TresCanvas
     v-bind="gl"
-    render-mode="on-demand"
+    render-mode="always"
   >
     <!-- <TresPerspectiveCamera
       :args="[45,innerWidth/innerHeight,1,2000]"
@@ -41,8 +41,6 @@
       :min-distance="8.5"
       :max-distance="120"
       :enable-damping="true"
-      :auto-rotate="autoRotate"
-      :auto-rotate-speed="0.5"
     />
     <Sky :elevation="0.8" />
     <Stars :size="0.2" />
@@ -55,8 +53,7 @@
       <!-- <UseTexture v-slot="{ textures }" map="http://127.0.0.1:3000/img/earth/Earth_Color.jpg"> -->
       <Sphere
         :args="[rad]"
-        @pointer-enter="() => dodecaEnter()"
-        @pointer-leave="() => dodecaLeave()"
+        :rotation="[0,-1.35,23.5 / 360 * 2 * Math.PI-0.3]"
       >
         <!-- <TresMeshStandardMaterial
           :map="pbrTexture"

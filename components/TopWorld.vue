@@ -36,14 +36,14 @@
     <Sky :elevation="0.8" />
     <Stars :size="0.2" />
     <Suspense>
-      <Ocean :position="[0,-15,0]" />
+      <Ocean :position="[0,-10,0]" />
     </Suspense>
 
 
     <Suspense>
       <Sphere
         :args="[rad]"
-        :rotation="[0,0,23.5 / 360 * 2 * Math.PI]"
+        :rotation="[0,-6,23.5 / 360 * 2 * Math.PI-0.3]"
       >
         <TresMeshMatcapMaterial
           :map="pbrTexture"

@@ -169,6 +169,10 @@
             name="Firebase"
             :rating="5"
           />
+          <SkillRating
+            name="THREEjs/Tresjs/Cientos"
+            :rating="4"
+          />
         </div>
       </div>
 
@@ -199,15 +203,23 @@
             :rating="5"
           />
           <SkillRating
-            name="Brevo"
+            name="Brevo (Transactional & Marketing E-mails)"
             :rating="5"
           />
           <SkillRating
-            name="Printify"
+            name="MailChimp (Transactional & Marketing E-mails)"
+            :rating="4"
+          />
+          <SkillRating
+            name="Printify (Print-On-Demand Manufacturing)"
             :rating="5"
           />
           <SkillRating
-            name="Shippo"
+            name="Shippo (Shipping & Fulfillment Administration)"
+            :rating="5"
+          />
+          <SkillRating
+            name="ShipStation (Shipping & Fulfillment Administration)"
             :rating="5"
           />
           <SkillRating
@@ -219,7 +231,7 @@
             :rating="4"
           />
           <SkillRating
-            name="Godot"
+            name="Godot (Game Development)"
             :rating="5"
           />
         </div>
