@@ -92,7 +92,7 @@ const fov = ref(80)
 const aspect = ref(1)
 const near = ref(0.1)
 const far = ref(2000)
-const zoom = ref(1)
+const zoom = ref(3)
 
 const dodecaEnter = async() => {
   autoRotate.value=false

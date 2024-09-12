@@ -30,7 +30,7 @@
       <p class="text-xl md:text-8xl font-bold">
         Reshape<br>the<br>World<br>
       </p>
-      <p class="text-2xl mt-2 text-secondary">
+      <p class="text-2xl mt-2 text-primary">
         Driving Ambitious Solutions for a Sustainable Future
       </p>
     </div>
@@ -42,7 +42,7 @@
   <br>
 
   <!-- In Progress -->
-  <section class="padding">
+  <!-- <section class="padding">
     Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}
     Current Highest Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}
 
@@ -54,10 +54,11 @@
     <br>
     Time Remaining Until Next Bid Increment Increase: {{ countdown }}
 
-  </section>
+  </section> -->
+
   <!-- All these are going to be used, but are currently unfinished-->
-  <div class="divider" />
-  <section class="padding">
+  <!-- <div class="divider" /> -->
+  <section class="">
     <Skills />
   </section>
   <br>
@@ -79,7 +80,7 @@
   -->
   <section class="padding">
     <div class="flex lg:flex-row flex-col gap-4 relative">
-      <div class="static top-0 w-1/2">
+      <div class="static top-0 w-1/2"> <!--I'd like to set this component to h-full and have it fixed to the side once you scroll into it's area and until you leave the professional experience timeline...-->
         <World />
       </div>
       <div class="w-1/2">
@@ -101,12 +102,13 @@
   </section> -->
   <!-- <br>
   <ContactMainPage /> -->
-  <div class="divider" />
-  <section class="padding">
+
+
+  <!-- <section class="padding">
     <v-btn>Submit OfferLetter</v-btn>
     <v-btn>Contact Me</v-btn>
-    <!-- Schedule an Interview Btn? -->
-  </section>
+    <v-btn>Schedule an Interview</v-btn>
+  </section> -->
   <Footer />
 
   <!-- 
