@@ -80,13 +80,13 @@
   -->
   <section class="padding">
     <div class="flex lg:flex-row flex-col gap-4 relative">
-      <div class="static top-0 w-1/2"> <!--I'd like to set this component to h-full and have it fixed to the side once you scroll into it's area and until you leave the professional experience timeline...-->
-        <World />
-      </div>
-      <div class="w-1/2">
+      <div class="w-2/3">
         <section class="padding">
           <ExperienceTimeline />
         </section>
+      </div>
+      <div class="static top-0 w-1/3"> <!--I'd like to set this component to h-full and have it fixed to the side once you scroll into it's area and until you leave the professional experience timeline...-->
+        <World />
       </div>
     </div>
   </section>
