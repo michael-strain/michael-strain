@@ -141,7 +141,6 @@
                   name="Contract Writing & Review"
                   :percentage="75"
                 />
-                NEED MORE HERE OMG HOW IS THIS SO DEPRIVED
               </div>
 
               <!-- Language Skills -->

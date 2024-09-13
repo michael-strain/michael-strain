@@ -5,6 +5,7 @@
     </NuxtLayout>
   </html>
 </template>
+
 <script setup>
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
@@ -17,15 +18,8 @@ app.use(pinia)
 
 //Daisy Themes
 const selectedTheme = ref()
-watch(useUserDataStore(),(newStore,oldStore)=>{
-  if(newStore.userData.theme){
+watch(useUserDataStore(),(newStore)=>{
     selectedTheme.value = newStore.userData.theme
-  }
-  else{
-    if(oldStore.userData.theme){
-      selectedTheme.value = oldStore.userData.theme
-    }
-  }
 })
 
 useHead({

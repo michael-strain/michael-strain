@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} { //we need to change this to only allow users write access to their own buckets, and site super-admins access to everything of course
+      // allow read, write: if request.auth != null;
+      allow read,write: if hasAccessToRole('super-admin');
+    }
+
+    match /{uid} {
+      match /{file} {
+        allow read; //: if hasAccessToReadDoc(docId);
+        allow create;
+        allow delete;
+        //No updating, must upload new revision and delete old copies if desired
+      }
+    }
+    
+  }
+  function hasAccessToRole(role){
+  	return (role in request.auth.token.roles);
+  }
+
+  function hasAccessToReadDoc(docId){
+    //true if 'super-admin' or 'admin' in request.auth.token.roles:
+    //true if user has been granted access to doc by way of organization role
+    //true if user has been granted access to doc by way of share
+    return true;
+  }
+}

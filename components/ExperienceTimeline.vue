@@ -26,7 +26,7 @@
           <p class="text-gray-500">
             Strain Investment Company LLC
           </p>
-          <p class="text-justify pt-2">As President, I oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, manufacturing, fulfillment, and full-stack web development.</p>
+          <p class="text-justify pt-2">As President, I oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, manufacturing, fulfillment, and full-stack web development.  Subsidiary companies include: Smells Like Home LLC, Southern Gardens Landscaping LLC, LSDOPE LLC, NyxKnacks LLC, Harvest Valley Homes LLC.</p>
         </div>
         <br>
       </v-timeline-item>
@@ -46,7 +46,7 @@
           <p class="text-gray-500">
             Aramark
           </p>
-          <p class="text-justify pt-2">At Aramark, I significantly improved operational efficiency by automating key processes, which resulted in an estimated $3M in annual savings. I streamlined tasks across billing, collections, and analytics, enhancing overall departmental performance and reducing manual workloads.</p>
+          <p class="text-justify pt-2">At Aramark, I significantly improved operational efficiency by automating key processes, which resulted in an estimated $3M in annual savings. I streamlined tasks across billing, collections, and analytics, enhancing overall departmental performance and reducing manual workloads.  Received multiple awards, bonuses, and certificates of achievement.</p>
         </div>
         <br>
       </v-timeline-item>
@@ -66,7 +66,7 @@
           <p class="text-gray-500">
             MI6 & Utah Gun Exchange
           </p>
-          <p class="text-justify pt-2">I honed my skills in data analytics, software and web development, project management, and strategic financial planning. I managed a team of three, directly reported to the company's owners, and played a key role in achieving $2M in monthly revenue from nutraceutical sales.</p>
+          <p class="text-justify pt-2">During my time at MI6, I honed my skills in data analytics, software and web development, project management, and strategic financial planning. I managed a team of three, directly reported to the company's owners, and played a key role in achieving $2M in monthly revenue from nutraceutical sales.  Assisted in event planning, marketing, management and operations.  Assisted with professional audio/video recording.  Attended major political and professional events, and have been quoted in the news.   Received significant bonuses.</p>
         </div>
         <br>
       </v-timeline-item>
@@ -108,7 +108,7 @@
           <p class="text-gray-500">
             US Army Reserves
           </p>
-          <p class="text-justify pt-2">During my time in the military, I gained valuable experience in HR and organizational skills, contributing to my professional development. Basic training provided a strong foundation in discipline and teamwork.</p>
+          <p class="text-justify pt-2">During my time in the military, I gained valuable experience in HR and organizational skills, contributing to my professional development.  My position required Secret Security Clearance.  Basic training provided a strong foundation in discipline and teamwork.</p>
         </div>
         <br>
       </v-timeline-item>

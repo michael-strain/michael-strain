@@ -33,6 +33,8 @@
       <p class="text-2xl mt-2 text-primary">
         Driving Ambitious Solutions for a Sustainable Future
       </p>
+
+      <!-- Maybe we could split this div into to flexy divs and put the CTA stuff on the right? (but columnize on mobile?)-->
     </div>
     <div class="absolute top-0 h-[450px] w-full">
       <TopWorld />
@@ -41,20 +43,17 @@
   <br>
   <br>
 
-  <!-- In Progress -->
-  <!-- <section class="padding">
-    Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}
-    Current Highest Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}
+  <!-- Calls To Action - In Progress -->
+  <section class="padding">
+    <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
+    <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p>
 
     <v-btn @click="navigateTo('/offer')">Submit Offer</v-btn>
     <v-btn @click="navigateTo('/contact')">Contact Me</v-btn>
+    <v-btn @click="navigateTo('/schedule-interview')">Schedule an Interview</v-btn>
 
-
-    <br>
-    <br>
-    Time Remaining Until Next Bid Increment Increase: {{ countdown }}
-
-  </section> -->
+    <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
+  </section>
 
   <!-- All these are going to be used, but are currently unfinished-->
   <!-- <div class="divider" /> -->

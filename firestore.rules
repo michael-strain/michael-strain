@@ -1,6 +1,30 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /offers {
+      allow create: if(isSignedIn());
+      match /{offer} {
+        allow read, write, update: if(request.auth.uid==request.resource.uid);
+      } 
+    }
+    match /contactSubmissions {
+      allow create;
+      match /{contact} {
+        allow create;
+      }
+    }
+    match /users {
+      allow create;
+      match /{uid} {
+        allow read, write, update, delete: if (hasAccessToRole('super-admin')||request.auth.uid==uid)
+        match /files {
+          allow create: if (isSignedIn());
+          match /{file} {
+            allow create, read, write, update, delete: if (hasAccessToRole('super-admin')||request.auth.uid==uid)
+          }
+        }
+      }
+    }
     match /auctions/{auction} {
       allow read; //anyone can view public auction details
       //Only the server should be creating auctions at this time
@@ -13,16 +37,20 @@ service cloud.firestore {
       //endDate
       //bidIncrement (in cents)
       match /bids/{bid} {
-        allow create;
+        allow create: if(isSignedIn());
         //need to allow update if bidder = auth.uid
       } // (subcollection -> bidder, bid, date, intentId)
       match /private/{doc} {
         allow read: if(hasAccessToRole('admin'));
       }
     }
-  }
-}
 
-function hasAccessToRole(role){
-  return (role in request.auth.token.roles);
+    function isSignedIn(){
+      return request.auth.uid != null;
+    }
+
+    function hasAccessToRole(role){
+      return (role in request.auth.token.roles);
+    }
+  }
 }
