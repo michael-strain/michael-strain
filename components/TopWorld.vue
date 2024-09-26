@@ -4,7 +4,7 @@
   <!-- A less functional world for the topbar on the home page-->
   <TresCanvas
     v-bind="gl"
-    render-mode="on-demand"
+    render-mode="always"
   >
     <!-- <TresPerspectiveCamera
       :args="[45,innerWidth/innerHeight,1,2000]"
