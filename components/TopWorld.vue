@@ -26,6 +26,7 @@
       :intensity="1.8"
     /> -->
     <OrbitControls
+      :enable-zoom="false"
       :enable-pan="false"
       :min-distance="8.5"
       :max-distance="120"
