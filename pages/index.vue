@@ -9,16 +9,24 @@
     <div class="flex justify-space-between">
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-email" />
-        <p class="">
-          michael.v.strain@gmail.com
-        </p>
+        <a
+          href="mailto:michael.v.strain@gmail.com"
+          target="_blank"
+        >
+          <p class="">
+            michael.v.strain@gmail.com
+          </p>
+        </a>
       </div>
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-phone" />
-        <p>239.413.6517</p>
+        <a href="tel:+1-239-413-6517">
+          <p>239.413.6517</p>
+        </a>
       </div>
       <div class="flex gap-2 p-4 align-center">
         <v-icon icon="mdi-download" />
+        <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
         <p class="link">
           Download Resume
         </p>
@@ -26,7 +34,8 @@
     </div>
   </div>
   <section class="bg-black flex lg:pt-[100px]">
-    <div class="md:ml-[80px] ml-6 mb-n8 z-[1]"><!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
+    <div class="md:ml-[80px] ml-6 mb-n8 z-[1]">
+      <!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
       <p class="text-xl md:text-8xl font-bold">
         Reshape<br>the<br>World<br>
       </p>
@@ -44,13 +53,19 @@
   <br>
 
   <!-- Calls To Action - In Progress -->
-  <section class="padding">
+  <section class="hidden">
     <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
-    <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p>
+    <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->
 
-    <v-btn @click="navigateTo('/offer')">Submit Offer</v-btn>
-    <v-btn @click="navigateTo('/contact')">Contact Me</v-btn>
-    <v-btn @click="navigateTo('/schedule-interview')">Schedule an Interview</v-btn>
+    <v-btn @click="navigateTo('/contact')">
+      Message Me
+    </v-btn>
+    <v-btn @click="navigateTo('/schedule-interview')">
+      Schedule an Interview
+    </v-btn>
+    <v-btn @click="navigateTo('/offer')">
+      Submit an Employment Offer
+    </v-btn>
 
     <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
   </section>
@@ -124,25 +139,25 @@
 
 <script setup>
 
-  import { useDocument, useFirestore } from 'vuefire'
-  import { doc, Timestamp } from 'firebase/firestore'
-  import { formatDistanceToNow } from "date-fns"
+  // import { useDocument, useFirestore } from 'vuefire'
+  // import { doc } from 'firebase/firestore'
+  // import { formatDistanceToNow } from "date-fns"
 
-  const docRef = doc(useFirestore(),'auctions/mysoul')
-  const {data:auction, pending,error} = useDocument(docRef)
+  // const docRef = doc(useFirestore(),'auctions/mysoul')
+  // const {data:auction, pending,error} = useDocument(docRef)
 
-  const countdown = ref()
+  // const countdown = ref()
 
-  onMounted(async()=>{
-    if(!pending.value&&!error.value && auction.value){
-      const incrementDate = auction.value.nextIncrementDate
-      const result = formatDistanceToNow(
-        new Date(incrementDate.toDate().toString()),
-        {includeSeconds: true}
-      )
-      countdown.value = result
-    }
-  })
+  // onMounted(async()=>{
+  //   if(!pending.value&&!error.value && auction.value){
+  //     const incrementDate = auction.value.nextIncrementDate
+  //     const result = formatDistanceToNow(
+  //       new Date(incrementDate.toDate().toString()),
+  //       {includeSeconds: true}
+  //     )
+  //     countdown.value = result
+  //   }
+  // })
   
 
   //Our backend should be responsible for actually incrementing the bidIncrement
