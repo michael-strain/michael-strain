@@ -118,8 +118,17 @@ const pbrTexture = ref()
 // const dTexture = ref()
 // const aTexture = ref()
 
-onMounted(async()=>{
-  const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
+;(async()=>{
+  try{
+    const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
+    pbrTexture.value = txtr
+  } catch(e){
+    //Should always error on serverside because the document doesn't exist and threejs is a whiner
+    //so we are just gonna ignore these document related errors
+    console.log(e)
+  }
+    
+  // const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
   // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/gebco_08_rev_elev_21600x10800.png'])
   // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/landmask4K.png'])
 
@@ -127,11 +136,11 @@ onMounted(async()=>{
   // dTx.minFilter = LinearFilter
   // aTx.minFilter = LinearFilter
 
-  pbrTexture.value = txtr
+  // pbrTexture.value = txtr
   // dTexture.value = dTx
   // aTexture.value = aTx
 
-})
+})()
 
 // const uniforms = {
 //   globeTexture: { value: texture }

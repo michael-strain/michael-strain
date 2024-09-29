@@ -48,21 +48,20 @@
                   <SkillRating name="Windows 2000" :rating="5" />
                   <SkillRating name="Windows 95" :rating="5" />
                   <SkillRating name="Windows NT (This is as far as I go)" :rating="3" /> -->
-                  <SkillRating name="Haven't used macOS since (Big Sur)" :rating="5" />
-                  <SkillRating name="Ubuntu (My favorite)" :rating="5" />
-                  <SkillRating name="All Other Linux Distros" :rating="3" />
-                  <SkillRating name="Any Other Obscure OS" :rating="2" />
+                  <SkillRating name="macOS" :rating="5" />
+                  <SkillRating name="Ubuntu" :rating="5" />
+                  <SkillRating name="Other Linux Distros or Archaic System" :rating="4" />
                   <br>
                   <!--The Stack-->
                   <SkillTitle name="Current Tech Stack" class="mb-2 underline" />
                   <SkillRating name="Nuxt 3" :rating="5" />
                   <SkillRating name="Vue 3" :rating="4" />
-                  <SkillRating name="Node JS / JavaScript" :rating="4.5" />
+                  <SkillRating name="Node JS / JavaScript" :rating="5" />
+                  <SkillRating name="Firebase" :rating="5" />
                   <SkillRating name="Vuetify" :rating="4" />
                   <SkillRating name="Tailwind" :rating="4" />
                   <SkillRating name="DaisyUI" :rating="4" />
-                  <SkillRating name="Firebase" :rating="5" />
-                  <SkillRating name="THREEjs/Tresjs/Cientos" :rating="4" />
+                  <SkillRating name="THREEjs/Tresjs/Cientos" :rating="3" />
                 </div>
                 <!-- Applications -->
                 <div>
