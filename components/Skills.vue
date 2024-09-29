@@ -1,44 +1,45 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
-  <div class="">
-    <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
+  <div class="bg-gray-100 pt-4">
+    <h2 class="w-full text-4xl font-bold text-center mb-8">
       Skills
-    </h2> -->
+    </h2>
 
     <div class="">
       <v-tabs
         v-model="tab"
         color="primary"
-        class="bg-black mb-10"
+        class="mb-4"
         grow
       >
         <v-tab
-          text="Technical Skills"
+          text="Technical"
           value="technicaltab"
-          class="uppercase text-xl font-semibold text-right text-secondary"
+          class="uppercase text-2xl font-bold text-secondary"
         />
         <v-tab
-          text="Professional Skills"
+          text="Professional"
           value="professionaltab"
-          class="uppercase text-xl font-semibold text-right text-primary"
+          class="uppercase text-2xl font-bold text-primary"
         />
         <v-tab
-          text="Personal Skills"
+          text="Personal"
           value="personaltab"
-          class="uppercase text-xl font-semibold text-success"
+          class="uppercase text-2xl font-bold text-success"
         />
       </v-tabs>
 
       <v-tabs-window v-model="tab">
         <div class="container pl-10 ml-10">
           <v-tabs-window-item value="technicaltab">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div class="">
+            <div class="">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!-- Operating Systems -->
                 <div>
-                  <SkillTitle name="Operating Systems" />
-                  <SkillRating name="Windows 11" :rating="5" />
+                  <SkillTitle name="Operating Systems" class="mb-2 underline" />
+                  <SkillRating name="Windows" :rating="5" />
+                  <!-- <SkillRating name="Windows 11" :rating="5" />
                   <SkillRating name="Windows 10" :rating="5" />
                   <SkillRating name="Windows 8.1" :rating="5" />
                   <SkillRating name="Windows 7" :rating="5" />
@@ -46,15 +47,14 @@
                   <SkillRating name="Windows XP" :rating="5" />
                   <SkillRating name="Windows 2000" :rating="5" />
                   <SkillRating name="Windows 95" :rating="5" />
-                  <SkillRating name="Windows NT (This is as far as I go)" :rating="3" />
+                  <SkillRating name="Windows NT (This is as far as I go)" :rating="3" /> -->
                   <SkillRating name="Haven't used macOS since (Big Sur)" :rating="5" />
                   <SkillRating name="Ubuntu (My favorite)" :rating="5" />
                   <SkillRating name="All Other Linux Distros" :rating="3" />
                   <SkillRating name="Any Other Obscure OS" :rating="2" />
-                </div>
-                <!--The Stack-->
-                <div>
-                  <SkillTitle name="Current Tech Stack" />
+                  <br>
+                  <!--The Stack-->
+                  <SkillTitle name="Current Tech Stack" class="mb-2 underline" />
                   <SkillRating name="Nuxt 3" :rating="5" />
                   <SkillRating name="Vue 3" :rating="4" />
                   <SkillRating name="Node JS / JavaScript" :rating="4.5" />
@@ -66,7 +66,7 @@
                 </div>
                 <!-- Applications -->
                 <div>
-                  <SkillTitle name="Applications" />
+                  <SkillTitle name="Applications" class="mb-2 underline" />
                   <SkillRating name="Visual Studio Code" :rating="5" />
                   <SkillRating name="Git" :rating="5" />
                   <SkillRating name="Google Cloud Platform" :rating="5" />
@@ -83,20 +83,11 @@
                 </div>
               </div>
               <!-- Progress Bars (Right Half Hopefully)-->
-              <div class="">
-                <!--Languages-->
-                <div>
-                  <SkillTitle name="Languages" />
-                  <SkillProgress name="JavaScript" :percentage="90" />
-                  <SkillProgress name="SQL" :percentage="75" />
-                  <SkillProgress name="Python" :percentage="85" />
-                  <SkillProgress name="VBA" :percentage="95" />
-                  <SkillProgress name="Go" :percentage="5" />
-                  <SkillProgress name="GDScript" :percentage="85" />
-                </div>
+               <br>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!--Back End-->
                 <div>
-                  <SkillTitle name="Tech Skills" />
+                  <SkillTitle name="Tech Skills" class="mb-2 underline" />
                   <SkillProgress name="High-Level Scripting & Coding" :percentage="95" />
                   <SkillProgress name="Low-Level Engineering" :percentage="40" />
                   <SkillProgress name="Cloud Architecture" :percentage="95" />
@@ -107,6 +98,16 @@
                   <SkillProgress name="Photo/Audio/Video Editing & Processing" :percentage="55" />
                   <SkillProgress name="Performance, Accessibility, & Search Engine Optimization" :percentage="90" />
                   <SkillProgress name="Domain Management & Administration" :percentage="100" />
+                </div>
+                <!--Languages-->
+                <div>
+                  <SkillTitle name="Languages" class="mb-2 underline"/>
+                  <SkillProgress name="JavaScript" :percentage="90" />
+                  <SkillProgress name="SQL" :percentage="75" />
+                  <SkillProgress name="Python" :percentage="85" />
+                  <SkillProgress name="VBA" :percentage="95" />
+                  <SkillProgress name="Go" :percentage="5" />
+                  <SkillProgress name="GDScript" :percentage="85" />
                 </div>
               </div>
             </div>

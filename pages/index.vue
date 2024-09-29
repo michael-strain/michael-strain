@@ -72,9 +72,7 @@
 
   <!-- All these are going to be used, but are currently unfinished-->
   <!-- <div class="divider" /> -->
-  <section class="">
-    <Skills />
-  </section>
+  
   <br>
   <!-- <div class="divider" />
   <section class="padding">
@@ -106,6 +104,12 @@
       </div> -->
     </div>
   </section>
+  <div class="divider" />
+
+  <section class="">
+    <Skills />
+  </section>
+  <br>
   <br>
   <!-- <div class="divider" />
   <section class="padding">
