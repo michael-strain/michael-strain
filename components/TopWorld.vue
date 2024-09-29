@@ -120,8 +120,14 @@ const pbrTexture = ref()
 
 ;(async()=>{
   try{
-    const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
-    pbrTexture.value = txtr
+    if(useRuntimeConfig().public.WTFAMI=="dev"){
+      const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
+      pbrTexture.value = txtr
+    } else{
+      const txtr = await useTexture(['https://michael-strain.com/img/earth/land_ocean_ice_8192.png'])
+      pbrTexture.value = txtr
+    }
+    
   } catch(e){
     //Should always error on serverside because the document doesn't exist and threejs is a whiner
     //so we are just gonna ignore these document related errors
