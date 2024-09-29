@@ -1,38 +1,38 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
-  <div class="bg-gray-100 pt-4">
-    <h2 class="w-full text-4xl font-bold text-center mb-8">
+  <div class="">
+    <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
       Skills
-    </h2>
+    </h2> -->
 
-    <div class="">
+    <div class="text-white">
       <v-tabs
         v-model="tab"
         color="primary"
-        class="mb-4"
+        class=""
         grow
       >
         <v-tab
           text="Technical"
           value="technicaltab"
-          class="uppercase text-2xl font-bold text-secondary"
+          class="uppercase text-2xl rounded-t-2xl ml-1 font-bold transition ease-in-out bg-gray-900 hover:scale-110 duration-500"
         />
         <v-tab
           text="Professional"
           value="professionaltab"
-          class="uppercase text-2xl font-bold text-primary"
+          class="uppercase text-2xl rounded-t-2xl mx-1 font-bold transition ease-in-out bg-gray-800 hover:scale-110 duration-500"
         />
         <v-tab
           text="Personal"
           value="personaltab"
-          class="uppercase text-2xl font-bold text-success"
+          class="uppercase text-2xl rounded-t-2xl mr-1 font-bold transition ease-in-out bg-gray-700 hover:scale-110 duration-500"
         />
       </v-tabs>
 
-      <v-tabs-window v-model="tab">
-        <div class="container pl-10 ml-10">
-          <v-tabs-window-item value="technicaltab">
+      <v-tabs-window v-model="tab" class="">
+        <div class="">
+          <v-tabs-window-item value="technicaltab" class="bg-gray-900 p-4 pb-8">
             <div class="">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!-- Operating Systems -->
@@ -83,7 +83,7 @@
                 </div>
               </div>
               <!-- Progress Bars (Right Half Hopefully)-->
-               <br>
+              <br>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!--Back End-->
                 <div>
@@ -101,7 +101,7 @@
                 </div>
                 <!--Languages-->
                 <div>
-                  <SkillTitle name="Languages" class="mb-2 underline"/>
+                  <SkillTitle name="Languages" class="mb-2 underline" />
                   <SkillProgress name="JavaScript" :percentage="90" />
                   <SkillProgress name="SQL" :percentage="75" />
                   <SkillProgress name="Python" :percentage="85" />
@@ -113,7 +113,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="professionaltab">
+          <v-tabs-window-item value="professionaltab" class="bg-gray-800 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Professional Skills -->
               <div>
@@ -171,7 +171,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="personaltab">
+          <v-tabs-window-item value="personaltab" class="bg-gray-700 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Construction Skills -->
               <div>

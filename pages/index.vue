@@ -104,13 +104,10 @@
       </div> -->
     </div>
   </section>
-  <div class="divider" />
-
+  <br>
   <section class="">
     <Skills />
   </section>
-  <br>
-  <br>
   <!-- <div class="divider" />
   <section class="padding">
     <ServicesSummary />
@@ -120,8 +117,7 @@
   <section class="padding">
     <Industry />
   </section> -->
-  <!-- <br>
-  <ContactMainPage /> -->
+  <ContactMainPage />
 
 
   <!-- <section class="padding">
