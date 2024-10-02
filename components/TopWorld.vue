@@ -120,7 +120,7 @@ const pbrTexture = ref()
 
 ;(async()=>{
   try{
-    if(useRuntimeConfig().public.WTFAMI=="dev"){
+    if(useRuntimeConfig().public.WTFAMI=="DEV"){
       const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
       pbrTexture.value = txtr
     } else{
