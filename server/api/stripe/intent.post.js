@@ -1,6 +1,6 @@
 // import { getCurrentUser } from 'vuefire'
 import { getApp, initializeApp } from 'firebase-admin/app'
-import { getFirestore, FieldPath } from 'firebase-admin/firestore'
+// import { getFirestore, FieldPath } from 'firebase-admin/firestore'
 // import Stripe from 'stripe';
 // import { useServerStripe } from '#stripe/server'
 // import * as auth from 'firebase-admin/auth'

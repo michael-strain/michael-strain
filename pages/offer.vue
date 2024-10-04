@@ -166,7 +166,7 @@ const submitOffer = async () =>{
   isFormValid.value.reset()
   offerSentSnackbar.value = true
   await delay(500)
-  offerSentSnackbar = false
+  offerSentSnackbar.value = false
 }
 
 const delay = ms => new Promise(res=> setTimeout(res,ms));

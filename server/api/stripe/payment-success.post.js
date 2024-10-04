@@ -1,7 +1,7 @@
 import { initializeApp, getApp } from 'firebase-admin/app'
-import { getFirestore, FieldValue } from 'firebase-admin/firestore'
+// import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 // import { useServerStripe } from '#stripe/server'
-import { getRequestHeaders, readBody, readRawBody } from 'h3'
+// import { getRequestHeaders, readBody, readRawBody } from 'h3'
 
 //ORIGINAL FROM LSDOPE
 //NOT AT ALL UPDATED TO WORK WITH MICHAEL-STRAIN
@@ -20,7 +20,7 @@ export default defineEventHandler(async(event) => {
   }catch{
     initializeApp()
   }
-  return {error:"Nothing the pay for on this domain"}
+  return {error:"Nothing to pay for on this domain at this time"}
   
   // const headers = getRequestHeaders(event)
   // const sig = headers['stripe-signature']
