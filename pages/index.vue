@@ -84,6 +84,9 @@
   <section class="">
     <Skills />
   </section>
+  <section class="">
+    <Projects />
+  </section>
   <!-- <div class="divider" />
   <section class="padding">
     <ServicesSummary />
@@ -101,7 +104,8 @@
     <v-btn>Contact Me</v-btn>
     <v-btn>Schedule an Interview</v-btn>
   </section> -->
-    <!-- Calls To Action - In Progress -->
+  
+  <!-- Calls To Action - In Progress -->
   <section class="hidden">
     <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
     <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->

@@ -75,10 +75,10 @@
                   <SkillRating name="Windows NT (This is as far as I go)" :rating="3" /> -->
                   <SkillRating name="macOS" :rating="5" />
                   <SkillRating name="Ubuntu" :rating="5" />
-                  <SkillRating name="Other Linux Distros or Archaic System" :rating="4" />
+                  <SkillRating name="Other" :rating="4" />
                   <br>
                   <!--The Stack-->
-                  <SkillTitle name="Current Tech Stack" class="mb-2 underline" />
+                  <SkillTitle name="Current Stack" class="mb-2 underline" />
                   <SkillRating name="Nuxt 3" :rating="5" />
                   <SkillRating name="Vue 3" :rating="4" />
                   <SkillRating name="Node JS / JavaScript" :rating="5" />
@@ -97,7 +97,7 @@
                   <SkillRating name="Google Suite (Sheets, Slides, Docs, Scripts, Etc.)" :rating="5" />
                   <SkillRating name="Google Analytics & Data Studio" :rating="5" />
                   <SkillRating name="Brevo (Transactional & Marketing E-mails)" :rating="5" />
-                  <SkillRating name="MailChimp (Transactional & Marketing E-mails)" :rating="4" />
+                  <SkillRating name="MailChimp (Transactional & Marketing E-mails)" :rating="5" />
                   <SkillRating name="Printify (Print-On-Demand Manufacturing)" :rating="5" />
                   <SkillRating name="Shippo (Shipping & Fulfillment Administration)" :rating="5" />
                   <SkillRating name="ShipStation (Shipping & Fulfillment Administration)" :rating="5" />
@@ -113,14 +113,14 @@
                 <div>
                   <SkillTitle name="Tech Skills" class="mb-2 underline" />
                   <SkillProgress name="High-Level Scripting & Coding" :percentage="95" />
-                  <SkillProgress name="Low-Level Engineering" :percentage="40" />
                   <SkillProgress name="Cloud Architecture" :percentage="95" />
                   <SkillProgress name="NoSQL Database Architecture" :percentage="90" />
                   <SkillProgress name="Cloud File Storage & Content Distribution" :percentage="80" />
                   <SkillProgress name="Authentication & Access Control" :percentage="98" />
                   <SkillProgress name="Analytics & Reporting" :percentage="96" />
-                  <SkillProgress name="Photo/Audio/Video Editing & Processing" :percentage="55" />
-                  <SkillProgress name="Performance, Accessibility, & Search Engine Optimization" :percentage="90" />
+                  <SkillProgress name="Performance Optimization" :percentage="90" />
+                  <SkillProgress name="Accessibility Optimization" :percentage="90" />
+                  <SkillProgress name="Search Engine Optimization" :percentage="85" />
                   <SkillProgress name="Domain Management & Administration" :percentage="100" />
                 </div>
                 <!--Languages-->
@@ -132,6 +132,8 @@
                   <SkillProgress name="VBA" :percentage="95" />
                   <SkillProgress name="Go" :percentage="5" />
                   <SkillProgress name="GDScript" :percentage="85" />
+                  <SkillProgress name="C#" :percentage="50" />
+                  <SkillProgress name="C++" :percentage="10" />
                 </div>
               </div>
             </div>
@@ -234,7 +236,7 @@
                   :percentage="60"
                 />
                 <SkillProgress
-                  name="Outbuildings, Gazebos, Pagodas, Sheds, Coops, Barns, Etc."
+                  name="Outbuildings (Sheds, Coops, Barns, Etc.)"
                   :percentage="60"
                 />
                 <SkillProgress
@@ -297,7 +299,7 @@
               </div>
 
               <!-- Personal Skills -->
-              <div>
+              <!-- <div>
                 <SkillTitle name="Ability Scores" />
                 <SkillProgress
                   name="Strength"
@@ -324,7 +326,7 @@
                   name="Charisma"
                   :percentage="30"
                 /> {{ 20*.3 }}/20
-              </div>
+              </div> -->
             </div>
           </v-tabs-window-item>
         </div>
