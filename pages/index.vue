@@ -84,9 +84,11 @@
   <section class="">
     <Skills />
   </section>
+<!--   
   <section class="">
     <Projects />
-  </section>
+  </section> -->
+
   <!-- <div class="divider" />
   <section class="padding">
     <ServicesSummary />

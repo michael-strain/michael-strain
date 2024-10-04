@@ -78,20 +78,21 @@
                   <SkillRating name="Other" :rating="4" />
                   <br>
                   <!--The Stack-->
-                  <SkillTitle name="Current Stack" class="mb-2 underline" />
+                  <SkillTitle name="Development Stack" class="mb-2 underline" />
                   <SkillRating name="Nuxt 3" :rating="5" />
                   <SkillRating name="Vue 3" :rating="4" />
                   <SkillRating name="Node JS / JavaScript" :rating="5" />
-                  <SkillRating name="Firebase" :rating="5" />
+                  <SkillRating name="Firebase / GCP" :rating="5" />
                   <SkillRating name="Vuetify" :rating="4" />
                   <SkillRating name="Tailwind" :rating="4" />
                   <SkillRating name="DaisyUI" :rating="4" />
-                  <SkillRating name="THREEjs/Tresjs/Cientos" :rating="3" />
+                  <!-- <SkillRating name="THREEjs/Tresjs/Cientos" :rating="3" /> -->
                 </div>
                 <!-- Applications -->
                 <div>
                   <SkillTitle name="Applications" class="mb-2 underline" />
                   <SkillRating name="Visual Studio Code" :rating="5" />
+                  <SkillRating name="Microsoft Office Suite" :rating="5" />                  
                   <SkillRating name="Git" :rating="5" />
                   <SkillRating name="Google Cloud Platform" :rating="5" />
                   <SkillRating name="Google Suite (Sheets, Slides, Docs, Scripts, Etc.)" :rating="5" />
@@ -133,7 +134,6 @@
                   <SkillProgress name="Go" :percentage="5" />
                   <SkillProgress name="GDScript" :percentage="85" />
                   <SkillProgress name="C#" :percentage="50" />
-                  <SkillProgress name="C++" :percentage="10" />
                 </div>
               </div>
             </div>
@@ -277,12 +277,16 @@
                   :percentage="10"
                 />
                 <SkillProgress
-                  name="Solar Power Generation"
+                  name="Power Generation & Storage"
                   :percentage="60"
                 />
-                <SkillProgress
+                <!-- <SkillProgress
                   name="Wind Power Generation"
                   :percentage="30"
+                />
+                <SkillProgress
+                  name="Solar Power Generation"
+                  :percentage="10"
                 />
                 <SkillProgress
                   name="Hydro Power Generation"
@@ -291,10 +295,10 @@
                 <SkillProgress
                   name="Biofuel Power Generation"
                   :percentage="10"
-                />
+                /> -->
                 <SkillProgress
-                  name="Cistern Water Collection & Purification"
-                  :percentage="15"
+                  name="Water Management"
+                  :percentage="35"
                 />
               </div>
 
