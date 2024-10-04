@@ -12,6 +12,7 @@
         color="primary"
         class=""
         grow
+        v-if="$device.isDesktopOrTablet"
       >
         <v-tab
           text="Technical"
@@ -21,12 +22,36 @@
         <v-tab
           text="Professional"
           value="professionaltab"
-          class="uppercase text-2xl rounded-t-2xl mx-1 font-bold transition ease-in-out bg-gray-800 hover:scale-110 duration-500"
+          class="uppercase text-2xl rounded-t-2xl mx-1 font-bold transition ease-in-out bg-gray-700 hover:scale-110 duration-500"
         />
         <v-tab
           text="Personal"
           value="personaltab"
-          class="uppercase text-2xl rounded-t-2xl mr-1 font-bold transition ease-in-out bg-gray-700 hover:scale-110 duration-500"
+          class="uppercase text-2xl rounded-t-2xl mr-1 font-bold transition ease-in-out bg-gray-600 hover:scale-110 duration-500"
+        />
+      </v-tabs>
+      <v-tabs
+        v-model="tab"
+        color="primary"
+        class=""
+        grow
+        direction="vertical"
+        v-if="$device.isMobile"
+      >
+        <v-tab
+          text="Technical Skills"
+          value="technicaltab"
+          class="uppercase text-2xl justify-center w-full font-bold bg-gray-700"
+        />
+        <v-tab
+          text="Professional Skills"
+          value="professionaltab"
+          class="uppercase text-2xl justify-center w-full font-bold bg-gray-700"
+        />
+        <v-tab
+          text="Personal Skills"
+          value="personaltab"
+          class="uppercase text-2xl justify-center w-full font-bold bg-gray-700"
         />
       </v-tabs>
 
@@ -112,7 +137,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="professionaltab" class="bg-gray-800 p-4 pb-8">
+          <v-tabs-window-item value="professionaltab" class="bg-gray-700 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Professional Skills -->
               <div>
@@ -120,6 +145,7 @@
                 <SkillProgress
                   name="Customer Service & IT"
                   :percentage="90"
+                  :style="text-white"
                 />
                 <SkillProgress
                   name="PBX & Call Center Operations"
@@ -170,7 +196,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="personaltab" class="bg-gray-700 p-4 pb-8">
+          <v-tabs-window-item value="personaltab" class="bg-gray-600 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Construction Skills -->
               <div>

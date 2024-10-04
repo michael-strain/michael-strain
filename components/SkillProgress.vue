@@ -7,9 +7,8 @@
       :color="theme.current.value.colors.info"
       class="flex-1 ml-4"
       height="10"
-      striped
     />
-    <p class="text-gray-500">{{ percentage }}%</p>
+    <p class="text-white ml-3">{{ percentage }}%</p>
   </div>
 </template>
 
