@@ -1,13 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-  <div class="flex justify-space-between text-center bg-black fixed z-[5] top-0 w-full">
-    <!-- Header -->
-    <p class="uppercase p-4 text-2xl font-bold">
+  <div class="flex flex-col pb-3 text-center sm:text-left sm:p-0 sm:flex-row justify-space-between bg-black sticky z-[5] sm:top-0 w-full">
+    <p class="uppercase sm:p-4 text-2xl font-bold">
       Michael Strain
     </p>
-    <div class="flex justify-space-between">
-      <div class="flex gap-2 p-4 align-center">
+    <div class="flex align-center flex-col sm:flex-row sm:justify-space-between">
+      <div class="flex gap-2 sm:p-4 align-center">
         <v-icon icon="mdi-email" />
         <a
           href="mailto:michael.v.strain@gmail.com"
@@ -18,13 +17,13 @@
           </p>
         </a>
       </div>
-      <div class="flex gap-2 p-4 align-center">
+      <div class="flex gap-2 sm:p-4 align-center">
         <v-icon icon="mdi-phone" />
         <a href="tel:+1-239-413-6517">
           <p>239.413.6517</p>
         </a>
       </div>
-      <div class="flex gap-2 p-4 align-center">
+      <div class="flex gap-2 sm:p-4 align-center">
         <v-icon icon="mdi-download" />
         <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
         <p class="link">
@@ -33,46 +32,23 @@
       </div>
     </div>
   </div>
-  <section class="bg-black flex lg:pt-[100px]">
-    <div class="md:ml-[80px] ml-6 mb-n8 z-[1]">
-      <!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
-      <p class="text-xl md:text-8xl font-bold">
-        Reshape<br>the<br>World<br>
-      </p>
-      <p class="text-2xl mt-2 text-primary">
-        Driving Ambitious Solutions for a Sustainable Future
-      </p>
-
-      <!-- Maybe we could split this div into to flexy divs and put the CTA stuff on the right? (but columnize on mobile?)-->
-    </div>
-    <div class="absolute top-0 h-[450px] w-full">
+  <div class="relative">
+    <div class="md:h-[400px] h-[250px] md:w-[130%] w-full z-[0]">
       <TopWorld />
     </div>
-  </section>
-  <br>
-  <br>
+    <section class="flex flex flex-col absolute bottom-0">
+      <div class="md:ml-[60px] ml-3 z-[1] text-white">
+        <!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
+        <p class="text-5xl md:text-8xl font-bold">
+          Reshape<br>The World
+        </p>
+      </div>
+      <p class="md:pl-[60px] md:py-4 text-2xl md:text-3xl text-white p-2 pl-3 w-full">
+        Driving Ambitious Solutions for a Sustainable Future
+      </p>
+    </section>
+  </div>
 
-  <!-- Calls To Action - In Progress -->
-  <section class="hidden">
-    <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
-    <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->
-
-    <v-btn @click="navigateTo('/contact')">
-      Message Me
-    </v-btn>
-    <v-btn @click="navigateTo('/schedule-interview')">
-      Schedule an Interview
-    </v-btn>
-    <v-btn @click="navigateTo('/offer')">
-      Submit an Employment Offer
-    </v-btn>
-
-    <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
-  </section>
-
-  <!-- All these are going to be used, but are currently unfinished-->
-  <!-- <div class="divider" /> -->
-  
   <br>
   <!-- <div class="divider" />
   <section class="padding">
@@ -117,7 +93,7 @@
   <section class="padding">
     <Industry />
   </section> -->
-  <ContactMainPage />
+  <!-- <ContactMainPage /> -->
 
 
   <!-- <section class="padding">
@@ -125,6 +101,23 @@
     <v-btn>Contact Me</v-btn>
     <v-btn>Schedule an Interview</v-btn>
   </section> -->
+    <!-- Calls To Action - In Progress -->
+  <section class="hidden">
+    <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
+    <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->
+
+    <v-btn @click="navigateTo('/contact')">
+      Message Me
+    </v-btn>
+    <v-btn @click="navigateTo('/schedule-interview')">
+      Schedule an Interview
+    </v-btn>
+    <v-btn @click="navigateTo('/offer')">
+      Submit an Employment Offer
+    </v-btn>
+
+    <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
+  </section>
   <Footer />
 
   <!-- 
