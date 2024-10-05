@@ -2,9 +2,9 @@
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
   <div class="">
-    <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
+    <h2 class="w-full text-4xl font-bold text-center mb-8">
       Skills
-    </h2> -->
+    </h2>
 
     <div class="text-white">
       <v-tabs

@@ -20,17 +20,17 @@
   <div class=" grid grid-cols-1 sm:grid-cols-3 place-content-stretch text-center bg-black">
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-email" />
-      <p class="text-xl">michael.v.strain@gmail.com</p>
+      <a href="mailto:michael.v.strain@gmail.com"><p class="text-xl">michael.v.strain@gmail.com</p></a>
       <!-- <p class="text-gray-500">email</p> -->
     </div>
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-phone" />
-      <p>239.413.6517</p>
+      <a href="tel:+1-239-413-6517"><p>+1 (239) 413-6517</p></a>
       <!-- <p class="">phone</p> -->
     </div>
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-download" />
-      <p class="link">Download Resume</p>
+      <a href="/Resume.pdf"><p class="link">Download Resume</p></a>
       <!-- <p class="">resume</p> -->
     </div>
   </div>

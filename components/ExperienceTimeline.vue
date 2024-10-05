@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="pt-5">
     <h2 class="w-full text-4xl font-bold text-center">
       Professional Experience
     </h2>

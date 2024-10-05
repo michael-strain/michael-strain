@@ -20,15 +20,13 @@
       <div class="flex gap-2 sm:p-4 align-center">
         <v-icon icon="mdi-phone" />
         <a href="tel:+1-239-413-6517">
-          <p>239.413.6517</p>
+          <p>+1 (239) 413-6517</p>
         </a>
       </div>
       <div class="flex gap-2 sm:p-4 align-center">
         <v-icon icon="mdi-download" />
         <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
-        <p class="link">
-          Download Resume
-        </p>
+        <a href="/Resume.pdf"><p class="link">Download Resume</p></a>
       </div>
     </div>
   </div>
@@ -81,6 +79,9 @@
     </div>
   </section>
   <br>
+
+  <div class="divider" />
+
   <section class="">
     <Skills />
   </section>
