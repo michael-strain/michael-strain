@@ -117,7 +117,7 @@ export default defineNuxtConfig({
           manifest:true,
       },
       optimizeDeps:{
-          include:['lodash-es','@stripe/stripe-js']
+          include:['lodash-es','@stripe/stripe-js','@tresjs/cientos', '@tresjs/core']
       },
   },
 
