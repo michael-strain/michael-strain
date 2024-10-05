@@ -37,7 +37,7 @@
           </p>
           <p class="md:text-justify pt-2">
             • Oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, and full-stack web development.<br>
-            • Manage subsidiary companies: Smells Like Home LLC, Southern Gardens Landscaping LLC, LSDOPE LLC, NyxKnacks LLC, Harvest Valley Homes LLC.
+            • Manage foreign and domestic subsidiary companies.
           </p>
         </div>
         <br>
@@ -68,7 +68,7 @@
             2018 - 2022
           </p>
           <p class="md:text-justify pt-2">
-            • Automated key processes to improve operational efficiency, resulting in an estimated $3M in annual savings.<br>
+            • Automated key processes to improve operational efficiency, resulting in an estimated $1M in annual savings.<br>
             • Streamlined billing, collections, and analytics tasks, enhancing departmental performance and reducing manual workloads.<br>
             • Recognized with multiple awards and certificates for outstanding contributions.
           </p>
