@@ -118,6 +118,9 @@
                   <SkillProgress name="NoSQL Database Architecture" :percentage="90" />
                   <SkillProgress name="Cloud File Storage & Content Distribution" :percentage="80" />
                   <SkillProgress name="Authentication & Access Control" :percentage="98" />
+                  <SkillProgress name="DevOps" :percentage="90" />
+                  <SkillProgress name="Continuous Integration/Deployment" :percentage="90" />
+                  <SkillProgress name="Scrum / Agile Project Management" :percentage="90" />
                   <SkillProgress name="Analytics & Reporting" :percentage="96" />
                   <SkillProgress name="Performance Optimization" :percentage="90" />
                   <SkillProgress name="Accessibility Optimization" :percentage="90" />
