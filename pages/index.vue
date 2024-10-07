@@ -113,15 +113,17 @@
     <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
     <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->
 
+    TODO
+    Ashley, I would appreciate your help making my calls to action look acceptable...
     <v-btn @click="navigateTo('/contact')">
       Message Me
     </v-btn>
     <v-btn @click="navigateTo('/schedule-interview')">
       Schedule an Interview
     </v-btn>
-    <v-btn @click="navigateTo('/offer')">
+    <!-- <v-btn @click="navigateTo('/offer')">
       Submit an Employment Offer
-    </v-btn>
+    </v-btn> -->
 
     <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
   </section>
@@ -130,6 +132,16 @@
   <!-- 
   
     Future chunks:
+    -Rates for services? Buy it now style?  Ask users for location permission/zipcode to check range for in-person services?
+    -Approximate location tracker? To show my current range of availability for in-person services
+    -Public/private todo list?  scrum style kanban board(s)? (backlog, color categorized priorities, columns for stages, list views vs card views, titles/descriptions/dates/tags/this is trello now)
+    -Project Categorized Gallery (could be cool to gamify the gallery with threejs/tresjs/cientos)
+    -Ambition Board maybe throw some of my idea projects out there on something of a whiteboard (but with general financial/business plans), and have sponsorship CTAs for people that are interested
+    -Life Achievements (Could be silly to add stuff like Unique Plants Consumed, mushrooms discovered, etc. and add expandable checklists for things like Places I've Been/Lived, and drag and drop prioritization and progress bars and such)
+    -Build a chat feature (and for now only show when I am online), and store the dialogue to later train a chatbot to talk like me
+    -Public Approval Buttons (Smiley and Frowny with counters, smiley let's you increment once or retract your vote, frowny shows a gif of me flipping you off and a permanent 0 counter lol)
+
+    Old ideas:
     -Auction an hour of my time for consultation (likely broken into 2 30min portions, first for questions, then some time for me to think/research, then 30 min for answers)
     -Invest in one of the Strain Investment Company LLC subsidiaries
     -Show a timeline of our personal and professional highlights
