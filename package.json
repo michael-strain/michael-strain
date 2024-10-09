@@ -30,7 +30,6 @@
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
     "@mdi/font": "^7.4.47",
-    "@nuxt/image": "^1.8.0",
     "@nuxt/kit": "^3.13.2",
     "@nuxt/schema": "^3.13.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
