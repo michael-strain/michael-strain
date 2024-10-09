@@ -1,16 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-  <!-- <link
-    rel="preload"
-    href="/img/earth/land_ocean_ice_8192.png"
-  > -->
-  <div class="flex flex-col pb-3 text-center sm:text-left sm:p-0 sm:flex-row justify-space-between bg-black sticky z-[5] sm:top-0 w-full">
-    <p class="uppercase sm:p-4 text-2xl font-bold">
+  <div
+    :class="$device.isMobileorTablet ? '' : 'flex justify-space-between align-center p-4 flex-wrap' "
+    class="  bg-black sticky z-[5] md:top-0 w-full"
+  >
+    <p class="uppercase text-2xl font-bold mx-auto">
       Michael Strain
     </p>
-    <div class="flex align-center flex-col sm:flex-row sm:justify-space-between">
-      <div class="flex gap-2 sm:p-4 align-center">
+    <div class=flex-grow></div>
+
+    <div :class="$device.isMobileorTablet ? 'flex flex-col justify-space-between' : 'flex align-center flex-row justify-center mx-auto flex-wrap gap-x-5' ">
+      <div class="flex gap-2 align-center">
         <v-icon icon="mdi-email" />
         <a
           href="mailto:michael.v.strain@gmail.com"
@@ -21,13 +22,13 @@
           </p>
         </a>
       </div>
-      <div class="flex gap-2 sm:p-4 align-center">
+      <div class="flex gap-2 align-center">
         <v-icon icon="mdi-phone" />
         <a href="tel:+1-239-413-6517">
           <p>+1 (239) 413-6517</p>
         </a>
       </div>
-      <div class="flex gap-2 sm:p-4 align-center">
+      <div class="flex gap-2 align-center">
         <v-icon icon="mdi-download" />
         <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
         <a href="/Resume.pdf"><p class="link">Download Resume</p></a>
@@ -84,7 +85,7 @@
   </section>
   <br>
 
-  <div class="divider" />
+  <!-- <div class="divider" /> -->
 
   <section class="">
     <Skills />
