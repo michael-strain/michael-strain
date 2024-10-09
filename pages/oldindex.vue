@@ -3,7 +3,7 @@
   <div>
     <v-layout>
       <v-main>
-        <v-img src="/img/bright-red-unusual-flower.jpg" height="250px" />
+        <!-- <v-img src="/img/bright-red-unusual-flower.jpg" height="250px" /> -->
         <v-container class="my-10 mx-20">
           <v-card-title>Services</v-card-title>
           <p>Looking for an eCommerce Platform that outperforms Amazon on PageSpeed Insights?</p>

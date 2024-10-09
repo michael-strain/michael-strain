@@ -1,6 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
+  <!-- <link
+    rel="preload"
+    href="/img/earth/land_ocean_ice_8192.png"
+  > -->
   <div class="flex flex-col pb-3 text-center sm:text-left sm:p-0 sm:flex-row justify-space-between bg-black sticky z-[5] sm:top-0 w-full">
     <p class="uppercase sm:p-4 text-2xl font-bold">
       Michael Strain
@@ -85,7 +89,7 @@
   <section class="">
     <Skills />
   </section>
-<!--   
+  <!--   
   <section class="">
     <Projects />
   </section> -->

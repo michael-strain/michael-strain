@@ -566,25 +566,25 @@ const pbrTexture = ref()
 // const dTexture = ref()
 // const aTexture = ref()
 
-onMounted(async()=>{
-  // const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthmap4k.jpg'])
-  // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthbump4k.jpg'])
-  // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthspec4k.jpg'])
+// onMounted(async()=>{
+//   // const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthmap4k.jpg'])
+//   // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthbump4k.jpg'])
+//   // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/8081_earthspec4k.jpg'])
 
-  const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
-  // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/gebco_08_rev_elev_21600x10800.png'])
-  // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/landmask4K.png'])
+//   const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
+//   // const dTx = await useTexture(['http://127.0.0.1:3000/img/earth/gebco_08_rev_elev_21600x10800.png'])
+//   // const aTx = await useTexture(['http://127.0.0.1:3000/img/earth/landmask4K.png'])
 
 
-  // txtr.minFilter = LinearFilter
-  // dTx.minFilter = LinearFilter
-  // aTx.minFilter = LinearFilter
+//   // txtr.minFilter = LinearFilter
+//   // dTx.minFilter = LinearFilter
+//   // aTx.minFilter = LinearFilter
 
-  pbrTexture.value = txtr
-  // dTexture.value = dTx
-  // aTexture.value = aTx
+//   pbrTexture.value = txtr
+//   // dTexture.value = dTx
+//   // aTexture.value = aTx
 
-})
+// })
 
 // const uniforms = {
 //   globeTexture: { value: texture }
