@@ -85,7 +85,7 @@
   </section>
   <br>
 
-  <div class="divider" />
+  <!-- <div class="divider" /> -->
 
   <section class="">
     <Skills />

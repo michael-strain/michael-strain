@@ -2,9 +2,9 @@
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
   <div class="">
-    <h2 class="w-full text-4xl font-bold text-center mb-8">
+    <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
       Skills
-    </h2>
+    </h2> -->
 
     <div class="text-white">
       <v-tabs
@@ -12,22 +12,22 @@
         color="primary"
         class=""
         grow
-        v-if="$device.isDesktopOrTablet"
+        v-if="$device.isDesktop"
       >
         <v-tab
-          text="Technical"
+          text="Technical Skills"
           value="technicaltab"
           class="uppercase text-2xl rounded-t-2xl ml-1 font-bold transition ease-in-out bg-gray-900 hover:scale-110 duration-500"
         />
         <v-tab
-          text="Professional"
+          text="Professional Skills"
           value="professionaltab"
-          class="uppercase text-2xl rounded-t-2xl mx-1 font-bold transition ease-in-out bg-gray-700 hover:scale-110 duration-500"
+          class="uppercase text-2xl rounded-t-2xl mx-1 font-bold transition ease-in-out bg-gray-800 hover:scale-110 duration-500"
         />
         <v-tab
-          text="Personal"
+          text="Personal Skills"
           value="personaltab"
-          class="uppercase text-2xl rounded-t-2xl mr-1 font-bold transition ease-in-out bg-gray-600 hover:scale-110 duration-500"
+          class="uppercase text-2xl rounded-t-2xl mr-1 font-bold transition ease-in-out bg-gray-700 hover:scale-110 duration-500"
         />
       </v-tabs>
       <v-tabs
@@ -36,7 +36,7 @@
         class=""
         grow
         direction="vertical"
-        v-if="$device.isMobile"
+        v-if="$device.isMobileOrTablet"
       >
         <v-tab
           text="Technical Skills"
@@ -142,7 +142,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="professionaltab" class="bg-gray-700 p-4 pb-8">
+          <v-tabs-window-item value="professionaltab" class="bg-gray-800 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Professional Skills -->
               <div>
@@ -201,7 +201,7 @@
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="personaltab" class="bg-gray-600 p-4 pb-8">
+          <v-tabs-window-item value="personaltab" class="bg-gray-700 p-4 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <!-- Construction Skills -->
               <div>
