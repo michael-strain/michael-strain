@@ -3,7 +3,7 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 import { OrbitControls, Sky, Ocean, Stars } from '@tresjs/cientos'
-import { useTexture, TresCanvas } from '@tresjs/core'
+import { TresCanvas, UseTexture } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace } from 'three'
 
 const theme = useTheme()
@@ -35,9 +35,11 @@ const zoom = ref(3)
 
 // console.log(earthUrl.value.backgroundImage)
 
-const pbrTexture = ref()
+const textures = ref()
 
-//Fucking silly that this isn't better documented for nuxt usage
+// const pbrTexture = ref()
+
+//Silly that this isn't better documented for nuxt usage
 
 // ;(async()=>{
 //   try{
@@ -55,28 +57,25 @@ const pbrTexture = ref()
 //   }
 // })()
 
-//This works but seems to throw serverside errors
 
-try{
-  useTexture(['/img/earth/earth_min.png']).then((tex)=>{
-    pbrTexture.value = tex
-  })
-}catch(e){
-  // console.log(e)
-  let fucksigive = 0;
-}
+// onMounted(async()=>{
+//   //Method 1
+//   await useTexture(['/img/earth/earth_min.png']).then((tex)=>{
+//     pbrTexture.value = tex
+//   })
+// })
 
 //not sure this always works
-onMounted(async()=>{
-  try{
-    await useTexture(['/img/earth/earth_min.png']).then((tex)=>{
-      pbrTexture.value = tex
-    })
-  }catch(e){
-    console.log(e)
-    let fucksigive = 0;
-  }
-})
+// onMounted(async()=>{
+//   try{
+//     await useTexture(['/img/earth/earth_min.png']).then((tex)=>{
+//       pbrTexture.value = tex
+//     })
+//   }catch(e){
+//     console.log(e)
+//     // let fucksigive = 0;
+//   }
+// })
 
 //this was working okay, but sometimes didn't show texture on first load
 
@@ -138,15 +137,19 @@ onMounted(async()=>{
     </Suspense>
 
 
-    <Sphere
-      :args="[rad]"
-      :rotation="[0,-1,23.5 / 360 * 2 * Math.PI-0.3]"
-    >
-      <!-- <ClientOnly> -->
-      <TresMeshMatcapMaterial
-        :map="pbrTexture"
-      />
-      <!-- </ClientOnly> -->
-    </Sphere>
+    <Suspense>
+      <UseTexture v-slot="{ textures }" map="/img/earth/earth_min.png">
+        <Sphere
+          :args="[rad]"
+          :rotation="[0,-1,23.5 / 360 * 2 * Math.PI-0.3]"
+        >
+          <!-- <ClientOnly> -->
+          <TresMeshMatcapMaterial
+            :map="textures.map"
+          />
+          <!-- </ClientOnly> -->
+        </Sphere>
+      </UseTexture>
+    </Suspense>
   </TresCanvas>
 </template>

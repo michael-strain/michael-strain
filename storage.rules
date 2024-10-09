@@ -20,11 +20,4 @@ service firebase.storage {
   function hasAccessToRole(role){
   	return (role in request.auth.token.roles);
   }
-
-  function hasAccessToReadDoc(docId){
-    //true if 'super-admin' or 'admin' in request.auth.token.roles:
-    //true if user has been granted access to doc by way of organization role
-    //true if user has been granted access to doc by way of share
-    return true;
-  }
 }
