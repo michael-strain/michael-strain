@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/attribute-hyphenation -->
-<script setup lang="ts">
+<script setup>
 import { useTheme } from 'vuetify'
 import { OrbitControls, Sky, Ocean, Stars } from '@tresjs/cientos'
 import { TresCanvas, UseTexture } from '@tresjs/core'
@@ -26,74 +26,8 @@ const aspect = ref(1)
 const near = ref(0.1)
 const far = ref(2000)
 const zoom = ref(3)
-
-// const img = useImage()
-// const earthUrl = computed(() => {
-//   const imgUrl = img('/img/earth/land_ocean_ice_8192.png', { width: 100, format: 'png', quality: 50 })
-//   return { backgroundImage: `url('${imgUrl}')` }
-// })
-
-// console.log(earthUrl.value.backgroundImage)
-
 const textures = ref()
 
-// const pbrTexture = ref()
-
-//Silly that this isn't better documented for nuxt usage
-
-// ;(async()=>{
-//   try{
-//     if(useRuntimeConfig().public.WTFAMI=="DEV"){
-//       const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
-//       pbrTexture.value = txtr
-//     } else{
-//       const txtr = await useTexture(['https://michael-strain.com/img/earth/land_ocean_ice_8192.png'])
-//       pbrTexture.value = txtr
-//     }
-//   } catch(e){
-//     //Might always error on serverside because the document doesn't exist and threejs is a whiner
-//     //so we are just gonna ignore these document related errors
-//     console.log(e)
-//   }
-// })()
-
-
-// onMounted(async()=>{
-//   //Method 1
-//   await useTexture(['/img/earth/earth_min.png']).then((tex)=>{
-//     pbrTexture.value = tex
-//   })
-// })
-
-//not sure this always works
-// onMounted(async()=>{
-//   try{
-//     await useTexture(['/img/earth/earth_min.png']).then((tex)=>{
-//       pbrTexture.value = tex
-//     })
-//   }catch(e){
-//     console.log(e)
-//     // let fucksigive = 0;
-//   }
-// })
-
-//this was working okay, but sometimes didn't show texture on first load
-
-// onMounted(async()=>{
-//   try{
-//     if(useRuntimeConfig().public.WTFAMI=="DEV"){
-//       const txtr = await useTexture(['http://127.0.0.1:3000/img/earth/land_ocean_ice_8192.png'])
-//       pbrTexture.value = txtr
-//     } else{
-//       const txtr = await useTexture(['https://michael-strain.com/img/earth/land_ocean_ice_8192.png'])
-//       pbrTexture.value = txtr
-//     }
-//   } catch(e){
-//     //Might always error on serverside because the document doesn't exist and threejs is a whiner
-//     //so we are just gonna ignore these document related errors
-//     console.log(e)
-//   }
-// })
 
 </script>
 
