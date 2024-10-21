@@ -34,6 +34,7 @@
     "@nuxt/schema": "^3.13.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.4",
+    "@tensorflow/tfjs": "^4.21.0",
     "@tresjs/cientos": "^4.0.2",
     "@tresjs/nuxt": "^3.0.7",
     "@types/node": "^22.7.4",
