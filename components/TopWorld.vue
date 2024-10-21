@@ -34,7 +34,7 @@ const textures = ref()
 <template>
   <TresCanvas
     v-bind="gl"
-    render-mode="always"
+    render-mode="on-demand"
   >
     <!-- <TresPerspectiveCamera
       :args="[45,innerWidth/innerHeight,1,2000]"
@@ -65,7 +65,7 @@ const textures = ref()
       :auto-rotate-speed="-0.75"
     />
     <Sky :elevation="0.8" />
-    <Stars :size="0.2" />
+    <!-- <Stars :size="0.2" /> -->
     <Suspense>
       <Ocean :position="[0,-10,0]" />
     </Suspense>
