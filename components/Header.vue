@@ -1,42 +1,47 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <NuxtLink to="/">
-    <p
-      class="header_sitetitle text-5xl pb-2"
-    >
-      Michael-Strain
-    </p>
-  </NuxtLink>
-  <v-container>
-    <v-row class="w-full flex justify-center mx-auto gap-2">
-      <NuxtLink to="/blog"><v-btn variant="plain">Blog</v-btn></NuxtLink>
-      <NuxtLink to="/donate"><v-btn variant="plain">Donate</v-btn></NuxtLink>
-      <NuxtLink to="/invest"><v-btn variant="plain">Invest</v-btn></NuxtLink>
-      <NuxtLink to="/contact"><v-btn variant="plain">Contact</v-btn></NuxtLink>
-    </v-row>
-  </v-container>
+  <div
+    :class="$device.isMobileOrTablet ? '' : 'flex justify-space-between align-center p-4 flex-wrap' "
+    class="  bg-black sticky z-[5] md:top-0 w-full"
+  >
+    <NuxtLink to="/">
+      <p class="uppercase text-2xl font-bold mx-auto">
+        Michael Strain
+      </p>
+    </NuxtLink>
+    <div class="flex-grow" />
+
+    <div :class="$device.isMobileOrTablet ? 'flex flex-col justify-space-between' : 'flex align-center flex-row justify-center mx-auto flex-wrap gap-x-5' ">
+      <div class="flex gap-2 align-center">
+        <v-icon icon="mdi-email" />
+        <a
+          href="mailto:michael.v.strain@gmail.com"
+          target="_blank"
+        >
+          <p class="">
+            michael.v.strain@gmail.com
+          </p>
+        </a>
+      </div>
+      <div class="flex gap-2 align-center">
+        <v-icon icon="mdi-phone" />
+        <a
+          href="tel:+1-239-413-6517"
+          target="_blank"
+        >
+          <p>+1 (239) 413-6517</p>
+        </a>
+      </div>
+      <div class="flex gap-2 align-center">
+        <v-icon icon="mdi-download" />
+        <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
+        <a
+          href="/Resume.pdf"
+          target="_blank"
+        >
+          <p class="link">Download Resume</p>
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
-
-<style scoped>
-
-.header_sitetitle {
-  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;;
-  /* text-transform: uppercase; */
-  /* display: block; */
-  /* font-size: 92px; */
-  color: rgb(var(--v-theme-primary-darken-1));
-  /* color: #f1ebe5; */
-  -webkit-text-stroke: 0.1px white;
-  text-shadow: 0 0.5px 0px rgb(var(--v-theme-primary-lighten-2)), -2px -2px 2px #fff, 0px 0px 3px rgb(var(--v-theme-primary));
-  font-weight: bold;
-  /* letter-spacing: -2px; */
-  text-align: center;
-  /* background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%); */
-  /* position: absolute; */
-  /* padding: 100px 200px; */
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%); */
-  /* border-radius: 20px; */
-}
-
-</style>

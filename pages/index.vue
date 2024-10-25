@@ -1,40 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-  <div
-    :class="$device.isMobileorTablet ? '' : 'flex justify-space-between align-center p-4 flex-wrap' "
-    class="  bg-black sticky z-[5] md:top-0 w-full"
-  >
-    <p class="uppercase text-2xl font-bold mx-auto">
-      Michael Strain
-    </p>
-    <div class=flex-grow></div>
-
-    <div :class="$device.isMobileorTablet ? 'flex flex-col justify-space-between' : 'flex align-center flex-row justify-center mx-auto flex-wrap gap-x-5' ">
-      <div class="flex gap-2 align-center">
-        <v-icon icon="mdi-email" />
-        <a
-          href="mailto:michael.v.strain@gmail.com"
-          target="_blank"
-        >
-          <p class="">
-            michael.v.strain@gmail.com
-          </p>
-        </a>
-      </div>
-      <div class="flex gap-2 align-center">
-        <v-icon icon="mdi-phone" />
-        <a href="tel:+1-239-413-6517">
-          <p>+1 (239) 413-6517</p>
-        </a>
-      </div>
-      <div class="flex gap-2 align-center">
-        <v-icon icon="mdi-download" />
-        <!--This will be a nuxt link to a pdf that will be stored in public assets i think-->
-        <a href="/Resume.pdf"><p class="link">Download Resume</p></a>
-      </div>
-    </div>
-  </div>
+  <Header />
   <div class="relative">
     <div class="md:h-[400px] h-[250px] md:w-[130%] w-full z-[0]">
       <TopWorld />
@@ -87,8 +54,12 @@
 
   <!-- <div class="divider" /> -->
 
-  <section class="">
+  <section class="padding">
     <Skills />
+  </section>
+
+  <section class="padding py-10">
+    <ContactForm />
   </section>
   <!--   
   <section class="">
@@ -123,7 +94,7 @@
     <v-btn @click="navigateTo('/contact')">
       Message Me
     </v-btn>
-    <v-btn @click="navigateTo('/schedule-interview')">
+    <v-btn @click="navigateTo('/schedule')">
       Schedule an Interview
     </v-btn>
     <!-- <v-btn @click="navigateTo('/offer')">

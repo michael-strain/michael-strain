@@ -1,22 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <!-- Calls To Action - In Progress -->
-    <section class="hidden">
-    <!-- <p>Your next employee, for only: ${{ (auction.currentBid + auction.bidIncrement)/100 }}</p> -->
-    <!-- <p>Current Top Bidder: {{ auction.currentTopBidder }} @ ${{ auction.currentBid / 100 }}</p> -->
-
-    <v-btn @click="navigateTo('/contact')">
-      Message Me
-    </v-btn>
-    <v-btn @click="navigateTo('/schedule-interview')">
-      Schedule an Interview
-    </v-btn>
-    <v-btn @click="navigateTo('/offer')">
-      Submit an Employment Offer
-    </v-btn>
-
-    <!-- <p>Time Remaining Until Next Bid Increment Increase: {{ countdown }}</p> -->
-  </section>
   <div class=" grid grid-cols-1 sm:grid-cols-3 place-content-stretch text-center bg-black">
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-email" />
@@ -38,8 +21,22 @@
     <p class="text-xs">
       © Strain Investment Co. LLC
     </p>
-    <p class="text-xs text-wrap">
+    <p class="text-xs text-wrap pb-3">
       All content is owned solely by Michael Strain, and shall not be used or reproduced without prior written consent. All Rights Reserved.
     </p>
+    <div class="text-sm flex justify-center gap-2 flex-col md:flex-row md:gap-8">
+    <NuxtLink
+      to="/legal/termsAndConditions"
+      class=""
+    >
+      Terms & Conditions
+    </NuxtLink>
+    <NuxtLink
+      to="/legal/privacyPolicy"
+    >
+      Privacy Policy
+    </NuxtLink>
   </div>
+  </div>
+  
 </template>

@@ -1,1 +1,0 @@
-<template>Want a custom eCommerce site?</template>

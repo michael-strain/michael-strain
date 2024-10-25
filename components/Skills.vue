@@ -126,17 +126,18 @@
                   <SkillProgress name="Accessibility Optimization" :percentage="90" />
                   <SkillProgress name="Search Engine Optimization" :percentage="85" />
                   <SkillProgress name="Domain Management & Administration" :percentage="100" />
+                  <SkillProgress name="AI/ML" :percentage="30" />
                 </div>
                 <!--Languages-->
                 <div>
                   <SkillTitle name="Languages" class="mb-2 underline" />
-                  <SkillProgress name="JavaScript" :percentage="90" />
-                  <SkillProgress name="SQL" :percentage="75" />
-                  <SkillProgress name="Python" :percentage="85" />
-                  <SkillProgress name="VBA" :percentage="95" />
-                  <SkillProgress name="Go" :percentage="5" />
-                  <SkillProgress name="GDScript" :percentage="85" />
-                  <SkillProgress name="C#" :percentage="50" />
+                  <SkillProgress name="JavaScript" :percentage="80" />
+                  <SkillProgress name="SQL" :percentage="65" />
+                  <SkillProgress name="Python" :percentage="75" />
+                  <SkillProgress name="VBA" :percentage="85" />
+                  <SkillProgress name="Go" :percentage="1" />
+                  <SkillProgress name="GDScript" :percentage="65" />
+                  <SkillProgress name="C#" :percentage="30" />
                 </div>
               </div>
             </div>

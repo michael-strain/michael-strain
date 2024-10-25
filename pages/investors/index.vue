@@ -1,6 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  TODO:
+  None of my companies are accepting investments at this time, but I am open to sponsorships and donations!
+  Please contact me via the form on the main page to discuess your interest.
+</template>
+
+<!--
+
+TODO:
   A link to login or apply to become an investor
   Solid Business Plan(s)
   -Market Research
@@ -11,8 +17,6 @@
   -PR/Marketing Strategy
 
 
-
-<!--
 Let's see what chatGPT says about investors........
 
 
@@ -89,4 +93,3 @@ Follow Up: Stay in touch with potential investors and keep them updated on your 
 Build Trust: Cultivate relationships over time, even if they don’t invest immediately.
 By combining these strategies, you can effectively position your business to attract the interest and investment you need to grow.
 -->
-</template>
