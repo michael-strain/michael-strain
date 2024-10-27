@@ -54,11 +54,11 @@
 
   <!-- <div class="divider" /> -->
 
-  <section class="padding">
+  <section class="">
     <Skills />
   </section>
 
-  <section class="padding py-10">
+  <section class="">
     <ContactForm />
   </section>
   <!--   

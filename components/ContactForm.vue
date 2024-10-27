@@ -1,101 +1,110 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="card"> 
-    <FormCard>
-      <template #formtitle>
-        Contact Me
-      </template>
+  <v-parallax
+    src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+    class="padding"
+  >
+    <div class="fill-height justify-center align-center text-white">
+      <div class="pt-4 pb-8"> 
+        <FormCard>
+          <template #formtitle>
+            <h2 class="w-full text-4xl font-bold text-center mb-4">
+              Contact Me
+            </h2>
+          </template>
 
-      <v-form
-        ref="isFormValid"
-        class="twocolinputs"
-        @submit.prevent
-      >
-        <!-- <template #forminputs> -->
-        <v-text-field
-          v-model="firstName"
-          type="text"
-          label="First Name"
-          :rules="[rules.required]"
-        />
+          <v-form
+            ref="isFormValid"
+            class="twocolinputs"
+            @submit.prevent
+          >
+            <!-- <template #forminputs> -->
+            <v-text-field
+              v-model="firstName"
+              type="text"
+              label="First Name"
+              :rules="[rules.required]"
+            />
 
-        <v-text-field
-          v-model="lastName"
-          type="text"
-          label="Last Name"
-          :rules="[rules.required]"
-        />
+            <v-text-field
+              v-model="lastName"
+              type="text"
+              label="Last Name"
+              :rules="[rules.required]"
+            />
 
-        <v-text-field
-          v-model="companyName"
-          type="text"
-          label="Company Name"
-        />
+            <v-text-field
+              v-model="companyName"
+              type="text"
+              label="Company Name"
+            />
             
-        <v-text-field
-          v-model="email"
-          type="email"
-          label="Email Address"
-          :rules="[rules.required, rules.email]"
-        />
+            <v-text-field
+              v-model="email"
+              type="email"
+              label="Email Address"
+              :rules="[rules.required, rules.email]"
+            />
             
-        <v-text-field
-          v-model="phone"
-          type="tel"
-          label="Phone Number"
-        />
-        <v-autocomplete
-          v-model="category"
-          auto-select-first
-          :items="['Employment Inquiry', 'Schedule a Phone Call', 'Suggestions & Comments', 'Website Bug Report', 'Other']"
-          label="Message Type"
-          :rules="[rules.required]"
-          class=" "
-        />
-        <v-text-field
-          v-model="subject"
-          type="text"
-          label="Subject"
-          :rules="[rules.required, rules.max]"
-          class="col-span-2 <md:col-span-1"
-        />
-        <v-textarea
-          v-model="message"
-          type="text"
-          label="Message"
-          :rules="[rules.required]"
-          class="col-span-2 <md:col-span-1"
-        />
-        <!-- </template> -->
+            <v-text-field
+              v-model="phone"
+              type="tel"
+              label="Phone Number"
+            />
+            <v-autocomplete
+              v-model="category"
+              auto-select-first
+              :items="['Employment Inquiry', 'Schedule a Phone Call', 'Suggestions & Comments', 'Website Bug Report', 'Other']"
+              label="Message Type"
+              :rules="[rules.required]"
+              class=" "
+            />
+            <v-text-field
+              v-model="subject"
+              type="text"
+              label="Subject"
+              :rules="[rules.required, rules.max]"
+              class="col-span-2 <md:col-span-1"
+            />
+            <v-textarea
+              v-model="message"
+              type="text"
+              label="Message"
+              :rules="[rules.required]"
+              class="col-span-2 <md:col-span-1"
+            />
+            <!-- </template> -->
 
-        <!-- <template #formbuttons> -->
+            <!-- <template #formbuttons> -->
         
-        <div 
-          v-if="msgSentSnackbar" 
-          class="snackbar elevation-10"
-        >
-          <span>Your message has been sent. <br> We will get back to you as soon as possible.</span>
-        </div>
-        <div 
-          v-if="msgFailSnackbar" 
-          class="snackbar elevation-10"
-        >
-          <span>Message was unable to send.<br>Please fill out the required fields.</span>
-        </div>
+            <div 
+              v-if="msgSentSnackbar" 
+              class="snackbar elevation-10"
+            >
+              <span>Your message has been sent. <br> We will get back to you as soon as possible.</span>
+            </div>
+            <div 
+              v-if="msgFailSnackbar" 
+              class="snackbar elevation-10"
+            >
+              <span>Message was unable to send.<br>Please fill out the required fields.</span>
+            </div>
         
-        <!-- </template> -->
-      </v-form>
-      <div class="vbtn btn-wide btn-secondary text-secondary-content">
-        <v-btn
-          class="mx-auto"
-          variant="text"
-          @click="submitMessage();"
-        >
-          Send Message
-        </v-btn>
+            <!-- </template> -->
+          </v-form>
+          <div class="flex justify-center">
+            <v-btn
+              size="large"
+              class="font-bold"
+              @click="submitMessage();"
+            >
+              Send Message
+            </v-btn>
+          </div>
+        </FormCard>
       </div>
-    </FormCard>
-  </div>
+    </div>
+  </v-parallax>
 </template>
 
 <script setup>
