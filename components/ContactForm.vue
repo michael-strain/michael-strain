@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-parallax
-    src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-    class="padding"
+    src="/img/earth/earth_min.png"
+    class="md:max-h-[650px]"
   >
-    <div class="fill-height justify-center align-center text-white">
-      <div class="pt-4 pb-8"> 
+    <div class="padding justify-center align-center text-white bg-black bg-opacity-50">
+      <div class="pt-4 pb-8 max-w-[800px] mx-auto"> 
         <FormCard>
           <template #formtitle>
             <h2 class="w-full text-4xl font-bold text-center mb-4">

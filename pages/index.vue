@@ -6,7 +6,7 @@
     <div class="md:h-[400px] h-[250px] md:w-[130%] w-full z-[0]">
       <TopWorld />
     </div>
-    <section class="flex flex flex-col absolute bottom-0">
+    <section class="flex flex-col absolute bottom-0">
       <div class="md:ml-[60px] ml-3 z-[1] text-white">
         <!--IDEALLY this should be a smaller div, it's making it so we can't use orbitControls on the TopWorld component-->
         <p class="text-5xl md:text-8xl font-bold">
