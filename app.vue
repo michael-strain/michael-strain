@@ -1,5 +1,5 @@
 <template>
-  <html :data-theme="selectedTheme">
+  <html>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -7,20 +7,20 @@
 </template>
 
 <script setup>
-import { createPinia } from 'pinia'
+// import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-import { useUserDataStore } from './stores/userData'
+// import { useUserDataStore } from './stores/userData'
 
 const app = createApp()
-const pinia = createPinia()
+// const pinia = createPinia()
 
-app.use(pinia)
+// app.use(pinia)
 
 //Daisy Themes
-const selectedTheme = ref()
-watch(useUserDataStore(),(newStore)=>{
-    selectedTheme.value = newStore.userData.theme
-})
+// const selectedTheme = ref()
+// watch(useUserDataStore(),(newStore)=>{
+//     selectedTheme.value = newStore.userData.theme
+// })
 
 useHead({
   htmlAttrs: {

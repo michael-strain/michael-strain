@@ -8,11 +8,11 @@
 
     <div class="text-white">
       <v-tabs
+        v-if="$device.isDesktop"
         v-model="tab"
         color="primary"
         class=""
         grow
-        v-if="$device.isDesktop"
       >
         <v-tab
           text="Technical Skills"
@@ -31,12 +31,12 @@
         />
       </v-tabs>
       <v-tabs
+        v-if="$device.isMobileOrTablet"
         v-model="tab"
         color="primary"
         class=""
         grow
         direction="vertical"
-        v-if="$device.isMobileOrTablet"
       >
         <v-tab
           text="Technical Skills"
@@ -62,8 +62,8 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!-- Operating Systems -->
                 <div>
-                  <SkillTitle name="Operating Systems" class="mb-2 underline" />
-                  <SkillRating name="Windows" :rating="5" />
+                  <LazySkillTitle name="Operating Systems" class="mb-2 underline" />
+                  <LazySkillRating name="Windows" :rating="5" />
                   <!-- <SkillRating name="Windows 11" :rating="5" />
                   <SkillRating name="Windows 10" :rating="5" />
                   <SkillRating name="Windows 8.1" :rating="5" />
@@ -73,38 +73,38 @@
                   <SkillRating name="Windows 2000" :rating="5" />
                   <SkillRating name="Windows 95" :rating="5" />
                   <SkillRating name="Windows NT (This is as far as I go)" :rating="3" /> -->
-                  <SkillRating name="macOS" :rating="5" />
-                  <SkillRating name="Ubuntu" :rating="5" />
-                  <SkillRating name="Other" :rating="4" />
+                  <LazySkillRating name="macOS" :rating="5" />
+                  <LazySkillRating name="Ubuntu" :rating="5" />
+                  <LazySkillRating name="Other" :rating="4" />
                   <br>
                   <!--The Stack-->
-                  <SkillTitle name="Development Stack" class="mb-2 underline" />
-                  <SkillRating name="Nuxt 3" :rating="5" />
-                  <SkillRating name="Vue 3" :rating="4" />
-                  <SkillRating name="Node JS / JavaScript" :rating="5" />
-                  <SkillRating name="Firebase / GCP" :rating="5" />
-                  <SkillRating name="Vuetify" :rating="4" />
-                  <SkillRating name="Tailwind" :rating="4" />
-                  <SkillRating name="DaisyUI" :rating="4" />
+                  <LazySkillTitle name="Development Stack" class="mb-2 underline" />
+                  <LazySkillRating name="Nuxt 3" :rating="5" />
+                  <LazySkillRating name="Vue 3" :rating="4" />
+                  <LazySkillRating name="Node JS / JavaScript" :rating="5" />
+                  <LazySkillRating name="Firebase / GCP" :rating="5" />
+                  <LazySkillRating name="Vuetify" :rating="4" />
+                  <LazySkillRating name="Tailwind" :rating="4" />
+                  <LazySkillRating name="DaisyUI" :rating="4" />
                   <!-- <SkillRating name="THREEjs/Tresjs/Cientos" :rating="3" /> -->
                 </div>
                 <!-- Applications -->
                 <div>
-                  <SkillTitle name="Applications" class="mb-2 underline" />
-                  <SkillRating name="Visual Studio Code" :rating="5" />
-                  <SkillRating name="Microsoft Office Suite" :rating="5" />                  
-                  <SkillRating name="Git" :rating="5" />
-                  <SkillRating name="Google Cloud Platform" :rating="5" />
-                  <SkillRating name="Google Suite (Sheets, Slides, Docs, Scripts, Etc.)" :rating="5" />
-                  <SkillRating name="Google Analytics & Data Studio" :rating="5" />
-                  <SkillRating name="Brevo (Transactional & Marketing E-mails)" :rating="5" />
-                  <SkillRating name="MailChimp (Transactional & Marketing E-mails)" :rating="5" />
-                  <SkillRating name="Printify (Print-On-Demand Manufacturing)" :rating="5" />
-                  <SkillRating name="Shippo (Shipping & Fulfillment Administration)" :rating="5" />
-                  <SkillRating name="ShipStation (Shipping & Fulfillment Administration)" :rating="5" />
-                  <SkillRating name="Facebook Ads" :rating="4" />
-                  <SkillRating name="YouTube Creator Studio" :rating="4" />
-                  <SkillRating name="Godot (Game Development)" :rating="5" />
+                  <LazySkillTitle name="Applications" class="mb-2 underline" />
+                  <LazySkillRating name="Visual Studio Code" :rating="5" />
+                  <LazySkillRating name="Microsoft Office Suite" :rating="5" />                  
+                  <LazySkillRating name="Git" :rating="5" />
+                  <LazySkillRating name="Google Cloud Platform" :rating="5" />
+                  <LazySkillRating name="Google Suite (Sheets, Slides, Docs, Scripts, Etc.)" :rating="5" />
+                  <LazySkillRating name="Google Analytics & Data Studio" :rating="5" />
+                  <LazySkillRating name="Brevo (Transactional & Marketing E-mails)" :rating="5" />
+                  <LazySkillRating name="MailChimp (Transactional & Marketing E-mails)" :rating="5" />
+                  <LazySkillRating name="Printify (Print-On-Demand Manufacturing)" :rating="5" />
+                  <LazySkillRating name="Shippo (Shipping & Fulfillment Administration)" :rating="5" />
+                  <LazySkillRating name="ShipStation (Shipping & Fulfillment Administration)" :rating="5" />
+                  <LazySkillRating name="Facebook Ads" :rating="4" />
+                  <LazySkillRating name="YouTube Creator Studio" :rating="4" />
+                  <LazySkillRating name="Godot (Game Development)" :rating="5" />
                 </div>
               </div>
               <!-- Progress Bars (Right Half Hopefully)-->
@@ -112,179 +112,172 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!--Back End-->
                 <div>
-                  <SkillTitle name="Tech Skills" class="mb-2 underline" />
-                  <SkillProgress name="High-Level Scripting & Coding" :percentage="95" />
-                  <SkillProgress name="Cloud Architecture" :percentage="95" />
-                  <SkillProgress name="NoSQL Database Architecture" :percentage="90" />
-                  <SkillProgress name="Cloud File Storage & Content Distribution" :percentage="80" />
-                  <SkillProgress name="Authentication & Access Control" :percentage="98" />
-                  <SkillProgress name="DevOps" :percentage="90" />
-                  <SkillProgress name="Continuous Integration/Deployment" :percentage="90" />
-                  <SkillProgress name="Scrum / Agile Project Management" :percentage="90" />
-                  <SkillProgress name="Analytics & Reporting" :percentage="96" />
-                  <SkillProgress name="Performance Optimization" :percentage="90" />
-                  <SkillProgress name="Accessibility Optimization" :percentage="90" />
-                  <SkillProgress name="Search Engine Optimization" :percentage="85" />
-                  <SkillProgress name="Domain Management & Administration" :percentage="100" />
-                  <SkillProgress name="AI/ML" :percentage="30" />
+                  <LazySkillTitle name="Tech Skills" class="mb-2 underline" />
+                  <LazySkillProgress name="High-Level Scripting & Coding" :percentage="95" />
+                  <LazySkillProgress name="Cloud Architecture" :percentage="95" />
+                  <LazySkillProgress name="NoSQL Database Architecture" :percentage="90" />
+                  <LazySkillProgress name="Cloud File Storage & Content Distribution" :percentage="80" />
+                  <LazySkillProgress name="Authentication & Access Control" :percentage="98" />
+                  <LazySkillProgress name="DevOps" :percentage="90" />
+                  <LazySkillProgress name="Continuous Integration/Deployment" :percentage="90" />
+                  <LazySkillProgress name="Scrum / Agile Project Management" :percentage="90" />
+                  <LazySkillProgress name="Analytics & Reporting" :percentage="96" />
+                  <LazySkillProgress name="Performance Optimization" :percentage="90" />
+                  <LazySkillProgress name="Accessibility Optimization" :percentage="90" />
+                  <LazySkillProgress name="Search Engine Optimization" :percentage="85" />
+                  <LazySkillProgress name="Domain Management & Administration" :percentage="100" />
+                  <LazySkillProgress name="AI/ML" :percentage="30" />
                 </div>
-                <!--Languages-->
-                <div>
-                  <SkillTitle name="Languages" class="mb-2 underline" />
-                  <SkillProgress name="JavaScript" :percentage="80" />
-                  <SkillProgress name="SQL" :percentage="65" />
-                  <SkillProgress name="Python" :percentage="75" />
-                  <SkillProgress name="VBA" :percentage="85" />
-                  <SkillProgress name="Go" :percentage="1" />
-                  <SkillProgress name="GDScript" :percentage="65" />
-                  <SkillProgress name="C#" :percentage="30" />
-                </div>
+              </div>
+              <!--Languages-->
+              <div>
+                <LazySkillTitle name="Languages" class="mb-2 underline" />
+                <LazySkillProgress name="JavaScript" :percentage="80" />
+                <LazySkillProgress name="SQL" :percentage="65" />
+                <LazySkillProgress name="Python" :percentage="75" />
+                <LazySkillProgress name="VBA" :percentage="85" />
+                <LazySkillProgress name="Go" :percentage="1" />
+                <LazySkillProgress name="GDScript" :percentage="65" />
+                <LazySkillProgress name="C#" :percentage="30" />
               </div>
             </div>
           </v-tabs-window-item>
+        </div>
 
-          <v-tabs-window-item value="professionaltab" class="bg-gray-800 p-4 pb-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <!-- Professional Skills -->
-              <div>
-                <SkillTitle name="Professional Skills" />
-                <SkillProgress
-                  name="Customer Service & IT"
-                  :percentage="90"
-                  :style="text-white"
-                />
-                <SkillProgress
-                  name="PBX & Call Center Operations"
-                  :percentage="75"
-                />
-                <SkillProgress
-                  name="DevOps & Project Management"
-                  :percentage="85"
-                />
-                <SkillProgress
-                  name="Administration/Management"
-                  :percentage="75"
-                />
-                <SkillProgress
-                  name="Budgeting & Financial Planning"
-                  :percentage="95"
-                />
-                <SkillProgress
-                  name="Contract Writing & Review"
-                  :percentage="75"
-                />
-              </div>
-
-              <!-- Language Skills -->
-              <div>
-                <SkillTitle name="Language Skills" />
-                <SkillProgress
-                  name="English"
-                  :percentage="100"
-                />
-                <SkillProgress
-                  name="Spanish"
-                  :percentage="40"
-                />
-                <SkillProgress
-                  name="Japanese"
-                  :percentage="3"
-                />
-              </div>
-
-              <!-- Secret Skills -->
-              <div class="hidden">
-                <SkillTitle name="Secret Skills" />
-                <p>Well obviously I'm not going to tell just anyone all of my skills!</p><!--Need to make this component like a see more style drop out panel-->
-                <p>I've been alive long enough to have picked up a thing or two, and I've learned to keep a dozen cards up my sleeve in case I ever need them.</p>
-                <p>Who knows, if you are around me long enough you may unlock one of these, and if you do, do not disclose.</p>
-              </div>
+        <v-tabs-window-item value="professionaltab" class="bg-gray-800 p-4 pb-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <!-- Professional Skills -->
+            <div>
+              <LazySkillTitle name="Professional Skills" />
+              <LazySkillProgress
+                name="Customer Service & IT"
+                :percentage="90"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="PBX & Call Center Operations"
+                :percentage="75"
+              />
+              <LazySkillProgress
+                name="DevOps & Project Management"
+                :percentage="85"
+              />
+              <LazySkillProgress
+                name="Administration/Management"
+                :percentage="75"
+              />
+              <LazySkillProgress
+                name="Budgeting & Financial Planning"
+                :percentage="95"
+              />
+              <LazySkillProgress
+                name="Contract Writing & Review"
+                :percentage="75"
+              />
             </div>
-          </v-tabs-window-item>
 
-          <v-tabs-window-item value="personaltab" class="bg-gray-700 p-4 pb-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <!-- Construction Skills -->
-              <div>
-                <SkillTitle name="Construction Skills" />
-                <SkillProgress
-                  name="Carpentry"
-                  :percentage="85"
-                />
-                <SkillProgress
-                  name="Framing"
-                  :percentage="85"
-                />
-                <SkillProgress
-                  name="Drywall"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Electrical"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Plumbing"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Roofing"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Flooring"
-                  :percentage="90"
-                />
-                <SkillProgress
-                  name="Decks"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Outbuildings (Sheds, Coops, Barns, Etc.)"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Masonry"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Concrete"
-                  :percentage="60"
-                />
-                <SkillProgress
-                  name="Painting"
-                  :percentage="80"
-                />
-                <SkillProgress
-                  name="Handyman Services"
-                  :percentage="85"
-                />
-              </div>
+            <!-- Language Skills -->
+            <div>
+              <LazySkillTitle name="Language Skills" />
+              <LazySkillProgress
+                name="English"
+                :percentage="100"
+              />
+              <LazySkillProgress
+                name="Spanish"
+                :percentage="40"
+              />
+              <LazySkillProgress
+                name="Japanese"
+                :percentage="3"
+              />
+            </div>
+          </div>
+        </v-tabs-window-item>
 
-              <!-- Agricultural and Environmental Skills -->
-              <div>
-                <SkillTitle name="Agricultural & Environmental Skills" />
-                <SkillProgress
-                  name="Horticulture"
-                  :percentage="90"
-                />
-                <SkillProgress
-                  name="Livestock Management"
-                  :percentage="65"
-                />
-                <SkillProgress
-                  name="Butchery & Processing"
-                  :percentage="70"
-                />
-                <SkillProgress
-                  name="Fishery Management"
-                  :percentage="10"
-                />
-                <SkillProgress
-                  name="Power Generation & Storage"
-                  :percentage="60"
-                />
-                <!-- <SkillProgress
+        <v-tabs-window-item value="personaltab" class="bg-gray-700 p-4 pb-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <!-- Construction Skills -->
+            <div>
+              <LazySkillTitle name="Construction Skills" />
+              <LazySkillProgress
+                name="Carpentry"
+                :percentage="85"
+              />
+              <LazySkillProgress
+                name="Framing"
+                :percentage="85"
+              />
+              <LazySkillProgress
+                name="Drywall"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Electrical"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Plumbing"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Roofing"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Flooring"
+                :percentage="90"
+              />
+              <LazySkillProgress
+                name="Decks"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Outbuildings (Sheds, Coops, Barns, Etc.)"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Masonry"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Concrete"
+                :percentage="60"
+              />
+              <LazySkillProgress
+                name="Painting"
+                :percentage="80"
+              />
+              <LazySkillProgress
+                name="Handyman Services"
+                :percentage="85"
+              />
+            </div>
+
+            <!-- Agricultural and Environmental Skills -->
+            <div>
+              <LazySkillTitle name="Agricultural & Environmental Skills" />
+              <LazySkillProgress
+                name="Horticulture"
+                :percentage="90"
+              />
+              <LazySkillProgress
+                name="Livestock Management"
+                :percentage="65"
+              />
+              <LazySkillProgress
+                name="Butchery & Processing"
+                :percentage="70"
+              />
+              <LazySkillProgress
+                name="Fishery Management"
+                :percentage="10"
+              />
+              <LazySkillProgress
+                name="Power Generation & Storage"
+                :percentage="60"
+              />
+              <!-- <LazySkillProgress
                   name="Wind Power Generation"
                   :percentage="30"
                 />
@@ -300,14 +293,14 @@
                   name="Biofuel Power Generation"
                   :percentage="10"
                 /> -->
-                <SkillProgress
-                  name="Water Management"
-                  :percentage="35"
-                />
-              </div>
+              <LazySkillProgress
+                name="Water Management"
+                :percentage="35"
+              />
+            </div>
 
-              <!-- Personal Skills -->
-              <!-- <div>
+            <!-- Personal Skills -->
+            <!-- <div>
                 <SkillTitle name="Ability Scores" />
                 <SkillProgress
                   name="Strength"
@@ -335,9 +328,8 @@
                   :percentage="30"
                 /> {{ 20*.3 }}/20
               </div> -->
-            </div>
-          </v-tabs-window-item>
-        </div>
+          </div>
+        </v-tabs-window-item>
       </v-tabs-window>
     </div>
   </div>

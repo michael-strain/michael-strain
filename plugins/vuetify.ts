@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { createVuetify, ThemeDefinition } from 'vuetify'
+import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
@@ -54,7 +54,7 @@ const myCustomLightTheme = {
   },
 }
 
-const myPurpleTheme: ThemeDefinition = {
+const myPurpleTheme = {
   dark: false,
   colors: {
     background: '#FFF8F8',
@@ -73,8 +73,9 @@ const myPurpleTheme: ThemeDefinition = {
 
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
-    components,
-    directives,
+    ssr:true,
+    // components,
+    // directives,
     theme: {
       defaultTheme: 'myPurpleTheme',
       variations: {

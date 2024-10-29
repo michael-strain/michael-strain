@@ -5,9 +5,6 @@
 </template>
 
 <script setup>
-import { useTheme } from 'vuetify'
-
-const theme = useTheme()
 const props = defineProps({
   name: String
 })

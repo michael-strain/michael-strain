@@ -32,58 +32,60 @@ const textures = ref()
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-    render-mode="on-demand"
-  >
-    <!-- <TresPerspectiveCamera
-      :args="[45,innerWidth/innerHeight,1,2000]"
-      failIfMajorPerformanceCaveat="true"
-    /> -->
-    
-    <TresPerspectiveCamera
-      :args="[fov, aspect, near, far]"
-      :zoom="zoom"
-      :position="[-30,0,0]"
-    />
-    <!-- <TresAmbientLight
-      :color="0xFAD6A5"
-      :intensity="0.4"
-    />
-    <TresDirectionalLight
-      :position="[-1,1,-1.5]"
-      :color="0xfea7a1"
-      :intensity="1.8"
-    /> -->
-    <OrbitControls
-      :enable-zoom="false"
-      :enable-pan="false"
-      :min-distance="8.5"
-      :max-distance="120"
-      :enable-damping="true"
-      :auto-rotate="true"
-      :auto-rotate-speed="-0.75"
-    />
-    <Sky :elevation="0.8" />
-    <!-- <Stars :size="0.2" /> -->
-    <Suspense>
-      <Ocean :position="[0,-10,0]" />
-    </Suspense>
+  <ClientOnly>
+    <TresCanvas
+      v-bind="gl"
+      render-mode="on-demand"
+    >
+      <!-- <TresPerspectiveCamera
+        :args="[45,innerWidth/innerHeight,1,2000]"
+        failIfMajorPerformanceCaveat="true"
+      /> -->
+      
+      <TresPerspectiveCamera
+        :args="[fov, aspect, near, far]"
+        :zoom="zoom"
+        :position="[-30,0,0]"
+      />
+      <!-- <TresAmbientLight
+        :color="0xFAD6A5"
+        :intensity="0.4"
+      />
+      <TresDirectionalLight
+        :position="[-1,1,-1.5]"
+        :color="0xfea7a1"
+        :intensity="1.8"
+      /> -->
+      <OrbitControls
+        :enable-zoom="false"
+        :enable-pan="false"
+        :min-distance="8.5"
+        :max-distance="120"
+        :enable-damping="true"
+        :auto-rotate="true"
+        :auto-rotate-speed="-0.75"
+      />
+      <Sky :elevation="0.8" />
+      <!-- <Stars :size="0.2" /> -->
+      <Suspense>
+        <Ocean :position="[0,-10,0]" />
+      </Suspense>
 
 
-    <Suspense>
-      <UseTexture v-slot="{ textures }" map="/img/earth/earth_min.png">
-        <Sphere
-          :args="[rad]"
-          :rotation="[0,-1,23.5 / 360 * 2 * Math.PI-0.3]"
-        >
-          <!-- <ClientOnly> -->
-          <TresMeshMatcapMaterial
-            :map="textures.map"
-          />
-          <!-- </ClientOnly> -->
-        </Sphere>
-      </UseTexture>
-    </Suspense>
-  </TresCanvas>
+      <Suspense>
+        <UseTexture v-slot="{ textures }" map="/img/earth/earth_min.png">
+          <Sphere
+            :args="[rad]"
+            :rotation="[0,-1,23.5 / 360 * 2 * Math.PI-0.3]"
+          >
+            <!-- <ClientOnly> -->
+            <TresMeshMatcapMaterial
+              :map="textures.map"
+            />
+            <!-- </ClientOnly> -->
+          </Sphere>
+        </UseTexture>
+      </Suspense>
+    </TresCanvas>
+  </ClientOnly>
 </template>

@@ -100,9 +100,6 @@
 </template>
 
 <script setup>
-import { addDoc, collection } from 'firebase/firestore';
-import { useCurrentUser } from 'vuefire'
-
   //Cool idea here - what if this form actually -reacts- into a chatbox and connects to a chat with a real person
   const message = ref()
   const email = ref()
@@ -126,14 +123,6 @@ import { useCurrentUser } from 'vuefire'
     max: v => v.length <= 50 || 'Max 50 Characters'
   })
 
-  onMounted(async()=>{
-    if(useCurrentUser().value){
-      firstName.value = useUserDataStore().userData.firstName ? useUserDataStore().userData.firstName : '';
-      lastName.value = useUserDataStore().userData.lastName ? useUserDataStore().userData.lastName : '';
-      email.value = useCurrentUser().value.email
-      phone.value = useCurrentUser().value.phoneNumber
-    }
-  })
 
   const submitMessage = async () => {
     //use brevo to send message and contact details to service@domain.com/support/whatevs
@@ -157,21 +146,6 @@ import { useCurrentUser } from 'vuefire'
       }
       if(phone.value.length>0){
         data.phone = phone.value
-      }
-      if(useCurrentUser().value){
-        data.author = useCurrentUser().value.uid
-        if(useCurrentUser().value.displayName){
-          data.displayName = useCurrentUser().value.displayName
-        } else {
-          data.displayName = "No Display Name"
-        }
-      } else{
-        data.displayName = "Anonymous"
-      }
-      try{
-        await addDoc(collection(useFirestore(),'contactSubmissions'),data)
-      }catch(e){
-        console.log("Error Updating contactSubmissions Doc: " + e)
       }
 
 
