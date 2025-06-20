@@ -19,7 +19,40 @@
           #opposite
         >
           <p class="uppercase text-gray-500">
-            2020 - 2024
+            2025 - Present
+          </p>
+        </template>
+        <div class="">
+          <p class="font-bold text-2xl">
+            Fireman (E-3)
+          </p>
+          <p class="text-gray-500">
+            US Navy
+          </p>
+          <p 
+            v-if="!$device.isDesktopOrTablet"
+            class="uppercase text-gray-500"
+          >
+            2025 - Present
+          </p>
+          <p class="md:text-justify pt-2">
+            • Top 6 Honor Graduate.  Achieved one of the six highest scores in my training group of over 700 sailors.<br>
+            • Excelled in physical fitness, academics, and leadership.<br>
+            • Held a leadership position throughout the duration of basic training.
+          </p>
+        </div>
+        <br>
+      </v-timeline-item>
+      <v-timeline-item
+        dot-color="primary"
+        size="small"
+      >
+        <template
+          v-if="$device.isDesktopOrTablet"
+          #opposite
+        >
+          <p class="uppercase text-gray-500">
+            2020 - 2025
           </p>
         </template>
         <div class="">
@@ -33,7 +66,7 @@
             v-if="!$device.isDesktopOrTablet"
             class="uppercase text-gray-500"
           >
-            2020 - Present
+            2020 - 2025
           </p>
           <p class="md:text-justify pt-2">
             • Oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, and full-stack web development.<br>
@@ -69,7 +102,7 @@
             v-if="!$device.isDesktopOrTablet"
             class="uppercase text-gray-500"
           >
-            2018 - 2022
+            2018 - 2020
           </p>
           <p class="md:text-justify pt-2">
             • Automated key processes to improve operational efficiency, resulting in an estimated $1M in annual savings.<br>
