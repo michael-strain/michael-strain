@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
 <template>
-  <div class="">
+  <div class="m-3">
     <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
       Skills
     </h2> -->
@@ -136,7 +136,7 @@
                 <LazySkillProgress name="SQL" :percentage="65" />
                 <LazySkillProgress name="Python" :percentage="75" />
                 <LazySkillProgress name="VBA" :percentage="85" />
-                <LazySkillProgress name="Go" :percentage="1" />
+                <!-- <LazySkillProgress name="Go" :percentage="1" /> -->
                 <LazySkillProgress name="GDScript" :percentage="65" />
                 <LazySkillProgress name="C#" :percentage="30" />
               </div>
@@ -149,6 +149,36 @@
             <!-- Professional Skills -->
             <div>
               <LazySkillTitle name="Professional Skills" />
+              <LazySkillProgress
+                name="Basic Machinery"
+                :percentage="95"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Mechanical Equipment"
+                :percentage="95"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Nuclear Reactor Plant Systems"
+                :percentage="90"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Nuclear Physics"
+                :percentage="95"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Electrical Theory"
+                :percentage="80"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Math"
+                :percentage="70"
+                :style="text-white"
+              />
               <LazySkillProgress
                 name="Customer Service & IT"
                 :percentage="90"
@@ -189,7 +219,7 @@
               />
               <LazySkillProgress
                 name="Japanese"
-                :percentage="3"
+                :percentage="5"
               />
             </div>
           </div>
@@ -210,11 +240,11 @@
               />
               <LazySkillProgress
                 name="Drywall"
-                :percentage="60"
+                :percentage="75"
               />
               <LazySkillProgress
                 name="Electrical"
-                :percentage="60"
+                :percentage="70"
               />
               <LazySkillProgress
                 name="Plumbing"
@@ -234,7 +264,7 @@
               />
               <LazySkillProgress
                 name="Outbuildings (Sheds, Coops, Barns, Etc.)"
-                :percentage="60"
+                :percentage="80"
               />
               <LazySkillProgress
                 name="Masonry"
@@ -295,7 +325,7 @@
                 /> -->
               <LazySkillProgress
                 name="Water Management"
-                :percentage="35"
+                :percentage="75"
               />
             </div>
 

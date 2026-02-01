@@ -54,7 +54,7 @@
             <v-autocomplete
               v-model="category"
               auto-select-first
-              :items="['Employment Inquiry', 'Schedule a Phone Call', 'Suggestions & Comments', 'Website Bug Report', 'Other']"
+              :items="['Schedule a Phone Call', 'Suggestions & Comments', 'Website Bug Report', 'Other']"
               label="Message Type"
               :rules="[rules.required]"
               class=" "
@@ -81,7 +81,7 @@
               v-if="msgSentSnackbar" 
               class="snackbar elevation-10"
             >
-              <span>Your message has been sent. <br> We will get back to you as soon as possible.</span>
+              <span>Your message has been sent. <br> I will get back to you as soon as possible.</span>
             </div>
             <div 
               v-if="msgFailSnackbar" 

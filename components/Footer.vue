@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class=" grid grid-cols-1 sm:grid-cols-3 place-content-stretch text-center bg-black">
+  <div class=" grid grid-cols-1 sm:grid-cols-2 place-content-stretch text-center bg-black">
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-email" />
       <a href="mailto:michael.v.strain@gmail.com"><p class="text-xl">michael.v.strain@gmail.com</p></a>
@@ -8,14 +8,13 @@
     </div>
     <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-phone" />
-      <a href="tel:+1-239-413-6517"><p>+1 (239) 413-6517</p></a>
+      <a href="tel:+1-239-413-6517"><p>+1 (239) 230-2232</p></a>
       <!-- <p class="">phone</p> -->
     </div>
-    <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
+    <!-- <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
       <v-icon icon="mdi-download" />
       <a href="/Resume.pdf"><p class="link">Download Resume</p></a>
-      <!-- <p class="">resume</p> -->
-    </div>
+    </div> -->
   </div>
   <div class="bg-black w-100 z-[6] text-center pb-3">
     <p class="text-xs">

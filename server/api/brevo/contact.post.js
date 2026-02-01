@@ -16,15 +16,15 @@ export default defineEventHandler(async (event) =>{
   apiKey.apiKey = useRuntimeConfig(event).BREVO_KEY
   let sendSmtpEmail = new SendSmtpEmail()
 
-  if(useRuntimeConfig(event).public.SHOP_NAME=='LSDOPE'){
-    sendSmtpEmail.templateId = 9
-  }
-  if(useRuntimeConfig(event).public.SHOP_NAME=='NyxKnacks'){
-    sendSmtpEmail.templateId = 17
-  }
-  if(useRuntimeConfig(event).public.SHOP_NAME=='MichaelStrain'){
-    sendSmtpEmail.templateId = 9 //lol who cares
-  }
+  // if(useRuntimeConfig(event).public.SHOP_NAME=='LSDOPE'){
+  //   sendSmtpEmail.templateId = 9
+  // }
+  // if(useRuntimeConfig(event).public.SHOP_NAME=='NyxKnacks'){
+  //   sendSmtpEmail.templateId = 17
+  // }
+  // if(useRuntimeConfig(event).public.SHOP_NAME=='MichaelStrain'){
+  sendSmtpEmail.templateId = 9
+  // }
   sendSmtpEmail.to = [{email:"service@"+useRuntimeConfig(event).public.SITE_DOMAIN,name:useRuntimeConfig(event).public.SHOP_NAME + " Customer Service"}]
   sendSmtpEmail.subject = subject
   sendSmtpEmail.replyTo = {email:from, name:fromName} //Might be causing errors

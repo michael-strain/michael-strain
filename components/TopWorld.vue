@@ -2,9 +2,11 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <script setup>
 import { useTheme } from 'vuetify'
-import { OrbitControls, Sky, Ocean, Stars } from '@tresjs/cientos'
-import { TresCanvas, UseTexture } from '@tresjs/core'
+import { OrbitControls, Sky, Ocean, useTexture } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, SRGBColorSpace } from 'three'
+
+const { state: texture } = useTexture('/img/earth/earth_min.png')
 
 const theme = useTheme()
 
@@ -26,7 +28,7 @@ const aspect = ref(1)
 const near = ref(0.1)
 const far = ref(2000)
 const zoom = ref(3)
-const textures = ref()
+// const textures = ref()
 
 
 </script>
@@ -57,13 +59,14 @@ const textures = ref()
         :intensity="1.8"
       /> -->
       <OrbitControls
+        :make-default="true"
         :enable-zoom="false"
         :enable-pan="false"
         :min-distance="8.5"
         :max-distance="120"
         :enable-damping="true"
-        :auto-rotate="true"
-        :auto-rotate-speed="-0.75"
+        :autoRotate="true"
+        :auto-rotate-speed="-2.75"
       />
       <Sky :elevation="0.8" />
       <!-- <Stars :size="0.2" /> -->
@@ -73,18 +76,18 @@ const textures = ref()
 
 
       <Suspense>
-        <UseTexture v-slot="{ textures }" map="/img/earth/earth_min.png">
+        <!-- <UseTexture v-slot="{ textures }" :map="!isLoading?texture:''"> -->
           <Sphere
             :args="[rad]"
             :rotation="[0,-1,23.5 / 360 * 2 * Math.PI-0.3]"
           >
             <!-- <ClientOnly> -->
             <TresMeshMatcapMaterial
-              :map="textures.map"
+              :map="texture"
             />
             <!-- </ClientOnly> -->
           </Sphere>
-        </UseTexture>
+        <!-- </UseTexture> -->
       </Suspense>
     </TresCanvas>
   </ClientOnly>

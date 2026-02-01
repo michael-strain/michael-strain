@@ -24,7 +24,7 @@
         </template>
         <div class="">
           <p class="font-bold text-2xl">
-            Fireman (E-3)
+            Machinist's Mate (Nuclear) (E-4)
           </p>
           <p class="text-gray-500">
             US Navy
@@ -36,9 +36,10 @@
             2025 - Present
           </p>
           <p class="md:text-justify pt-2">
-            • Top 6 Honor Graduate.  Achieved one of the six highest scores in my training group of over 700 sailors.<br>
+            • Honor Graduate from Nuclear Machinist's Mate A-School, third highest GPA in a class of 30+, one of only four students to graduate with honors.<br>
+            • Top 6 Recruit Training Command Honor Graduate.  Achieved one of the six highest scores in my training group of over 700 sailors.<br>
             • Excelled in physical fitness, academics, and leadership.<br>
-            • Held a leadership position throughout the duration of basic training.
+            • Held a leadership position (Port Watch) throughout the duration of basic training.
           </p>
         </div>
         <br>
@@ -69,8 +70,8 @@
             2020 - 2025
           </p>
           <p class="md:text-justify pt-2">
-            • Oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, and full-stack web development.<br>
-            • Manage foreign and domestic subsidiary companies.
+            • Oversaw a diverse portfolio that included real estate development, renovations, construction management, property management, e-commerce, and full-stack web development.<br>
+            • Managed foreign and domestic subsidiary companies.
           </p>
           <!-- <ul class="md:text-justify pt-2">
             <li>Oversee a diverse portfolio that includes real estate development, renovations, construction management, property management, e-commerce, and full-stack web development.</li>
@@ -163,7 +164,7 @@
             E4 - Paralegal Specialist
           </p>
           <p class="text-gray-500">
-            US Army Reserves
+            US Army
           </p>
           <p 
             v-if="!$device.isDesktopOrTablet"

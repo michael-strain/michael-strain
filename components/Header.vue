@@ -23,14 +23,14 @@
         </p>
       </a>
       <a
-        href="tel:+1-239-413-6517"
+        href="tel:+1-239-230-2232"
         target="_blank"
         class="flex gap-2 align-center"
       >
         <v-icon icon="mdi-phone" />
-        <p v-if="$device.isDesktopOrTablet">+1 (239) 413-6517</p>
+        <p v-if="$device.isDesktopOrTablet">+1 (239) 230-2232</p>
       </a>
-      <a
+      <!-- <a
         href="/Resume.pdf"
         target="_blank"
         class="flex gap-2 align-center"
@@ -40,7 +40,7 @@
           v-if="$device.isDesktopOrTablet"
           class="link"
         >Download Resume</p>
-      </a>
+      </a> -->
     </div>
   </div>
 </template>

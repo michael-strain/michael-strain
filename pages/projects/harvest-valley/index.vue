@@ -1,5 +1,0 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<template>
-  I began development of this game in the summer of 2024, but have not been able to put much time into it because I'm poor and need to find income or my family will starve.  However, it was just starting to get fun and interesting, and I made some pretty intense plans for it all.  The art assets were either placeholder, or were meticulously crafted pixel-by-pixel by my wife Ashley.  If you have interest, feel free to e-mail me and we can chat about it, otherwise I'll likely be updating this page with screenshots, videos, notes, and maybe some organizational tools for my own use that I might display publicly for fun.  Who knows?
-  If you'd like to invest in or sponsor this project, please get in touch, I would be easy to fund. 
-</template>
