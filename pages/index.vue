@@ -25,26 +25,52 @@
       <div class="w-full">
         <section class="padding">
           <div class="pt-5">
-            <h2 class="w-full text-4xl font-bold text-center">
-              About Me
-            </h2>
+            
             <br>
-            <div class="grid grid-cols-2 sm:grid-cols-2 place-content-stretch text-center">
+            <div class="">
               <!-- <div class="flex gap-2 p-2 sm:p-4 justify-center align-center">
                 <Image src="/public/img/me.png" />
               </div> -->
-              <v-img class="w-full align-center" cover src="/img/me.png" />
-
-              <div class="justify-center align-center">
-                I am a super sexy awesome stud.
-                <br>
-                <br>
-                "Strain is a hard worker and deeply considerate of the needs of other people. While at work, I can posisitively talk to Strain about both professional and personal matters making him an effective coworker and good friend at the same time. This makes works more productive and posisitive for others. In amywork place Strain is both a highly skilled worker himself and uplifting for other workers." 
-                ~MMN3 Anthony Delzio, USN
+              <div class="flex gap-6 md:flex-row flex-col">
+                <h2 v-if="!$device.isDesktopOrTablet" class="w-full text-4xl font-bold text-center">
+                  About Me
+                </h2>
+                <v-img class="md:w-1/3 w-full align-center" cover src="/img/me.png" />
+                <div class="flex-grow justify-center align-center">
+                  <h2 v-if="$device.isDesktopOrTablet" class="w-full text-4xl font-bold text-center">
+                    About Me
+                  </h2>
+                  <p class="text-gray-600 m-5 p-5">
+                    I’m here to make a difference.<br>
+                    Throughout history, people have been driven by powerful motivators. Gold, God, and Glory once shaped an entire nation.<br>
+                    My own motivation is simpler: Growth.<br>
+                    I care deeply about leaving people better than I found them and being a positive force in the lives around me.  I love watching people thrive, and I’m energized by building and innovating systems that promote improvement, opportunity, and expansion.<br>
+                    I’ve been fortunate in my life, and I believe success is meant to be shared. My goal is to help that fortune spread, multiply, and grow beyond imagination.<br>
+                    Here’s to life, liberty, and the pursuit of happiness.<br>
+                  </p>
+                </div>
               </div>
+
+              
 
             </div>
           </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  <br>
+  <br>
+
+   <section class="padding">
+    <div class="flex lg:flex-row flex-col gap-4 relative">
+      <div class="w-full">
+        <section class="padding">
+          <!-- <LazySlideshow /> -->
+          <p class="text-gray-500">
+            "MMN3 Strain is a hard worker and deeply considerate of the needs of other people. While at work, I can positively talk to Strain about both professional and personal matters making him an effective coworker and a good friend. This makes work more productive and positive for others." 
+            ~MMN3 Anthony Delzio, USN
+          </p>
         </section>
       </div>
     </div>

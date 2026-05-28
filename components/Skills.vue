@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/max-attributes-per-line -->
+
+<!--TODO Make tabs smaller on mobile-->
 <template>
   <div class="m-3">
     <!-- <h2 class="w-full text-4xl font-bold text-center mb-8">
@@ -109,7 +111,7 @@
               </div>
               <!-- Progress Bars (Right Half Hopefully)-->
               <br>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <!-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-8"> -->
                 <!--Back End-->
                 <div>
                   <LazySkillTitle name="Tech Skills" class="mb-2 underline" />
@@ -128,7 +130,7 @@
                   <LazySkillProgress name="Domain Management & Administration" :percentage="100" />
                   <LazySkillProgress name="AI/ML" :percentage="30" />
                 </div>
-              </div>
+              <!-- </div> -->
               <!--Languages-->
               <div>
                 <LazySkillTitle name="Languages" class="mb-2 underline" />
@@ -149,6 +151,56 @@
             <!-- Professional Skills -->
             <div>
               <LazySkillTitle name="Professional Skills" />
+              <LazySkillProgress
+                name="Reactor Plant Systems"
+                :percentage="91"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Heat Transfer & Fluid Flow"
+                :percentage="89"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Nuclear Physics"
+                :percentage="90"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Math"
+                :percentage="77"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Electrical Theory"
+                :percentage="83"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Mechanical Theory"
+                :percentage="80"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Reactor Principles"
+                :percentage="85"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Chemistry"
+                :percentage="83"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Materials"
+                :percentage="81"
+                :style="text-white"
+              />
+              <LazySkillProgress
+                name="Radiation Fundamentals"
+                :percentage="90"
+                :style="text-white"
+              />
               <LazySkillProgress
                 name="Basic Machinery"
                 :percentage="95"

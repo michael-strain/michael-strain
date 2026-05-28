@@ -8,7 +8,7 @@
     <v-timeline
       side="end"
       align="start"
-      class="sm:m-0 ml-[-35px]"
+      class="sm:m-0"
     >
       <v-timeline-item
         dot-color="primary"
@@ -24,22 +24,23 @@
         </template>
         <div class="">
           <p class="font-bold text-2xl">
-            Machinist's Mate (Nuclear) (E-4)
+            E4 - Machinist's Mate (Nuclear)
           </p>
           <p class="text-gray-500">
             US Navy
           </p>
           <p 
             v-if="!$device.isDesktopOrTablet"
-            class="uppercase text-gray-500"
+            class="uppercase text-gray-500 text-s"
           >
             2025 - Present
           </p>
           <p class="md:text-justify pt-2">
+            • Personal Excellence Award Recipient.  Graduated power school ranked 54 of 229 in rate.<br></br>
             • Honor Graduate from Nuclear Machinist's Mate A-School, third highest GPA in a class of 30+, one of only four students to graduate with honors.<br>
             • Top 6 Recruit Training Command Honor Graduate.  Achieved one of the six highest scores in my training group of over 700 sailors.<br>
             • Excelled in physical fitness, academics, and leadership.<br>
-            • Held a leadership position (Port Watch) throughout the duration of basic training.
+            • Held the leadership position of Port Watch throughout the duration of basic training.
           </p>
         </div>
         <br>
