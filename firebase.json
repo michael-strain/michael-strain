@@ -1,17 +1,73 @@
 {
+  "auth": {
+    "providers": {
+      "anonymous": false,
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Michael-Strain",
+        "supportEmail": "support@michael-strain.com",
+        "authorizedRedirectUris": [
+          "https://michael-strain.com",
+          "http://localhost:4000",
+          "http://127.0.0.1:3000"
+        ]
+      }
+    }
+  },
   "functions": [
     {
+      "codebase": "default",
       "source": ".output/server",
-      "runtime": "nodejs20"
+      "runtime": "nodejs20",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
     }
   ],
   "hosting": {
-    "site": "michael-strain",
     "public": ".output/public",
-    "cleanUrls": true,
-    "rewrites": [{ "source": "**", "function": "server" }],
-    "compression": {
-      "enabled": true
-    }
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "emulators": {
+    "firestore": {
+      "port": "8080"
+    },
+    "ui": {
+      "enabled": true,
+      "port": "4000"
+    },
+    "auth": {
+      "port": "9099"
+    },
+    "pubsub": {
+      "port": "8085"
+    },
+    "storage": {
+      "port": "9199"
+    },
+    "functions": {
+      "port": 5001
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "singleProjectMode": true
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "nam5",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

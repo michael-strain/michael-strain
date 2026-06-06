@@ -14,9 +14,15 @@ h1 {
   @apply sm:grid sm:grid-cols-2 gap-x-5;
 }
 }
-.snackbar {
-  @apply p-5 bg-neutral text-neutral-content z-[5] fixed bottom-5 right-5 text-wrap;
+
+.firebase-emulator-warning {
+  display: none !important;
 }
+
+
+/* .snackbar {
+  @apply p-5 bg-neutral text-neutral-content z-[5] fixed bottom-5 right-5 text-wrap;
+} */
 /* .vbtn {
   @apply btn p-0 m-0; 
 }

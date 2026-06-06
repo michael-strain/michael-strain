@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
 import { createVuetify } from 'vuetify'
+import { aliases,mdi } from 'vuetify/iconsets/mdi'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import '@mdi/font/css/materialdesignicons.css'
 
 const myLavaTheme = {
   dark: false,
@@ -74,6 +76,11 @@ const myPurpleTheme = {
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
     ssr:true,
+    icons:{
+      defaultSet:'mdi',
+      aliases,
+      sets:{mdi}
+    },
     // components,
     // directives,
     theme: {

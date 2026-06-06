@@ -41,26 +41,29 @@ export default defineNuxtConfig({
             // STRIPE_PUBLIC_KEY: process.env.NODE_ENV==="development" ? "pk_test_Ks0hhsz15BuwjmJ50MBRqKOk" : process.env.STRIPE_PUBLIC_KEY,
             WTFAMI: process.env.NODE_ENV==="development" ? "DEV" : process.env.WTFAMI,
             SITE_DOMAIN: process.env.SITE_DOMAIN,
-            SHOP_NAME: "MichaelStrain"
+            SHOP_NAME: "MichaelStrain",
+            DEFAULT_THEME: "cyberpunk"
         },
     },
 
-    modules:[
-        ['nuxt-gtag',{
-            id: JSON.parse(String(process.env.FIREBASE_CONFIG)).measurementId,
-            disabled:process.env.WTFAMI=="DEV"?true:false,
-        }],
-        // ['nuxt-simple-robots',{disallow: ['/admin','/admin/*','/api/*']}],
-        '@nuxtjs/device',
-        'vuetify-nuxt-module',
-        '@nuxtjs/tailwindcss',
-        '@tresjs/nuxt',
-        ['nuxt-delay-hydration',{mode:'mount'}],
-    ],
+    modules:[// ['nuxt-simple-robots',{disallow: ['/admin','/admin/*','/api/*']}],
+    ['nuxt-gtag',{
+        id: JSON.parse(String(process.env.FIREBASE_CONFIG)).measurementId,
+        disabled:process.env.WTFAMI=="DEV"?true:false,
+    }], ['nuxt-vuefire',{
+        auth: {
+            enabled: true,
+            sessionCookie: true
+        },
+        config: JSON.parse(String(process.env.FIREBASE_CONFIG)),
+    }], '@nuxtjs/device', 'vuetify-nuxt-module', '@nuxtjs/tailwindcss', '@tresjs/nuxt', ['nuxt-delay-hydration',{mode:'mount'}], '@pinia/nuxt', 'nuxt-tiptap-editor'],
 
     css:[
         '~/assets/css/main.css'
     ],
+    tiptap: {
+        prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
+    },
 
     // routeRules:{
     //     //Need to change this to make the whole site SSG
