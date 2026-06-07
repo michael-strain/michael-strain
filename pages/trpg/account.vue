@@ -523,7 +523,8 @@
       'masterSpellbook':defaultSpells,
       'gmNotes':'',
       'publicNotes':'',
-      'rolls':[]
+      'rolls':[],
+      'activeMapId':''
 
     }
   )

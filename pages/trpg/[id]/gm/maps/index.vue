@@ -185,6 +185,7 @@
           class="mt-4"
           :loading="uploading"
           :disabled="!isFormValid || uploading"
+          @click="dialog=false"
         >
           Generate Map
         </v-btn>
@@ -274,20 +275,21 @@
         combatActive: false,
         currentTurnIndex: 0,
         currentRound: 0,
-        rollRequests:{uid:{die:[
-          {
-            base:1,
-            faces:20,
-            baseAbilitySum:['Physical'], //(Phys+1)d20
-            baseRankSum:['Agility'], //(Agi+1)d20
-            baseAbilityMultiplier:[], //(Phys*1)d20
-            baseRankMultiplier:[], //(Agi*1)d20
-            abilitySumModifier:['Physical'], //1d20 + Phys
-            rankSumModifier:['Agility'], //1d20 + Agi
-            abilityMultiplier:['Physical'], //1d20 * Phys
-            rankMultiplier:['Agility'], //1d20 * Agi
-          }
-        ],timestamp:Date.now()}}
+        rollRequests: {}
+        // {uid:{die:[
+        //   {
+        //     base:1,
+        //     faces:20,
+        //     baseAbilitySum:['Physical'], //(Phys+1)d20
+        //     baseRankSum:['Agility'], //(Agi+1)d20
+        //     baseAbilityMultiplier:[], //(Phys*1)d20
+        //     baseRankMultiplier:[], //(Agi*1)d20
+        //     abilitySumModifier:['Physical'], //1d20 + Phys
+        //     rankSumModifier:['Agility'], //1d20 + Agi
+        //     abilityMultiplier:['Physical'], //1d20 * Phys
+        //     rankMultiplier:['Agility'], //1d20 * Agi
+        //   }
+        // ],timestamp:Date.now()}}
         //this will eventually have a bunch of additional data from game logic to vue-flow data
       });
 
@@ -311,12 +313,13 @@
   }
 
   // Update state when user selects a new active map
-  const setActiveMap = (mapId) => {
+  const setActiveMap = async (mapId) => {
+    console.log(mapId)
     activeMapId.value = mapId;
-    updateDoc(doc(db,'campaigns',campaignId.value),{
-      activeMapId: activeMapId.value
+    await updateDoc(doc(db,'campaigns',campaignId.value),{
+      activeMapId: mapId
     })
-    updateDoc(doc(db,'campaigns',campaignId.value,'maps',mapId),{
+    await updateDoc(doc(db,'campaigns',campaignId.value,'maps',mapId),{
       activeMap:true
     })
     //update our maps subcollection to show the activeMap as active

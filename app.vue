@@ -1,10 +1,10 @@
 <template>
-  <html>
-    <NuxtLoadingIndicator />
+  <v-app>
+    <!-- <NuxtLoadingIndicator /> -->
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </html>
+  </v-app>
 </template>
 
 <script setup>

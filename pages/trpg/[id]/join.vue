@@ -179,7 +179,7 @@
 
     <v-card title="Items">
 
-      <template v-for="item in campaignData.items" :key="item.name">
+      <template v-for="item in campaignData?.items" :key="item.name">
         <v-row class="align-center my-2">
           <!-- 1. Numeric quantity selector instead of checkbox -->
           <v-col cols="3" sm="2">

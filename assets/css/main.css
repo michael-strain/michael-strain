@@ -32,3 +32,9 @@ h1 {
 } */
 
 html { overflow-y: auto }
+
+.v-main {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+  overflow: hidden !important; /* Prevents scrollbars from appearing */
+}

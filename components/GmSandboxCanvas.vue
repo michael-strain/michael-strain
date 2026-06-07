@@ -1,7 +1,10 @@
 <template>
-  <v-container v-if="mapId" fluid class="pa-0 fill-height bg-grey-darken-4 position-relative overflow-hidden">
-    
-    <v-navigation-drawer absolute permanent width="320" color="grey-darken-3" class="elevation-4 z-index-10">
+  <div v-if="mapId" class="d-flex fill-height w-100 bg-grey-darken-4">
+    <v-navigation-drawer 
+      permanent 
+      width="320" 
+      color="grey-darken-3" 
+    >
       <v-card class="pa-4 h-100 d-flex flex-column" flat color="transparent">
         <div class="text-h6 font-weight-bold white--text mb-2">🛡️ GM Control Panel</div>
         <v-divider class="mb-4"></v-divider>
@@ -88,186 +91,196 @@
       </v-card>
     </v-navigation-drawer>
 
-    <v-card class="position-absolute ma-4 pa-3 token-hud top-0 right-0 d-flex flex-column" elevation="5" width="260" max-height="85vh">
-      
-      <div class="text-caption">Map Instance: <strong>{{ mapId }}</strong></div>
-      <v-btn size="x-small" color="secondary" block variant="tonal" class="my-2" @click="resetCamera">
-        Reset Camera View
-      </v-btn>
-      <v-divider class="mb-2"></v-divider>
+    <div class="flex-grow-1 position-relative">
+        
+      <v-card class="position-absolute ma-4 pa-3 token-hud top-0 right-0 d-flex flex-column" elevation="5" width="260" max-height="85vh">
+        
+        <div class="text-caption">Map Instance: <strong>{{ mapId }}</strong></div>
+        <v-btn size="x-small" color="secondary" block variant="tonal" class="my-2" @click="resetCamera">
+          Reset Camera View
+        </v-btn>
+        <v-divider class="mb-2"></v-divider>
 
-      <div v-if="combatState.active" class="d-flex flex-column flex-grow-1 overflow-hidden">
-        <div class="d-flex justify-space-between align-center mb-2">
-          <span class="text-subtitle-2 text-warning font-weight-bold">⚔️ Round {{ combatState.currentRound }}</span>
-          <v-btn size="x-small" color="primary" @click="nextTurn">Next Turn ⏭️</v-btn>
+        <div v-if="combatState.active" class="d-flex flex-column flex-grow-1 overflow-hidden">
+          <div class="d-flex justify-space-between align-center mb-2">
+            <span class="text-subtitle-2 text-warning font-weight-bold">⚔️ Round {{ combatState.currentRound }}</span>
+            <v-btn size="x-small" color="primary" @click="nextTurn">Next Turn ⏭️</v-btn>
+          </div>
+          
+          <v-list density="compact" class="bg-transparent pa-0 overflow-y-auto flex-grow-1">
+            <v-list-item 
+              v-for="(actor, idx) in sortedInitiativeQueue" 
+              :key="actor.id"
+              :class="idx === combatState.currentTurnIndex ? 'bg-grey-darken-3 rounded' : ''"
+              class="mb-1"
+            >
+              <template v-slot:prepend>
+                <v-avatar 
+                  size="24" 
+                  :color="actor.color" 
+                  class="mr-2 border" 
+                  :style="idx === combatState.currentTurnIndex ? 'border-color: #FFC107 !important; border-width: 2px;' : ''"
+                ></v-avatar>
+              </template>
+              
+              <v-list-item-title class="text-caption" :class="idx === combatState.currentTurnIndex ? 'text-warning font-weight-bold' : ''">
+                {{ actor.name }}
+              </v-list-item-title>
+              
+              <template v-slot:append>
+                <v-chip size="x-small" :color="actor.initiativeRoll === null ? 'grey' : 'white'" variant="tonal">
+                  {{ actor.initiativeRoll === null ? '⏳' : actor.initiativeRoll }}
+                </v-chip>
+              </template>
+            </v-list-item>
+          </v-list>
         </div>
         
-        <v-list density="compact" class="bg-transparent pa-0 overflow-y-auto flex-grow-1">
-          <v-list-item 
-            v-for="(actor, idx) in sortedInitiativeQueue" 
-            :key="actor.id"
-            :class="idx === combatState.currentTurnIndex ? 'bg-grey-darken-3 rounded' : ''"
-            class="mb-1"
+        <div v-else class="text-caption text-grey-lighten-1 mt-2 text-center">
+          Combat inactive.
+        </div>
+      </v-card>
+
+      <v-stage 
+        ref="stageRef" 
+        :config="stageConfig" 
+        @wheel="handleZoom"
+        @mousedown="handleCanvasMouseDown"
+        @mousemove="handleCanvasMouseMove"
+      >
+        <v-layer :config="{ listening: false }">
+          <v-rect :config="{
+            x: 0,
+            y: 0,
+            width: MAP_WIDTH,
+            height: MAP_HEIGHT,
+            fill: '#212121' 
+          }" />
+          <v-image 
+            v-if="mapImageElement && mapImageElement.width > 0" 
+            :config="mapConfig" 
+          />
+
+          <v-line
+            v-for="(x, index) in verticalLines"
+            :key="'v-'+index"
+            :config="{
+              points: [x, 0, x, MAP_HEIGHT],
+              stroke: '#424242',
+              strokeWidth: 1,
+              dash: [4, 4]
+            }"
+          />
+
+          <v-line
+            v-for="(y, index) in horizontalLines"
+            :key="'h-'+index"
+            :config="{
+              points: [0, y, MAP_WIDTH, y],
+              stroke: '#424242',
+              strokeWidth: 1,
+              dash: [4, 4]
+            }"
+          />
+        </v-layer>
+
+        <v-layer :config="{ listening: false }">
+          <v-line
+            v-for="(wall, i) in wallLines"
+            :key="'wall-'+i"
+            :config="{
+              points: wall.points,
+              stroke: '#FF5252',
+              strokeWidth: 4,
+              lineCap: 'round',
+              lineJoin: 'round'
+            }"
+          />
+
+          <v-line
+            v-if="wallDrawingPoints.length > 0"
+            :config="{
+              points: wallDrawingPoints,
+              stroke: '#FFEA00',
+              strokeWidth: 4,
+              dash: [10, 5],
+              lineCap: 'round',
+              lineJoin: 'round'
+            }"
+          />
+
+          <v-group
+            v-for="(portal, i) in teleportNodes"
+            :key="'portal-'+i"
+            :config="{ x: portal.x, y: portal.y }"
           >
-            <template v-slot:prepend>
-              <v-avatar 
-                size="24" 
-                :color="actor.color" 
-                class="mr-2 border" 
-                :style="idx === combatState.currentTurnIndex ? 'border-color: #FFC107 !important; border-width: 2px;' : ''"
-              ></v-avatar>
-            </template>
-            
-            <v-list-item-title class="text-caption" :class="idx === combatState.currentTurnIndex ? 'text-warning font-weight-bold' : ''">
-              {{ actor.name }}
-            </v-list-item-title>
-            
-            <template v-slot:append>
-              <v-chip size="x-small" :color="actor.initiativeRoll === null ? 'grey' : 'white'" variant="tonal">
-                {{ actor.initiativeRoll === null ? '⏳' : actor.initiativeRoll }}
-              </v-chip>
-            </template>
-          </v-list-item>
-        </v-list>
-      </div>
-      
-      <div v-else class="text-caption text-grey-lighten-1 mt-2 text-center">
-        Combat inactive.
-      </div>
-    </v-card>
+            <v-circle
+              :config="{
+                radius: TOKEN_RADIUS,
+                fill: 'rgba(156, 39, 176, 0.4)',
+                stroke: '#E040FB',
+                strokeWidth: 3,
+                dash: [5, 5]
+              }"
+            />
+            <v-text
+              :config="{
+                text: portal.label || 'Portal',
+                fill: 'white',
+                fontSize: 12,
+                align: 'center',
+                y: -TOKEN_RADIUS - 15,
+                x: -40,
+                width: 80
+              }"
+            />
+          </v-group>
+        </v-layer>
 
-    <v-stage 
-      ref="stageRef" 
-      :config="stageConfig" 
-      @wheel="handleZoom"
-      @mousedown="handleCanvasMouseDown"
-      @mousemove="handleCanvasMouseMove"
-    >
-      <v-layer :config="{ listening: false }">
-        <v-image 
-          v-if="mapImageElement" 
-          :config="mapConfig" 
-        />
-
-        <v-line
-          v-for="(x, index) in verticalLines"
-          :key="'v-'+index"
-          :config="{
-            points: [x, 0, x, MAP_HEIGHT],
-            stroke: 'rgba(255, 255, 255, 0.2)',
-            strokeWidth: 1,
-            dash: [4, 4]
-          }"
-        />
-
-        <v-line
-          v-for="(y, index) in horizontalLines"
-          :key="'h-'+index"
-          :config="{
-            points: [0, y, MAP_WIDTH, y],
-            stroke: 'rgba(255, 255, 255, 0.2)',
-            strokeWidth: 1,
-            dash: [4, 4]
-          }"
-        />
-      </v-layer>
-
-      <v-layer :config="{ listening: false }">
-        <v-line
-          v-for="(wall, i) in wallLines"
-          :key="'wall-'+i"
-          :config="{
-            points: wall.points,
-            stroke: '#FF5252',
-            strokeWidth: 4,
-            lineCap: 'round',
-            lineJoin: 'round'
-          }"
-        />
-
-        <v-line
-          v-if="wallDrawingPoints.length > 0"
-          :config="{
-            points: wallDrawingPoints,
-            stroke: '#FFEA00',
-            strokeWidth: 4,
-            dash: [10, 5],
-            lineCap: 'round',
-            lineJoin: 'round'
-          }"
-        />
-
-        <v-group
-          v-for="(portal, i) in teleportNodes"
-          :key="'portal-'+i"
-          :config="{ x: portal.x, y: portal.y }"
-        >
-          <v-circle
+        <v-layer>
+          <v-group
+            v-for="token in tokens"
+            :key="token.id"
             :config="{
-              radius: TOKEN_RADIUS,
-              fill: 'rgba(156, 39, 176, 0.4)',
-              stroke: '#E040FB',
-              strokeWidth: 3,
-              dash: [5, 5]
+              x: token.x,
+              y: token.y,
+              draggable: true,
+              id: token.id 
             }"
-          />
-          <v-text
-            :config="{
-              text: portal.label || 'Portal',
-              fill: 'white',
-              fontSize: 12,
-              align: 'center',
-              y: -TOKEN_RADIUS - 15,
-              x: -40,
-              width: 80
-            }"
-          />
-        </v-group>
-      </v-layer>
-
-      <v-layer>
-        <v-group
-          v-for="token in tokens"
-          :key="token.id"
-          :config="{
-            x: token.x,
-            y: token.y,
-            draggable: true,
-            id: token.id 
-          }"
-          @dragmove="handleTokenDrag"
-          @dragend="handleTokenDragEnd"
-          @dblclick="centerCameraOn(token.x,token.y)"
-        >
-          <v-circle
-            :config="{
-              radius: TOKEN_RADIUS,
-              fill: token.color || '#2196F3',
-              stroke: combatState?.active && token.id === activeActorTokenId ? '#FFC107' : '#FFFFFF',
-              strokeWidth: combatState?.active && token.id === activeActorTokenId ? 4 : 2,
-              shadowColor: 'black',
-              shadowBlur: 5,
-              shadowOpacity: 0.6
-            }"
-          />
-          <v-text
-            :config="{
-              text: token.name,
-              fontSize: 14,
-              fontFamily: 'Arial',
-              fill: 'white',
-              align: 'center',
-              y: TOKEN_RADIUS + 5,
-              x: -50,
-              width: 100,
-              shadowColor: 'black',
-              shadowBlur: 2,
-            }"
-          />
-        </v-group>
-      </v-layer>
-    </v-stage>
-  </v-container>
+            @dragmove="handleTokenDrag"
+            @dragend="handleTokenDragEnd"
+            @dblclick="centerCameraOn(token.x,token.y)"
+          >
+            <v-circle
+              :config="{
+                radius: TOKEN_RADIUS,
+                fill: token.color || '#2196F3',
+                stroke: combatState?.active && token.id === activeActorTokenId ? '#FFC107' : '#FFFFFF',
+                strokeWidth: combatState?.active && token.id === activeActorTokenId ? 4 : 2,
+                shadowColor: 'black',
+                shadowBlur: 5,
+                shadowOpacity: 0.6
+              }"
+            />
+            <v-text
+              :config="{
+                text: token.name,
+                fontSize: 14,
+                fontFamily: 'Arial',
+                fill: 'white',
+                align: 'center',
+                y: TOKEN_RADIUS + 5,
+                x: -50,
+                width: 100,
+                shadowColor: 'black',
+                shadowBlur: 2,
+              }"
+            />
+          </v-group>
+        </v-layer>
+      </v-stage>
+    </div>
+  </div>
   <v-container v-else fluid class="fill-height bg-grey-darken-4 d-flex align-center justify-center">
     <v-card color="grey-darken-3" class="text-center pa-8 border-thin" elevation="8" max-width="450">
       
@@ -296,7 +309,7 @@
 </template>
 
 <script setup>
-import { collection, onSnapshot, doc, updateDoc, addDoc, query, setDoc } from 'firebase/firestore';
+import { collection, doc, updateDoc, addDoc, query, setDoc } from 'firebase/firestore';
 import { useDocument, useCurrentUser, useCollection } from 'vuefire'
 
 const props = defineProps({
@@ -399,6 +412,32 @@ const spawnableAssets = computed(() => {
 
 
 const GRID_SIZE = 70;
+
+const gridLines = computed(()=>{
+  const stage = stageRef.value?.getNode();
+  if (!stage) return { vertical: [], horizontal: [] };
+
+  const scale = stage.scaleX();
+  const width = stage.width();
+  const height = stage.height();
+  const x = stage.x();
+  const y = stage.y();
+
+  // Calculate the visible bounds (accounting for panning and zoom)
+  const startX = Math.floor(-x / scale / GRID_SIZE) * GRID_SIZE;
+  const endX = startX + (width / scale) + GRID_SIZE;
+  const startY = Math.floor(-y / scale / GRID_SIZE) * GRID_SIZE;
+  const endY = startY + (height / scale) + GRID_SIZE;
+
+  const vertical = [];
+  for (let i = startX; i <= endX; i += GRID_SIZE) vertical.push(i);
+
+  const horizontal = [];
+  for (let i = startY; i <= endY; i += GRID_SIZE) horizontal.push(i);
+
+  return { vertical, horizontal };
+})
+
 const TOKEN_RADIUS = 30;
 const MAP_WIDTH = 2000;
 const MAP_HEIGHT = 2000;
@@ -488,8 +527,36 @@ const spawnNewToken = async (asset) => {
 
 // Canvas Configuration references
 const stageRef = ref(null);
-const stageConfig = ref({ width: 1024, height: 768, x: 0, y: 0, scaleX: 1, scaleY: 1 });
+const stageConfig = ref({ width: 1024, height: 700, x: 0, y: 0, scaleX: 1, scaleY: 1 });
+// const stageConfig = ref(() => ({ 
+//   width: 1024, 
+//   height: 700, 
+//   x: 0, 
+//   y: 0, 
+//   scaleX: 1, 
+//   scaleY: 1,
+//   fill: '#212121' // matches bg-grey-darken-4
+// }));
 const mapImageElement = ref(null);
+
+const loadMapImage = (url) => {
+  if (!url) return;
+  
+  const img = new Image();
+  img.src = url;
+  
+  img.onload = () => {
+    // Only set the ref once we are absolutely sure the browser knows the dimensions
+    if (img.width > 0 && img.height > 0) {
+      mapImageElement.value = img;
+    }
+  };
+  
+  img.onerror = () => {
+    console.error("Failed to load map image from URL:", url);
+  };
+};
+
 const mapConfig = computed(() => ({
   image: mapImageElement.value,
   width: MAP_WIDTH,
@@ -594,13 +661,19 @@ const endCombat = async () => {
 
 
 onMounted(() => {
-  watch(mapData, (newMap) => {
-    if (newMap?.imageUrl && !mapImageElement.value) {
-      const img = new Image();
-      img.src = newMap.imageUrl;
-      img.onload = () => { mapImageElement.value = img; };
+  // watch(mapData, (newMap) => {
+  //   if (newMap?.imageUrl && !mapImageElement.value) {
+  //     const img = new Image();
+  //     img.src = newMap.imageUrl;
+  //     img.onload = () => { mapImageElement.value = img; };
+  //   }
+  // }, { immediate: true })
+  watch(() => mapData.value?.imageUrl, (newUrl) => {
+    if (newUrl) {
+      mapImageElement.value = null; // Reset to force clear the old image
+      loadMapImage(newUrl);
     }
-  }, { immediate: true })
+  }, { immediate: true });
   window.addEventListener('resize', handleResize);
   window.addEventListener('mousedown', handlePanningStart);
   handleResize();
@@ -824,10 +897,15 @@ const handlePanningEnd = () => {
 }
 
 const handleResize = () => {
-  if (process.client) {
-    stageConfig.value.width = window.innerWidth
-    stageConfig.value.height = window.innerHeight
-  }
+  // if (process.client) {
+    stageConfig.value={
+      ...stageConfig.value,
+      width:window.innerWidth,
+      height:window.innerHeight
+    }
+    // stageConfig.value.width = window.innerWidth
+    // stageConfig.value.height = window.innerHeight
+  // }
 }
 
 const centerCameraOn = (x, y) => {
@@ -850,8 +928,18 @@ const centerCameraOn = (x, y) => {
 </script>
 
 <style scoped>
+  /* Force the sandbox layout to respect its parent boundaries */
+  /* .v-layout {
+    overflow: hidden;
+  } */
+
+  /* Ensure the canvas doesn't steal clicks outside its own container */
+  /* .v-main {
+    pointer-events: auto;
+    position: relative;
+  } */
   .token-hud {
-    z-index: 10;
+    /* z-index: 10; */
     pointer-events: auto;
   }
 </style>
