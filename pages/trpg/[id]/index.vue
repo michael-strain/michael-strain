@@ -2,7 +2,7 @@
   <v-card v-if="player" :title="'Welcome ' + player.name + ' :D'">
   </v-card>
   <!--broken rn-->
-  <!-- <vtt-canvas/> -->
+  <VttCanvas/>
 </template>
 
 <script setup>
@@ -19,8 +19,8 @@
   // const campaign = ref([])
   
   // const playerConfig = ref()
-
-  const player = campaignData?.value?.players[useCurrentUser().value.uid]
+  const userProfile = computed(()=>useCurrentUser().value)
+  const player = campaignData?.value?.players[userProfile.value.uid]
 
 
 </script>

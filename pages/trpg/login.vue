@@ -194,7 +194,8 @@ import { setDoc, doc, getDoc, runTransaction } from 'firebase/firestore'
 import { isEqual } from 'lodash-es'
 
 // const userData = ref().value = useUserDataStore().userData
-
+const route = useRoute()
+const db = useFirestore()
 const showUserRegistration = ref(false)
 const showPasswordReset = ref(false)
 const email = ref('')
@@ -232,19 +233,11 @@ const invalidPasswordSnackbar = ref(false)
 
 
 onMounted(async()=>{ //does this need to be async?
-  console.log(useRoute().query)
+  // console.log(route.query)
   if(useCurrentUser().value != null){
     return navigateTo('/trpg/account')
   }
 })
-// onMounted(() =>{
-//   getRedirectResult(getAuth(useFirebaseApp())).catch((reason) => {
-//     console.error('Failed redirect result', reason)
-//   })
-//   if(useCurrentUser().value!=null){
-//     return navigateTo('/trpg/account')
-//   }
-// })
 
 
 //shouldn't we use something defined in our firebase composable instead?...or something?
@@ -261,15 +254,9 @@ const registerUser = async (email,password) => {
     // newDoc.userInfo.anon = false
     newDoc.userInfo.verified = newuser.user.emailVerified
     newDoc.theme = useUserDataStore().theme
-    // newDoc.userInfo.bId = null
-    // newDoc.userInfo.stripeCustomerId = await $fetch('/api/user',{method:'POST',headers:{token:(await useCurrentUser().value.getIdToken())}})
     
-    // Do I actually need to do this?
-    // await $fetch('/api/user',{method:'POST',headers:{token:(await useCurrentUser().value.getIdToken())}})
-    // newDoc.userInfo.idToken = user.user.getIdToken() //Not sure if this is necessary, or even a good idea
-
     useUserDataStore().userData = newDoc
-    await setDoc(doc(useFirestore(),'users',newuser.user.uid),newDoc)
+    await setDoc(doc(db,'users',newuser.user.uid),newDoc)
 
     //I don't know if this is working - but it logs a msg in firebase emulators terminal :D
     await sendEmailVerification(newuser.user) //We should potentially be setting an actionCodeURL here in order to complete the validation process... I think
@@ -284,9 +271,9 @@ const registerUser = async (email,password) => {
 const signInUser = (email, password) => {
   signInWithEmailAndPassword(getAuth(useFirebaseApp()), email, password).then((userCred)=>{
     getAuth(useFirebaseApp()).currentUser = userCred.user
-    const userDocRef = doc(useFirestore(),'users', userCred.user.uid)
+    const userDocRef = doc(db,'users', userCred.user.uid)
     try{
-      runTransaction(useFirestore(),async(transaction)=>{
+      runTransaction(db,async(transaction)=>{
         const userDoc = await transaction.get(userDocRef)
         // let aCart = useUserDataStore().userData.cart
         // let oCart = userDoc.get('cart')
@@ -325,9 +312,9 @@ const signInUser = (email, password) => {
           }
         }
       }).then(async()=>{
-        if(useRoute().query?.campaign){
+        if(route.query?.campaign){
           console.log("I'm gonna route to a player creation page")
-          await navigateTo('/trpg/'+useRoute().query.campaign+'/join')
+          await navigateTo('/trpg/'+route.query.campaign+'/join')
         } else{
           await navigateTo('/trpg/account')
         }
@@ -336,16 +323,15 @@ const signInUser = (email, password) => {
       //Need to notify the user that there was a problem
       console.error(e)
     }
-    if(useRoute().query?.campaign){
+    if(route.query?.campaign){
         console.log("I'm gonna route to a player creation page")
-        return navigateTo('/trpg/'+useRoute().query.campaign+'/join')
+        return navigateTo('/trpg/'+route.query.campaign+'/join')
       } else{
         return navigateTo('/trpg/account')
       }
     //onAuthStateChanged from App.vue should populate our user's cart/wishlist/userInfo/shippingInfo/billingInfo
   })
 }
-
 
 const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider()
@@ -358,9 +344,9 @@ const loginWithGoogle = () => {
     getAuth(useFirebaseApp()).currentUser = result.user
     
     //Transaction
-    const userDocRef = doc(useFirestore(),'users', result.user.uid)
+    const userDocRef = doc(db,'users', result.user.uid)
     try{
-      await runTransaction(useFirestore(),async(transaction)=>{
+      await runTransaction(db,async(transaction)=>{
         const userDoc = await transaction.get(userDocRef)
         // let aCart = useUserDataStore().userData.cart
         // let oCart = userDoc.get('cart')
@@ -399,9 +385,9 @@ const loginWithGoogle = () => {
           }
         }
       }).then(async()=>{
-        if(useRoute().query?.campaign){
+        if(route.query?.campaign){
           console.log("I'm gonna route to a player creation page")
-          await navigateTo('/trpg/'+useRoute().query.campaign+'/join')
+          await navigateTo('/trpg/'+route.query.campaign+'/join')
         } else{
           await navigateTo('/trpg/account')
         }
@@ -412,6 +398,7 @@ const loginWithGoogle = () => {
     }
   })
 }
+
 const forgotPassword = async () => {
   if(loginEmail.value.length>=5){
     sendPasswordResetEmail(getAuth(useFirebaseApp()),loginEmail.value)//may need action link settings adjusted in 3rd arg

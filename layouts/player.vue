@@ -1,10 +1,10 @@
 <template>
-  <!--App bar to include links to a characters inventory stats skills level ups equipment etc-->
+  <!--App bar to include links to a characters
+   inventory stats skills level ups equipment etc-->
 
-  <!-- Expandable Side Menu Bar with links to all gm management pages
-  If page!=index include back arrow to return to index page -->
-
-  <div id="dice-box" />
+  <ClientOnly>
+    <DiceRoller ref="diceBoxRef" />
+  </ClientOnly>
 
   <v-card>
     <v-layout>
@@ -17,9 +17,9 @@
       >
         <v-list>
           <v-list-item
-            :prepend-avatar="useCurrentUser().value.photoURL"
-            :subtitle="useCurrentUser().value.email"
-            :title="useCurrentUser().value.displayName"
+            :prepend-avatar="userProfile.photoURL"
+            :subtitle="userProfile.email"
+            :title="userProfile.displayName"
           ></v-list-item>
         </v-list>
 
@@ -36,7 +36,7 @@
           <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item> -->
           
           <v-list-item prepend-icon="mdi-dice-d20" title="Roll" value="roll" @click="showHideDice()"/>
-          <NuxtLink :to="'/trpg/'+useRoute().params.id+'/billboard'"><v-list-item prepend-icon="mdi-notebook" title="Billboard" value="billboard"/></NuxtLink>
+          <NuxtLink :to="'/trpg/'+campaignId+'/billboard'"><v-list-item prepend-icon="mdi-notebook" title="Billboard" value="billboard"/></NuxtLink>
           <v-list-item prepend-icon="mdi-account" title="Character Sheet" @click="dialog=true" />
         </v-list>
       </v-navigation-drawer>
@@ -79,7 +79,7 @@
         <!-- <v-btn @click="clearDice" style="z-index:20; position:fixed; top:120px; left:70px;">Clear</v-btn> -->
       </v-card>
 
-      <v-btn v-if="showDice" @click="clearDice" style="z-index:20; position:fixed; bottom:40px; right:40px;">Clear</v-btn>
+      <v-btn v-if="showDice" @click="diceBoxRef.clearDice()" style="z-index:20; position:fixed; bottom:40px; right:40px;">Clear</v-btn>
       
       
     </v-main>
@@ -90,7 +90,7 @@
     >
       <v-card class="elevation-3 border-thin fill-height d-flex flex-column">
           <!-- Card Header Banner -->
-          <v-card-item class="text-white py-3" style="'background-color: ' + player.color +';'">
+          <v-card-item class="text-white py-3" :style="'background-color: ' + player.color +';'">
             <v-card-title class="text-h6 font-weight-bold d-flex justify-space-between align-center">
               <span>{{ player.name || 'Unnamed Adventurer' }}</span>
               
@@ -100,7 +100,7 @@
 
             </v-card-title>
             <v-card-subtitle class="text-grey-lighten-2 pt-1">
-              Race: {{ player.race || 'Unknown' }} &bull; Size: {{ player.size || 'Medium' }} &bull; UID: {{ useCurrentUser().value.uid }}...
+              Race: {{ player.race || 'Unknown' }} &bull; Size: {{ player.size || 'Medium' }} &bull; UID: {{ userProfile.uid }}...
             </v-card-subtitle>
           </v-card-item>
 
@@ -218,72 +218,38 @@
 
 <script setup>
 import { useCurrentUser, useFirestore, useDocument } from 'vuefire';
-import { doc, arrayUnion , updateDoc } from 'firebase/firestore'
-import DiceBox from '@3d-dice/dice-box'
+import { doc, updateDoc } from 'firebase/firestore'
 
-const campaignDoc = computed(()=> doc(useFirestore(),'campaigns',useRoute().params.id))
-const {data:campaignData, pending, error, promise} = useDocument(campaignDoc)
-
-const isHost = computed(()=> campaignData.value?.host==useCurrentUser().uid ? true : false)
-
-//Redirect if host :D
-if(isHost.value){await navigateTo('/trpg/'+useRoute().params.id+'/gm')}
-
-//Provide campaign data to all our management pages :D
-// if(campaignData.value){
-//   provide('campaignData',campaignData)
-// }
-provide('campaignData',campaignData)
-
-const dialog = ref(false)
-const player = campaignData.value.players[useCurrentUser().value.uid]
-
+const route = useRoute()
+const db = useFirestore()
+const campaignId = computed(()=> route.params.id)
+const campaignDoc = computed(()=> doc(db,'campaigns',campaignId.value))
+const { data:campaignData, pending, error } = useDocument(campaignDoc)
+const userProfile = computed(()=>useCurrentUser().value)
 const rollDescription = ref('')
 const rollMessages = ref([])
-let box = null
-let count = 0
-let initialLoad = true
+const isHost = computed(()=> campaignData.value?.host==userProfile.value.uid ? true : false)
+
+
+provide('campaignData',campaignData)
+provide('campaignPending',pending)
+
+const dialog = ref(false)
+const player = campaignData.value.players[userProfile.uid]
+
+
 
 onMounted(async () => {
-  if(!useCurrentUser().value){
+  if(!userProfile){
     //player is not logged in, redirect
-    await navigateTo('/login?campaign='+useRoute().params.id)
+    await navigateTo('/login?campaign='+campaignId.value)
   }
-  if(!campaignData.value?.playerIds.includes(useCurrentUser().value.uid)){
+  if(!campaignData.value?.playerIds.includes(userProfile.uid)){
     //player needs a character
-    await navigateTo('/trpg/'+useRoute().params.id+'/join')
+    await navigateTo('/trpg/'+campaignId.value+'/join')
   }
-  box = new DiceBox('#dice-box', {
-    assetPath: '/assets/', // Path where you copied the dice-box assets
-    // Additional configuration...
-    container: "#dice-box",
-    theme:'default',
-    offscreen:true,
-    scale:3
-  })
-  
-  await box.init()
-  box.hide()
-  box.onRollComplete = (rollResult)=>{
-    //display the roll result (total)
-    //add the roll result to the document rolls field
-    //on players screens, popup with a result if the roll was public
-    initialLoad = false
-    let rollData = {}
-    let rollValue = 0
-    for (const dice of rollResult) {
-      rollValue+=dice.value
-    }
-    rollData.total = rollValue
-    rollData.reason = rollDescription.value
-    rollData.user = campaignData?.value.players[useCurrentUser().value.uid].name // useCurrentUser().value.displayName
-    rollData.timestamp = Date.now()
-
-    updateDoc(doc(useFirestore(),'campaigns',useRoute().params.id), {
-      rolls: rollData
-    });
-    
-  }
+  //Redirect if host :D
+  if(isHost.value){await navigateTo('/trpg/'+campaignId.value+'/gm')}
 
 })
 
@@ -295,6 +261,7 @@ const d12 = ref('0')
 const d20 = ref('0')
 const d100 = ref('0')
 const dice =ref([])
+const diceBoxRef = ref()
 
 const rollDice = async()=>{
   d4.value!='0'?dice.value.push(d4.value+'d4'):null
@@ -304,33 +271,28 @@ const rollDice = async()=>{
   d12.value!='0'?dice.value.push(d12.value+'d12'):null
   d20.value!='0'?dice.value.push(d20.value+'d20'):null
   d100.value!='0'?dice.value.push(d100.value+'d100'):null
-  if(box){
-    box.show()
-    box.roll(dice.value)
-  }
+  diceBoxRef.value.rollDice(dice.value, rollDescription.value, campaignData?.value.players[userProfile.uid].name,true)
   dice.value.length=0
 }
 
-const clearDice = ()=>{
-  if(box){ box.clear() }
-}
+// const clearDice = ()=>{
+//   if(box){ box.clear() }
+// }
 
 // const diceBox = new DiceBox({
 //   assetPath: '/assets/' // include the trailing backslash
 // })
 const showDice = ref(false)
 const showHideDice = ()=>{
-  if(box){
-    if(showDice.value){
-      box.hide()
-      showDice.value=false
-    }else{
-      box.show()
-      showDice.value = true
-    }
+  if(showDice.value){
+    diceBoxRef.value.hideDice()
+    showDice.value=false
+  }else{
+    diceBoxRef.showDice()
+    showDice.value = true
   }
 }
-
+let count = 0
 const displayRoll = (roll) => {
   count++
   let rollText = ""
@@ -363,39 +325,14 @@ const formatDataValue = (val) => {
   }
 }
 
+const latestRoll = computed(()=> campaignData.value?.rolls)
 //watch campaignData.rolls to push little roll result notifications to the snackbar
-watch(
-  () => campaignData.value?.rolls,
-  (newValue, oldValue) => {
-    // Prevent triggering on initial load or if the field value is the same
-    if (newValue !== undefined && newValue !== oldValue && !initialLoad) {
-      displayRoll(newValue)
-    }
-  }
-)
-
-
+watch(latestRoll,(newRoll,oldRoll) => {
+  if (!newRoll||isNavigating.value) return
+  if (oldRoll && newRoll.timestamp === oldRoll.timestamp) return
+  displayRoll(newRoll)
+})
 </script>
-
-<style>
-#dice-box {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
-  /* 💡 CRITICAL: Allows clicks to pass through the invisible box container to the UI below */
-  pointer-events: none; 
-}
-
-#dice-box canvas {
-  width: 100%;
-  height: 100%;
-  /* 💡 Ensures the 3D canvas layer itself doesn't trap mouse clicks either */
-  pointer-events: none; 
-}
-</style>
 
 <style scoped>
 

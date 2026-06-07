@@ -3,7 +3,7 @@
   <v-button>Join A Game</v-button>
   <v-button @click="showHostingPopup = true">Host A Game</v-button> 
   <v-list lines="one"> Campaigns I'm Playing
-    <v-list-item v-for="c in campaigns" :key="c" :title="'Campaign ID: ' + c.id" :subtitle="c.name + ' | Player: ' + c.players[useCurrentUser.uid].name" :prepend-avatar="c.players[useCurrentUser.uid].avatar"/>
+    <v-list-item v-for="c in campaigns" :key="c" :title="'Campaign ID: ' + c.id" :subtitle="c.name + ' | Player: ' + c.players[userProfile.uid].name" :prepend-avatar="c.players[userProfile.uid].avatar"/>
   </v-list>
   <v-list lines="one"> Campaigns I'm Hosting
     <v-list-item v-for="h in hosting" :key="h.data().name" :title="h.data().name" :subtitle="'Campaign ID: ' + h.id + ' | Created: ' + h.data().createDate"><NuxtLink :to="'/trpg/'+h.id+'/gm'"><v-btn>View</v-btn></NuxtLink></v-list-item>
@@ -77,6 +77,9 @@
     required: value => !!value || 'Required.',
   })
 
+  const userProfile = computed(()=>useCurrentUser().value)
+  const db = useFirestore()
+
 
   // const userData = ref().value = useUserDataStore()
 
@@ -84,14 +87,14 @@
     if(useCurrentUser().value == null){
       return navigateTo('/trpg/login')
     }
-    const q1 = query(collection(useFirestore(),'campaigns'),where('playerIds','array-contains',useCurrentUser().value.uid))
+    const q1 = query(collection(db,'campaigns'),where('playerIds','array-contains',userProfile.value.uid))
     let campaignDocs = await getDocs(q1)
     campaignDocs.forEach((d)=>{
       const data = d.data()
       data.id = d.id
       campaigns.value.push(data)
     })
-    const q2 = query(collection(useFirestore(),'campaigns'),where('host','==',useCurrentUser().value.uid))
+    const q2 = query(collection(db,'campaigns'),where('host','==',userProfile.value.uid))
     let hostingDocs = await getDocs(q2)
     hostingDocs.forEach((d)=>{
       const data = d.data()
@@ -486,7 +489,7 @@
   const hostCampaign = ref(async(data)=>{
     //Create a campaign doc
     
-    const newCampaign = await addDoc(collection(useFirestore(),'campaigns'),data)
+    const newCampaign = await addDoc(collection(db,'campaigns'),data)
     // hosting.value.push({data:()=>{return newCampaignInfo.value},id:newCampaign.id})
     // showHostingPopup.value = false
     //instead of just looking at the campaigns, let's navigate to the new campaign
@@ -496,7 +499,7 @@
   const newCampaignInfo = ref(
     {
       'name':'',
-      'host':useCurrentUser().value.uid,
+      'host':userProfile.value.uid,
       'password':'',
       'worldConfig':{name:''},
       'createDate': new Date().toDateString(),

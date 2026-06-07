@@ -256,9 +256,12 @@ import { useCurrentUser, useFirestore, useDocument } from 'vuefire';
 import { doc, arrayUnion , updateDoc } from 'firebase/firestore'
 import DiceBox from '@3d-dice/dice-box'
 
-
-const campaignDoc = computed(()=> doc(useFirestore(),'campaigns',useRoute().params.id))
+const route = useRoute()
+const campaignId = computed(()=>route.params.id)
+const campaignDoc = computed(()=> doc(useFirestore(),'campaigns',campaignId.value))
 const {data:campaignData, pending, error, promise} = useDocument(campaignDoc)
+
+const userProfile = computed(()=>useCurrentUser().value)
 
 const rules = ref({
   required: value => !!value || 'Required.',
@@ -356,16 +359,15 @@ async function rollHealth () {
       user: characterName.value
     }
 
-    const campaignId = useRoute().params.id
-    const dbRef = doc(useFirestore(), 'campaigns', campaignId)
-    const currentUid = useCurrentUser().value.uid
+    const dbRef = doc(useFirestore(), 'campaigns', campaignId.value)
+    const currentUid = userProfile.value.uid
     
     try{
       await updateDoc(dbRef, {
         rolls: rollData
       });
       await updateDoc(dbRef, {
-        [`players.${useCurrentUser().value.uid}.health`]: Number(rollValue)
+        [`players.${currentUid}.health`]: Number(rollValue)
       })
 
       let rollText = characterName.value + " Rolled " + rollValue + " for Starting Health.  Welcome to " + campaignData.value.worldConfig.name + " 😄"
@@ -377,7 +379,7 @@ async function rollHealth () {
       })
       //Wait 3 seconds (for the user to read their result) then save their data and navigate to the campaign
       setTimeout(() => {
-        navigateTo(`/trpg/${campaignId}`)
+        navigateTo(`/trpg/${campaignId.value}`)
       }, 3000) // Delay routing execution block for exactly 12 seconds
     } catch(firestoreError){
       console.error("Critical database save exception caught:",firestoreError)
@@ -431,9 +433,9 @@ const saveCharacter = async() => {
   }
   }
 
-  updateDoc(campaignDoc.value,{'playerIds':arrayUnion(useCurrentUser().value.uid)})
+  updateDoc(campaignDoc.value,{'playerIds':arrayUnion(userProfile.value.uid)})
   updateDoc(campaignDoc.value,{
-    [`players.${useCurrentUser().value.uid}`]:{
+    [`players.${userProfile.value.uid}`]:{
       name:characterName.value,
       level: campaignData.value.playerConfig.level,
       race:characterRace.value,
@@ -604,11 +606,11 @@ const roll = ref((reference,arr)=>{
 
 onMounted(async()=>{
   if(useCurrentUser().value == null){
-    return navigateTo('/trpg/login?campaign='+useRoute().params.id)
+    return navigateTo('/trpg/login?campaign='+campaignId.value)
   }
-  if(campaignData.value?.playerIds.includes(useCurrentUser().value.uid)){
+  if(campaignData.value?.playerIds.includes(userProfile.value.uid)){
     //player already has a character
-    await navigateTo('/trpg/'+useRoute().params.id)
+    await navigateTo('/trpg/'+campaignId.value)
   }
   if(campaignData?.value){
     for(let race of campaignData.value.races){

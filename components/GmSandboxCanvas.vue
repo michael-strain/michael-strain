@@ -112,8 +112,25 @@ import { useDocument } from 'vuefire'
 
 
 // Tracking references
-const currentMapId = useRoute().params.mapId
+const route = useRoute()
+const campaignId = route.params.id
+const currentMapId = route.params.mapId
+const db = useFirestore()
 const activeTool = ref('navigate'); // Options: navigate, walls, teleport
+
+const campaignData = inject('campaignData')
+const {data:tokens} = useCollection(collection(db,'campaigns',campaignId,'maps',currentMapId,'tokens'))
+const {data:mapData} = useDocument(doc(db,'campaigns',campaignId,'maps',currentMapId))
+
+const {data:wallLines} = useCollection(collection(db,'campaigns',campaignId,'maps',currentMapId,'walls'))
+const {data:teleportNodes} = useCollection(collection(db,'campaigns',campaignId,'maps',currentMapId,'teleports'))
+
+
+const players = campaignData?.value.players
+const items = campaignData?.value.items
+const bestiary = campaignData?.valie.bestiary
+const spawnableAssets = [...players,...items,...bestiary]
+
 
 const GRID_SIZE = 70;
 const TOKEN_RADIUS = 30;
@@ -134,14 +151,14 @@ const wallDrawingPoints = ref([]); // Live point feed for walls being drawn
 //Would also be nice if, in addition to having a more organized asset pallet, we had a list of used assets and centered our 'camera' on an asset when clicked
 //We also want to be able to select a token and customize/roll stats based on predefined ranges from the specific doc/field it came from
 
-const spawnableAssets = [
-  { name: 'Paladin Fighter', type: 'player', color: '#1976D2' },
-  { name: 'Rogue Scout', type: 'player', color: '#4CAF50' },
-  { name: 'Shopkeeper NPC', type: 'npc', color: '#9E9E9E' },
-  { name: 'Goblin Grunt', type: 'monster', color: '#E53935' },
-  { name: 'Ancient Dragon', type: 'monster', color: '#D32F2F' },
-  { name: 'Gold Chest', type: 'item', color: '#FFB300' }
-];
+// const spawnableAssets = [
+//   { name: 'Paladin Fighter', type: 'player', color: '#1976D2' },
+//   { name: 'Rogue Scout', type: 'player', color: '#4CAF50' },
+//   { name: 'Shopkeeper NPC', type: 'npc', color: '#9E9E9E' },
+//   { name: 'Goblin Grunt', type: 'monster', color: '#E53935' },
+//   { name: 'Ancient Dragon', type: 'monster', color: '#D32F2F' },
+//   { name: 'Gold Chest', type: 'item', color: '#FFB300' }
+// ];
 
 // Canvas Configuration references
 const stageRef = ref(null);
@@ -153,11 +170,6 @@ const verticalLines = computed(() => { const lines = []; for (let i = 0; i < MAP
 const horizontalLines = computed(() => { const lines = []; for (let i = 0; i < MAP_HEIGHT; i += GRID_SIZE) lines.push(i); return lines; });
 
 
-const {data:tokens} = useCollection(collection(useFirestore(),'campaigns',useRoute().params.id,'maps',currentMapId,'tokens'))
-const {data:mapData} = useDocument(doc(useFirestore(),'campaigns',useRoute().params.id,'maps',currentMapId))
-
-const {data:wallLines} = useCollection(collection(useFirestore(),'campaigns',useRoute().params.id,'maps',currentMapId,'walls'))
-const {data:teleportNodes} = useCollection(collection(useFirestore(),'campaigns',useRoute().params.id,'maps',currentMapId,'teleports'))
 
 
 onMounted(() => {
@@ -206,7 +218,7 @@ const handleCanvasMouseDown = async (event) => {
       //TODO in the future I may actually want to wait for all wall lines to be created (or user has to manually hit a save button) to save their wall lines
       
       if (wallDrawingPoints.value.length === 4) {
-        await addDoc(collection(useFirestore(),'campaigns',useRoute().params.id, 'maps', currentMapId, 'walls'), {
+        await addDoc(collection(db,'campaigns',campaignId, 'maps', currentMapId, 'walls'), {
           points: [...wallDrawingPoints.value]
         });
         // Seed the next starting link segment automatically
@@ -221,7 +233,7 @@ const handleCanvasMouseDown = async (event) => {
     const snapY = Math.floor(transformY / GRID_SIZE) * GRID_SIZE + (GRID_SIZE / 2);
 
     // Mock link configurations (Portal T1 moves tokens to dungeon-level-2 coordinate sets)
-    await addDoc(collection(useFirestore(),'campaigns',useRoute().params.id, 'maps', currentMapId, 'teleports'), {
+    await addDoc(collection(db,'campaigns',campaignId, 'maps', currentMapId, 'teleports'), {
       x: snapX,
       y: snapY,
       label: 'Portal T1', //Need to convert this to a user input text field for GMS to be able to organize same-map teleport lists
@@ -256,7 +268,7 @@ const spawnEntity = async (asset) => {
 
   //If the asset IS a player
   if(asset.type=='player'){
-    await addDoc(doc(useFirestore(),'campaigns',useRoute().params.id,'maps',currentMapId,'tokens',asset.id),{
+    await addDoc(doc(db,'campaigns',campaignId,'maps',currentMapId,'tokens',asset.id),{
       name: asset.name,
       color: asset.color, //replace this with an image eventually
       type: asset.type, //player
@@ -266,7 +278,7 @@ const spawnEntity = async (asset) => {
     })
   } else if(asset.type=='monster'){
     //If the asset is NOT a player
-    await addDoc(collection(useFirestore(), 'campaigns', useRoute().params.id, 'maps', currentMapId, 'tokens'), {
+    await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
       name: asset.name,
       color: asset.color, //replace this with an image eventually
       type: asset.type, //
@@ -276,7 +288,7 @@ const spawnEntity = async (asset) => {
       initiativeRoll: null, //1d20+Agility
     })
   } else if(asset.type=='item'){
-    await addDoc(collection(useFirestore(), 'campaigns', useRoute().params.id, 'maps', currentMapId, 'tokens'), {
+    await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
       name: asset.name,
       color: asset.color, //replace this with an image eventually
       type: asset.type, //
@@ -314,10 +326,10 @@ const handleTokenDragEnd = async (event) => {
 
  
       // Step 1: Remove entity document reference allocation from the old map location space
-      const oldDocRef = doc(useFirestore(), 'campaigns', useRoute().params.id, 'maps', currentMapId, 'tokens', tokenId)
+      const oldDocRef = doc(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens', tokenId)
       const movingTokenData = tokens.value.find(t => t.id === tokenId)
       // Step 2: Inject character properties directly into the destination target map subcollection
-      await addDoc(collection(useFirestore(), 'campaigns', useRoute().params.id, 'maps', portal.targetMapId, 'tokens'), {
+      await addDoc(collection(db, 'campaigns', campaignId, 'maps', portal.targetMapId, 'tokens'), {
         name: movingTokenData.name,
         color: movingTokenData.color,
         type: movingTokenData.type,
@@ -335,7 +347,7 @@ const handleTokenDragEnd = async (event) => {
   }
 
   // Standard positional update if no portal was hit
-  await updateDoc(doc(useFirestore(), 'campaigns', useRoute().params.id, 'maps', currentMapId, 'tokens', tokenId), 
+  await updateDoc(doc(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens', tokenId), 
     {
       x: snapX, y: snapY 
     }

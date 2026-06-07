@@ -4,6 +4,9 @@
     View/Manage Active Players/Mobs and Adjust Play Data, Roll, Establish initiative, etc.
     <!-- <NuxtLink :to="useRoute().fullPath+'/play'"><v-btn>Play</v-btn></NuxtLink> -->
   </v-card>
+<!-- We can use this eventually for a little loader display
+  <v-card v-if="!campaignPending" />
+<v-progress-circular v-else indeterminate /> -->
 </template>
 <script setup>
 //We are gonna let anyone see this page, cuz there is nothing sensitive and nothing they can do with it...

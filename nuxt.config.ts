@@ -25,8 +25,6 @@ export default defineNuxtConfig({
             link: [
                 {rel:'preconnect', href:'https://googletagmanager.com', crossorigin:''}, //gtag
                 {rel:'preconnect', href:'https://apis.google.com', crossorigin:''}
-                // {rel:'dns-prefetch', href:'https://fonts.gstatic.com'},
-                // {rel:'dns-prefetch', href:'https://m.stripe.network'},
             ]
         }
     },
@@ -34,11 +32,8 @@ export default defineNuxtConfig({
     devtools:{enabled:true},
 
     runtimeConfig: {
-        // GOOGLE_APPLICATION_CREDENTIALS:process.env.GOOGLE_APPLICATION_CREDENTIALS,
-        // STRIPE_SECRET_KEY: process.env.NODE_ENV==="development" ? "sk_test_TWFt8bOX2Lj37qnSZJXL8a73" : process.env.STRIPE_SECRET_KEY,
         BREVO_KEY: process.env.BREVO_KEY,
         public:{
-            // STRIPE_PUBLIC_KEY: process.env.NODE_ENV==="development" ? "pk_test_Ks0hhsz15BuwjmJ50MBRqKOk" : process.env.STRIPE_PUBLIC_KEY,
             WTFAMI: process.env.NODE_ENV==="development" ? "DEV" : process.env.WTFAMI,
             SITE_DOMAIN: process.env.SITE_DOMAIN,
             SHOP_NAME: "MichaelStrain",

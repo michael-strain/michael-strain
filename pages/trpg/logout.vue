@@ -34,16 +34,6 @@ const defaultData = {
 }
 
 const signOutUser = () => {
-  if(useCurrentUser().value){
-    if(useCurrentUser().value.uid){
-      // const docRef = doc(useFirestore(),'users',useCurrentUser().value.uid)
-
-      // setDoc(docRef, {
-      //   // key:useUserDataStore().userData.value,
-      // }, {merge:true})
-    }
-  }
-
   useUserDataStore().userData = defaultData
   
   const auth = useFirebaseAuth()

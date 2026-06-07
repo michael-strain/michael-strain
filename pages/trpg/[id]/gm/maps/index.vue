@@ -213,11 +213,12 @@
 
   //Need to useCollection to get our whole list of maps from the maps subcollection
 
-  
+  const route = useRoute()
   const campaignData = inject('campaignData') //comes from the gm layout. Nifty!
   const activeMapId = ref(null);
+  const campaignId = computed(()=>route.params.id)
 
-  const mapCollection = computed(()=> collection(useFirestore(),'campaigns',useRoute().params.id,'maps'))
+  const mapCollection = computed(()=> collection(useFirestore(),'campaigns',campaignId.value,'maps'))
   const {data:allMapData, pending, error, promise} = useCollection(mapCollection)
 
 
@@ -262,7 +263,7 @@
       const imageUrl = await getDownloadURL(imageStorageRef);
 
       // 3. Save map details and the image URL to Firestore
-      await addDoc(collection(useFirestore(), 'campaigns', useRoute().params.id ,'maps'), {
+      await addDoc(collection(useFirestore(), 'campaigns', campaignId.value ,'maps'), {
         name: mapFields.mapName,
         description: mapFields.mapDescription || null, // Guard empty strings
         region: mapFields.region || null,

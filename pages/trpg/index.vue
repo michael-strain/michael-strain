@@ -555,11 +555,7 @@
     }
   }
 
-  //If user is logged in already just redirect them to the account page
   onMounted(async()=>{ //does this need to be async?
-    // if(useCurrentUser().value != null){
-    //   return navigateTo('/trpg/account')
-    // }
     for(let card in skills.value){
       colors.value[skills.value[card].name] = ""
     }
