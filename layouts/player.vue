@@ -64,15 +64,15 @@
       <NuxtPage />
       <v-card class="p-2" v-if="showDice" style="position:fixed; bottom:0%; width:100%">
         <v-row class="mr-20 ml-5 mt-5">
-          <!--Need to make these handle input better and cap the total die rolled around 1999 -->
-          <v-text-field label="d4" v-model="d4" />
-          <v-text-field label="d6" v-model="d6" />
-          <v-text-field label="d8" v-model="d8" />
-          <v-text-field label="d10" v-model="d10" />
-          <v-text-field label="d12" v-model="d12" />
-          <v-text-field label="d20" v-model="d20" />
-          <v-text-field label="d100" v-model="d100" />
-        </v-row>
+        <!--Need to make these handle input better and cap the total die rolled around 1999 -->
+        <v-number-input :min="0" control-variant="split" label="d4" :rules="[value => value!=null || 'Required.']" v-model="d4" />
+        <v-number-input :min="0" control-variant="split" label="d6" :rules="[value => value!=null || 'Required.']" v-model="d6" />
+        <v-number-input :min="0" control-variant="split" label="d8" :rules="[value => value!=null || 'Required.']" v-model="d8" />
+        <v-number-input :min="0" control-variant="split" label="d10" :rules="[value => value!=null || 'Required.']" v-model="d10" />
+        <v-number-input :min="0" control-variant="split" label="d12" :rules="[value => value!=null || 'Required.']" v-model="d12" />
+        <v-number-input :min="0" control-variant="split" label="d20" :rules="[value => value!=null || 'Required.']" v-model="d20" />
+        <v-number-input :min="0" control-variant="split" label="d100" :rules="[value => value!=null || 'Required.']" v-model="d100" />
+      </v-row>
         
         <v-text-field class="mr-20 ml-5" label="Roll Description" v-model="rollDescription" maxlength="82"/>
         <v-btn class="ml-5" @click="rollDice">Roll</v-btn>
@@ -229,10 +229,13 @@ const userProfile = computed(()=>useCurrentUser().value)
 const rollDescription = ref('')
 const rollMessages = ref([])
 const isHost = computed(()=> campaignData.value?.host==userProfile.value.uid ? true : false)
-
+const rollRequested = (req) => {
+  diceBoxRef.value?.rollDice(req) // Don't forget .value here!
+}
 
 provide('campaignData',campaignData)
 provide('campaignPending',pending)
+provide('requestRoll',rollRequested)
 
 const dialog = ref(false)
 const player = campaignData.value.players[userProfile.uid]
@@ -244,12 +247,12 @@ onMounted(async () => {
     //player is not logged in, redirect
     await navigateTo('/login?campaign='+campaignId.value)
   }
-  if(!campaignData.value?.playerIds.includes(userProfile.uid)){
+  if(!pending.value && campaignData.value?.playerIds.includes(userProfile.uid)){
     //player needs a character
     await navigateTo('/trpg/'+campaignId.value+'/join')
   }
   //Redirect if host :D
-  if(isHost.value){await navigateTo('/trpg/'+campaignId.value+'/gm')}
+  if(!pending.value && isHost.value){await navigateTo('/trpg/'+campaignId.value+'/gm')}
 
 })
 
@@ -261,7 +264,7 @@ const d12 = ref('0')
 const d20 = ref('0')
 const d100 = ref('0')
 const dice =ref([])
-const diceBoxRef = ref()
+const diceBoxRef = ref(null)
 
 const rollDice = async()=>{
   d4.value!='0'?dice.value.push(d4.value+'d4'):null
@@ -271,24 +274,25 @@ const rollDice = async()=>{
   d12.value!='0'?dice.value.push(d12.value+'d12'):null
   d20.value!='0'?dice.value.push(d20.value+'d20'):null
   d100.value!='0'?dice.value.push(d100.value+'d100'):null
-  diceBoxRef.value.rollDice(dice.value, rollDescription.value, campaignData?.value.players[userProfile.uid].name,true)
+  const req = {
+    roll:[...dice.value],
+    reason:rollDescription.value,
+    user:campaignData?.value.players[userProfile.value.uid].name,
+    pub:true
+  }
+  console.log(req)
+  diceBoxRef.value?.rollDice(req)
   dice.value.length=0
 }
 
-// const clearDice = ()=>{
-//   if(box){ box.clear() }
-// }
 
-// const diceBox = new DiceBox({
-//   assetPath: '/assets/' // include the trailing backslash
-// })
 const showDice = ref(false)
 const showHideDice = ()=>{
   if(showDice.value){
-    diceBoxRef.value.hideDice()
+    diceBoxRef.value?.hideDice()
     showDice.value=false
   }else{
-    diceBoxRef.showDice()
+    diceBoxRef.value?.showDice()
     showDice.value = true
   }
 }
@@ -307,7 +311,6 @@ const displayRoll = (roll) => {
     color:'info',
   })
   
-  // setTimeout(box.hide(),20000)
 }
 
 const createCharacterSheetPdf = () => {
@@ -324,6 +327,18 @@ const formatDataValue = (val) => {
     return String(val)
   }
 }
+
+
+const router = useRouter()
+const isNavigating = ref(false)
+
+router.beforeEach(()=>{
+  isNavigating.value = true
+})
+router.afterEach(()=>{
+  isNavigating.value = false
+})
+
 
 const latestRoll = computed(()=> campaignData.value?.rolls)
 //watch campaignData.rolls to push little roll result notifications to the snackbar

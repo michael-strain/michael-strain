@@ -167,9 +167,23 @@ const rollDice = async()=>{
   d20.value!='0'?dice.value.push(d20.value+'d20'):null
   d100.value!='0'?dice.value.push(d100.value+'d100'):null
   if(publicRoll.value){
-    diceBoxRef.value.rollDice(dice.value,rollDescription.value,'GM',true)
+    const req = {
+      roll: dice.value,
+      user: 'GM',
+      reason: rollDescription.value,
+      pub: true,
+      // location: 'campaigns/'+campaignId.value,
+      // field: 'rolls',
+    }
+    diceBoxRef.value.rollDice(req)
   } else{
-    rollMessages.value.push(diceBoxRef.value.rollDice(dice.value,rollDescription.value,'GM',false))
+    const req = {
+      roll:dice.value,
+      user:'GM',
+      reason:rollDescription.value,
+      pub:false
+    }
+    rollMessages.value.push(diceBoxRef.value.rollDice(req))
   }
   dice.value.length=0
 }

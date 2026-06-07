@@ -1,376 +1,304 @@
 <template>
-  <v-layout>
-    <v-container fluid class="pa-0 fill-height bg-grey-darken-4 position-relative overflow-hidden">
-      <!-- <v-container fluid class="pa-0 fill-height bg-grey-darken-4"> -->
+  <v-container fluid class="pa-0 fill-height bg-grey-darken-4 position-relative overflow-hidden">
+    
+    <v-card class="position-absolute ma-4 pa-3 token-hud top-0 left-0" elevation="5" min-width="300">
+      <v-card-title class="text-subtitle-1 font-weight-bold pa-0 d-flex justify-space-between align-center">
+        <span>⚔️ Action & Movement</span>
+        <v-chip color="primary" size="small">Turn Active</v-chip>
+      </v-card-title>
+      <v-divider class="my-2"></v-divider>
+      
+      <div class="d-flex justify-space-between text-caption mb-1">
+        <span>Movement Remaining:</span>
+        <strong>{{ remainingMovement }} / {{ selectedTokenStats.maxMovement }} ft</strong>
+      </div>
+      <v-progress-linear
+        :model-value="(remainingMovement / selectedTokenStats.maxMovement) * 100"
+        color="green"
+        height="8"
+        rounded
+        class="mb-3"
+      ></v-progress-linear>
+
+      <div class="text-subtitle-2 mb-1">Select Action Range:</div>
+      <v-btn-toggle v-model="selectedAction" mandatory color="amber-darken-2" class="w-100" density="compact">
+        <v-btn value="none" size="small">None</v-btn>
+        <v-btn value="melee" size="small" prepend-icon="mdi-sword">Melee (5ft)</v-btn>
+        <v-btn value="archery" size="small" prepend-icon="mdi-bow-arrow">Bow (60ft)</v-btn>
+        <v-btn value="spell" size="small" prepend-icon="mdi-auto-fix">Spell (120ft)</v-btn>
+      </v-btn-toggle>
+
+      <v-btn size="x-small" color="success" block class="mt-3" @click="resetTurn">
+        End & Reset Turn
+      </v-btn>
+    </v-card>
+
+    <v-card class="position-absolute ma-4 pa-3 token-hud top-0 right-0 d-flex flex-column" elevation="5" width="280" max-height="85vh">
+      <v-card-title class="text-subtitle-1 font-weight-bold pa-0 d-flex justify-space-between align-center">
+        <span>🛡️ Turn Order</span>
+        <v-chip size="x-small" color="amber-darken-3" variant="flat">Round {{ combatState.currentRound }}</v-chip>
+      </v-card-title>
+      <v-divider class="my-2"></v-divider>
+
+      <div v-if="combatState.active" class="d-flex gap-2 w-100 mb-3">
+        <v-btn color="primary" size="small" class="flex-grow-1" prepend-icon="mdi-chevron-right" @click="nextTurn">
+          Next Turn
+        </v-btn>
+      </div>
+
+    </v-card>
+
+    <v-stage ref="stageRef" :config="stageConfig">
+      <v-layer :config="{ listening: false }">
+        <v-image 
+          v-if="mapImageElement" 
+          :config="mapConfig" 
+        />
+
+        <v-line
+          v-for="(x, index) in verticalLines"
+          :key="'v-'+index"
+          :config="{
+            points: [x, 0, x, MAP_HEIGHT],
+            stroke: 'rgba(255, 255, 255, 0.2)',
+            strokeWidth: 1,
+            dash: [4, 4]
+          }"
+        />
+
+        <v-line
+          v-for="(y, index) in horizontalLines"
+          :key="'h-'+index"
+          :config="{
+            points: [0, y, MAP_WIDTH, y],
+            stroke: 'rgba(255, 255, 255, 0.2)',
+            strokeWidth: 1,
+            dash: [4, 4]
+          }"
+        />
+      </v-layer>
+
+      <v-layer>
+        <v-circle 
+          :config="lootConfig" 
+        />
         
-        <!--This seems more like GM stuff that needs to be moved to the GmSandboxCanvas component-->
-        <!-- UI Overlay Panel: Floating Hud over the canvas -->
-        <v-card class="ma-4 pa-3 token-hud" elevation="5" min-width="250">
-          <v-card-title class="text-subtitle-1 font-weight-bold pa-0">Game Master Dashboard</v-card-title>
-          <v-divider class="my-2"></v-divider>
+        <v-line
+          v-for="(wall, i) in wallLines"
+          :key="'wall-'+i"
+          :config="{
+            points: wall.points,
+            stroke: 'red',
+            strokeWidth: 4,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }"
+        />
+      </v-layer>
 
-          <!-- Current User Role Simulator -->
-          <v-select
-            v-model="userProfile.uid"
-            label="Simulated Player Profile"
-            :items="playerProfiles"
-            item-title="name"
-            item-value="id"
-            variant="underlined"
-            density="compact"
-            class="mb-2"
-          ></v-select>
+      <v-layer>
+        
+        <v-circle
+          v-if="selectedAction !== 'none'"
+          :config="{
+            x: tokenPos.x,
+            y: tokenPos.y,
+            radius: currentActionRangeRadius,
+            fill: 'rgba(255, 193, 7, 0.1)',
+            stroke: '#FFC107',
+            strokeWidth: 2,
+            dash: [10, 5],
+            listening: false
+          }"
+        />
 
+        <v-group
+          v-for="token in tokens"
+          :key="token.id"
+          :config="{
+            x: token.x,
+            y: token.y,
+            draggable: combatState.active ? token.id === activeActorTokenId : true
+          }"
+          @dragstart="handleTokenDragStart"
+          @dragmove="handleTokenDragMove"
+          @dragend="handleTokenDragEnd"
+        >
+          <v-circle
+            :config="{
+              radius: TOKEN_RADIUS,
+              fill: token.color || '#2196F3',
+              stroke: token.id === activeActorTokenId ? '#FFC107' : '#FFFFFF',
+              strokeWidth: token.id === activeActorTokenId ? 4 : 2,
+              shadowColor: 'black',
+              shadowBlur: 10,
+              shadowOpacity: 0.5
+            }"
+          />
+          <v-text
+            :config="{
+              text: token.name,
+              fontSize: 14,
+              fontFamily: 'Arial',
+              fill: 'white',
+              align: 'center',
+              y: TOKEN_RADIUS + 5,
+              x: -50,
+              width: 100
+            }"
+          />
+        </v-group>
 
-          <div class="text-caption mb-1">Grid Size (5ft): <strong>{{ GRID_SIZE }}px</strong></div>
-          <div class="text-caption mb-2">Token Location: <strong>X: {{ Math.round(tokenPos.x) }}, Y: {{ Math.round(tokenPos.y) }}</strong></div>
+      </v-layer>
+    </v-stage>
+  </v-container>
 
-          <div class="text-caption mb-1">Zoom Level: <strong>{{ Math.round(zoomScale * 100) }}%</strong></div>
-          <div class="text-caption mb-2">Controls: <span class="text-grey-darken-1">Scroll to Zoom | Right-Click + Drag to Pan</span></div>
-
-          <div class="text-caption mb-1">Active Tokens Online: <strong>{{ tokens.length }}</strong></div>
-          <div class="text-caption mb-2 text-grey-darken-1">Note: You can only drag your assigned character token.</div>
-          
-          <v-btn size="x-small" color="primary" block variant="elevated" @click="spawnNewToken" class="mt-2">
-            Spawn New Token Here
-          </v-btn>
-
-
-          <v-btn size="x-small" color="secondary" block variant="tonal" @click="resetCamera">
-            Reset Camera View
-          </v-btn>
-
-          
-          <!-- Interactive system alert feed -->
-          <v-alert
-            v-if="proximityMessage"
-            type="warning"
-            density="compact"
-            variant="tonal"
-            class="mt-2 text-caption"
-          >
-            {{ proximityMessage }}
-          </v-alert>
-        </v-card>
-
-
-        <!--This seems more like a player HUD-->
-        <!-- FLOATING HUD: Turn & Action Controller -->
-        <v-app-bar class="ma-4 pa-3 token-hud" elevation="5" min-width="300">
-          <v-card-title class="text-subtitle-1 font-weight-bold pa-0 d-flex justify-space-between align-center">
-            <span>⚔️ Action & Movement</span>
-            <v-chip color="primary" size="small">Turn Active</v-chip>
-          </v-card-title>
-          <v-divider class="my-2"></v-divider>
-          
-          <!-- Movement tracking bar -->
-          <div class="d-flex justify-space-between text-caption mb-1">
-            <span>Movement Remaining:</span>
-            <strong>{{ remainingMovement }} / {{ selectedTokenStats.maxMovement }} ft</strong>
-          </div>
-          <v-progress-linear
-            :model-value="(remainingMovement / selectedTokenStats.maxMovement) * 100"
-            color="green"
-            height="8"
-            rounded
-            class="mb-3"
-          ></v-progress-linear>
-
-          <!-- Combat Action Selection Toggles -->
-          <div class="text-subtitle-2 mb-1">Select Action Range Indicator:</div>
-          <v-btn-toggle v-model="selectedAction" mandatory color="amber-darken-2" class="w-100" density="compact">
-            <v-btn value="none" size="small">None</v-btn>
-            <v-btn value="melee" size="small" prepend-icon="mdi-sword">Melee (5ft)</v-btn>
-            <v-btn value="archery" size="small" prepend-icon="mdi-bow-arrow">Bow (60ft)</v-btn>
-            <v-btn value="spell" size="small" prepend-icon="mdi-auto-fix">Spell (120ft)</v-btn>
-          </v-btn-toggle>
-
-          <v-btn size="x-small" color="success" block class="mt-3" @click="resetTurn">
-            End & Reset Turn (Replenish Move)
-          </v-btn>
-        </v-app-bar>
-
-        <!-- RIGHT SIDEBAR: Tactical Combat Initiative Tracker -->
-        <v-navigation-drawer location="right" floating class="ma-4 pa-3 token-hud d-flex flex-column" elevation="5" width="280" max-height="85vh">
-          <v-card-title class="text-subtitle-1 font-weight-bold pa-0 d-flex justify-space-between align-center">
-            <span>🛡️ Turn Order</span>
-            <v-chip size="x-small" color="amber-darken-3" variant="flat">Round {{ combatState.currentRound }}</v-chip>
-          </v-card-title>
-          <v-divider class="my-2"></v-divider>
-
-          <!-- Combat Toggle Utilities for the Game Master -->
-          <v-btn 
-            v-if="!combatState.active" 
-            color="error" 
-            size="small" 
-            block 
-            prepend-icon="mdi-sword-cross"
-            @click="startCombat"
-          >
-            Roll & Start Combat
-          </v-btn>
-
-          <div v-else class="d-flex gap-2 w-100 mb-3">
-            <v-btn color="primary" size="small" class="flex-grow-1" prepend-icon="mdi-chevron-right" @click="nextTurn">
-              Next Turn
-            </v-btn>
-            <v-btn color="grey-darken-1" size="small" icon="mdi-stop" variant="tonal" @click="endCombat" title="End Combat"></v-btn>
-          </div>
-
-          <!-- Scrollable Turn Order List Queue -->
-          <v-list class="bg-transparent pa-0 overflow-y-auto" density="compact">
-            <v-list-item
-              v-for="(token, index) in sortedInitiativeQueue"
-              :key="token.id"
-              :value="index"
-              :active="combatState.active && index === combatState.currentTurnIndex"
-              active-color="primary"
-              class="rounded mb-1 border-s-xl"
-              :style="{ borderLeftColor: token.color + ' !important' }"
-            >
-              <!-- Order Badge and Name -->
-              <template v-slot:prepend>
-                <v-avatar size="24" :color="index === combatState.currentTurnIndex && combatState.active ? 'primary' : 'grey-darken-3'" class="text-caption text-white mr-2">
-                  {{ index + 1 }}
-                </v-avatar>
-              </template>
-
-              <v-list-item-title class="text-body-2 font-weight-medium">
-                {{ token.name }}
-              </v-list-item-title>
-
-              <!-- Initiative Score Overlay Badge -->
-              <template v-slot:append>
-                <v-chip size="x-small" variant="outlined" :color="token.type === 'monster' ? 'error' : 'success'">
-                  Init: {{ token.initiativeRoll || '--' }}
-                </v-chip>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-navigation-drawer>
-
-
-
-        <!-- HTML5 Canvas Engine Container via Vue-Konva -->
-        <v-stage :config="stageConfig" ref="stageRef" @wheel="handleZoom" @contextmenu.prevent>
-          
-          <!-- LAYER 1: The uploaded Map Image -->
-          <v-layer>
-            <!-- In a real app, bind image to your Firebase Firestore image URL -->
-            <v-image :config="mapConfig" />
-          </v-layer>
-
-          <!-- LAYER 2: Procedural Tactical Grid Line System -->
-          <v-layer>
-            <!-- Vertical Grid Lines -->
-                    <v-line 
-              v-for="x in verticalLines" 
-              :key="'v-'+x" 
-              :config="{ points: [x, 0, x, MAP_HEIGHT], stroke: 'rgba(255,255,255,0.25)', strokeWidth: 1 }" 
-            />
-            <v-line 
-              v-for="y in horizontalLines" 
-              :key="'h-'+y" 
-              :config="{ points: [0, y, MAP_WIDTH, y], stroke: 'rgba(255,255,255,0.25)', strokeWidth: 1 }" 
-            />
-
-            <!-- <v-line 
-              v-for="x in verticalLines" 
-              :key="'v-'+x" 
-              :config="{ points: [x, 0, x, stageConfig.height], stroke: 'rgba(255,255,255,0.25)', strokeWidth: 1 }" 
-            /> -->
-            <!-- Horizontal Grid Lines -->
-            <!-- <v-line 
-              v-for="y in horizontalLines" 
-              :key="'h-'+y" 
-              :config="{ points: [0, y, stageConfig.width, y], stroke: 'rgba(255,255,255,0.25)', strokeWidth: 1 }" 
-            /> -->
-          </v-layer>
-
-
-          <!-- LAYER 3: Tactical Range Aura & Indicators -->
-          <!-- <v-layer> -->
-            <!-- AURA A: Dynamic Movement Radius Circle (Drawn underneath the active token) -->
-            <!-- <v-circle 
-              v-if="remainingMovement > 0"
-              :config="{
-                x: tokenPos.x,
-                y: tokenPos.y,
-                radius: (remainingMovement / 5) * GRID_SIZE,
-                fill: 'rgba(76, 175, 80, 0.08)',
-                stroke: '#4CAF50',
-                strokeWidth: 1.5,
-                dash: [10, 5]
-              }"
-            /> -->
-
-            <!-- AURA B: Contextual Combat Range Ring Indicator -->
-            <!-- <v-circle 
-              v-if="currentActionRangeRadius > 0"
-              :config="{
-                x: tokenPos.x,
-                y: tokenPos.y,
-                radius: currentActionRangeRadius,
-                fill: 'rgba(255, 179, 0, 0.05)',
-                stroke: '#FFB300',
-                strokeWidth: 2,
-                dash: [5, 5]
-              }"
-            />
-          </v-layer> -->
-
-
-          <!-- LAYER 4: Active Interactive Entities -->
-          <!-- <v-layer> -->
-            <!-- Dummy Enemy Orc Target to test range checks -->
-            <!-- <v-group :config="{ x: enemyPos.x, y: enemyPos.y }" @click="handleTargetEnemy">
-              <v-circle :config="{ radius: TOKEN_RADIUS, fill: '#E53935', stroke: '#FFF', strokeWidth: 2 }" />
-              <v-text :config="{ text: 'Orc', fill: 'white', fontSize: 12, x: -11, y: -6, fontStyle: 'bold' }" />
-            </v-group> -->
-
-            <!-- Player Controlled Token -->
-            <!-- <v-group
-              :config="{ x: tokenPos.x, y: tokenPos.y, draggable: true }"
-              @dragstart="handleTokenDragStart"
-              @dragmove="handleTokenDragMove"
-              @dragend="handleTokenDragEnd"
-            > -->
-              <!-- Visual feedback indicator: glow green if they have movement left, orange if empty -->
-              <!-- <v-circle :config="{ radius: TOKEN_RADIUS, fill: '#1976D2', stroke: remainingMovement > 0 ? '#00E676' : '#FF9100', strokeWidth: 3 }" />
-              <v-text :config="{ text: 'Hero', fill: 'white', fontSize: 12, x: -14, y: -6, fontStyle: 'bold' }" />
-            </v-group>
-          </v-layer> -->
-
-
-          <!-- LAYER 3: Active Interactive Tokens Grid -->
-          <v-layer>
-            <v-group
-              v-for="token in tokens"
-              :key="token.id"
-              :config="{ 
-                id: token.id, 
-                x: token.x, 
-                y: token.y, 
-                // Draggable if it's their turn OR if combat is inactive
-                draggable: !combatState.active || (activeActorTokenId === token.id)
-              }"
-              @dragstart="handleTokenDragStart"
-              @dragmove="handleTokenDragMove"
-              @dragend="handleTokenDragEnd"
-            >
-              <!-- Active Turn Highlighting Aura ring -->
-              <v-circle 
-                v-if="combatState.active && activeActorTokenId === token.id"
-                :config="{ radius: TOKEN_RADIUS + 8, stroke: '#00E676', strokeWidth: 3, opacity: 0.8 }" 
-              />
-
-              <!-- Base Token Geometry -->
-              <v-circle :config="{ radius: TOKEN_RADIUS, fill: token.color, stroke: '#FFFFFF', strokeWidth: 2 }" />
-              <v-text :config="{ text: token.name.substring(0, 5), fill: 'white', fontSize: 11, x: -14, y: -5, fontStyle: 'bold' }" />
-            </v-group>
-          </v-layer>
-
-
-
-
-
-
-                <!-- LAYER 3: Dynamic Multi-Token Network Layer -->
-          <!-- <v-layer> -->
-            <!-- Loop dynamically through real-time Firestore array states -->
-            <!-- <v-group
-              v-for="token in tokens"
-              :key="token.id"
-              :config="{ 
-                id: token.id,
-                x: token.x, 
-                y: token.y, 
-                // Lock movement mechanics down strictly to the token owner
-                draggable: token.ownerId === currentUserId 
-              }"
-              @dragmove="handleRemoteTokenDrag"
-              @dragend="handleRemoteTokenDragEnd"
-            > -->
-              <!-- Outer decorative visual framework -->
-              <!-- <v-circle :config="{ radius: TOKEN_RADIUS, fill: token.color, stroke: token.ownerId === currentUserId ? '#00E676' : '#FFFFFF', strokeWidth: token.ownerId === currentUserId ? 4 : 2 }" /> -->
-              
-              <!-- Text Name Label Plate -->
-              <!-- <v-text :config="{ text: token.name, fill: 'white', fontSize: 13, x: -18, y: -6, fontStyle: 'bold', align: 'center' }" /> -->
-            <!-- </v-group> -->
-          <!-- </v-layer> -->
-
-          
-
-
-          <!-- LAYER 3: Interactive Interactive Entities (Loot, NPCs) -->
-          <!-- <v-layer> -->
-            <!-- Static Interactable Object (Loot Chest) -->
-            <!-- <v-circle :config="lootConfig" /> -->
-            
-            <!-- Player Controlled Token -->
-            <!-- <v-group -->
-              <!-- :config="{ x: tokenPos.x, y: tokenPos.y, draggable: true }" -->
-              <!-- @dragmove="handleTokenDrag" -->
-              <!-- @dragend="handleTokenDragEnd" -->
-            <!-- > -->
-              <!-- Token Base Circular Frame -->
-              <!-- <v-circle :config="{ radius: TOKEN_RADIUS, fill: '#1976D2', stroke: '#FFFFFF', strokeWidth: 3 }" /> -->
-              <!-- Simple Character Label -->
-              <!-- <v-text :config="{ text: 'Hero', fill: 'white', fontSize: 14, x: -14, y: -6, fontStyle: 'bold' }" /> -->
-            <!-- </v-group> -->
-          <!-- </v-layer> -->
-        </v-stage>
-
-        <!-- User Feedback Toast Notification Banner -->
-        <v-snackbar v-model="showToast" :color="toastColor" timeout="4000">
-          {{ toastMessage }}
-        </v-snackbar>
-
-      </v-container>
-  </v-layout>
-  
+  <v-dialog v-model="dialog" persistent>
+    <v-card title="'GM Requests a Roll'" :subtitle="'Reason: ' + r.reason"></v-card>
+    <v-btn @click="requestRoll(r)">Roll</v-btn>
+  </v-dialog>
 </template>
 
 <script setup>
 import { collection, onSnapshot, doc, updateDoc, addDoc, query } from 'firebase/firestore';
-import { useCollection } from 'vuefire'
+import { useCollection, useDocument, useFirestore, useCurrentUser } from 'vuefire'
 
 const route = useRoute()
-const campaignId = computed(()=>route.params.id)
-const campaignData = inject('campaignData') //comes from the gm layout. Nifty!
-const userProfile = computed(()=>useCurrentUser().value)
-const mapId = campaignData?.value?.activeMapId
-const tokenId = userProfile.value.uid
-const tokens = useCollection(collection(useFirestore(),'campaigns',campaignId.value,'maps',mapId,'tokens'))
-const mapData = useDocument(doc(useFirestore(),'campaigns',campaignId.value,'maps',mapId))
-const playerProfiles = campaignData?.value?.players
+const router = useRouter()
+const db = useFirestore() //need to clean stuff up
 
+//Core Profile and Campaign Setup
+const campaignId = computed(()=>route.params.id)
+const campaignData = inject('campaignData') //comes from the player layout. Nifty!
+const userProfile = computed(()=>useCurrentUser().value||{})
+const uid = computed(()=>userProfile.value?.uid)
+
+const mapId = computed(()=>campaignData.value?.activeMapId)
+const mapDocRef = computed(() => mapId.value ? doc(db, 'campaigns', campaignId.value, 'maps', mapId.value) : null)
+const {data:mapData} = useDocument(mapDocRef)
+
+const tokensRef = computed(() => mapId.value ? collection(db, 'campaigns', campaignId.value, 'maps', mapId.value, 'tokens') : null)
+const {data:tokens} = useCollection(tokensRef)
+
+const playerProfiles = computed(()=>campaignData.value?.players||{})
+const combatState = computed(() => mapData.value?.combatState || { active: false, currentRound: 0, currentTurnIndex: 0 })
+const rollRequests = computed(()=>mapData.value?.rollRequests||{})
+
+const dialog = ref(false)
+const rollRequest = computed(()=>rollRequests.value[uid.value])
+
+const r = computed(()=> {
+  if(!rollRequest.value) return {}
+  return {
+    roll:generateDiceNotation(rollRequest.value),
+    reason:rollRequest.value.reason,
+    user: playerProfiles[uid.value]?.name||'Player',
+    uid:uid.value,
+    pub:true,
+    location: rollRequest.value.location,
+    field:rollRequest.value.field
+  }
+})
+// const u = ref() //doc(useFirestore(),'campaigns',campaignId.value,'maps',mapId)
+
+const generateDiceNotation = (req)=>{
+  const characterStats = []//consolidate player.skills and player.abilityScore fields
+  // const activePlayerStats = {
+  //   Physical: 2,
+  //   Agility: 3,
+  //   Social: 1,
+  //   Melee: 2
+  // };
+
+  const getStat = (statName) => Number(characterStats[statName]) || 0
+
+  // 1. CALCULATE NUMBER OF DICE (The 'X' in Xd20)
+  let numDice = req.base || 1
+
+  const diceSums = [
+    ...(req.baseAbilitySum||[]),
+    ...(req.baseRankSum || [])
+  ].reduce((total,stat)=>total+getStat(stat),0)
+
+  numDice+=diceSums
+
+  const diceMultipliers = [
+    ...(req.baseAbilityMultiplier || []),
+    ...(req.baseRankMultiplier || [])
+  ]
+
+  if(diceMultipliers.length > 0) {
+    const multTotal = diceMultipliers.reduce((total, stat) => total*getStat(stat),1)
+    numDice *= multTotal
+  }
+
+  numDice = Math.max(1, Math.floor(numDice))
+
+  // 2. CONSTRUCT BASE NOTATION
+  const faces = req.faces || 20
+  let notation = `${numDice}d${faces}`
+  
+  // 3. CALCULATE FLAT MODIFIERS (+ or - to the result)
+  const flatMod = [
+    ...(req.abilitySumModifier || []),
+    ...(req.rankSumModifier || [])
+  ].reduce((total,stat)=>total+getStat(stat),0)
+
+  if (flatMod>0) notation+=` + ${flatMod}`
+  if (flatMod<0) notation+=` - ${Math.abs(flatMod)}`
+
+  // 4. CALCULATE FINAL MULTIPLIERS (* to the result)
+  const finalMultipliers = [
+    ...(req.abilityMultiplier || []),
+    ...(req.rankMultiplier || [])
+  ];
+
+  if (finalMultipliers.length > 0) {
+    const finalMultTotal = finalMultipliers.reduce((total, stat) => total * getStat(stat), 1);
+    
+    // Only append if it actually changes the math (not multiplying by 1)
+    if (finalMultTotal !== 1) notation += ` * ${finalMultTotal}`;
+  }
+
+  return notation;
+}
+
+// const emit = defineEmits(['notifyRoll'])
+// const roll = (req) => emit('notifyRoll', req)
+
+const requestRoll = inject('requestRoll')
+
+  // {
+  //   base:1,
+  //   faces:20,
+  //   baseAbilitySum:['Physical'], //(Phys+1)d20
+  //   baseRankSum:['Agility'], //(Agi+1)d20
+  //   baseAbilityMultiplier:['Physical','Intellectual'], //(Phys*Int*1)d20
+  //   baseRankMultiplier:['Agility','Cast'], //(Agi*Cast*1)d20
+  //   abilitySumModifier:['Physical','Social'], //1d20 + Phys + Social
+  //   rankSumModifier:['Agility', 'Cast'], //1d20 + Agi + Cast
+  //   abilityMultiplier:['Physical', 'Intellectual'], //1d20 * Phys * Int
+  //   rankMultiplier:['Agility', 'Melee'], //1d20 * Agi * Melee
+  // }
 
 // Game constants (70px is standard VTT sizing representing a 5ft space)
 const GRID_SIZE = 70
 const TOKEN_RADIUS = 30
-
-//Explicit bounding sizes for the map layout workspace
 const MAP_WIDTH = 2000
 const MAP_HEIGHT = 2000
 
-//TODO
-//Might want to populate this directly from mapData on initialization that way we are consistent for all players and on page initialization and such
-const combatState = ref({
-  active:false,
-  currentTurnIndex: 0,
-  currentRound: 1
-})
-
 
 // Token Data Config Model
-//Need to populate this with the current user player info from the respective held item, available spells, player.movement, etc.
-const selectedTokenStats = ref({
-  maxMovement: players[userProfile.value.uid].movement*12, // Max feet allowance per standard action turn
-  meleeRange: 5,   // in feet
-  archeryRange: 60, //this may be specific for each type of bow
-  spellRange: 120 //This will be specific for each spell
-});
+// Safe Initialization: Wait for player profiles to load before calculating movement
+const selectedTokenStats = ref({ maxMovement: 30, meleeRange: 5, archeryRange: 60, spellRange: 120 })
+const remainingMovement = ref(30)
+
+watch(() => playerProfiles.value[uid.value], (profile) => {
+  if (profile && profile.movement) {
+    selectedTokenStats.value.maxMovement = profile.movement * 12
+    remainingMovement.value = profile.movement * 12
+  }
+}, { immediate: true })
 
 
 //const playerProfiles = [
@@ -380,7 +308,6 @@ const selectedTokenStats = ref({
 //]
 
 const stageRef = ref(null)
-let unsubscribeTokens = null
 const zoomScale = ref(1)
 
 // Responsive window boundaries for the base stage wrapper
@@ -416,48 +343,12 @@ const mapConfig = computed(() => ({
   opacity: 0.85
 }));
 
-// Static Loot Chest Coordinates (Placed near the middle grid blocks)
-const lootConfig = ref({
-  x: GRID_SIZE * 5 + (GRID_SIZE / 2), // Grid space center
-  y: GRID_SIZE * 3 + (GRID_SIZE / 2),
-  radius: 15,
-  fill: '#FFB300',
-  stroke: '#333',
-  strokeWidth: 2
-});
-
-// Active character token coordinate tracking state
-// const tokenPos = ref({ 
-//   x: GRID_SIZE / 2, 
-//   y: GRID_SIZE / 2 
-// });
-
-//Not sure if this will accurately reflect user's/enemy token position 
+const lootConfig = ref({ x: GRID_SIZE * 5 + (GRID_SIZE / 2), y: GRID_SIZE * 3 + (GRID_SIZE / 2), radius: 15, fill: '#FFB300', stroke: '#333', strokeWidth: 2 });
 const tokenPos = ref({ x: GRID_SIZE * 2 + (GRID_SIZE / 2), y: GRID_SIZE * 2 + (GRID_SIZE / 2) });
 const enemyPos = ref({ x: GRID_SIZE * 6 + (GRID_SIZE / 2), y: GRID_SIZE * 5 + (GRID_SIZE / 2) });
-
-const remainingMovement = ref(players[userProfile.value.uid].movement*12)
-const selectedAction = ref('none') //Values: none, melee, archery, spell
-
+const selectedAction = ref('none')
 let dragStartCoords = {x:0, y:0}
 
-/**
- * COMPUTE COMBAT INTERACTION QUEUES
- * Sorts tokens dynamically: descending initiative score, break ties using a tie breaker roll
- */
-const sortedInitiativeQueue = computed(() => {
-  return [...tokens.value]
-    .filter(t => t.initiativeRoll !== null)
-    .sort((a, b) => {
-      return b.initiativeRoll - a.initiativeRoll;
-    });
-});
-
-// Resolve precisely which token ID signature holds the active round permissions
-const activeActorTokenId = computed(() => {
-  if (!combatState.value?.active || sortedInitiativeQueue.value.length === 0) return null;
-  return sortedInitiativeQueue.value[combatState.value?.currentTurnIndex].id;
-});
 
 
 //Initiate Combat!
@@ -484,6 +375,20 @@ const activeActorTokenId = computed(() => {
   // replenishCurrentActorMovement();
 // };
 
+const sortedInitiativeQueue = computed(() => {
+  return [...tokens.value]
+    .filter(t => t.initiativeRoll !== null)
+    .sort((a, b) => {
+      return b.initiativeRoll - a.initiativeRoll;
+    });
+});
+
+// Resolve precisely which token ID signature holds the active round permissions
+const activeActorTokenId = computed(() => {
+  if (!combatState.value.active || sortedInitiativeQueue.value.length === 0) return null;
+  return sortedInitiativeQueue.value[combatState.value.currentTurnIndex].id;
+});
+
 //This should depend on a player either taking all of their possible actions or electing to "Pass" or "End Turn"
 const nextTurn = () => {
   let nextIndex = combatState.value.currentTurnIndex + 1;
@@ -491,29 +396,18 @@ const nextTurn = () => {
   // Wrap around back to the top of the queue to trigger a new round
   if (nextIndex >= sortedInitiativeQueue.value.length) {
     nextIndex = 0;
-    combatState.value.currentRound += 1;
+    // Note: To truly update state, you need to push this to Firebase, not just locally
+    // combatState.value.currentRound += 1;
   }
-  
-  combatState.value.currentTurnIndex = nextIndex;
+  // combatState.value.currentTurnIndex = nextIndex;
   replenishCurrentActorMovement();
 };
-
-//Definitely a GM function to decide when players can be done with turn order
-// const endCombat = () => {
-//   combatState.value.active = false;
-//   tokens.value.forEach(t => t.initiativeRoll = null);
-//   remainingMovement.value = 30; // Restore free movement navigation overrides
-// };
 
 //TODO
 //Need to utilize playerData to ensure their movement value is populated correctly
 const replenishCurrentActorMovement = () => {
-  remainingMovement.value = 30; // Fresh 30ft of move allowance allocated
+  remainingMovement.value = selectedTokenStats.value.maxMovement; // Fresh 30ft of move allowance allocated
 };
-
-
-
-
 
 
 
@@ -535,11 +429,13 @@ const proximityMessage = ref('');
 
 // Step 1: Preload boilerplate grid image asset safely
 onMounted(() => {
-  const img = new Image();
-  img.src = mapData.imageUrl; // Fallback stock map background landscape
-  img.onload = () => {
-    mapImageElement.value = img;
-  };
+  watch(mapData, (newMap) => {
+    if (newMap?.imageUrl && !mapImageElement.value) {
+      const img = new Image();
+      img.src = newMap.imageUrl;
+      img.onload = () => { mapImageElement.value = img; };
+    }
+  }, { immediate: true })
 
   // handleResize()
   window.addEventListener('resize',handleResize)
@@ -606,21 +502,21 @@ const handleTokenDragEnd = async (event) => {
   const feetTraveled = Math.round((pixelDistance / GRID_SIZE) * 5);
 
   // Turn Lock Guard: Block movement if combat is active and it's not this token's turn
-  if (combatState.value?.active && tokenId !== activeActorTokenId.value) {
+  if (combatState.value.active && tokenId !== activeActorTokenId.value) {
     revertToken(target, dragStartCoords);
     return;
   }
 
 
   // Speed Limit Guard
-  if (combatState.value?.active && feetTraveled > remainingMovement.value) {
+  if (combatState.value.active && feetTraveled > remainingMovement.value) {
     revertToken(target, dragStartCoords);
     return;
   }
 
   // Accept valid movement and subtract from turn allowance pool
   // Apply positions successfully
-  if (combatState.value?.active) remainingMovement.value -= feetTraveled;
+  if (combatState.value.active) remainingMovement.value -= feetTraveled;
   updateTokenLocalCoordinates(tokenId, snapX, snapY);
   target.position({ x: snapX, y: snapY });
 
@@ -635,7 +531,7 @@ const revertToken = (target, coords) => {
 };
 
 const updateTokenLocalCoordinates = (id, x, y) => {
-  const idx = tokens.value.findIndex(t => t.id === id);
+  const idx = tokens?.value.findIndex(t => t.id === id);
   if (idx !== -1) { tokens.value[idx].x = x; tokens.value[idx].y = y; }
 };
 
@@ -676,6 +572,7 @@ const handleTargetEnemy = () => {
 const resetTurn = () => {
   remainingMovement.value = selectedTokenStats.value.maxMovement //might use the campaignData.players value for this one
   selectedAction.value = 'none'
+  //increment the currentTurnIndex (and when appropriate current round) field(s)
   triggerNotification("🔄 Turn reset! Movement pools replenished.", 'success')
 }
 
@@ -687,22 +584,23 @@ const triggerNotification = (msg, color='success') => {
 
 
 
-const spawnNewToken = async () => {
-  const activeProfile = playerProfiles.find(p=>p.id==userProfile.value.uid)
-  try{
-    const tokenSubcollection = collection(useFirestore(), 'campaigns', campaignId.value, 'maps', mapId, 'tokens')
-    await addDoc(tokenSubcollection, {
-      name:activeProfile.name,
-      ownerId:userProfile.value.uid, //google says use activeProfile.id here
-      color: activeProfile.color, //this doesn't exist yet and I probably want to use token images instead
-      x: GRID_SIZE /2,
-      y: GRID_SIZE / 2,
-      initiativeRoll: null, //1d20+Agility
-    })
-  } catch (err) {
-    console.error("Token deployment error:",err)
-  }
-}
+//Only GM should spawn tokens into a map
+// const spawnNewToken = async () => {
+//   const activeProfile = playerProfiles.find(p=>p.id==userProfile.value.uid)
+//   try{
+//     const tokenSubcollection = collection(useFirestore(), 'campaigns', campaignId.value, 'maps', mapId, 'tokens')
+//     await addDoc(tokenSubcollection, {
+//       name:activeProfile.name,
+//       ownerId:userProfile.value.uid, //google says use activeProfile.id here
+//       color: activeProfile.color, //this doesn't exist yet and I probably want to use token images instead
+//       x: GRID_SIZE /2,
+//       y: GRID_SIZE / 2,
+//       initiativeRoll: null, //1d20+Agility
+//     })
+//   } catch (err) {
+//     console.error("Token deployment error:",err)
+//   }
+// }
 
 
 const handleResize = () => {
@@ -825,6 +723,35 @@ const checkInteractions = (playerX, playerY) => {
     ? `📦 Within Reach! [Distance: ${distanceInFeet} ft] Press Space to open Loot Chest.` 
     : '';
 }
+
+
+
+//Watcher for rollRequests for THIS USER
+const isNavigating = ref(false)
+
+router.beforeEach(() => { isNavigating.value = true })
+router.afterEach(() => { isNavigating.value = false })
+// const latestRoll = computed(()=>campaignData.value?.rolls)
+
+// watch(latestRoll,(newRoll,oldRoll)=>{
+//   if(!newRoll || isNavigating.value) return
+//   if(oldRoll&&newRoll.timestamp === oldRoll.timestamp) return
+//   displayRoll(newRoll)
+// })
+
+
+// watch(rollRequests[userProfile.value.uid],(newRequest,oldRequests)=>{
+//   if(!newRequest || isNavigating.value) return
+//   if(oldRequests&&newRequest.timestamp === oldRequests.timestamp) return
+//   dialog.value = true
+// })
+
+watch(() => rollRequests.value[uid.value], (newRequest, oldRequest) => {
+  if (!newRequest || isNavigating.value) return
+  if (oldRequest && newRequest.timestamp === oldRequest.timestamp) return
+  dialog.value = true
+})
+
 </script>
 
 <style scoped>

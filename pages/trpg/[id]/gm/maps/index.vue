@@ -273,6 +273,20 @@
         combatActive: false,
         currentTurnIndex: 0,
         currentRound: 0,
+        rollRequests:{uid:{die:[
+          {
+            base:1,
+            faces:20,
+            baseAbilitySum:['Physical'], //(Phys+1)d20
+            baseRankSum:['Agility'], //(Agi+1)d20
+            baseAbilityMultiplier:[], //(Phys*1)d20
+            baseRankMultiplier:[], //(Agi*1)d20
+            abilitySumModifier:['Physical'], //1d20 + Phys
+            rankSumModifier:['Agility'], //1d20 + Agi
+            abilityMultiplier:['Physical'], //1d20 * Phys
+            rankMultiplier:['Agility'], //1d20 * Agi
+          }
+        ],timestamp:Date.now()}}
         //this will eventually have a bunch of additional data from game logic to vue-flow data
       });
 

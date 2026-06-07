@@ -1,23 +1,13 @@
 <template>
   <v-container fluid class="pa-0 fill-height bg-grey-darken-4 position-relative overflow-hidden">
     
-    <v-navigation-drawer permanent width="320" color="grey-darken-3" class="elevation-4">
+    <!-- LEFT SIDEBAR: GM Tool Belt and Entity Spawning Palette -->
+    <v-navigation-drawer permanent width="300" color="grey-darken-3" class="elevation-4">
       <v-card class="pa-4 h-100 d-flex flex-column" flat color="transparent">
         <div class="text-h6 font-weight-bold white--text mb-2">🛡️ GM Control Panel</div>
         <v-divider class="mb-4"></v-divider>
 
-        <v-select
-          v-model="currentUserId"
-          label="Simulated Player Profile"
-          :items="playerProfiles"
-          item-title="name"
-          item-value="id"
-          variant="solo-filled"
-          density="compact"
-          class="mb-4"
-          hide-details
-        ></v-select>
-
+        <!-- Tool Selection Toggles -->
         <div class="text-subtitle-2 mb-2">Active Mapping Tool:</div>
         <v-btn-toggle v-model="activeTool" mandatory color="primary" class="w-100 mb-4" density="compact">
           <v-btn value="navigate" prepend-icon="mdi-cursor-default" variant="flat">Navigate</v-btn>
@@ -29,13 +19,8 @@
           Cancel Current Wall
         </v-btn>
 
-        <v-divider class="my-2"></v-divider>
-
-        <div class="text-subtitle-2 mb-2 d-flex justify-space-between align-center">
-          <span>Spawn Asset Palette:</span>
-          <v-btn size="x-small" color="primary" variant="tonal" @click="spawnNewToken">Quick Spawn</v-btn>
-        </div>
-        
+        <!-- Entity Asset Library -->
+        <div class="text-subtitle-2 mb-2">Spawn Asset Palette:</div>
         <v-list class="bg-grey-darken-4 rounded overflow-y-auto flex-grow-1" density="compact">
           <v-list-item 
             v-for="asset in spawnableAssets" 
@@ -44,42 +29,80 @@
             :subtitle="asset.type.toUpperCase()"
             prepend-icon="mdi-plus-box"
             class="mb-1 rounded"
-            @click="spawnNewToken(asset)"
+            @click="spawnEntity(asset)"
           >
             <template v-slot:prepend>
               <v-icon :color="asset.color">mdi-circle</v-icon>
             </template>
           </v-list-item>
         </v-list>
-
-        <v-alert
-          v-if="proximityMessage"
-          type="warning"
-          density="compact"
-          variant="tonal"
-          class="mt-2 text-caption"
-        >
-          {{ proximityMessage }}
-        </v-alert>
-
       </v-card>
     </v-navigation-drawer>
 
+    <!-- RIGHT FLOATING HUD: Navigation Info -->
     <v-card class="position-absolute ma-4 pa-3 token-hud top-0 right-0" elevation="5" min-width="220">
       <div class="text-caption">Active Map Instance: <strong>{{ currentMapId }}</strong></div>
-      <div class="text-caption">Active Tokens Online: <strong>{{ tokens.length }}</strong></div>
       <div class="text-caption">Total Collision Walls: <strong>{{ wallLines.length }}</strong></div>
-      <v-divider class="my-2"></v-divider>
-      <v-btn size="x-small" color="secondary" block variant="tonal" @click="resetCamera">
-        Reset Camera View
-      </v-btn>
-      <div class="text-caption text-grey-lighten-1 mt-2">
+      <div class="text-caption text-grey-lighten-1 mt-1">
         * Navigation mode: Scroll to zoom. Right-click to pan map view container surface.
       </div>
     </v-card>
 
-    <v-stage>
-      </v-stage>
+    <!-- MAIN HTML5 CANVAS WINDOW ENGINE -->
+    <v-stage 
+      :config="stageConfig" 
+      ref="stageRef"
+      @wheel="handleZoom"
+      @mousedown="handleCanvasMouseDown"
+      @mousemove="handleCanvasMouseMove"
+      @contextmenu.prevent
+    >
+      <!-- LAYER 1: Current Landscape Background Map -->
+      <v-layer><v-image :config="mapConfig" /></v-layer>
+
+      <!-- LAYER 2: Tactical Grid Coordinate Visual Outline Overlay -->
+      <v-layer>
+        <v-line v-for="x in verticalLines" :key="'v-'+x" :config="{ points: [x, 0, x, MAP_HEIGHT], stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1 }" />
+        <v-line v-for="y in horizontalLines" :key="'h-'+y" :config="{ points: [0, y, MAP_WIDTH, y], stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1 }" />
+      </v-layer>
+
+      <!-- LAYER 3: Interactive Vector Vision Blocking Walls -->
+      <v-layer>
+        <!-- Render saved permanent static structural vector paths -->
+        <v-line 
+          v-for="(wall, idx) in wallLines" 
+          :key="'w-'+idx" 
+          :config="{ points: wall.points, stroke: '#FF5252', strokeWidth: 4, lineCap: 'round', lineJoin: 'round' }" 
+        />
+        <!-- Live-drawing feedback vector outline tracking string lines -->
+        <v-line 
+          v-if="wallDrawingPoints.length > 0" 
+          :config="{ points: wallDrawingPoints, stroke: '#FFD700', strokeWidth: 3, dash: [10, 5] }" 
+        />
+      </v-layer>
+
+      <!-- LAYER 4: Teleportation Gate Placement Map Overlay Nodes -->
+      <v-layer>
+        <v-group v-for="portal in teleportNodes" :key="portal.id" :config="{ x: portal.x, y: portal.y }">
+          <v-circle :config="{ radius: 25, fill: 'rgba(0, 229, 255, 0.4)', stroke: '#00E5FF', strokeWidth: 2 }" />
+          <v-text :config="{ text: portal.label, fill: 'white', fontSize: 11, x: -8, y: -5, fontStyle: 'bold' }" />
+        </v-group>
+      </v-layer>
+
+      <!-- LAYER 5: Game Master Dynamic Multi-Token Network Manipulation Layer -->
+      <v-layer>
+        <v-group
+          v-for="token in tokens"
+          :key="token.id"
+          :config="{ id: token.id, x: token.x, y: token.y, draggable: activeTool === 'navigate' }"
+          @dragmove="handleTokenDrag"
+          @dragend="handleTokenDragEnd"
+        >
+          <v-circle :config="{ radius: TOKEN_RADIUS, fill: token.color, stroke: '#FFE082', strokeWidth: 3 }" />
+          <v-text :config="{ text: token.name, fill: 'white', fontSize: 12, x: -16, y: -6, fontStyle: 'bold', align: 'center' }" />
+        </v-group>
+      </v-layer>
+    </v-stage>
   </v-container>
 </template>
 
@@ -93,7 +116,6 @@ const route = useRoute()
 const campaignId = route.params.id
 const currentMapId = route.params.mapId
 const db = useFirestore()
-const userProfile = computed(()=>useCurrentUser().value)
 const activeTool = ref('navigate'); // Options: navigate, walls, teleport
 
 const campaignData = inject('campaignData')
@@ -103,12 +125,6 @@ const {data:mapData} = useDocument(doc(db,'campaigns',campaignId,'maps',currentM
 const {data:wallLines} = useCollection(collection(db,'campaigns',campaignId,'maps',currentMapId,'walls'))
 const {data:teleportNodes} = useCollection(collection(db,'campaigns',campaignId,'maps',currentMapId,'teleports'))
 
-//We need all the control functionality of this, plus updating the mapData.combatState field in firestore when things change
-const combatState = ref({
-  active:false,
-  currentTurnIndex: 0,
-  currentRound: 1
-})
 
 const players = campaignData?.value.players
 const items = campaignData?.value.items
@@ -144,33 +160,6 @@ const wallDrawingPoints = ref([]); // Live point feed for walls being drawn
 //   { name: 'Gold Chest', type: 'item', color: '#FFB300' }
 // ];
 
-
-const spawnNewToken = async (asset) => {
-  //Need to incorporate any specific values required for portals, items, traps, etc.
-  let ownerId = ''
-  if(asset.type=='player'){
-    ownerId = Object.keys(asset)[0]
-    color = asset.color
-  } 
-  // else if(asset.type=='monster'){
-  //   ownerId = userProfile.value.uid
-  // }
-//   const activeProfile = playerProfiles.find(p=>p.id==userProfile.value.uid)
-  try{
-    const tokenSubcollection = collection(useFirestore(), 'campaigns', campaignId.value, 'maps', mapId, 'tokens')
-    await addDoc(tokenSubcollection, {
-      name:asset.name,
-      type:asset.type,
-      ownerId:ownerId?ownerId:userProfile.value.uid, 
-      color: asset?.color || '#FF0000', //probably convert to images later
-      x: GRID_SIZE /2,
-      y: GRID_SIZE / 2,
-    })
-  } catch (err) {
-    console.error("Token deployment error:",err)
-  }
-}
-
 // Canvas Configuration references
 const stageRef = ref(null);
 const stageConfig = ref({ width: 1024, height: 768, x: 0, y: 0, scaleX: 1, scaleY: 1 });
@@ -180,79 +169,6 @@ const mapConfig = computed(() => ({ image: mapImageElement.value, width: MAP_WID
 const verticalLines = computed(() => { const lines = []; for (let i = 0; i < MAP_WIDTH; i += GRID_SIZE) lines.push(i); return lines; });
 const horizontalLines = computed(() => { const lines = []; for (let i = 0; i < MAP_HEIGHT; i += GRID_SIZE) lines.push(i); return lines; });
 
-
-/**
- * COMPUTE COMBAT INTERACTION QUEUES
- * Sorts tokens dynamically: descending initiative score, break ties using a tie breaker roll
- */
-const sortedInitiativeQueue = computed(() => {
-  return [...tokens.value]
-    .filter(t => t.initiativeRoll !== null)
-    .sort((a, b) => {
-      return b.initiativeRoll - a.initiativeRoll;
-    });
-});
-
-// Resolve precisely which token ID signature holds the active round permissions
-const activeActorTokenId = computed(() => {
-  if (!combatState.value.active || sortedInitiativeQueue.value.length === 0) return null;
-  return sortedInitiativeQueue.value[combatState.value.currentTurnIndex].id;
-});
-
-
-const startCombat = () => { //This was designed as a GM action
-  // Simulate rolling a 20-sided die (d20) for each entity
-  // tokens.value.forEach(token => {
-  //   const d20Roll = Math.floor(Math.random() * 20) + 1;
-  //   token.initiativeRoll = d20Roll + token.dexMod;
-  // });
-  
-  //New version should instead push a dialog to every player with a token on the map and health >0 to roll for initiative, then wait to set combatState.value.active to true until everyone has rolled
-
-  let rollRequests = {}
-  for(const token of tokens.value){
-    if(token.type=='player'){
-      rollRequests[token.id] = {
-        reason:'Initiative',
-        base:1,
-        faces:20,
-        rankSumModifier:['Agility'],
-        location: 'campaigns/'+campaignId+'/maps/'+currentMapId+'/tokens/'+Object.keys(token)[0],
-        field:'initiativeRoll'
-      };
-    }
-    else if (token.type=='monster'){
-      //we are going to have to figure out how to get the GM to roll all the monsters at once
-      //we could either pop up a dialog and let the GM view each roll
-      //or we could just generate all the rolls
-      //or we could take the hybrid approach, build both and let the gm decide which to use
-    }
-  }
-  // {
-  //   base:1,
-  //   faces:20,
-  //   baseAbilitySum:['Physical'], //(Phys+1)d20
-  //   baseRankSum:['Agility'], //(Agi+1)d20
-  //   baseAbilityMultiplier:['Physical','Intellectual'], //(Phys*Int*1)d20
-  //   baseRankMultiplier:['Agility','Cast'], //(Agi*Cast*1)d20
-  //   abilitySumModifier:['Physical','Social'], //1d20 + Phys + Social
-  //   rankSumModifier:['Agility', 'Cast'], //1d20 + Agi + Cast
-  //   abilityMultiplier:['Physical', 'Intellectual'], //1d20 * Phys * Int
-  //   rankMultiplier:['Agility', 'Melee'], //1d20 * Agi * Melee
-  // }
-  updateDoc(doc(useFirestore(),'campaigns',campaignId,'maps',currentMapId),{
-    'rollRequests': rollRequests,
-    'combatState.active':true,
-    'combatState.currentTurnIndex':0,
-    'combatState.currentRound':1
-  })
-
-  combatState.value.active = true;
-  combatState.value.currentTurnIndex = 0;
-  combatState.value.currentRound = 1;
-  
-  replenishCurrentActorMovement();
-};
 
 
 
@@ -348,46 +264,46 @@ const clearDraftWall = () => {
 }
 
 // /**ENTITY MANIPULATION & INTERACTION MATH*/
-// const spawnEntity = async (asset) => {
+const spawnEntity = async (asset) => {
 
-//   //If the asset IS a player
-//   if(asset.type=='player'){
-//     await addDoc(doc(db,'campaigns',campaignId,'maps',currentMapId,'tokens',asset.id),{
-//       name: asset.name,
-//       color: asset.color, //replace this with an image eventually
-//       type: asset.type, //player
-//       x: GRID_SIZE / 2,
-//       y: GRID_SIZE / 2,
-//       // initiativeRoll: null, //1d20+Agility
-//     })
-//   } else if(asset.type=='monster'){
-//     //If the asset is NOT a player
-//     await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
-//       name: asset.name,
-//       color: asset.color, //replace this with an image eventually
-//       type: asset.type, //
-//       x: GRID_SIZE / 2,
-//       y: GRID_SIZE / 2,
-//       //if the asset is an NPC or monster
-//       // initiativeRoll: null, //1d20+Agility
-//     })
-//   } else if(asset.type=='item'){
-//     await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
-//       name: asset.name,
-//       color: asset.color, //replace this with an image eventually
-//       type: asset.type, //
-//       x: GRID_SIZE / 2,
-//       y: GRID_SIZE / 2,
-//     })
-//   } else if(asset.type=='portal'){
-//     //add it and ensure our targetMapId, targetX, and targetY fields are populated
-//   } else if(asset.type=='trap'){
-//     //add it and ensure we have a detected field set to false and the token should be invisible until they are able to detect it or it is revealed by the GM (via party communcation or other means)
-//     //local visibility manipulation would leave detected: false, while GM influence should reveal the trap to everyone in realtime
-//   }
+  //If the asset IS a player
+  if(asset.type=='player'){
+    await addDoc(doc(db,'campaigns',campaignId,'maps',currentMapId,'tokens',asset.id),{
+      name: asset.name,
+      color: asset.color, //replace this with an image eventually
+      type: asset.type, //player
+      x: GRID_SIZE / 2,
+      y: GRID_SIZE / 2,
+      initiativeRoll: null, //1d20+Agility
+    })
+  } else if(asset.type=='monster'){
+    //If the asset is NOT a player
+    await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
+      name: asset.name,
+      color: asset.color, //replace this with an image eventually
+      type: asset.type, //
+      x: GRID_SIZE / 2,
+      y: GRID_SIZE / 2,
+      //if the asset is an NPC or monster
+      initiativeRoll: null, //1d20+Agility
+    })
+  } else if(asset.type=='item'){
+    await addDoc(collection(db, 'campaigns', campaignId, 'maps', currentMapId, 'tokens'), {
+      name: asset.name,
+      color: asset.color, //replace this with an image eventually
+      type: asset.type, //
+      x: GRID_SIZE / 2,
+      y: GRID_SIZE / 2,
+    })
+  } else if(asset.type=='portal'){
+    //add it and ensure our targetMapId, targetX, and targetY fields are populated
+  } else if(asset.type=='trap'){
+    //add it and ensure we have a detected field set to false and the token should be invisible until they are able to detect it or it is revealed by the GM (via party communcation or other means)
+    //local visibility manipulation would leave detected: false, while GM influence should reveal the trap to everyone in realtime
+  }
 
  
-// }
+}
 
 const handleTokenDrag = (event) => {
   const target = event.target

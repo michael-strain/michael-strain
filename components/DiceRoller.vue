@@ -4,83 +4,31 @@
 
 <script setup>
 import { doc, updateDoc } from 'firebase/firestore';
+import { useFirestore } from 'vuefire';
 import DiceBox from '@3d-dice/dice-box'
 
 const route = useRoute()
+// const db = useFirestore()
 const campaignId = computed(()=>route.params.id)
-const campaignDoc = computed(()=> doc(db,'campaigns',campaignId.value))
+
 const rollData = ref({})
 const isPublic = ref(false)
 let box = null
-// let initialLoad = true
 
-// const isHost = computed(()=> campaignData.value?.host==userProfile.value.uid ? true : false)
-
-
-const router = useRouter()
-const isNavigating = ref(false)
-router.beforeEach(()=>{
-  isNavigating.value = true
-})
-router.afterEach(()=>{
-  isNavigating.value = false
-})
-
-onMounted(async()=>{
-
-  box = new DiceBox('#dice-box', {
-    assetPath: '/assets/', // Path where you copied the dice-box assets
-    // Additional configuration...
-    container: "#dice-box",
-    theme:'default',
-    offscreen:true,
-    scale:3
-  })
-  
-  await box.init()
-  box.hide()
-  box.onRollComplete = (rollResult)=>{
-    //display the roll result (total)
-    //add the roll result to the document rolls field
-    //on players screens, popup with a result if the roll was public
-    // initialLoad = false
-    let rollValue = 0
-    for (const dice of rollResult) {
-      rollValue+=dice.value
-    }
-    rollData.value.total = rollValue
-    
-    if(isPublic.value){
-      updateDoc(doc(campaignDoc.value), {
-        rolls: rollData.value
-      });
-    } else{
-      let rollText = ""
-      if(rollData.value.reason.length>0){
-        rollText = "Rolled " + rollValue + " for " + rollData.value.reason
-      }else{
-        rollText = "Rolled " + rollValue
-      }
-      return {
-        id:`${Date.now()}`,
-        text: rollText,
-        color:'info',
-      }
-    }
-  }
-})
-
-const rollDice = (dice, description, username, pub) => {
+const rollDice = (req) => {
+  if(!req||!req.roll) return
   rollData.value = {
     total: 0,
-    reason: description,
-    user: username,
-    timestamp: Date.now()
+    reason: req.reason || '',
+    user: req.user || 'Unknown User',
+    timestamp: Date.now(),
+    location: req.location || '',
+    field: req.field || ''
   }
-  isPublic.value = pub
+  isPublic.value = req.pub
   if(box){
     box.show()
-    box.roll(dice)
+    box.roll(req.roll)
   }
 }
 
@@ -106,6 +54,73 @@ defineExpose({
   showDice,
   hideDice
 })
+
+
+const router = useRouter()
+const isNavigating = ref(false)
+router.beforeEach(()=>{
+  isNavigating.value = true
+})
+router.afterEach(()=>{
+  isNavigating.value = false
+})
+
+onMounted(async()=>{
+
+  box = new DiceBox('#dice-box', {
+    assetPath: '/assets/', // Path where you copied the dice-box assets
+    // Additional configuration...
+    container: "#dice-box",
+    theme:'default',
+    offscreen:true,
+    scale:3
+  })
+  
+  await box.init()
+  box.hide()
+  box.onRollComplete = (rollResult)=>{
+    
+
+    // rollData.value = {
+    //   total: 0,
+    //   reason: r.description,
+    //   user: username,
+    //   timestamp: Date.now(),
+    //   location: location,
+    //   field: field
+    // }
+    
+    let rollValue = 0
+    for (const dice of rollResult) {
+      rollValue+=dice.value
+    }
+    rollData.value.total = rollValue
+    
+    if(isPublic.value){
+      updateDoc(doc(useFirestore(),'campaigns',campaignId.value), {
+        rolls: rollData.value
+      });
+      if(location!=''){
+        updateDoc(doc(useFirestore(),location),{
+          [rollData.value.field]:rollData.value.total
+        })
+      }
+    } else{
+      let rollText = ""
+      if(rollData.value.reason.length>0){
+        rollText = "Rolled " + rollValue + " for " + rollData.value.reason
+      }else{
+        rollText = "Rolled " + rollValue
+      }
+      return {
+        id:`${Date.now()}`,
+        text: rollText,
+        color:'info',
+      }
+    }
+  }
+})
+
 </script>
 
 <style>
