@@ -626,7 +626,7 @@ const handleTokenDragEnd = async (event) => {
   target.position({ x: snapX, y: snapY });
 
   // Optional: Sync coordinates to Firestore subcollection if needed
-  await updateDoc(doc(useFirestore(),'campaigns',campaignId.value, 'maps', mapId, 'tokens', tokenId), { x: snappedX, y: snappedY });
+  await updateDoc(doc(db,'campaigns',campaignId.value, 'maps', mapId, 'tokens', tokenId), { x: snappedX, y: snappedY });
 
 }
 
@@ -691,7 +691,7 @@ const triggerNotification = (msg, color='success') => {
 const spawnNewToken = async () => {
   const activeProfile = playerProfiles.find(p=>p.id==userProfile.value.uid)
   try{
-    const tokenSubcollection = collection(useFirestore(), 'campaigns', campaignId.value, 'maps', mapId, 'tokens')
+    const tokenSubcollection = collection(db, 'campaigns', campaignId.value, 'maps', mapId, 'tokens')
     await addDoc(tokenSubcollection, {
       name:activeProfile.name,
       ownerId:userProfile.value.uid, //google says use activeProfile.id here

@@ -257,8 +257,9 @@ import { doc, arrayUnion , updateDoc } from 'firebase/firestore'
 import DiceBox from '@3d-dice/dice-box'
 
 const route = useRoute()
+const db = useFirestore()
 const campaignId = computed(()=>route.params.id)
-const campaignDoc = computed(()=> doc(useFirestore(),'campaigns',campaignId.value))
+const campaignDoc = computed(()=> doc(db,'campaigns',campaignId.value))
 const {data:campaignData, pending, error, promise} = useDocument(campaignDoc)
 
 const userProfile = computed(()=>useCurrentUser().value)
@@ -359,7 +360,7 @@ async function rollHealth () {
       user: characterName.value
     }
 
-    const dbRef = doc(useFirestore(), 'campaigns', campaignId.value)
+    const dbRef = doc(db, 'campaigns', campaignId.value)
     const currentUid = userProfile.value.uid
     
     try{

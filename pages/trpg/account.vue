@@ -6,7 +6,7 @@
     <v-list-item v-for="c in campaigns" :key="c" :title="'Campaign ID: ' + c.id" :subtitle="c.name + ' | Player: ' + c.players[userProfile.uid].name" :prepend-avatar="c.players[userProfile.uid].avatar"/>
   </v-list>
   <v-list lines="one"> Campaigns I'm Hosting
-    <v-list-item v-for="h in hosting" :key="h.data().name" :title="h.data().name" :subtitle="'Campaign ID: ' + h.id + ' | Created: ' + h.data().createDate"><NuxtLink :to="'/trpg/'+h.id+'/gm'"><v-btn>View</v-btn></NuxtLink></v-list-item>
+    <v-list-item v-for="h in hosting" :key="h.data().name" :title="h.data().name" :subtitle="'Campaign ID: ' + h.id + ' | Created: ' + h.data().createDate"><NuxtLink :to="'/trpg/'+h.id+'/gm/'"><v-btn>View</v-btn></NuxtLink></v-list-item>
   </v-list>
   <PopUp v-if="showHostingPopup">
     <template #popuptitle>
@@ -493,7 +493,7 @@
     // hosting.value.push({data:()=>{return newCampaignInfo.value},id:newCampaign.id})
     // showHostingPopup.value = false
     //instead of just looking at the campaigns, let's navigate to the new campaign
-    await navigateTo('/trpg/'+newCampaign.id+'/gm')
+    await navigateTo('/trpg/'+newCampaign.id+'/gm/')
   })
 
   const newCampaignInfo = ref(

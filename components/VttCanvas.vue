@@ -48,7 +48,13 @@
 
     </v-card>
 
-    <v-stage ref="stageRef" :config="stageConfig">
+    <v-stage 
+      ref="stageRef" 
+      :config="stageConfig" 
+      @wheel="handleZoom" 
+      @mousedown="handlePanningStart" 
+      @mousemove="handlePanningMove"
+    >
       <v-layer :config="{ listening: false }">
         <v-image 
           v-if="mapImageElement" 
@@ -154,8 +160,10 @@
   </v-container>
 
   <v-dialog v-model="dialog" persistent>
-    <v-card title="'GM Requests a Roll'" :subtitle="'Reason: ' + r.reason"></v-card>
-    <v-btn @click="requestRoll(r)">Roll</v-btn>
+    <v-card title="GM Requests a Roll" :subtitle="'Reason: ' + r.reason">
+      <v-btn @click="requestRoll(r); dialog=false">Roll</v-btn>
+    </v-card>
+    <!-- <v-btn @click="requestRoll(r)">Roll</v-btn> -->
   </v-dialog>
 </template>
 
@@ -521,7 +529,7 @@ const handleTokenDragEnd = async (event) => {
   target.position({ x: snapX, y: snapY });
 
   // Optional: Sync coordinates to Firestore subcollection if needed
-  await updateDoc(doc(useFirestore(),'campaigns',campaignId.value, 'maps', mapId, 'tokens', tokenId), { x: snappedX, y: snappedY });
+  await updateDoc(doc(db,'campaigns',campaignId.value, 'maps', mapId, 'tokens', tokenId), { x: snappedX, y: snappedY });
 
 }
 

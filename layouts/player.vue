@@ -252,7 +252,7 @@ onMounted(async () => {
     await navigateTo('/trpg/'+campaignId.value+'/join')
   }
   //Redirect if host :D
-  if(!pending.value && isHost.value){await navigateTo('/trpg/'+campaignId.value+'/gm')}
+  if(!pending.value && isHost.value){await navigateTo('/trpg/'+campaignId.value+'/gm/')}
 
 })
 

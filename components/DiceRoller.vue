@@ -8,7 +8,7 @@ import { useFirestore } from 'vuefire';
 import DiceBox from '@3d-dice/dice-box'
 
 const route = useRoute()
-// const db = useFirestore()
+const db = useFirestore()
 const campaignId = computed(()=>route.params.id)
 
 const rollData = ref({})
@@ -97,11 +97,11 @@ onMounted(async()=>{
     rollData.value.total = rollValue
     
     if(isPublic.value){
-      updateDoc(doc(useFirestore(),'campaigns',campaignId.value), {
+      updateDoc(doc(db,'campaigns',campaignId.value), {
         rolls: rollData.value
       });
-      if(location!=''){
-        updateDoc(doc(useFirestore(),location),{
+      if(rollData.value.location!=''){
+        updateDoc(doc(db,rollData.value.location),{
           [rollData.value.field]:rollData.value.total
         })
       }

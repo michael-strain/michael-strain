@@ -121,7 +121,7 @@
 <script setup>
 import { useCurrentUser, useFirestore, useDocument } from 'vuefire';
 import { doc , updateDoc } from 'firebase/firestore'
-import DiceBox from '@3d-dice/dice-box'
+// import DiceBox from '@3d-dice/dice-box'
 
 const route = useRoute()
 const db = useFirestore()
@@ -206,7 +206,7 @@ const displayRoll = (roll) => {
   //Not sure if this is displaying user and reason and on all gm pages when a player user rolls
   count++
   let rollText = ""
-  if(rollDescription.value.length>0){
+  if(roll.reason && roll.reason.length>0){
     rollText = roll.user + " Rolled " + roll.total + " for " + roll.reason
   }else{
     rollText = roll.user + " Rolled " + roll.total

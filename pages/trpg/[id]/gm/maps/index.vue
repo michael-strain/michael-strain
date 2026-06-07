@@ -203,7 +203,7 @@
 <script setup>
 
   import { useCurrentUser, useFirestore, useDocument, useCollection } from 'vuefire';
-  import { doc, setDoc ,addDoc, collection } from 'firebase/firestore'
+  import { doc, setDoc ,addDoc, collection, updateDoc } from 'firebase/firestore'
   import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
@@ -214,11 +214,12 @@
   //Need to useCollection to get our whole list of maps from the maps subcollection
 
   const route = useRoute()
+  const db = useFirestore()
   const campaignData = inject('campaignData') //comes from the gm layout. Nifty!
-  const activeMapId = ref(null);
+  const activeMapId = computed(()=>campaignData.value?.activeMapId)
   const campaignId = computed(()=>route.params.id)
 
-  const mapCollection = computed(()=> collection(useFirestore(),'campaigns',campaignId.value,'maps'))
+  const mapCollection = computed(()=> collection(db,'campaigns',campaignId.value,'maps'))
   const {data:allMapData, pending, error, promise} = useCollection(mapCollection)
 
 
@@ -263,7 +264,7 @@
       const imageUrl = await getDownloadURL(imageStorageRef);
 
       // 3. Save map details and the image URL to Firestore
-      await addDoc(collection(useFirestore(), 'campaigns', campaignId.value ,'maps'), {
+      await addDoc(collection(db, 'campaigns', campaignId.value ,'maps'), {
         name: mapFields.mapName,
         description: mapFields.mapDescription || null, // Guard empty strings
         region: mapFields.region || null,
@@ -312,7 +313,12 @@
   // Update state when user selects a new active map
   const setActiveMap = (mapId) => {
     activeMapId.value = mapId;
-    //update the campaignData.value.activeMap with the selected map data
+    updateDoc(doc(db,'campaigns',campaignId.value),{
+      activeMapId: activeMapId.value
+    })
+    updateDoc(doc(db,'campaigns',campaignId.value,'maps',mapId),{
+      activeMap:true
+    })
     //update our maps subcollection to show the activeMap as active
   };
 

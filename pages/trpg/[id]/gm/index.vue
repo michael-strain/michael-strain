@@ -1,12 +1,7 @@
 <template>
-  <v-card>
-    This is where gameplay stuff can go.  Show active party and some stats, show some roll buttons, push a button to establish intiative, drag and drop, add mobs/npcs to active battlefield, etc.
-    View/Manage Active Players/Mobs and Adjust Play Data, Roll, Establish initiative, etc.
-    <!-- <NuxtLink :to="useRoute().fullPath+'/play'"><v-btn>Play</v-btn></NuxtLink> -->
-  </v-card>
-<!-- We can use this eventually for a little loader display
-  <v-card v-if="!campaignPending" />
-<v-progress-circular v-else indeterminate /> -->
+  <!--This is where gameplay stuff can go.  Show active party and some stats, show some roll buttons, push a button to establish intiative, drag and drop, add mobs/npcs to active battlefield, etc.
+    View/Manage Active Players/Mobs and Adjust Play Data, Roll, Establish initiative, etc.-->
+  <GmSandboxCanvas :map="campaignData?.activeMapId" />
 </template>
 <script setup>
 //We are gonna let anyone see this page, cuz there is nothing sensitive and nothing they can do with it...
@@ -20,5 +15,11 @@
 definePageMeta({
   layout: 'gm',
 })
+
+const campaignData = inject('campaignData')
+onMounted(async()=>{
+  console.log("Active Map ID: " ,campaignData.value.activeMapId)
+})
+// console.log("Active Map ID: ",campaignData.value.activeMapId)
 
 </script>
