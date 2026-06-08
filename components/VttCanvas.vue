@@ -23,8 +23,25 @@
       <div class="text-subtitle-2 mb-1">Select Action Range:</div>
       <v-btn-toggle v-model="selectedAction" mandatory color="amber-darken-2" class="w-100" density="compact">
         <v-btn value="none" size="small">None</v-btn>
-        <v-btn value="melee" size="small" prepend-icon="mdi-sword">Melee (5ft)</v-btn>
-        <v-btn value="archery" size="small" prepend-icon="mdi-bow-arrow">Bow (60ft)</v-btn>
+        <!--Need a button for each unique melee weapon equipped, each ranged weapon equipped, and each spell known-->
+        <template v-for="item of Object.values(hands)">
+          <v-btn v-if="item.includes('Melee')" value="melee" size="small" prepend-icon="mdi-sword" @click="pendingAction = {type: 'melee',damage:item.damage, range:item.range}"> {{ item.name }} ({{ item.range * 5 }}ft)</v-btn>
+          <v-btn v-if="item.includes('Ranged')" value="ranged" size="small" prepend-icon="mdi-bow-arrow" @click="pendingAction = {type:'ranged',damage:item.damage,range:item.range}"> {{item.name}} ({{ item.range * 5 }}ft)</v-btn>
+        </template>
+        <template v-for="item of spells">
+          //TODO
+          //Spell damage is a bit more complicated.  For this, and for our hands attacks, we need to roll to hit before we roll for damage.  For spells we have to roll to conjure the spell (1d20+CAST which come from player.skills.find(obj=>obj.name=='Cast')).
+          //Spell damage is based on how well your conjuring roll was, and on hit rolls and spell damage rolls we need to parse the string to add bonuses (such as +INT which should result in the player.abilityScore['Intellectual'] value being added to damage and player.)
+          <v-btn 
+            value="spell" 
+            size="small" 
+            prepend-icon="mdi-auto-fix" 
+            @click="pendingAction = { type: 'spell', spellData: item }"
+          >
+            {{ item.name }} ({{ item.range * 5 }}ft)
+          </v-btn>
+
+        </template>
         <v-btn value="spell" size="small" prepend-icon="mdi-auto-fix">Spell (120ft)</v-btn>
       </v-btn-toggle>
 
@@ -129,30 +146,33 @@
           @dragstart="handleTokenDragStart"
           @dragmove="handleTokenDragMove"
           @dragend="handleTokenDragEnd"
+          @click="handleTokenClick(token)"
         >
-          <v-circle
-            :config="{
-              radius: TOKEN_RADIUS,
-              fill: token.color || '#2196F3',
-              stroke: token.id === activeActorTokenId ? '#FFC107' : '#FFFFFF',
-              strokeWidth: token.id === activeActorTokenId ? 4 : 2,
-              shadowColor: 'black',
-              shadowBlur: 10,
-              shadowOpacity: 0.5
-            }"
-          />
-          <v-text
-            :config="{
-              text: token.name,
-              fontSize: 14,
-              fontFamily: 'Arial',
-              fill: 'white',
-              align: 'center',
-              y: TOKEN_RADIUS + 5,
-              x: -50,
-              width: 100
-            }"
-          />
+          <template v-if="token.detected !== false">
+            <v-circle
+              :config="{
+                radius: TOKEN_RADIUS,
+                fill: token.color || '#2196F3',
+                stroke: token.id === activeActorTokenId ? '#FFC107' : '#FFFFFF',
+                strokeWidth: token.id === activeActorTokenId ? 4 : 2,
+                shadowColor: 'black',
+                shadowBlur: 10,
+                shadowOpacity: 0.5
+              }"
+            />
+            <v-text
+              :config="{
+                text: token.name,
+                fontSize: 14,
+                fontFamily: 'Arial',
+                fill: 'white',
+                align: 'center',
+                y: TOKEN_RADIUS + 5,
+                x: -50,
+                width: 100
+              }"
+            />
+          </template>
         </v-group>
 
       </v-layer>
@@ -195,6 +215,9 @@ const rollRequests = computed(()=>mapData.value?.rollRequests||{})
 const dialog = ref(false)
 const rollRequest = computed(()=>rollRequests.value[uid.value])
 
+const pendingAction = ref(null)
+const sourceToken = ref(null)
+
 const r = computed(()=> {
   if(!rollRequest.value) return {}
   return {
@@ -207,8 +230,13 @@ const r = computed(()=> {
     field:rollRequest.value.field
   }
 })
-// const u = ref() //doc(useFirestore(),'campaigns',campaignId.value,'maps',mapId)
 
+const player = computed(()=>playerProfiles.find(p=>p.id==userProfile.value.uid))
+// const u = ref() //doc(useFirestore(),'campaigns',campaignId.value,'maps',mapId)
+const hands = computed(()=>player.value.equipment.map(obj=>obj.hands))
+const spells = computed(()=>player.value.spells)
+//TODO
+//Need an interface for players to 'equip' items from their inventory based on their available item slots
 const generateDiceNotation = (req)=>{
   const characterStats = []//consolidate player.skills and player.abilityScore fields
   // const activePlayerStats = {
@@ -298,12 +326,16 @@ const MAP_HEIGHT = 2000
 
 // Token Data Config Model
 // Safe Initialization: Wait for player profiles to load before calculating movement
+
 const selectedTokenStats = ref({ maxMovement: 30, meleeRange: 5, archeryRange: 60, spellRange: 120 })
 const remainingMovement = ref(30)
 
 watch(() => playerProfiles.value[uid.value], (profile) => {
   if (profile && profile.movement) {
     selectedTokenStats.value.maxMovement = profile.movement * 12
+
+    //Need to update our meleeRange, rangedRange, and spellRange according to each available item equipped
+
     remainingMovement.value = profile.movement * 12
   }
 }, { immediate: true })
@@ -423,10 +455,12 @@ const showToast = ref(false)
 const toastMessage = ref('')
 const toastColor = ref('success')
 
+//This needs to actually show the equipped/available items/spell range
+//Also need to only show the attack buttons for the selectedAction
 const currentActionRangeRadius = computed(()=>{
   let feet = 0
   if (selectedAction.value === 'melee') feet = selectedTokenStats.value.meleeRange;
-  else if (selectedAction.value === 'archery') feet = selectedTokenStats.value.archeryRange;
+  else if (selectedAction.value === 'ranged') feet = selectedTokenStats.value.rangedRange;
   else if (selectedAction.value === 'spell') feet = selectedTokenStats.value.spellRange;
   
   return (feet / 5) * GRID_SIZE; // Convert: every 5 feet represents one full grid tile length
@@ -565,7 +599,7 @@ const handleTargetEnemy = () => {
   if (selectedAction.value === 'melee') {
     allowedRangeFeet = selectedTokenStats.value.meleeRange;
   } else if (selectedAction.value === 'archery') {
-    allowedRangeFeet = selectedTokenStats.value.archeryRange
+    allowedRangeFeet = selectedTokenStats.value.rangedRange
   } else if (selectedAction.value === 'spell') {
     allowedRangeFeet = selectedTokenStats.value.spellRange
   }
@@ -731,6 +765,44 @@ const checkInteractions = (playerX, playerY) => {
     ? `📦 Within Reach! [Distance: ${distanceInFeet} ft] Press Space to open Loot Chest.` 
     : '';
 }
+
+//TODO
+//Need a similar function in the GmSandboxCanvas so the GM can attack players using monster tokens
+const handleTokenClick = (target) => {
+  // If we aren't in targeting mode, ignore the click
+  if (!pendingAction.value) return;
+
+  // A. Calculate Distance (in grid units)
+  // Assumes GRID_SIZE = 70
+  const dx = Math.abs(target.x - sourceToken.value.x) / GRID_SIZE;
+  const dy = Math.abs(target.y - sourceToken.value.y) / GRID_SIZE;
+  const distance = Math.max(dx, dy); 
+
+  // B. Check range (e.g., Melee is 1)
+  if (distance <= 1) {
+    const rollReq = {
+      roll: [pendingAction.value.damage],
+      user: sourceToken.value.name,
+      reason: `Melee Attack against ${target.name}`,
+      pub: true,
+      // Target the enemy token's health field
+      location: `campaigns/${campaignId}/maps/${mapId.value}/tokens/${target.id}`,
+      field: 'health' 
+    };
+    
+    // Trigger the global roll function
+    requestRoll(rollReq);
+    
+    // Clear state
+    pendingAction.value = null;
+  } else {
+    alert("Target is out of range!");
+  }
+}
+
+//TODO
+//Need another watcher that displays a skull token when a token's health reaches 0
+//For players, we will need some dying actions (player can take no actions  except maybe some kind of stabilize feature if we want to do that, party members can heal the dying player until the player's health reaches -Physical or something, at which point the player will permanently die and the whole character gets deleted from firestore so the player can make a new one)
 
 
 

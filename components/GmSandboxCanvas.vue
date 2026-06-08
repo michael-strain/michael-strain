@@ -93,13 +93,14 @@
 
     <div class="flex-grow-1 position-relative">
         
-      <v-card class="position-absolute ma-4 pa-3 token-hud top-0 right-0 d-flex flex-column" elevation="5" width="260" max-height="85vh">
+      <v-card class="position-fixed ma-4 pa-3 token-hud top-5 right-5 d-flex flex-column" elevation="5" width="260" max-height="85vh">
         
         <div class="text-caption">Map Instance: <strong>{{ mapId }}</strong></div>
         <v-btn size="x-small" color="secondary" block variant="tonal" class="my-2" @click="resetCamera">
           Reset Camera View
         </v-btn>
-        <v-divider class="mb-2"></v-divider>
+
+        <v-divider class="mb-2" />
 
         <div v-if="combatState.active" class="d-flex flex-column flex-grow-1 overflow-hidden">
           <div class="d-flex justify-space-between align-center mb-2">
@@ -135,10 +136,25 @@
             </v-list-item>
           </v-list>
         </div>
-        
+
         <div v-else class="text-caption text-grey-lighten-1 mt-2 text-center">
           Combat inactive.
         </div>
+
+        <v-divider class="mb-2" />
+
+        <v-card v-if="selectedToken" flat class="pa-4">
+          <v-card-title>Configure Token</v-card-title>
+          
+          <v-text-field v-model="selectedToken.name" label="Token Name" />
+          <v-color-picker v-model="selectedToken.color" mode="hexa" hide-inputs />
+          
+          <v-divider class="my-4"></v-divider>
+          
+          <v-btn block color="primary" @click="saveTokenChanges">Save Changes</v-btn>
+          <v-btn block color="secondary" @click="removeToken">Remove Token</v-btn>
+          <v-btn block variant="text" color="error" class="mt-2" @click="menuOpen = false">Cancel</v-btn>
+        </v-card>
       </v-card>
 
       <v-stage 
@@ -250,6 +266,7 @@
             @dragmove="handleTokenDrag"
             @dragend="handleTokenDragEnd"
             @dblclick="centerCameraOn(token.x,token.y)"
+            @click="openTokenMenu(token)"
           >
             <v-circle
               :config="{
@@ -309,7 +326,7 @@
 </template>
 
 <script setup>
-import { collection, doc, updateDoc, addDoc, query, setDoc } from 'firebase/firestore';
+import { collection, doc, updateDoc, addDoc, query, setDoc, deleteDoc } from 'firebase/firestore';
 import { useDocument, useCurrentUser, useCollection } from 'vuefire'
 
 const props = defineProps({
@@ -325,6 +342,36 @@ const campaignId = route.params.id
 const db = useFirestore()
 const userProfile = computed(()=>useCurrentUser().value)
 const activeTool = ref('navigate'); // Options: navigate, walls, teleport
+const menuOpen = ref(false)
+const selectedToken = ref(null)
+
+const openTokenMenu = (token) => {
+  selectedToken.value = {...token}
+  menuOpen.value = true
+}
+
+const saveTokenChanges = async () => {
+  if(!selectedToken.value) return
+  const tokenRef = doc(db,'campaigns',campaignId,'maps',mapId.value,'tokens',selectedToken.value.id)
+  if(selectedToken.value.type==='player'){
+    //going to update the campaignData.value.players info here
+    const player = campaignData.value.players.find(item=>item.id==selectedToken.value.id)
+    const campaignDoc = doc(db,'campaigns',campaignId)
+    await updateDoc(campaignDoc,{
+      [`players.${selectedToken.value.id}.valueToUpdate`]:value,
+    })
+  }
+  await updateDoc(tokenRef,{
+    name:selectedToken.value.name,
+    //token update fields
+  })
+}
+
+const removeToken = async () => {
+  if(!selectedToken.value) return
+  const tokenRef = doc(db,'campaigns',campaignId,'maps',mapId.value,'tokens',selectedToken.value.id)
+  await deleteDoc(tokenRef)
+}
 
 const campaignData = inject('campaignData')
 // const currentMapId = computed(()=>{
@@ -401,6 +448,10 @@ const spawnableAssets = computed(() => {
   const m = Object.entries(campaignData.value.bestiary || {}).map(([id, data]) => ({ id, type: 'monster', color: '#E53935', ...data }))
   const i = Object.entries(campaignData.value.items || {}).map(([id, data]) => ({ id, type: 'item', color: '#FFB300', ...data }))
   
+  //Let's add all our bestiary and item data to the token so the gm can manipulate it at will
+  //we should also ensure that when a token with rollable data is spawned, the rolls are made
+
+
   // Hardcode system entities like Traps and Portals
   const sys = [
     { id: 'trap-base', name: 'Hidden Trap', type: 'trap', color: '#FF5252' },
@@ -489,9 +540,13 @@ const spawnNewToken = async (asset) => {
         targetY: snapY
       })
     } else if (asset.type=== 'player') {
+      const player = campaignData.value.players.find(item=>item.id==selectedToken.value.id)
+
       const tokenPayload = {
         ...baseEntity,
         ownerId: asset.id,
+        health: structuredClone(player.health)
+        //might need movement?
       }
       const tokenDocRef = computed(()=>{
         if(!mapId.value) return null
@@ -939,7 +994,7 @@ const centerCameraOn = (x, y) => {
     position: relative;
   } */
   .token-hud {
-    /* z-index: 10; */
+    z-index: 10;
     pointer-events: auto;
   }
 </style>

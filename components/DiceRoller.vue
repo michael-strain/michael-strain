@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, increment } from 'firebase/firestore';
 import { useFirestore } from 'vuefire';
 import DiceBox from '@3d-dice/dice-box'
 
@@ -78,7 +78,7 @@ onMounted(async()=>{
   
   await box.init()
   box.hide()
-  box.onRollComplete = (rollResult)=>{
+  box.onRollComplete = async (rollResult)=>{
     
 
     // rollData.value = {
@@ -94,18 +94,33 @@ onMounted(async()=>{
     for (const dice of rollResult) {
       rollValue+=dice.value
     }
-    rollData.value.total = rollValue
+
+    if(rollData.value.field && rollData.value.field.includes('health')){
+      rollData.value.total = -rollValue
+    }else{
+      rollData.value.total = rollValue
+    }
     
     if(isPublic.value){
-      updateDoc(doc(db,'campaigns',campaignId.value), {
+      await updateDoc(doc(db,'campaigns',campaignId.value), {
         rolls: rollData.value
       });
-      if(rollData.value.location!=''){
-        updateDoc(doc(db,rollData.value.location),{
-          [rollData.value.field]:rollData.value.total
-        })
-      }
-    } else{
+      if(rollData.value.location && rollData.value.field){
+        try{
+          const targetDocRef = doc(db,rollData.value.location)
+          if(rollData.value.field.includes('health')){
+            await updateDoc(targetDocRef,{
+              [rollData.value.field]:increment(rollData.value.total)
+            })
+          }
+          await updateDoc(targetDocRef,{
+            [rollData.value.field]: rollData.value.total
+          })
+        } catch(e) {
+          console.error("Roll update failed",e)
+        }
+      } 
+    } else {
       let rollText = ""
       if(rollData.value.reason.length>0){
         rollText = "Rolled " + rollValue + " for " + rollData.value.reason
