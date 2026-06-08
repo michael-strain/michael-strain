@@ -778,27 +778,120 @@ const handleTokenClick = (target) => {
   const dy = Math.abs(target.y - sourceToken.value.y) / GRID_SIZE;
   const distance = Math.max(dx, dy); 
 
+
   // B. Check range (e.g., Melee is 1)
-  if (distance <= 1) {
-    const rollReq = {
-      roll: [pendingAction.value.damage],
-      user: sourceToken.value.name,
-      reason: `Melee Attack against ${target.name}`,
+  if (distance <= pendingAction.value.range) {
+    if (pendingAction.value.type === 'spell') {
+    const spell = pendingAction.value.spellData;
+    const player = campaignData.value.players[sourceToken.value.id]; // Get player data
+
+    // 1. Calculate Conjure Roll (1d20 + Cast Skill)
+    const castSkill = player.skills.find(s => s.name === 'Cast').rank;
+    
+    // 2. Execute Conjure Roll
+    // We initiate a roll, then wait for the result to decide on damage
+    const conjureReq = {
+      roll: ['1d20+'+castSkill],
+      reason: `Conjuring ${spell.name} (vs CD ${spell.castingDifficulty})`,
+      modifier: castSkill,
       pub: true,
-      // Target the enemy token's health field
-      location: `campaigns/${campaignId}/maps/${mapId.value}/tokens/${target.id}`,
-      field: 'health' 
     };
     
-    // Trigger the global roll function
-    requestRoll(rollReq);
+    const conjureResult = requestRoll(conjureReq);
+    const total = conjureResult.total;
+
+    //TODO
+    //If you exceed the CD by 3, you cast Effectively.
+    //If you exceed the CD by 5, you cast Exceptionally.
+    //If you exceed the CD by 10 or more, you cast Masterfully.
+    //A Natural 20 is an automatic Masterful cast.
+    //A Nat1 causes the magic to swell up out of control, dealing it's normal damage to the caster.
+
+    let spellDamage = ''
+    if((total-castSkill)==20 || total>=(spell.castingDifficulty+10)){
+      //nat 20
+      spellDamage = spell.damage["Masterful"]
+    } else if(total>=(spell.castingDifficulty+5) && total<(spell.castingDifficulty+10) && (total-castSkill)!=20){
+      spellDamage = spell.damage["Exceptional"]
+    } else if(total>=(spell.castingDifficulty+3) && total<(spell.castingDifficulty+5) && (total-castSkill)!=20){
+      spellDamage = spell.damage["Effective"]
+    } else if(total>=(spell.castingDifficulty) && total<(spell.castingDifficulty+3) && (total-castSkill)!=20){
+      spellDamage = spell.damage["Normal"]
+    } else if((total-castSkill)==1){
+      //TODO
+      //Reflect the damage back to the player
+      spellDamage = spell.damage["Normal"]
+      target = sourceToken.value //lol
+    }
     
-    // Clear state
-    pendingAction.value = null;
+
+    //TODO
+    //We don't have a roll to hit for spells... do we want one or just roll with conjuring? then auto-succeeed at hitting
+    //Rolling with auto hit for now
+
+    // 3. Logic Check: Hit or Miss?
+    // if (total >= (target.ac || 10)) {
+        // HIT! Now calculate damage
+    const { dicePart, bonus } = parseSpellFormula(spellDamage, player);
+    
+    const damageReq = {
+      roll: [dicePart+bonus],
+      reason: `Damage for ${spell.name} against ${target.name}`,
+      // modifier: bonus, //this is not real
+      location: `campaigns/${campaignId}/maps/${mapId.value}/tokens/${target.id}`,
+      field: 'health',
+      pub: true
+    };
+    
+    requestRoll(damageReq); // Your existing function to push to DiceBox
+    // } else {
+    //     alert("Spell failed to conjure or missed target AC!");
+    // }
+    
+    pendingAction.value = null; // Reset
+    } else{
+      const rollReq = {
+        roll: [pendingAction.value.damage],
+        user: sourceToken.value.name,
+        reason: `${pendingAction.value.type} attack against ${target.name}`,
+        pub: true,
+        // Target the enemy token's health field
+        location: `campaigns/${campaignId}/maps/${mapId.value}/tokens/${target.id}`,
+        field: 'health' 
+      };
+      
+      // Trigger the global roll function
+      requestRoll(rollReq);
+      
+      // Clear state
+      pendingAction.value = null;
+    }
   } else {
     alert("Target is out of range!");
   }
 }
+
+const parseSpellFormula = (formula, player) => {
+  // 1. Split "1d8 + INT" into ["1d8", "INT"]
+  const parts = formula.split('+').map(p => p.trim());
+  let dicePart = parts[0]; // e.g., "1d8"
+  let modPart = parts[1] || ''; // e.g., "INT"
+  
+  let bonus = 0;
+  
+  // 2. Map shorthand to player object paths
+  const statMap = {
+    'INT': player.abilityScore?.['Intellectual'] || 0,
+    'AGI': player.abilityScore?.['Agility'] || 0,
+    'STR': player.abilityScore?.['Physical'] || 0
+  };
+
+  if (statMap[modPart] !== undefined) {
+    bonus = statMap[modPart];
+  }
+
+  return { dicePart, bonus };
+};
 
 //TODO
 //Need another watcher that displays a skull token when a token's health reaches 0

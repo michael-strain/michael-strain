@@ -448,6 +448,9 @@ const spawnableAssets = computed(() => {
   const m = Object.entries(campaignData.value.bestiary || {}).map(([id, data]) => ({ id, type: 'monster', color: '#E53935', ...data }))
   const i = Object.entries(campaignData.value.items || {}).map(([id, data]) => ({ id, type: 'item', color: '#FFB300', ...data }))
   
+  //TODO
+  //Need to add a new traps field and a GM dashboard link and CRUD functions for traps
+
   //Let's add all our bestiary and item data to the token so the gm can manipulate it at will
   //we should also ensure that when a token with rollable data is spawned, the rolls are made
 
@@ -554,26 +557,50 @@ const spawnNewToken = async (asset) => {
       })
       await setDoc(tokenDocRef.value,tokenPayload)
       return
-    } else {
-      // Add players, monsters, items, and traps to the token collection
+    } else if (asset.type=== 'monster') {
+      const monster = campaignData.value.bestiary.find(item=>item.name==selectedToken.value.name)
+
+      //TODO
+      //need to roll for a bunch of stats for each monster we spawn
+      //abilityScores,equipment,health(xdy*Level),height,inventory,level,money,skills,spells(if skills.find(ojb=>obj.name=='Cast').rank>0), and weight
       const tokenPayload = {
         ...baseEntity,
-        ownerId: asset.type === 'player' ? asset.id : userProfile.value.uid,
+        ownerId: userProfile.value.uid,
+        health: structuredClone(player.health)
+        //need all the stuff listed above to go here
+      }
+      const tokenColRef = computed(()=>{
+        if(!mapId.value) return null
+        return collection(db,'campaigns',campaignId,'maps',mapId.value,'tokens')
+      })
+      await addDoc(tokenColRef.value,tokenPayload)
+      return
+    } else if (asset.type=== 'trap') {
+      
+      const tokenPayload = {
+        ...baseEntity,
+        ownerId: userProfile.value.uid, //gm
+        detected: false,
+        senseDC: 15, //asset.senseDc once that is built into the campaignData
+        inspectDC: 15, //asset.inspectDc once that is built into the campaignData
+        disassembleDC: 15, //asset.disassembleDc once that is built into the campaignData
+        tripEffect: '1d6', // We may want to make this more dynamic later by parsing more effects than just damage
+        isImmobilizing: false,
+        //we may also want to make a consistent effect, where players immobilized by a trap continue to take damage from it each round
       }
 
-      if (asset.type === 'trap') {
-        // Inject the requested Trap DC fields
-        Object.assign(tokenPayload, {
-          detected: false,
-          senseDC: 15,
-          inspectDC: 15,
-          disassembleDC: 15,
-          tripEffect: '1d6', // Can be intercepted by your dice parser later!
-          isImmobilizing: false
-        })
+      const tokenColRef = computed(()=>{
+        if(!mapId.value) return null
+        return collection(db,'campaigns',campaignId,'maps',mapId.value,'tokens')
+      })
+      await addDoc(tokenColRef.value,tokenPayload)
+      return
+    } else {
+      // Add items to the token collection
+      const tokenPayload = {
+        ...baseEntity,
+        // do I need anything else for this?
       }
-
-      await addDoc(tokenColRef.value, tokenPayload)
     }
   } catch (err) {
     console.error("Token deployment error:", err)
