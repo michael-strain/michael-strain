@@ -881,9 +881,9 @@ const parseSpellFormula = (formula, player) => {
   
   // 2. Map shorthand to player object paths
   const statMap = {
-    'INT': player.abilityScore?.['Intellectual'] || 0,
-    'AGI': player.abilityScore?.['Agility'] || 0,
-    'STR': player.abilityScore?.['Physical'] || 0
+    'INT': player.abilityScores?.['Intellectual'] || 0,
+    'AGI': player.abilityScores?.['Agility'] || 0,
+    'STR': player.abilityScores?.['Physical'] || 0
   };
 
   if (statMap[modPart] !== undefined) {
